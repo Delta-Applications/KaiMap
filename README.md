@@ -53,6 +53,6 @@ The Developer Portal also contains a guide, and if nothing seems to work, you ca
 You can download the latest version from the Releases page. (WIP)
 The app is not auto-updating. To update it, you have to follow the same steps you took when installing it.
 We are considering making an auto-upater straight from GitHub. 
--------------------------------------------------------------------
+(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((
 ![deltaice white](https://user-images.githubusercontent.com/26120324/125853046-7f21d205-e5b7-461e-af8c-f3548ec6c5cb.png)
 
