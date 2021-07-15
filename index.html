@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>delta.map</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
+    <meta charset="utf-8" />
+    <link rel="manifest" href="manifest.webapp" type="application/x-web-app-manifest+json" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/grid.css" />
+    <link rel="stylesheet" href="assets/css/leaflet.css" />
+    <link rel="stylesheet" href="assets/css/leaflet-search.css" />
+    <link rel="stylesheet" href="assets/css/leaflet-openweathermap.css" />
+    <link rel="stylesheet" href="assets/css/leaflet-ruler.css" />
+    <link rel="stylesheet" href="assets/css/search.css" />
+    <link rel="stylesheet" href="assets/css/qr-reader.css" />
+    <link rel="stylesheet" href="assets/css/kaios-toaster.css" />
+    <link rel="stylesheet" href="assets/css/owfont-regular.css" />
+</head>
+
+<body class="width-100 height-100">
+    
+    
+    <div id="message" class="flex justify-content-center align-item-center width-100 height-100">
+          <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+    </style>
+<img id="about" class="center-fit" src="/assets/images/delta-greek_background.png">
+
+    
+        <h2> delta.map </h2>
+        <div></div><br>
+         <br><img class="loading_container"src="icons/loading.png">
+    </div>
+
+    <div id="goodbye" class="flex justify-content-center align-item-center width-100 height-100">
+        <div id="donation">
+            please support my work, <br />make a donation<br />
+            paypal.me/strukturart<br />
+            Thank you!
+        </div>
+        <div id="ciao">
+            Closing delta.map<br />
+            <br />
+            <img src="/icons/icon-112-112.png">
+            <ul>
+                <li>Thank you</li>
+                <li>OpenStreetMap Contributors</li>
+            </ul>
+            
+        </div>
+    </div>
+
+
+
+    <div id="toast" class="width-100"></div>
+
+    <div id="search-box">
+        <input type="text" id="search" placeholder="Search for a town" />
+    </div>
+    <div id="olc"></div>
+
+    <div id="user-input" class="width-100 flex justify-content-spacearound">
+        <div id="user-input-description"></div>
+        <input type="text" />
+        <div id="button-bar-save" class="flex justify-content-spacebetween width-100">
+            <div>Cancel</div>
+            <div>Save</div>
+        </div>
+    </div>
+
+    <div id="bottom-bar">
+        <div class="inner flex justify-content-spacebetween width-100">
+            <div id="button-left"></div>
+            <div id="button-center"></div>
+            <div id="button-right"></div>
+        </div>
+    </div>
+
+    <div id="top-bar">
+        <div class="inner flex justify-content-spacebetween width-100">
+            <div class="button-left"></div>
+            <div class="button-center"></div>
+            <div class="button-right"></div>
+        </div>
+    </div>
+
+
+    <div id="map-container"></div>
+
+
+
+
+    <div id="cross">
+        <div id="cross-inner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+
+        </div>
+    
+    </div>
+
+
+    <!--
+/////////////////////////
+///LOCATION AND MAP//////
+/////////////////////////
+-->
+
+    <div id="coordinations" class="flex justify-content-center align-item-center width-100 height-100">
+        <div>
+         
+            <div id="weather">
+                
+
+                <!--- <div id="time"></div>-->
+                <!-- <div id="name2">Meteo</div>-->
+              
+                        <div class="flex3">
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+
+//////////////////////
+///QR-Coderscanner/////
+/////////////////////
+-->
+
+    <div id="qr-screen">
+        <video id="video"></video>
+        <div id="corner-nw"></div>
+        <div id="corner-no"></div>
+        <div id="corner-so"></div>
+        <div id="corner-sw"></div>
+        <div id="startDecoding" hidden>Start Scanning</div>
+    </div>
+
+    <!--
+
+//////////////////////
+///FINDER ITEMS//////
+/////////////////////
+-->
+
+
+    <div id="finder" class="flex justify-content-center align-item-center width-100 height-100">
+        <div class="panel" id="Imagery">
+            <h2>Maps</h2>
+            <div id="maps"></div>
+
+            <h2>Layers</h2>
+            <div id="layers"></div>
+
+            <h2>Tracks & Markers</h2>
+            <div id="tracksmarkers"></div>
+
+            <h2>GPX</h2>
+            <div id="gpx"></div>
+        </div>
+         <div class="panel" id="Information">
+            <h2>Geolocation</h2>
+                           <div class="item" tabindex="0">
+
+                      <div class="flex justify-content-spacebetween">
+                    <div>Latitude</div>
+                    <div id="lat">#</div>
+                </div>
+             </div>
+                    <div class="item">
+                      <div class="flex justify-content-spacebetween">
+                     <div>Longitude</div>
+                     <div id="lng">#</div>
+                 </div> </div>
+                                            
+                     <div class="item" >                   
+                   <div class="flex justify-content-spacebetween">
+                    <div>Altitude</div>
+                    <div id="altitude">#</div>
+                </div> </div>
+                                            
+                  <div class="item" >                          
+              <div class="flex justify-content-spacebetween">
+                    <div>Heading</div>
+                    <div id="heading">#</div>
+                </div> </div>
+                                            
+                  <div class="item">                          
+                <div class="flex justify-content-spacebetween">
+                    <div>Distance from Device</div>
+                    <div id="distance">#</div>
+                </div> </div>
+   
+                                            <div class="item">
+                      <div class="flex justify-content-spacebetween">
+                    <div>Accuracy</div>
+                    <div id="acc">#</div>
+                </div> </div>
+             
+          
+            <div id="time"></div>
+            <h2>Weather</h2>
+          <div class="item" data-map="update-weather">Update Weather Data   (32s)</div> 
+
+                    <div class="item">
+                      <div class="flex justify-content-spacebetween">
+                    <div>Location</div>
+                    <div id="locationame">#</div>
+                </div></div>
+                    <div class="item">
+                       <div class="flex justify-content-spacebetween">
+                    <div>Data Time</div>
+                    <div id="grabtime">#</div>
+                </div></div>
+                    <div class="item">
+                          <div class="flex justify-content-spacebetween">
+                    <div>Status</div>
+                    <div id="desc">#</div>   <div><i id ="icon" class="owf owf-200-d owf"></i></div>
+                </div></div>
+                     <div class="item">
+                              <div class="flex justify-content-spacebetween">
+                    <div>Temperature</div>
+                    <div id="temp">#</div>
+                </div></div>
+                <div class="item">
+                              <div class="flex justify-content-spacebetween">
+                    <div>Feels Like</div>
+                    <div id="feelslike">#</div>
+                </div></div>
+                     <div class="item">
+                               <div class="flex justify-content-spacebetween">
+                    <div>Humidity</div>
+                    <div id="hum">#</div>
+                </div></div>
+                         <div class="item">
+                        <div class="flex justify-content-spacebetween">
+                    <div>Pressure</div>
+                    <div id="pres">#</div>
+                </div></div>
+                             <div class="item">
+                       <div class="flex justify-content-spacebetween">
+                    <div>Wind</div>
+                    <div id="wind">#</div>
+                </div></div>
+              <div class="item">
+                       <div class="flex justify-content-spacebetween">
+                    <div>Visibility</div>
+                    <div id="visibility">#</div>
+                </div></div>
+                                 <div class="item">
+                          <div class="flex justify-content-spacebetween">
+                    <div>Sunset</div>
+                    <div id="sunset">#</div>
+                </div></div>
+                                     <div class="item">
+                      <div class="flex justify-content-spacebetween">
+                    <div>Sunrise</div>
+                    <div id="sunrise">#</div>
+                </div></div>
+                    
+               
+                    
+             
+            <h2>Battery</h2>
+            <div class="item">
+                <div class="flex justify-content-spacebetween">
+              <div>Charge</div>
+              <div id="batteryCharge">#</div>
+          </div></div>
+
+          <div class="item">
+            <div class="flex justify-content-spacebetween">
+          <div>Temperature</div>
+          <div id="batteryTemp">#</div>
+      </div></div>
+
+      
+      <div class="item">
+        <div class="flex justify-content-spacebetween">
+      <div>Health</div>
+      <div id="batteryHealth">#</div>
+  </div></div>
+
+  <div class="item">
+    <div class="flex justify-content-spacebetween">
+  <div id="batteryTimeType">Charging Time</div>
+  <div id="batteryTime">#</div>
+</div></div>
+
+            <h2>Connection</h2>
+            <div class="item">
+                <div class="flex justify-content-spacebetween">
+              <div>Status</div>
+              <div id="wifiStatus">#</div>
+          </div></div>
+
+          <div class="item">
+            <div class="flex justify-content-spacebetween">
+          <div>Connection Type</div>
+          <div id="conntype">#</div>
+      </div></div>
+
+
+
+          <div class="item">
+            <div class="flex justify-content-spacebetween">
+          <div>Network</div>
+          <div id="wifiNetwork">#</div>
+      </div></div>
+      
+
+      <div class="item">
+        <div class="flex justify-content-spacebetween">
+      <div>MAC</div>
+      <div id="wifiMac">#</div>
+    </div></div>
+
+      <div class="item">
+        <div class="flex justify-content-spacebetween">
+      <div>Ip Address</div>
+      <div id="wifiIP">#</div>
+  </div></div>
+
+  <div class="item">
+    <div class="flex justify-content-spacebetween">
+  <div>Data RX</div>
+  <div id="dataRX">#</div>
+</div></div>
+
+<div class="item">
+    <div class="flex justify-content-spacebetween">
+  <div>Data TX</div>
+  <div id="dataTX">#</div>
+</div></div>
+
+
+<div class="item">
+    <div class="flex justify-content-spacebetween">
+  <div>Data Type</div>
+  <div id="dataTypeC">#</div>
+</div></div>
+
+
+
+
+        </div>
+        
+        <div class="panel" id="Settings">
+            <h2>OpenWeatherMap</h2>
+            <label for="owm-key">OpenWeatherMap API-Key</label>
+            <input type="tel" class="item" id="owm-key" tabindex="0" />
+
+            <h2>Offline Maps</h2>
+            <label for="cache-time">After how many days should the maps be re-downloaded?</label><br />
+            <input  class="item" type="tel" pattern="^[0-9]*$" id="cache-time" tabindex="1" /><br />
+
+            <label for="cache-zoom">How much zoom level should be saved?</label><br />
+            <input  class="item" type="tel" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom" tabindex="2" /><br />
+
+            <button  class="item" id="clear-cache" tabindex="3">Clear offline cache</button>
+            <h2>Export</h2>
+            <label for="export-path">Export path</label>
+            <input  class="item" type="text"   id="export-path" tabindex="4" />
+            <br />
+            <h2>General</h2>
+
+            <button tabindex="5" class="item" id="save-settings">Save Settings</button>
+        </div>
+        <div class="panel" id="Impressum">
+            
+            <div tabindex="0" class="item">
+                <p>
+                    Ads are dictated based on tracking by KaiAds, a service ran by KaiOS. Ads can be disabled in the source code for expert users.
+                </p>
+                <p>
+                    Various software and map data are used in this app, please note the licenses.
+                </p>
+                <ul>
+                    <li>o.map UNLICENSE</li>
+                    <li>Leaflet - BSD-2-Clause License</li>
+                    <li>Ajax AutoComplete - MIT License</li>
+                    <li>leaflet.tilelayer.pouchdbcached MIT license</li>
+                    <li>leaflet ruler MIT License</li>
+                    <li>OpenStreetMap</li>
+                    <li>OpenTopoMap</li>
+                    <li>Thunderforest</li>
+                    <li>earthquake.usgs.gov</li>
+                    <li>OpenRailwayMap</li>
+                    <li>OpenWeatherMap</li>
+                    <li>OpenStreetMap Contributors (I am one myself)</li>
+                    <li>KaiAds (Not Opensource)</li>
+                    
+                </ul>
+
+                <p>I thank the people who provide this data 
+                    and take care of their maintenance.</p>
+
+                <p>It took me many hours to develop the app, please donate an amount if you use the app regularly.  </p>
+                
+            </div>
+
+                <a tabindex="1" target="blank" class="item" href="https://paypal.me/strukturart">
+                    <button class="paypal-button">paypal donation</button>
+                </a>
+            </button>
+        </div>
+
+        <div class="panel" id="Shortcuts">
+            <div class="item update-position" tabindex="0" data-map="update-position">
+                <div class="flex justify-content-spacebetween">
+                    <div>Update GPS Location</div>
+                    <div>1</div>
+                </div>
+            </div>
+            <div class="item" data-map="search">
+                <div class="flex justify-content-spacebetween">
+                    <div>Search</div>
+                    <div>2</div>
+                </div>
+            </div>
+
+            <div class="item disable-screenlock" data-map="autoupdate-geolocation">
+                <div class="flex justify-content-spacebetween">
+                    <div>Follow Position</div>
+                    <div>4</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="cache-map">
+                <div class="flex justify-content-spacebetween">
+                    <div>Download Map Tiles</div>
+                    <div>#</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="savelocation">
+                <div class="flex justify-content-spacebetween">
+                    <div>Save position as Marker</div>
+                    <div>5</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="coordinations">
+                <div class="flex justify-content-spacebetween">
+                    <div>Coordinates</div>
+                    <div>6</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="ruler">
+                <div class="flex justify-content-spacebetween">
+                    <div>Measure Distance</div>
+                    <div>7</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="export">
+                <div class="flex justify-content-spacebetween">
+                    <div>Export Markers</div>
+                    <div>8</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="add-marker-icon">
+                <div class="flex justify-content-spacebetween">
+                    <div>Add Marker</div>
+                    <div>9</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="">
+                <div class="flex justify-content-spacebetween">
+                    <div>Jump between Markers</div>
+                    <div>*</div>
+                </div>
+            </div>
+            
+            <div class="item" data-map="share">
+                <div class="flex justify-content-spacebetween">
+                    <div>Share Position</div>
+                    <div>0</div>
+                </div>
+            </div>
+
+            <div class="item" data-map="photo">
+                <div class="flex justify-content-spacebetween">
+                    <div>Take a Photo</div>
+                    <div>?</div>
+                </div>
+            </div>
+
+          
+
+       
+        </div>
+
+     
+    </div>
+
+
+    <script defer src="assets/exclude-js/jsQR.js"></script>
+    <script defer src="assets/js/scan.js"></script>
+    <script defer src="assets/js/settings.js"></script>
+    <script defer src="assets/js/utility.js"></script>
+
+
+    
+
+    <script defer src="assets/js/jQuery-3.1.0.js"></script>
+    <script defer src="assets/js/moments.min.js"></script>
+    <script defer src="assets/js/applait.finder.min.js"></script>
+    <script defer src="assets/js/olc.js"></script>
+    <script defer src="assets/js/leaflet.js"></script>
+    <script defer src="assets/js/pouchDB.js"></script>
+    <script defer src="assets/js/L.TileLayer.PouchDBCached.js"></script>
+    <script defer src="assets/js/jquery.autocomplete.min.js"></script>
+    <script defer src="assets/js/tile.stamen.1.3.0.min.js"></script>
+    <script defer src="assets/js/leaflet-openweathermap.js"></script>
+    <script defer src="assets/js/leaflet.rotatedMarker.js"></script>
+    <script defer src="assets/js/leaflet-ruler.js"></script>
+    <script defer src="assets/js/gpx.js"></script>
+    <script defer src="index.js"></script>
+    <script defer src="assets/js/maps.js"></script>
+    <script defer src="assets/js/helper.js"></script>
+    <script defer src="assets/js/exportGeoJson.js"></script>
+    <script defer src="assets/js/mozactivity.js"></script>
+    <script defer src="assets/js/search.js"></script>
+    <script defer src="assets/js/goodbye.js"></script>
+    <script defer src="assets/js/openweather.js"></script>
+    <script defer src="assets/js/module.js"></script>
+    <script defer src="assets/js/kaios-toaster.js"></script>
+    <script defer src="assets/js/informationHandler.js"></script>
+
+
+    <script src="assets/js/kaiads.js"></script>
+<script src="https://static.kaiads.com/ads-sdk/ads-sdk.v5.min.js"></script>
+</body>
+
+</html>
