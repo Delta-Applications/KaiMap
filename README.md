@@ -42,3 +42,14 @@ The search can be opened with key 2, you can search for locations or start the s
 - Online tool: [geojson.io](http://geojson.io/#map=1/-55/228)
 - Validation: [geojsonlint](http://geojsonlint.com/)
 - GeoJson Map: [geojson Map] https://geojson-maps.ash.ms/
+
+## How to install
+
+The app is not available through the https://www.kaiostech.com/store/ as they are currently only accepting apps using the KaiAds SDK (Annoying giant pimple and dating advertisements)
+The app is configured to use KaiAds, but they are currently disabled.
+For this reason, you have to side-load (upload) the app to your phone if you want to use it.
+Martin Kaptein wrote a comprehensive, <a href="https://www.martinkaptein.com/blog/sideloading-and-deploying-apps-to-kai-os/">step-by-step article</a> that you can use to side-load the app. If you prefer a video, this one on YouTube walks you through the process.
+The Developer Portal also contains a guide, and if nothing seems to work, you can <a href="https://discord.com/invite/rQ93zEu">ask for help on Discord</a>.
+You can download the latest version from the Releases page. (WIP)
+The app is not auto-updating. To update it, you have to follow the same steps you took when installing it.
+We are considering making an auto-upater straight from GitHub. 
