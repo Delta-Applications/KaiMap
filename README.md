@@ -15,18 +15,18 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 
 - **Soft-keys** Zoom the map (Left = Out | Right = In)
 - **Cursor** Move Map (Up, Down, Left, Right)
-- **key 0** Share Position using MozActivity
-- **key 1** Manual GPS Position Update
-- **key 2** Search for a town or a location
-- **key 3** Open Main Menu
-- **key 4** Follow Position on Screen (Toggle)
-- **key 5** Save position or Search result as marker on SD-Card <br>
+- **Key 0** Share Position using MozActivity
+- **Key 1** Manual GPS Position Update
+- **Key 2** Search for a town or a location
+- **Key 3** Open Main Menu
+- **Key 4** Follow Position on Screen (Toggle)
+- **Key 5** Save position or Search result as marker on SD-Card <br>
   to delete the marker open with 3 the menu select the marker and then press long enter (+- 5sec)
-- **key 6** Information Shortcut available through Menu
-- **key 7** Measure Area & Distance
-- **key 8** Export Markers as GEOJson
-- **key #** Cache Map Tiles
-- **key \*** Jump between markers
+- **Key 6** Information Shortcut available through Menu
+- **Key 7** Measure Area & Distance
+- **Key 8** Export Markers as GEOJson
+- **Key #** Cache Map Tiles
+- **Key \*** Jump between markers
 
 ## Import & Export
 
