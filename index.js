@@ -1351,14 +1351,14 @@ function degToCompass(num) {
 				if (windowOpen == "map") {
 					if (center_to_Screen == true) {center_to_Screen = false
 						kaiosToaster({
-							message: "Stopped following position",
+							message: "Stopped centering position",
 							position: 'north',
 							type: 'info',
 							timeout: 2000
 						});
 					} else 	 {
 						kaiosToaster({
-							message: "Started following position",
+							message: "Started centering position",
 							position: 'north',
 							type: 'info',
 							timeout: 2000
