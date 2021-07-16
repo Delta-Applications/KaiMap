@@ -322,13 +322,14 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			'<div class="item" data-map="otm">OpenTopoMap</div>'
 		);
 
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item" data-map="ocm">OpenCycleMap</div>'
-		);
+	
 		el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item" data-map="satellite">Satellite</div>'
+		);
+		el.insertAdjacentHTML(
+			"afterend",
+			'<div class="item" data-map="ocm">OpenCycleMap</div>'
 		);
 		el.insertAdjacentHTML(
 			"afterend",
@@ -849,6 +850,21 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			if (item_value == "autoupdate-geolocation") {
 				windowOpen = "map";
 				document.querySelector("div#finder").style.display = "none";
+				if (center_to_Screen == true) {center_to_Screen = false
+					kaiosToaster({
+						message: "Stopped centering position",
+						position: 'north',
+						type: 'info',
+						timeout: 2000
+					});
+				} else 	 {
+					kaiosToaster({
+						message: "Started centering position",
+						position: 'north',
+						type: 'info',
+						timeout: 2000
+					});
+					center_to_Screen = true}
 			}
 
 			if (item_value == "update-position") {
