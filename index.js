@@ -132,7 +132,10 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				position: 'north',
 				type: 'info',
 			});
-								getLocation("init");
+			maps.osm_map();
+			getLocation("init");
+
+
 
 			//   setTimeout(function () {
 			//    document.querySelector(".leaflet-control-attribution").style.display =
@@ -140,7 +143,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			//  }, 8000);
 		}
 		///set default map
-		maps.osm_map();
 
 		windowOpen = "map";
 	}, 4000);
@@ -505,15 +507,16 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 	let myMarker;
 
 	var follow_icon = L.divIcon({
-		iconSize: [20, 20],
+		iconSize: [0,0],
 		iconAnchor: [30, 40],
 		html: '<div class="ringring"></div><div class="circle"></div>',
 	  });
   
 	var default_icon = L.divIcon({
-	  iconSize: [20, 20],
-	  iconUrl: "assets/css/images/marker-icon.png",
-	  className: "default-marker",
+	  iconSize: [0,0],
+	  iconAnchor: [30, 40],
+//	  iconUrl: "assets/css/images/marker-icon.png",
+	  html: '<div class="ringring"></div><div class="circle"></div>',
 	});
   
   
@@ -561,6 +564,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			localStorage.setItem("last_location", JSON.stringify(b));
 
 			if (option == "init") {
+
 				myMarker = L.marker([current_lat, current_lng], {
 					rotationAngle: 0,
 				  }).addTo(markers_group);				
@@ -568,6 +572,8 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
         // vv   
 				myMarker.setIcon(default_icon);
 		// ^^ 
+		geolocationWatch();
+
 		
 
 				map.setView([current_lat, current_lng], 12);
@@ -614,24 +620,33 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		navigator.geolocation.getCurrentPosition(success, error, options);
 	}
 
+// always watch position
+
+
+
+
+
+
+
+
+
+
+
 	///////////
 	//watch position
 	//////////
 	let watchID;
 	let state_geoloc = false;
-
 	function geolocationWatch() {
+	
 		marker_latlng = false;
 
 		let geoLoc = navigator.geolocation;
 
 		if (state_geoloc == false) {
-			kaiosToaster({
-				message: "Started following position",
-				position: 'north',
-				type: 'info',
-				timeout: 2000
-			});
+			document.querySelector("div#message").style.display = "none";
+
+		
 			state_geoloc = true;
 		    myMarker.setIcon(follow_icon);
 			document.getElementById("cross").style.opacity = 0;
@@ -654,15 +669,19 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				//store location as fallout
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
-
-				map.flyTo(
-					new L.LatLng(position.coords.latitude, position.coords.longitude)
-				);
+                if (center_to_Screen == true) {
+					map.flyTo(
+						new L.LatLng(position.coords.latitude, position.coords.longitude)
+					);
+				}
+			
 				myMarker.setLatLng([current_lat, current_lng]).update();
 				
 			}
 
 			function errorHandler(err) {
+				document.querySelector("div#message").style.display = "none";
+
 				console.log(err.message)
 				if (err.code == 1) {
 					kaiosToaster({
@@ -694,12 +713,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			myMarker.setRotationAngle(0);
 			myMarker.setIcon(default_icon);
 			document.getElementById("cross").style.opacity = 0;
-			kaiosToaster({
-				message: "Stopped following position",
-				position: 'north',
-				type: 'info',
-				timeout: 2000
-			});
 			console.log(state_geoloc);
 
 			return true;
@@ -835,7 +848,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			if (item_value == "autoupdate-geolocation") {
 				windowOpen = "map";
 				document.querySelector("div#finder").style.display = "none";
-				geolocationWatch();
 			}
 
 			if (item_value == "update-position") {
@@ -1317,6 +1329,8 @@ function degToCompass(num) {
 
 			case "1":
 				if (windowOpen == "map") getLocation("update_marker");
+				geolocationWatch();
+
 				break;
 
 			case "2":
@@ -1334,7 +1348,21 @@ function degToCompass(num) {
 
 			case "4":
 				if (windowOpen == "map") {
-					geolocationWatch();
+					if (center_to_Screen == true) {center_to_Screen = false
+						kaiosToaster({
+							message: "Stopped following position",
+							position: 'north',
+							type: 'info',
+							timeout: 2000
+						});
+					} else 	 {
+						kaiosToaster({
+							message: "Started following position",
+							position: 'north',
+							type: 'info',
+							timeout: 2000
+						});
+						center_to_Screen = true}
 					screenWakeLock("lock");
 				}
 
