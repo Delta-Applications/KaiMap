@@ -550,7 +550,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			    document.getElementById("acc").innerText =
 						Math.round(crd.accuracy)+"±";
 			current_heading = crd.heading;
-     
+            informationHandler.GeoUpdate()
 			//to store device loaction
 			device_lat = crd.latitude;
 			device_lng = crd.longitude;
@@ -608,6 +608,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			current_lat = setting.last_location[0];
 			current_lng = setting.last_location[1];
 			current_alt = 0;
+			L.marker([current_lat, current_lng]).addTo(markers_group);
 
 			map.setView([current_lat, current_lng], 12);
 			zoom_speed();

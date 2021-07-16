@@ -117,46 +117,51 @@ const informationHandler = (() => {
         }
     }
 
+    let GeoUpdate = function() {
+        if (current_lat != "" && current_lng != "") {
+            //when marker is loaded from menu
+
+            let f = map.getCenter();
+
+            document.querySelector("div#distance").innerText =
+                module.calc_distance(device_lat, device_lng, f.lat, f.lng) +
+                " km";
+
+            document.querySelector("div#lat").innerText =
+                current_lat.toFixed(5);
+            document.querySelector("div#lng").innerText =
+            current_lng.toFixed(5);
+            if (current_alt) {
+                document.querySelector(
+                    "div#coordinations div#altitude"
+                ).style.display = "block";
+                document.querySelector("div#altitude").innerText =
+                    current_alt;
+            } else {
+                document.querySelector(
+                    "div#altitude"
+                ).style.display = "none";
+            }
+            if (current_heading) {
+                document.querySelector(
+                    "div#heading"
+                ).style.display = "block";
+                document.querySelector("div#heading").innerText =
+                    utility.degToCompass(current_heading)+" "+current_heading;
+            } else {
+                document.querySelector(
+                    "div#heading"
+                ).style.display = "none";
+            }
+        }
+    }
+
     let GeolocationUpdater = function() {
         ServiceRunner = true
 
         update_view = setInterval(() => {
-            if (current_lat != "" && current_lng != "") {
-                //when marker is loaded from menu
-
-                let f = map.getCenter();
-
-                document.querySelector("div#distance").innerText =
-                    module.calc_distance(device_lat, device_lng, f.lat, f.lng) +
-                    " km";
-
-                document.querySelector("div#lat").innerText =
-                    current_lat.toFixed(5);
-                document.querySelector("div#lng").innerText =
-                current_lng.toFixed(5);
-                if (current_alt) {
-                    document.querySelector(
-                        "div#coordinations div#altitude"
-                    ).style.display = "block";
-                    document.querySelector("div#altitude").innerText =
-                        current_alt;
-                } else {
-                    document.querySelector(
-                        "div#altitude"
-                    ).style.display = "none";
-                }
-                if (current_heading) {
-                    document.querySelector(
-                        "div#heading"
-                    ).style.display = "block";
-                    document.querySelector("div#heading").innerText =
-                        utility.degToCompass(current_heading)+" "+current_heading;
-                } else {
-                    document.querySelector(
-                        "div#heading"
-                    ).style.display = "none";
-                }
-            }
+            GeoUpdate()
+          
         }, 1000);
     }
 
@@ -297,7 +302,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
 
   
     return {
-      NetworkStats, UpdateInfo, UpdateWeather
+      NetworkStats, UpdateInfo, UpdateWeather,GeoUpdate
     };
   })();
   
