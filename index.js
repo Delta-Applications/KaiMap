@@ -9,6 +9,8 @@ let current_lat;
 let current_alt;
 let altitude;
 let current_heading;
+let center_to_Screen;
+
 
 //to store device loaction
 let device_lat;
@@ -505,7 +507,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 	var follow_icon = L.divIcon({
 		iconSize: [20, 20],
 		iconAnchor: [30, 40],
-		className: "default-marker",
 		html: '<div class="ringring"></div><div class="circle"></div>',
 	  });
   
@@ -692,7 +693,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			state_geoloc = false;
 			myMarker.setRotationAngle(0);
 			myMarker.setIcon(default_icon);
-			document.getElementById("cross").style.opacity = 0.8;
+			document.getElementById("cross").style.opacity = 0;
 			kaiosToaster({
 				message: "Stopped following position",
 				position: 'north',

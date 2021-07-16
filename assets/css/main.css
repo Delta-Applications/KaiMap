@@ -156,7 +156,7 @@ img.marker-1 {
 .circle {
   width: 15px;
   height: 15px;
-  background-color: #ff0000;
+  background-color: rgb(5, 58, 231);
   border-radius: 50%;
   position: absolute;
   top: 23px;
@@ -275,7 +275,7 @@ div#cross {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  opacity: 100;
+  opacity: 0;
 }
 
 /*crosshair*/
