@@ -550,7 +550,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			    document.getElementById("acc").innerText =
 						Math.round(crd.accuracy)+"±";
 			current_heading = crd.heading;
-            informationHandler.GeoUpdate()
 			//to store device loaction
 			device_lat = crd.latitude;
 			device_lng = crd.longitude;
@@ -677,7 +676,8 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				}
 			
 				myMarker.setLatLng([current_lat, current_lng]).update();
-				
+				informationHandler.GeoUpdate()
+
 			}
 
 			function errorHandler(err) {
