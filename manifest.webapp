@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "name": "delta.map",
   "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
   "launch_path": "/index.html",

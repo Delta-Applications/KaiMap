@@ -1121,11 +1121,12 @@ function degToCompass(num) {
 			}
 
 			if (move == "+1") {
-				if (tabIndex < items_list.length) {
+				if (tabIndex < items_list.length - 1) {
 					tabIndex++;
 					items_list[tabIndex].focus();
 					document.activeElement.scrollIntoView({
-						block: "end",
+						block: "start",
+						behavior: "smooth",
 					});
 				}
 			}
@@ -1136,6 +1137,7 @@ function degToCompass(num) {
 					items_list[tabIndex].focus();
 					document.activeElement.scrollIntoView({
 						block: "end",
+						behavior: "smooth",
 					});
 				}
 			}
@@ -1182,6 +1184,18 @@ function degToCompass(num) {
 
 	function longpress_action(param) {
 		switch (param.key) {
+			case "#":
+				if (windowOpen == "map") maps.caching_tiles();
+				break;
+				
+            case "1":
+					switch(screen.orientation.type) {
+						case 'portrait-primary': screen.orientation.lock('landscape-primary'); break;
+						case 'landscape-primary': screen.orientation.lock('portrait-secondary'); break;
+						case 'portrait-secondary': screen.orientation.lock('landscape-secondary'); break;
+						case 'landscape-secondary': screen.orientation.lock('portrait-primary'); break;
+					}
+					break;
 			case "0":
 				if (windowOpen == "finder") {
 					addMapLayers("delete-marker");
@@ -1428,9 +1442,7 @@ function degToCompass(num) {
 
 				break;
 
-			case "#":
-				if (windowOpen == "map") maps.caching_tiles();
-				break;
+	
 
 			case "ArrowRight":
 				MovemMap("right");

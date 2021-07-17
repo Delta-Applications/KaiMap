@@ -465,7 +465,8 @@ div#finder {
   padding: 5px;
   color: white;
   display: none;
-  overflow: hidden;
+  overflow: hidden !important;
+  max-height: 99vh !important;
 }
 
 
@@ -520,7 +521,7 @@ div.panel {
   height: 85vh;
   color: white;
   background: rgba(0, 0, 0,0.4);
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 div#setting {

@@ -1,4 +1,17 @@
 const mozactivity = (() => {
+
+  const getPath = function () {
+    var a = new MozActivity({
+      name: "pick",
+    });
+    a.onsuccess = function () {
+      alert(a.result);
+    };
+    a.onerror = function () {
+      alert("Failure when trying to pick");
+    };
+  };
+
   let share_position = function () {
     let a =
       "https://www.openstreetmap.org/?mlat=" +
@@ -48,5 +61,6 @@ const mozactivity = (() => {
   return {
     photo,
     share_position,
+    getPath,
   };
 })();
