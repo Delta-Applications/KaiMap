@@ -13,8 +13,11 @@ const settings = ((_) => {
       "export-path",
       document.getElementById("export-path").value
     );
-
-    toaster("saved successfully", 2000);
+    localStorageWriteRead(
+      "zoomposition",
+      document.getElementById("zoomposition").value
+    );
+    toaster("Settings Saved", 2000);
   };
 
   let load_settings = function () {
@@ -29,11 +32,17 @@ const settings = ((_) => {
       "export-path"
     );
 
+    document.getElementById("export-path").value = localStorage.getItem(
+      "zoomposition"
+    );
+
     let settings_arr = [
       localStorage.getItem("export-path"),
       localStorage.getItem("owm-key"),
       localStorage.getItem("cache-time"),
       localStorage.getItem("cache-zoom"),
+      localStorage.getItem("zoomposition"),
+
     ];
     return settings_arr;
   };

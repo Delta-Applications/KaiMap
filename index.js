@@ -149,7 +149,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 	L.control
 		.scale({
-			position: "topright",
+			position: localStorage.getItem("zoomposition") || "topright",
 			metric: true,
 			imperial: false,
 		})
@@ -509,13 +509,13 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 	var follow_icon = L.divIcon({
 		iconSize: [0,0],
-		iconAnchor: [30, 40],
+		iconAnchor: [30, 30],
 		html: '<div class="ringring"></div><div class="circle"></div>',
 	  });
   
 	var default_icon = L.divIcon({
 	  iconSize: [0,0],
-	  iconAnchor: [30, 40],
+	  iconAnchor: [30, 30],
 //	  iconUrl: "assets/css/images/marker-icon.png",
 	  html: '<div class="ringring"></div><div class="circle"></div>',
 	});
