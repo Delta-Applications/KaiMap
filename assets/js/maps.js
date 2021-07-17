@@ -42,6 +42,7 @@ const maps = (() => {
     tilesLayer.seed(bbox, 0, zoom_depth);
 
     top_bar("", "Downloading", "");
+    screenWakeLock("lock");
 
     // Display seed progress on console
     tilesLayer.on("seedprogress", function (seedData) {
@@ -50,25 +51,52 @@ const maps = (() => {
         Math.floor((seedData.remainingLength / seedData.queueLength) * 100);
       console.log("Seeding " + percent + "% done");
       document.querySelector("div#top-bar div.button-center").innerText =
-        "Caching "+percent + "% done ("+seedData.remainingLength+"/"+seedData.queueLength+")";
+        "Caching "+percent + "% done ("+(seedData.queueLength-seedData.remainingLength)+"/"+seedData.queueLength+")";
     });
     tilesLayer.on("seedend", function (seedData) {
-      document.querySelector("div#top-bar div.button-center").innerText =
-        "Finished caching";
-    
       setTimeout(() => {
         top_bar("", "", "");
+        kaiosToaster({
+          message: "Finished caching",
+          position: 'north',
+          type: 'success',
+          timeout: 1000
+        });
+        screenWakeLock("unlock");
       }, 2000);
+     
     });
+
+    tilesLayer.on('tilecacheerror',function(ev){
+		  kaiosToaster({
+        message: "Cache Error @ "+ev.tile+": "+ev.error,
+        position: 'north',
+        type: 'error',
+        timeout: 600
+      });
+		});
+
+    tilesLayer.on('tilecachemiss',function(ev){
+		  kaiosToaster({
+        message: "Cache Miss: "+ev.url,
+        position: 'north',
+        type: 'warning',
+        timeout: 600
+      });
+		});
 
     tilesLayer.on("error", function (seedData) {
-      document.querySelector("div#top-bar div.button-center").innerText =
-        seedData;
+      top_bar("", "", "");
+      screenWakeLock("unlock");
+      kaiosToaster({
+        message: "Failed caching: "+seedData,
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
     });
-
     tilesLayer.on("seedstart", function (seedData) {
-      document.querySelector("div#top-bar div.button-center").innerText =
-        seedData;
+    
     });
   };
 

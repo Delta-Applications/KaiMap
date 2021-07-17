@@ -1187,7 +1187,7 @@ function degToCompass(num) {
 			case "#":
 				if (windowOpen == "map") maps.caching_tiles();
 				break;
-				
+
             case "1":
 					switch(screen.orientation.type) {
 						case 'portrait-primary': screen.orientation.lock('landscape-primary'); break;
@@ -1386,6 +1386,7 @@ function degToCompass(num) {
 							type: 'info',
 							timeout: 2000
 						});
+						screenWakeLock("unlock");
 					} else 	 {
 						kaiosToaster({
 							message: "Started centering position",
