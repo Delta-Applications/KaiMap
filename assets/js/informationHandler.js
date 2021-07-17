@@ -134,8 +134,6 @@ if (data.raw.speed) {data.speed = utility.roundToTwo(crd.speed * 3.6)} else {dat
 document.querySelector("div#lat").innerText = data.lat;
 document.querySelector("div#lng").innerText = data.long;
 document.querySelector("div#heading").innerText =    utility.degToCompass(data.heading)+" "+data.heading;
-console.log(data.raw.altitude)
-console.log(data.raw.heading)
 document.querySelector("div#altitude").innerText = data.altitude;
 document.querySelector("div#acc").innerText = data.accuracy+"± m";
 document.querySelector("div#distance").innerText = data.DistanceFromCenter+" km"
@@ -272,7 +270,6 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     var daynight = "d"
                     if (day == true) {daynight = "d"} else {daynight = "n"}
                 document.getElementById("icon").className ="owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-lg";
-                console.log(document.getElementById("icon").className)
             }
 
         weather.openweather_call(

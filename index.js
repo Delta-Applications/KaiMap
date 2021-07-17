@@ -517,7 +517,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 	  iconSize: [0,0],
 	  iconAnchor: [30, 30],
 //	  iconUrl: "assets/css/images/marker-icon.png",
-	  html: '<div class="ringring"></div><div class="circle"></div>',
+	  html: '<div class="circle"></div>',
 	});
   
   
@@ -590,6 +590,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		}
 
 		function error(err) {
+			console.log(err.message)
         		document.querySelector("div#message").style.display = "none";
 				kaiosToaster({
 					message: err.message,
@@ -716,9 +717,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			state_geoloc = false;
 			myMarker.setRotationAngle(0);
 			myMarker.setIcon(default_icon);
-			document.getElementById("cross").style.opacity = 0;
-			console.log(state_geoloc);
-
 			return true;
 		}
 	}
