@@ -56,3 +56,5 @@ We are considering making an auto-upater straight from GitHub.
 
 ![deltaice white](https://user-images.githubusercontent.com/26120324/125853046-7f21d205-e5b7-461e-af8c-f3548ec6c5cb.png)
 
+## Upcoming Features and Known Bugs
+@ GeolocationWatch fails when the first init fails and can be fixed by re-opening the app
