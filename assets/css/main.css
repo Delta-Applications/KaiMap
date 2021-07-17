@@ -1,3 +1,21 @@
+/* MAIN COLORS */
+
+
+
+
+
+
+/* MAIN COLORS */
+
+:root {
+--accent-color: rgb(31, 96, 237);
+
+
+}
+
+
+
+
 /*GENERAL*/
 
 :root {
@@ -131,11 +149,11 @@ img.marker-1 {
   background: rgb(255, 72, 0);
   border-radius: 50%;
 }
-
+/*rgb(5, 58, 231)*/
 .default-marker {
-  background: rgb(5, 58, 231);
+  background: var(--accent-color);
   border-radius: 40%;
-  border: 3px solid rgba(5, 58, 231),0.5;
+  border: 3px solid var(--accent-color),0.5;
   box-shadow: 3px 4px 5px rgb(17, 17, 17);
 }
 
@@ -156,7 +174,7 @@ img.marker-1 {
 .circle {
   width: 15px;
   height: 15px;
-  background-color: rgb(5, 58, 231);
+  background-color: var(--accent-color);
   border-radius: 50%;
   position: absolute;
   top: 23px;
@@ -304,14 +322,14 @@ div#cross div:nth-child(2) {
 
 div#cross div:nth-child(3) {
   min-width: 20px;
-  outline: 2px solid rgb(31, 96, 237);
-  box-shadow: 0 0 3pt 2pt rgb(31, 96, 237);
+  outline: 2px solid var(--accent-color);
+  box-shadow: 0 0 3pt 2pt var(--accent-color);
   opacity: 1;
 }
 
 div#cross div:nth-child(4) {
-  outline: 2px solid rgb(31, 96, 237);
-  box-shadow: 0 0 3pt 2pt rgb(31, 96, 237);
+  outline: 2px solid var(--accent-color);
+  box-shadow: 0 0 3pt 2pt var(--accent-color);
   opacity: 1;
   transform: rotate(90deg);
 }
@@ -473,7 +491,7 @@ div#finder div#close {
 }
 
 div#finder .item:focus {
-  background: rgb(31, 96, 237);
+  background: var(--accent-color);
   border-color: #FFFF;
   border-radius: 3px;
    color: black;
@@ -530,7 +548,7 @@ div#settings label {
 }
 
 div#settings input:focus {
-  border: 2px solid rgb(31, 96, 237);
+  border: 2px solid var(--accent-color);
   border-radius: 3px;
   background: silver;
 }
@@ -541,7 +559,7 @@ div.panel button {
 }
 
 div.panel button:focus {
-  background: rgb(31, 96, 237);
+  background: var(--accent-color);
 
 }
 /*TEST TO MAKE SURE GITHUB DESKTOP WORKS*/
@@ -556,13 +574,13 @@ div#Information {
 }
 
 div#impressum div.item:focus {
-  background: rgb(31, 96, 237);
+  background: var(--accent-color);
   border-radius: 3px;
   color: white;
 }
 
 div#impressum a:focus button {
-  background: rgb(31, 96, 237) !important;
+  background: var(--accent-color) !important;
   outline: red !important;
 }
 
@@ -608,3 +626,16 @@ div#coordinations div#weather div img {
   margin: -5px 0 0 0;
 }
 
+
+.Loading__image___1-YIY {
+  animation: Loading__rotate___NhRpC 1s linear infinite;
+  text-align: center;
+  margin-left: 18%}
+@keyframes Loading__rotate___NhRpC {
+  to {
+  transform: rotate(1turn);
+}
+}.Loading__text___3Z8-j {
+  margin-top: 10px;
+  text-align: center;
+}

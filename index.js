@@ -653,12 +653,16 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			document.getElementById("cross").style.opacity = 0;
 			function showLocation(position) {
 				let crd = position.coords;
-
+                informationHandler.PreciseGeoUpdate(crd)
 				current_lat = crd.latitude;
 				current_lng = crd.longitude;
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
   
+				document.getElementById("acc").innerText =
+				Math.round(crd.accuracy)+"±";
+
+
 				//store device location
 				device_lat = crd.latitude;
 				device_lng = crd.longitude;
@@ -684,7 +688,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
 
-				console.log(err.message)
+				console.log(err.message+" "+err.code)
 				if (err.code == 1) {
 					kaiosToaster({
 						message: "Access to Geolocation is denied!",

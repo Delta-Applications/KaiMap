@@ -117,7 +117,38 @@ const informationHandler = (() => {
         }
     }
 
-    let GeoUpdate = function() {
+let PreciseGeoUpdate = function(crd) {
+// Initialize
+let data = {}
+data.raw = crd
+
+// Calculate Device Location from Center of Screen
+let f = map.getCenter();
+data.DistanceFromCenter = module.calc_distance(data.raw.latitude, data.raw.longitude, f.lat, f.lng) 
+// Calculate Metrics
+if (data.raw.altitude) {data.altitude = data.raw.altitude.toFixed(3)} else {data.altitude = 0}
+data.lat = data.raw.latitude.toFixed(5);
+data.long = data.raw.longitude.toFixed(5);
+if (data.raw.heading) {data.heading = data.raw.heading} else {data.heading = 0}
+if (data.raw.accuracy) {data.accuracy = Math.round(data.raw.accuracy)} else {data.accuracy = 0}
+if (data.raw.speed) {data.speed = utility.roundToTwo(crd.speed * 3.6)} else {data.speed = 0}
+document.querySelector("div#lat").innerText = data.lat;
+document.querySelector("div#lng").innerText = data.long;
+document.querySelector("div#heading").innerText =    utility.degToCompass(data.heading)+" "+data.heading;
+console.log(data.raw.altitude)
+console.log(data.raw.heading)
+document.querySelector("div#altitude").innerText = data.altitude;
+document.querySelector("div#acc").innerText = data.accuracy+"± m";
+document.querySelector("div#distance").innerText = data.DistanceFromCenter+" km"
+document.querySelector("div#speed").innerText = data.speed+" km/h"
+
+
+
+    
+
+}
+
+  /*  let GeoUpdate = function() {
         if (current_lat != "" && current_lng != "") {
             //when marker is loaded from menu
 
@@ -164,7 +195,7 @@ const informationHandler = (() => {
           
         }, 1000);
     }
-
+*/
 
 
     let UpdateWeather1 = false
@@ -302,7 +333,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
 
   
     return {
-      NetworkStats, UpdateInfo, UpdateWeather,GeoUpdate
+      NetworkStats, UpdateInfo, UpdateWeather,GeoUpdate,PreciseGeoUpdate
     };
   })();
   

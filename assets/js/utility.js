@@ -8,6 +8,9 @@ const utility = (() => {
     return arr[(val % 16)];
   };
 
+  let roundToTwo= function(num) {    
+    return +(Math.round(num + "e+2")  + "e-2");
+  }
   let getColorFrom0to1 = function (value) {
     //value from 0 to 1
     var hue = ((1 - value) * 120).toString(10);
@@ -27,6 +30,6 @@ const utility = (() => {
 }
 
   return {
-    degToCompass, getColorFrom0to1,formatBytes
+    degToCompass, getColorFrom0to1,formatBytes, roundToTwo
   };
 })();
