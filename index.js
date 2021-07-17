@@ -653,7 +653,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			document.getElementById("cross").style.opacity = 0;
 			function showLocation(position) {
 				let crd = position.coords;
-                informationHandler.PreciseGeoUpdate(crd)
 				current_lat = crd.latitude;
 				current_lng = crd.longitude;
 				current_alt = crd.altitude;
@@ -681,8 +680,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				}
 			
 				myMarker.setLatLng([current_lat, current_lng]).update();
-				informationHandler.GeoUpdate()
-
+                informationHandler.PreciseGeoUpdate(crd)
 			}
 
 			function errorHandler(err) {

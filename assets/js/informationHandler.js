@@ -12,7 +12,6 @@ const informationHandler = (() => {
             
         }else{
             OpenWeatherUpdater()
-            GeolocationUpdater()
             BatteryUpdater()
             ConnectionUpdater()
             NetworkUpdater()
@@ -333,7 +332,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
 
   
     return {
-      NetworkStats, UpdateInfo, UpdateWeather,GeoUpdate,PreciseGeoUpdate
+      NetworkStats, UpdateInfo, UpdateWeather,PreciseGeoUpdate
     };
   })();
   
