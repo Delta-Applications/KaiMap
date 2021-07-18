@@ -143,7 +143,7 @@ function screenWakeLock(param) {
     lock = window.navigator.requestWakeLock("screen");
   }
 
-  if (param1 == "unlock") {
+  if (param == "unlock") {
     if (lock.topic == "screen") {
       lock.unlock();
     }
@@ -156,7 +156,7 @@ let add_file = function () {
     type: "application/json",
   });
 
-  var request = sdcard.addNamed(file, "omap.json");
+  var request = sdcard.addNamed(file, "delta.map.json");
 
   request.onsuccess = function () {
     var name = this.result;

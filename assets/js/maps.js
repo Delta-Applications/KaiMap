@@ -1,6 +1,9 @@
 ////////////////////
 ////MAPS////////////
 ///////////////////
+
+let wakelock;
+
 const maps = (() => {
   //caching settings from settings panel
   if (settings[1] != "") {
@@ -72,18 +75,18 @@ const maps = (() => {
         message: "Cache Error @ "+ev.tile+": "+ev.error,
         position: 'north',
         type: 'error',
-        timeout: 600
+        timeout: 1000
       });
 		});
 
-    tilesLayer.on('tilecachemiss',function(ev){
+    /*tilesLayer.on('tilecachemiss',function(ev){
 		  kaiosToaster({
         message: "Cache Miss: "+ev.url,
         position: 'north',
         type: 'warning',
-        timeout: 600
+        timeout: 1000
       });
-		});
+		});*/ //Happens too frequently to be an important message
 
     tilesLayer.on("error", function (seedData) {
       top_bar("", "", "");
