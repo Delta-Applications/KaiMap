@@ -189,7 +189,7 @@ const maps = (() => {
       timeout: 1000
     });
     kaiads.DisplayFullScreenAd();
-     tilesUrl = 'https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}'
+    tilesUrl = 'https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}'
       tilesLayer = L.tileLayer(tilesUrl, {
             minZoom: 0,
             maxZoom: 12,
@@ -200,6 +200,7 @@ const maps = (() => {
             style: 'normal'
         });
         map.addLayer(tilesLayer);
+       /* L.TileLayer.Bing("AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx")*/
             caching_events();
   }
   function opentopo_map() {
