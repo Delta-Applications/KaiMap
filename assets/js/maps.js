@@ -43,8 +43,7 @@ const maps = (() => {
 
     var bbox = L.latLngBounds(L.latLng(swLat, swLng), L.latLng(neLat, neLng));
     tilesLayer.seed(bbox, 0, zoom_depth);
-
-    top_bar("", "Downloading", "");
+if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     screenWakeLock("lock");
 
     // Display seed progress on console
@@ -53,12 +52,12 @@ const maps = (() => {
         100 -
         Math.floor((seedData.remainingLength / seedData.queueLength) * 100);
       console.log("Seeding " + percent + "% done");
-      document.querySelector("div#top-bar div.button-center").innerText =
-        "Caching "+percent + "% done ("+(seedData.queueLength-seedData.remainingLength)+"/"+seedData.queueLength+")";
+      if (windowOpen == "map"){  document.querySelector("div#top-bar div.button-center").innerText =
+        "Caching "+percent + "% done ("+(seedData.queueLength-seedData.remainingLength)+"/"+seedData.queueLength+")";}
     });
     tilesLayer.on("seedend", function (seedData) {
       setTimeout(() => {
-        top_bar("", "", "");
+        if (windowOpen == "map"){  top_bar("", "", "");}
         kaiosToaster({
           message: "Finished caching",
           position: 'north',
@@ -592,11 +591,11 @@ const maps = (() => {
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            top_bar(
+            if (windowOpen == "map"){   top_bar(
               "",
               moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
               ""
-            );
+            );}
             //top_bar("", "a", "");
           }
 
@@ -606,11 +605,11 @@ const maps = (() => {
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            top_bar(
+            if (windowOpen == "map"){   top_bar(
               "",
               moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
               ""
-            );
+            );}
             //top_bar("", "a", "");
           }
 
@@ -620,11 +619,11 @@ const maps = (() => {
             map.addLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            top_bar(
+            if (windowOpen == "map"){   top_bar(
               "",
               moment.unix(data[data.length - 3]).format("DD.MM.YYYY, HH:MM:SS"),
               ""
-            );
+            );}
           }
 
           if (i == 3) {
@@ -633,11 +632,11 @@ const maps = (() => {
             map.removeLayer(weather_layer1);
             map.addLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            top_bar(
+            if (windowOpen == "map"){   top_bar(
               "",
               moment.unix(data[data.length - 2]).format("DD.MM.YYYY, HH:MM:SS"),
               ""
-            );
+            );}
           }
           
           if (i == 4) {
@@ -646,11 +645,11 @@ const maps = (() => {
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.addLayer(weather_layer3);
-            top_bar(
+            if (windowOpen == "map"){   top_bar(
               "",
               moment.unix(data[data.length - 1]).format("DD.MM.YYYY, HH:MM:SS"),
               ""
-            );
+            );}
           }
           if (i == 5) {
             i = 0;
@@ -658,7 +657,7 @@ const maps = (() => {
         }, 2000);
       })
       .catch(function (err) {
-        toaster("Can't load weather data", 3000);
+        toaster("Failed to load weather data", 3000);
       });
   }
   return {

@@ -281,7 +281,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
     let timeout;
 
     function repeat_action(param) {
-						print(windowOpen)
         if (windowOpen == "map"){
         switch (param.key) {
             case 'ArrowUp':
@@ -436,12 +435,17 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		let t = -1;
 		let items = document.querySelectorAll(".item");
 		let items_list = [];
+		
 		for (let i = 0; i < items.length; i++) {
 			if (items[i].parentNode.style.display == "block") {
 				items_list.push(items[i]);
 				t++;
 				items_list[items_list.length - 1].setAttribute("tabIndex", t);
 				items_list[0].focus();
+				document.activeElement.scrollIntoView({
+					block: "end",
+					behavior: "smooth",
+				});
 			}
 		}
 		document.querySelector("div#finder").style.display = "block";
@@ -1075,8 +1079,6 @@ function degToCompass(num) {
 			d[b].style.display = "none";
 		}
 
-   
-
 
 		if (dir == "start") {
 			document.getElementById(finder_panels[count]).style.display = "block";
@@ -1112,13 +1114,15 @@ function degToCompass(num) {
 	function nav(move) {
 		if (windowOpen == "finder") {
 			//get items from current pannel
-			let items = document.querySelectorAll(".item");
+			let b = document.activeElement.parentNode;
+			let items = b.querySelectorAll(".item");
 			let items_list = [];
 			for (let i = 0; i < items.length; i++) {
 				if (items[i].parentNode.style.display == "block") {
 					items_list.push(items[i]);
 				}
 			}
+		
 
 			if (move == "+1") {
 				if (tabIndex < items_list.length - 1) {
