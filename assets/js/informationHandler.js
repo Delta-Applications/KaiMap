@@ -120,7 +120,7 @@ let PreciseGeoUpdate = function(crd) {
 // Initialize
 let data = {}
 data.raw = crd
-
+data.GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif'));
 // Calculate Device Location from Center of Screen
 let f = map.getCenter();
 data.DistanceFromCenter = module.calc_distance(data.raw.latitude, data.raw.longitude, f.lat, f.lng) 
@@ -131,6 +131,7 @@ data.long = data.raw.longitude.toFixed(5);
 if (data.raw.heading) {data.heading = data.raw.heading.toFixed(0)} else {data.heading = 0}
 if (data.raw.accuracy) {data.accuracy = Math.round(data.raw.accuracy)} else {data.accuracy = 0}
 if (data.raw.speed) {data.speed = utility.roundToTwo(crd.speed * 3.6).toFixed(1)} else {data.speed = 0}
+
 data.olc = OLC.encode(data.raw.latitude,data.raw.longitude)
 document.querySelector("div#lat").innerText = data.lat;
 document.querySelector("div#lng").innerText = data.long;
@@ -140,6 +141,7 @@ document.querySelector("div#acc").innerText = data.accuracy+"± m";
 document.querySelector("div#distance").innerText = data.DistanceFromCenter+" km"
 document.querySelector("div#speed").innerText = data.speed+" km/h"
 document.querySelector("div#olcode").innerText = data.olc
+document.querySelector("div#satnum").innerText = data.GPSif.num
 
 
 
