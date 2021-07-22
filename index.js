@@ -2,7 +2,7 @@
 "enablePrivelege";
 $('div#about').css('message', 'none');
 $('img#about').css('display', 'none');
-	//setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
+//setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
 let step = 0.001;
 let current_lng;
 let current_lat;
@@ -68,7 +68,10 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
-document.querySelector("div#message div").innerText = "Loading.";
+
+//let gps_wakelet = window.navigator.requestWakeLock("gps")
+
+document.querySelector("div#intro-footer2").innerText = "Loading.";
 
 //leaflet add basic map
 let map = L.map("map-container", {
@@ -78,7 +81,7 @@ let map = L.map("map-container", {
 }).fitWorld();
 
 document.addEventListener("DOMContentLoaded", function() {
-document.querySelector("div#message div").innerText = "Loading DOM Content..";
+document.querySelector("div#intro-footer2").innerText = "Loading DOM Content..";
 
 
 
@@ -121,7 +124,7 @@ getKaiAd({
 
 
 	setTimeout(function() {
-document.querySelector("div#message div").innerText = "Loading DOM Content...";
+document.querySelector("div#intro-footer2").innerText = "Loading DOM Content...";
 
 		//get location if not an activity open url
 		if (open_url === false) {
@@ -522,6 +525,16 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		});
 	}
 
+
+function OptimizeLag(){
+	var children = 	document.getElementsByClassName("Loading__image___1-YIY");
+				for (var i = 0; i < children.length; i++) {
+				  var tableChild = children[i];
+				  // Do stuff
+				  tableChild.remove()
+				}
+}
+
 	////////////////////
 	////GEOLOCATION/////
 	///////////////////
@@ -561,6 +574,8 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
         		document.querySelector("div#message").style.display = "none";
 
 		function success(pos) {
+			document.querySelector("div#get-position").style.display = "none";
+			OptimizeLag()
 
 			kaiosToaster({
 				message: "Fetched position.",
@@ -572,8 +587,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			current_lat = crd.latitude;
 			current_lng = crd.longitude;
 			current_alt = crd.altitude;
-			    document.getElementById("acc").innerText =
-						Math.round(crd.accuracy)+"±";
+			  
 			current_heading = crd.heading;
 			//to store device loaction
 			device_lat = crd.latitude;
@@ -602,7 +616,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 				map.setView([current_lat, current_lng], 12);
 				zoom_speed();
-				document.querySelector("div#message div").innerText = "";
+				document.querySelector("div#intro-footer2").innerText = "";
 				return true;
 			}
 
@@ -616,15 +630,13 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		function error(err) {
 			console.log(err.message)
         		document.querySelector("div#message").style.display = "none";
-				kaiosToaster({
-					message: err.message,
-					position: 'south',
-					type: 'error',
-					timeout: 3000
-				});
-	
+				document.querySelector("div#intro-footer").innerText = err.message
+				document.querySelector("div#get-position").style.display = "none";
+				console.log(err.message+" "+err.code)
+				OptimizeLag()
+
 			kaiosToaster({
-				message: "Failed to fetch position. Loading last position.",
+				message:  err.message+": Loading last position.",
 				position: 'north',
 				type: 'error',
 				timeout: 3000
@@ -637,7 +649,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 			map.setView([current_lat, current_lng], 12);
 			zoom_speed();
-			document.querySelector("div#message div").innerText = "";
+			document.querySelector("div#intro-footer2").innerText = "";
 					print(err.message);
 					
 			return false;
@@ -683,8 +695,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
   
-				document.getElementById("acc").innerText =
-				Math.round(crd.accuracy)+"±";
+			
 
 
 				//store device location
@@ -710,6 +721,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
+        		document.querySelector("div#get-position").style.display = "none";
 
 				console.log(err.message+" "+err.code)
 				if (err.code == 1) {
