@@ -2,7 +2,7 @@
 "enablePrivelege";
 $('div#about').css('message', 'none');
 $('img#about').css('display', 'none');
-	//setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
+//setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
 let step = 0.001;
 let current_lng;
 let current_lat;
@@ -68,7 +68,10 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
-document.querySelector("div#message div").innerText = "Loading.";
+
+//let gps_wakelet = window.navigator.requestWakeLock("gps")
+
+document.querySelector("div#intro-footer2").innerText = "Loading.";
 
 //leaflet add basic map
 let map = L.map("map-container", {
@@ -78,7 +81,7 @@ let map = L.map("map-container", {
 }).fitWorld();
 
 document.addEventListener("DOMContentLoaded", function() {
-document.querySelector("div#message div").innerText = "Loading DOM Content..";
+document.querySelector("div#intro-footer2").innerText = "Loading DOM Content..";
 
 
 
@@ -121,7 +124,7 @@ getKaiAd({
 
 
 	setTimeout(function() {
-document.querySelector("div#message div").innerText = "Loading DOM Content...";
+document.querySelector("div#intro-footer2").innerText = "Loading DOM Content...";
 
 		//get location if not an activity open url
 		if (open_url === false) {
@@ -179,41 +182,61 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
     }
 
     function zoom_speed() {
+     /*
+    zoom levels:
+    <2 -> 2000/3000/5000km
+    >2 -> 1000km
+    >3 -> 500km
+    >4 -> 300km
+    >5 -> 100km
+    >6 -> 50km
+    >7 -> 30km
+    >8 -> 10km
+    >9 -> 5km
+    >10 -> 3km
+    >11 -> 2km
+    >12 -> 1km
+    >13 -> 500m
+    >14 -> 300m
+    >15 -> 100m
+    >16 -> 50m
+
+    */
         if (zoom_level < 2) {
-            step = 10;
+            step = 20;
         }
         if (zoom_level > 2) {
-            step = 7.5;
+            step = 8;
         }
         if (zoom_level > 3) {
-            step = 5;
+            step = 4.5;
         }
         if (zoom_level > 4) {
-            step = 1;
+            step = 2.75;
         }
         if (zoom_level > 5) {
-            step = 0.50;
+            step = 1,2;
         }
         if (zoom_level > 6) {
-            step = 0.25;
+            step = 0.5;
         }
         if (zoom_level > 7) {
-            step = 0.1;
+            step = 0.3;
         }
         if (zoom_level > 8) {
-            step = 0.075;
+            step = 0.15;
         }
         if (zoom_level > 9) {
-            step = 0.05;
+            step = 0.075;
         }
         if (zoom_level > 10) {
-            step = 0.025;
+            step = 0.04;
         }
         if (zoom_level > 11) {
-            step = 0.01;
+            step = 0.02;
         }
         if (zoom_level > 12) {
-            step = 0.0075;
+            step = 0.01;
         }
         if (zoom_level > 13) {
             step = 0.005;
@@ -281,7 +304,6 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
     let timeout;
 
     function repeat_action(param) {
-						print(windowOpen)
         if (windowOpen == "map"){
         switch (param.key) {
             case 'ArrowUp':
@@ -436,12 +458,17 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		let t = -1;
 		let items = document.querySelectorAll(".item");
 		let items_list = [];
+		
 		for (let i = 0; i < items.length; i++) {
 			if (items[i].parentNode.style.display == "block") {
 				items_list.push(items[i]);
 				t++;
 				items_list[items_list.length - 1].setAttribute("tabIndex", t);
 				items_list[0].focus();
+				document.activeElement.scrollIntoView({
+					block: "end",
+					behavior: "smooth",
+				});
 			}
 		}
 		document.querySelector("div#finder").style.display = "block";
@@ -498,6 +525,16 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		});
 	}
 
+
+function OptimizeLag(){
+	var children = 	document.getElementsByClassName("Loading__image___1-YIY");
+				for (var i = 0; i < children.length; i++) {
+				  var tableChild = children[i];
+				  // Do stuff
+				  tableChild.remove()
+				}
+}
+
 	////////////////////
 	////GEOLOCATION/////
 	///////////////////
@@ -537,6 +574,8 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
         		document.querySelector("div#message").style.display = "none";
 
 		function success(pos) {
+			document.querySelector("div#get-position").style.display = "none";
+			OptimizeLag()
 
 			kaiosToaster({
 				message: "Fetched position.",
@@ -548,8 +587,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 			current_lat = crd.latitude;
 			current_lng = crd.longitude;
 			current_alt = crd.altitude;
-			    document.getElementById("acc").innerText =
-						Math.round(crd.accuracy)+"±";
+			  
 			current_heading = crd.heading;
 			//to store device loaction
 			device_lat = crd.latitude;
@@ -578,7 +616,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 				map.setView([current_lat, current_lng], 12);
 				zoom_speed();
-				document.querySelector("div#message div").innerText = "";
+				document.querySelector("div#intro-footer2").innerText = "";
 				return true;
 			}
 
@@ -592,15 +630,13 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 		function error(err) {
 			console.log(err.message)
         		document.querySelector("div#message").style.display = "none";
-				kaiosToaster({
-					message: err.message,
-					position: 'south',
-					type: 'error',
-					timeout: 3000
-				});
-	
+				document.querySelector("div#intro-footer").innerText = err.message
+				document.querySelector("div#get-position").style.display = "none";
+				console.log(err.message+" "+err.code)
+				OptimizeLag()
+
 			kaiosToaster({
-				message: "Failed to fetch position. Loading last position.",
+				message:  err.message+": Loading last position.",
 				position: 'north',
 				type: 'error',
 				timeout: 3000
@@ -613,7 +649,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 			map.setView([current_lat, current_lng], 12);
 			zoom_speed();
-			document.querySelector("div#message div").innerText = "";
+			document.querySelector("div#intro-footer2").innerText = "";
 					print(err.message);
 					
 			return false;
@@ -659,8 +695,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
   
-				document.getElementById("acc").innerText =
-				Math.round(crd.accuracy)+"±";
+			
 
 
 				//store device location
@@ -686,6 +721,7 @@ document.querySelector("div#message div").innerText = "Loading DOM Content...";
 
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
+        		document.querySelector("div#get-position").style.display = "none";
 
 				console.log(err.message+" "+err.code)
 				if (err.code == 1) {
@@ -1075,8 +1111,6 @@ function degToCompass(num) {
 			d[b].style.display = "none";
 		}
 
-   
-
 
 		if (dir == "start") {
 			document.getElementById(finder_panels[count]).style.display = "block";
@@ -1112,13 +1146,15 @@ function degToCompass(num) {
 	function nav(move) {
 		if (windowOpen == "finder") {
 			//get items from current pannel
-			let items = document.querySelectorAll(".item");
+			let b = document.activeElement.parentNode;
+			let items = b.querySelectorAll(".item");
 			let items_list = [];
 			for (let i = 0; i < items.length; i++) {
 				if (items[i].parentNode.style.display == "block") {
 					items_list.push(items[i]);
 				}
 			}
+		
 
 			if (move == "+1") {
 				if (tabIndex < items_list.length - 1) {

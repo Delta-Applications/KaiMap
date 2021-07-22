@@ -8,7 +8,7 @@ const weather = (() => {
     });
     xhr.open(
       "GET",
-      "https://api.openweathermap.org/data/2.5/forecast?units=metric&cnt=4&lat=" +
+      "https://api.openweathermap.org/data/2.5/forecast?units=metric&cnt=6&lat=" +
         lat +
         "&lon=" +
         lng +
