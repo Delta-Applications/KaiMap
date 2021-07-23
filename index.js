@@ -124,7 +124,7 @@ getKaiAd({
 
 
 	setTimeout(function() {
-document.querySelector("div#intro-footer2").innerText = "Loading DOM Content...";
+document.querySelector("div#intro-footer2").innerText = "Your page should be ready by now..";
 
 		//get location if not an activity open url
 		if (open_url === false) {
