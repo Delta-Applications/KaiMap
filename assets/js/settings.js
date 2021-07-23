@@ -32,7 +32,7 @@ const settings = ((_) => {
       "export-path"
     );
 
-    document.getElementById("export-path").value = localStorage.getItem(
+    document.getElementById("zoomposition").value = localStorage.getItem(
       "zoomposition"
     );
 
