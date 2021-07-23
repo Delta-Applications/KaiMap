@@ -69,7 +69,7 @@ if (!navigator.geolocation) {
 	});
 }
 
-//let gps_wakelet = window.navigator.requestWakeLock("gps")
+let gps_wakelet = window.navigator.requestWakeLock("gps")
 
 document.querySelector("div#intro-footer2").innerText = "Loading.";
 
@@ -81,7 +81,7 @@ let map = L.map("map-container", {
 }).fitWorld();
 
 document.addEventListener("DOMContentLoaded", function() {
-document.querySelector("div#intro-footer2").innerText = "Loading DOM Content..";
+document.querySelector("div#intro-footer2").innerText = "Fetching location..";
 
 
 
@@ -557,6 +557,7 @@ function OptimizeLag(){
 	  html: '<div class="circle"></div>',
 	});
   
+  let myAccuracy;
   
 
 	function getLocation(option) {
@@ -602,7 +603,7 @@ function OptimizeLag(){
 			localStorage.setItem("last_location", JSON.stringify(b));
 
 			if (option == "init") {
-
+				myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy).addTo(map);
 				myMarker = L.marker([current_lat, current_lng], {
 					rotationAngle: 0,
 				  }).addTo(markers_group);				
@@ -710,12 +711,15 @@ function OptimizeLag(){
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
                 if (center_to_Screen == true) {
+					myAccuracy.remove()
 					map.flyTo(
 						new L.LatLng(position.coords.latitude, position.coords.longitude)
 					);
+				}else{
+					myAccuracy.remove()
+					myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy-2).addTo(map);
 				}
-			
-				myMarker.setLatLng([current_lat, current_lng]).update();
+				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
                 informationHandler.PreciseGeoUpdate(crd)
 			}
 

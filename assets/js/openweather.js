@@ -8,7 +8,7 @@ const weather = (() => {
     });
     xhr.open(
       "GET",
-      "https://api.openweathermap.org/data/2.5/forecast?units=metric&cnt=6&lat=" +
+      "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" +
         lat +
         "&lon=" +
         lng +
@@ -25,7 +25,12 @@ const weather = (() => {
         callback(JSON.parse(xhr.responseText));
       }
       if (xhr.status == 403) {
-        alert("access forbidden");
+        kaiosToaster({
+          message: "OWM Error: Access Forbidden",
+          position: 'north',
+          type: 'warning',
+          timeout: 3000
+        });
       }
       // analyze HTTP status of the response
       if (xhr.status != 200) {
