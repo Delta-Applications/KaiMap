@@ -35,7 +35,7 @@ const settings = ((_) => {
     document.getElementById("zoomposition").value = localStorage.getItem(
       "zoomposition"
     );
-
+ 
     let settings_arr = [
       localStorage.getItem("export-path"),
       localStorage.getItem("owm-key"),
