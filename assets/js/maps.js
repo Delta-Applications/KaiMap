@@ -180,24 +180,43 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     map.addLayer(tilesLayer);
     caching_events();
   }
-  function satellite_map() {
+
+  function google_map() {
     kaiosToaster({
-      message: "Satellite View",
+      message: "Google Street",
       position: 'north',
       type: 'info',
       timeout: 1000
     });
     kaiads.DisplayFullScreenAd();
-     tilesUrl = 'https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}'
+     tilesUrl = 'http://mt1.google.com/vt/lyrs=m@146&hl=en&x={x}&y={y}&z={z}'
       tilesLayer = L.tileLayer(tilesUrl, {
+        useCache: true,
+        saveToCache: false,
+        crossOrigin: true,
+        cacheMaxAge: caching_time,
+        useOnlyCache: false,
             minZoom: 0,
-            maxZoom: 12,
-            apikey: 'choisirgeoportail',
+            maxZoom: 20,
             format: 'image/jpeg',
-            attribution: 'Satellite View',
-            tileSize : 256,
-            style: 'normal'
+            attribution: 'Google Street',
         });
+
+       
+        map.addLayer(tilesLayer);
+            caching_events();
+  }
+
+  function satellite_map() {
+    kaiosToaster({
+      message: "Bing Aerial",
+      position: 'north',
+      type: 'info',
+      timeout: 1000
+    });
+    kaiads.DisplayFullScreenAd();
+      tilesLayer =  new L.tileLayer.bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
+       
         map.addLayer(tilesLayer);
             caching_events();
   }
@@ -666,6 +685,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     earthquake_layer,
     satellite_map,
     toner_map,
+    google_map,
     opentopo_map,
     owm_precipit_layer,
     owm_wind_layer,

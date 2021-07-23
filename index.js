@@ -343,12 +343,16 @@ document.querySelector("div#intro-footer2").innerText = "Loading DOM Content..."
 			"afterend",
 			'<div class="item" data-map="otm">OpenTopoMap</div>'
 		);
-
+		el.insertAdjacentHTML(
+			"afterend",
+			'<div class="item" data-map="gstreet">Google Street</div>'
+		);
 	
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="satellite">Satellite</div>'
+			'<div class="item" data-map="satellite">Bing Aerial</div>'
 		);
+		
 		el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item" data-map="ocm">OpenCycleMap</div>'
@@ -773,7 +777,15 @@ function OptimizeLag(){
 			let cdata = map.getCenter();
            informationHandler.UpdateWeather(cdata)
 		}
+        if (item_value == "gstreet") {
 
+			map.removeLayer(tilesLayer);
+			maps.google_map();
+			top_bar("", "", "");
+			document.querySelector("div#finder").style.display = "none";
+		
+			windowOpen = "map";
+		}
       	if (item_value == "ocm") {
 								map.removeLayer(tilesLayer);
 				maps.opencycle_map();
