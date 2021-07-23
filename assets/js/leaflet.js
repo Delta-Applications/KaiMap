@@ -1964,9 +1964,10 @@
             }
         }),
         te = Xi.extend({
+            //<a href="https://github.com/Delta-Applications/delta.map" title="Powered by Leaflet and OpenStreetMap">delta.map</a>
             options: {
                 position: "bottomright",
-                prefix: '<a href="https://github.com/Delta-Applications/delta.map" title="Powered by Leaflet and OpenStreetMap">delta.map</a>'
+                prefix: ''
             },
             initialize: function (t) {
                 c(this, t), this._attributions = {}
