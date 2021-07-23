@@ -197,7 +197,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         cacheMaxAge: caching_time,
         useOnlyCache: false,
             minZoom: 0,
-            maxZoom: 20,
+            maxZoom: 18,
             format: 'image/jpeg',
             attribution: 'Google Street',
         });
