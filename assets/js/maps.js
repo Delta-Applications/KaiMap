@@ -4,7 +4,6 @@
 
 
 const maps = (() => {
-  let caching_time;
   //caching settings from settings panel
   if (settings[1] != "") {
     caching_time = Number(settings[1]) * 86400000;
