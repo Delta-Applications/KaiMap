@@ -1057,30 +1057,8 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	let corr_toogle = false;
 
 	function coordinations() {
-		windowOpen = "coordinations";
-		let update_view;
-		if (!corr_toogle) {
-			corr_toogle = true;
-			document.querySelector("div#finder").style.display = "none";
-			//document.querySelector("div#coordinations").style.display = "block";
+		flashlight.trigger()
 
-				//document.querySelector("div#coordinations div#weather").style.display =
-					//"block";
-
-					windowOpen = "finder";
-					document.querySelector("div#finder").style.display = "block";
-					document.querySelector("div#Information").style.display = "block";
-					top_bar("◀", "Information", "▶");
-
-			return true;
-		}
-
-		if (corr_toogle) {
-			document.querySelector("div#coordinations").style.display = "none";
-			windowOpen = "map";
-			clearInterval(update_view);
-			corr_toogle = false;
-		}
 	}
 
 	//////////////////////////
@@ -1103,14 +1081,6 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		document.querySelector("div#olc").style.display = "none";
 		windowOpen = "map";
 	}
-
-
-function degToCompass(num) {
-    var val = Math.floor((num / 22.5) + 0.5);
-    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    return arr[(val % 16)];
-}
-
 
 	//////////////////////
 	//FINDER NAVIGATION//

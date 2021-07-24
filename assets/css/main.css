@@ -125,14 +125,14 @@ div#get-position {
   z-index: 5;
   left: 0;
   top: 0;
-  background: black;
+  background: white;
   color: white;
   font-size: 14px;
   padding: 5px;
 }
 
 div#get-position div {
-  background: black;
+  background: white;
   color: white;
   font-size: 14px;
   padding: 3px;
@@ -550,7 +550,7 @@ div#finder .item:focus {
   background: var(--accent-color);
   border-color: #FFFF;
   border-radius: 3px;
-   color: black;
+   color: white;
 }
 
 div#finder div#question {

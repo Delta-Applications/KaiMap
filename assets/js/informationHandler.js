@@ -280,7 +280,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     var day = some.list[0].weather[0].icon.includes("d")
                     var daynight = "d"
                     if (day == true) {daynight = "d"} else {daynight = "n"}
-                document.getElementById("icon").className ="list-item-indicator__indicator owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-2x";
+                document.getElementById("icon").className ="list-item-indicator__indicator owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-3x";
             }
 
         weather.openweather_call(

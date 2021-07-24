@@ -64,7 +64,9 @@
     "video-capture": {
 			"description": "Required to read QR Codes using the Camera"
 		},
-
+    "camera": {
+			"description": "Controlling the camera flash"
+		},
 
     "wake-lock": {},
     "power": {},
