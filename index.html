@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.webapp" type="application/x-web-app-manifest+json" />
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/kaios-native-ui.css" />
     <link rel="stylesheet" href="assets/css/grid.css" />
     <link rel="stylesheet" href="assets/css/leaflet.css" />
     <link rel="stylesheet" href="assets/css/leaflet-search.css" />
@@ -78,7 +79,7 @@
         </div>
     </div>
 
-    <div id="top-bar">
+    <div id="top-bar" class="head">
         <div class="inner flex justify-content-spacebetween width-100">
             <div class="button-left"></div>
             <div class="button-center"></div>
@@ -166,156 +167,124 @@
             <div id="gpx"></div>
         </div>
          <div class="panel" id="Information">
-            <h2>Geolocation</h2>
-                           <div class="item" tabindex="0">
-
-                      <div class="flex justify-content-spacebetween">
-                    <div>Plus Code</div>
-                    <div id="olcode">#</div>
-                </div>
-             </div>
-             <div class="item">
-
-                <div class="flex justify-content-spacebetween">
-              <div>Latitude</div>
-              <div id="lat">#</div>
-          </div>
-       </div>
-                    <div class="item">
-                      <div class="flex justify-content-spacebetween">
-                     <div>Longitude</div>
-                     <div id="lng">#</div>
-                 </div> </div>
-                                            
-                     <div class="item" >                   
-                   <div class="flex justify-content-spacebetween">
-                    <div>Altitude</div>
-                    <div id="altitude">#</div>
-                </div> </div>
-                                            
-                  <div class="item" >                          
-              <div class="flex justify-content-spacebetween">
-                    <div>Heading</div>
-                    <div id="heading">#</div>
-                </div> </div>
-                <div class="item" >                          
-                    <div class="flex justify-content-spacebetween">
-                          <div>Speed</div>
-                          <div id="speed">#</div>
-                      </div> </div>
-                                            
-                  <div class="item">                          
-                <div class="flex justify-content-spacebetween">
-                    <div>Distance from Device</div>
-                    <div id="distance">#</div>
-                </div> </div>
-   
-                                            <div class="item">
-                      <div class="flex justify-content-spacebetween">
-                    <div>Accuracy</div>
-                    <div id="acc">#</div>
-                </div> </div>
-                <div class="item">
-                    <div class="flex justify-content-spacebetween">
-                  <div>Satellites</div>
-                  <div id="satnum">#</div>
-              </div> </div>
+            <div class="separator">GEOLOCATION</div>
+            <!--<h2>Geolocation</h2><-->
+                        
+             <div class="item list-item focusable" tabindex=0>
+                <p class="list-item__text">Plus Code</p>
+                <p class="list-item__subtext" id="olcode">#</p>
+              </div>
+    <div class="item list-item focusable">
+        <p class="list-item__text">Latitude</p>
+        <p class="list-item__subtext" id="lat">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Longitude</p>
+        <p class="list-item__subtext" id="lng">#</p>
+      </div>                                   
+      <div class="item list-item focusable">
+        <p class="list-item__text">Altitude</p>
+        <p class="list-item__subtext" id="altitude">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Heading</p>
+        <p class="list-item__subtext" id="heading">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Speed</p>
+        <p class="list-item__subtext" id="speed">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Distance from Device</p>
+        <p class="list-item__subtext" id="distance">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Accuracy</p>
+        <p class="list-item__subtext" id="acc">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Satellites</p>
+        <p class="list-item__subtext" id="satnum">#</p>
+      </div>
           
             <div id="time"></div>
-            <h2>Weather</h2>
+            <div class="separator">WEATHER</div>
+
     
 
-                    <div class="item">
-                      <div class="flex justify-content-spacebetween">
-                    <div>Location</div>
-                    <div id="locationame">#</div>
-                </div></div>
-                    <div class="item">
-                       <div class="flex justify-content-spacebetween">
-                    <div>Data Time</div>
-                    <div id="grabtime">#</div>
-                </div></div>
-                    <div class="item">
-                          <div class="flex justify-content-spacebetween">
-                    <div>Status</div>
-                    <div id="desc">#</div>   <div><i id ="icon" class="owf owf-200-d owf"></i></div>
-                </div></div>
-                     <div class="item">
-                              <div class="flex justify-content-spacebetween">
-                    <div>Temperature</div>
-                    <div id="temp">#</div>
-                </div></div>
-                <div class="item">
-                              <div class="flex justify-content-spacebetween">
-                    <div>Feels Like</div>
-                    <div id="feelslike">#</div>
-                </div></div>
-                     <div class="item">
-                               <div class="flex justify-content-spacebetween">
-                    <div>Humidity</div>
-                    <div id="hum">#</div>
-                </div></div>
-                         <div class="item">
-                        <div class="flex justify-content-spacebetween">
-                    <div>Pressure</div>
-                    <div id="pres">#</div>
-                </div></div>
-                             <div class="item">
-                       <div class="flex justify-content-spacebetween">
-                    <div>Wind</div>
-                    <div id="wind">#</div>
-                </div></div>
-              <div class="item">
-                       <div class="flex justify-content-spacebetween">
-                    <div>Visibility</div>
-                    <div id="visibility">#</div>
-                </div></div>
-                                 <div class="item">
-                          <div class="flex justify-content-spacebetween">
-                    <div>Sunset</div>
-                    <div id="sunset">#</div>
-                </div></div>
-                                     <div class="item">
-                      <div class="flex justify-content-spacebetween">
-                    <div>Sunrise</div>
-                    <div id="sunrise">#</div>
-                </div></div>
+            <div class="item list-item focusable">
+                <p class="list-item__text">Location</p>
+                <p class="list-item__subtext" id="locationame">#</p>
+              </div>
+                <div class="item list-item focusable">
+                    <p class="list-item__text">Data Time</p>
+                    <p class="list-item__subtext" id="grabtime">#</p>
+                  </div>
+                                  <div class="item list-item focusable">
+                    <p class="list-item__text">Status</p>
+                    <p class="list-item__subtext" id="desc">#</p>
+                    <i id ="icon" class="owf owf-200-d owf"></i>
+                  </div>
+                    <div class="item list-item focusable">
+                    <p class="list-item__text">Temperature</p>
+                    <p class="list-item__subtext" id="temp">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Feels like</p>
+                    <p class="list-item__subtext" id="feelslike">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Humidity</p>
+                    <p class="list-item__subtext" id="hum">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Pressure</p>
+                    <p class="list-item__subtext" id="pres">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Wind</p>
+                    <p class="list-item__subtext" id="wind">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Visibility</p>
+                    <p class="list-item__subtext" id="visibility">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Sunset</p>
+                    <p class="list-item__subtext" id="sunset">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Sunrise</p>
+                    <p class="list-item__subtext" id="sunrise">#</p>
+                  </div>
                 <div class="item" data-map="update-weather">Update Weather Data   (32s)</div> 
                
                     
              
-            <h2>Battery</h2>
-            <div class="item">
-                <div class="flex justify-content-spacebetween">
-              <div>Charge</div>
-              <div id="batteryCharge">#</div>
-          </div></div>
+                <div class="separator">Battery</div>
+                <div class="item list-item focusable">
+                    <p class="list-item__text">Charge</p>
+                    <p class="list-item__subtext" id="batteryCharge">#</p>
+                  </div>
 
-          <div class="item">
-            <div class="flex justify-content-spacebetween">
-          <div>Temperature</div>
-          <div id="batteryTemp">#</div>
-      </div></div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Temperature</p>
+                    <p class="list-item__subtext" id="batteryTemp">#</p>
+                  </div>
+                  <div class="item list-item focusable">
+                    <p class="list-item__text">Health</p>
+                    <p class="list-item__subtext" id="batteryHealth">#</p>
+                  </div>
+                 <div class="item list-item focusable">
+                    <p class="list-item__text">Charging Time</p>
+                    <p class="list-item__subtext" id="batteryTime">#</p>
+                  </div>
 
-      
-      <div class="item">
-        <div class="flex justify-content-spacebetween">
-      <div>Health</div>
-      <div id="batteryHealth">#</div>
-  </div></div>
-
-  <div class="item">
-    <div class="flex justify-content-spacebetween">
-  <div id="batteryTimeType">Charging Time</div>
-  <div id="batteryTime">#</div>
-</div></div>
-
-            <h2>Connection</h2>
-            <div class="item">
-                <div class="flex justify-content-spacebetween">
-              <div>Status</div>
-              <div id="wifiStatus">#</div>
-          </div></div>
+<div class="separator">Connectivity</div>
+<div class="item list-item focusable">
+    <p class="list-item__text">Status</p>
+    <p class="list-item__subtext" id="wifiStatus">#</p>
+  </div>
 
           <div class="item">
             <div class="flex justify-content-spacebetween">
@@ -571,7 +540,7 @@
     <script defer src="assets/js/informationHandler.js"></script>
     <script defer src="assets/js/mozactivity.flash.js"></script>
     <script defer src="assets/js/polyfill.min.js"></script>
-
+    <script defer src="assets/js/kaios-native-ui.js"></script>
     <script defer src="assets/js/L.BingLayer.js"></script>
 
     

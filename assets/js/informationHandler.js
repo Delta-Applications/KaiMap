@@ -137,17 +137,17 @@ if (data.raw.accuracy) {data.accuracy = Math.round(data.raw.accuracy)} else {dat
 if (data.raw.speed) {data.speed = utility.roundToTwo(crd.speed * 3.6).toFixed(1)} else {data.speed = 0}
 
 
-document.querySelector("div#lat").innerText = data.lat;
-document.querySelector("div#lng").innerText = data.long;
-document.querySelector("div#heading").innerText =    utility.degToCompass(data.heading)+" "+data.heading;
-document.querySelector("div#altitude").innerText = data.altitude;
-document.querySelector("div#acc").innerText = data.accuracy+"± m";
-document.querySelector("div#distance").innerText = data.DistanceFromCenter+" km"
-document.querySelector("div#speed").innerText = data.speed+" km/h"
+document.querySelector("#lat").innerText = data.lat;
+document.querySelector("#lng").innerText = data.long;
+document.querySelector("#heading").innerText =    utility.degToCompass(data.heading)+" "+data.heading;
+document.querySelector("#altitude").innerText = data.altitude;
+document.querySelector("#acc").innerText = data.accuracy+"± m";
+document.querySelector("#distance").innerText = data.DistanceFromCenter+" km"
+document.querySelector("#speed").innerText = data.speed+" km/h"
 
 data.olc = OLC.encode(data.raw.latitude,data.raw.longitude)
-document.querySelector("div#olcode").innerText = data.olc
-//document.querySelector("div#satnum").innerText = data.GPSif.num
+document.querySelector("#olcode").innerText = data.olc
+//document.querySelector("#satnum").innerText = data.GPSif.num
 } catch (error) {
         console.error(error.message)
 }
@@ -162,34 +162,34 @@ document.querySelector("div#olcode").innerText = data.olc
 
             let f = map.getCenter();
 
-            document.querySelector("div#distance").innerText =
+            document.querySelector("#distance").innerText =
                 module.calc_distance(device_lat, device_lng, f.lat, f.lng) +
                 " km";
 
-            document.querySelector("div#lat").innerText =
+            document.querySelector("#lat").innerText =
                 current_lat.toFixed(5);
-            document.querySelector("div#lng").innerText =
+            document.querySelector("#lng").innerText =
             current_lng.toFixed(5);
             if (current_alt) {
                 document.querySelector(
-                    "div#coordinations div#altitude"
+                    "#coordinations #altitude"
                 ).style.display = "block";
-                document.querySelector("div#altitude").innerText =
+                document.querySelector("#altitude").innerText =
                     current_alt;
             } else {
                 document.querySelector(
-                    "div#altitude"
+                    "#altitude"
                 ).style.display = "none";
             }
             if (current_heading) {
                 document.querySelector(
-                    "div#heading"
+                    "#heading"
                 ).style.display = "block";
-                document.querySelector("div#heading").innerText =
+                document.querySelector("#heading").innerText =
                     utility.degToCompass(current_heading)+" "+current_heading;
             } else {
                 document.querySelector(
-                    "div#heading"
+                    "#heading"
                 ).style.display = "none";
             }
         }
@@ -280,7 +280,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     var day = some.list[0].weather[0].icon.includes("d")
                     var daynight = "d"
                     if (day == true) {daynight = "d"} else {daynight = "n"}
-                document.getElementById("icon").className ="owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-lg";
+                document.getElementById("icon").className ="list-item-indicator__indicator owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-2x";
             }
 
         weather.openweather_call(

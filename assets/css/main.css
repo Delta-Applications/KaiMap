@@ -516,7 +516,7 @@ div#finder {
   z-index: 5;
   top: 0px;
   left: 0px;
-  background: rgb(0, 0, 0);
+  background: #ffffff;
   padding: 5px;
   color: white;
   display: none;
