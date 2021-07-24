@@ -632,27 +632,41 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 		function error(err) {
 			console.log(err.message+" "+err.code)
-			document.querySelector("div#get-position").style.display = "none";
-        		document.querySelector("div#message").style.display = "none";
-				document.querySelector("div#intro-footer").innerText = err.message
+		
+				if (setting.last_location != null){
+					kaiosToaster({
+						message:  err.message+": Loading last position.",
+						position: 'north',
+						type: 'error',
+						timeout: 3000
+					});
+		
+					current_lat = setting.last_location[0];
+					current_lng = setting.last_location[1];
+					current_alt = 0;
+					L.marker([current_lat, current_lng]).addTo(markers_group);
+		
+					map.setView([current_lat, current_lng], 12);
+					zoom_speed();
+					document.querySelector("div#get-position").style.display = "none";
+					document.querySelector("div#message").style.display = "none";
+				}else{
+					kaiosToaster({
+						message:  err.message+": No position saved.",
+						position: 'north',
+						type: 'error',
+						timeout: 3000
+					});
+					current_lat = 0;
+					current_lng = 0;
+					current_alt = 0;		
+					map.setView([0,0], 3);
+					zoom_speed();
+					document.querySelector("div#get-position").style.display = "none";
+					document.querySelector("div#message").style.display = "none";
+				}
+	
 
-			kaiosToaster({
-				message:  err.message+": Loading last position.",
-				position: 'north',
-				type: 'error',
-				timeout: 3000
-			});
-
-			current_lat = setting.last_location[0];
-			current_lng = setting.last_location[1];
-			current_alt = 0;
-			L.marker([current_lat, current_lng]).addTo(markers_group);
-
-			map.setView([current_lat, current_lng], 12);
-			zoom_speed();
-			document.querySelector("div#intro-footer2").innerText = "";
-					print(err.message);
-					
 			return false;
 		}
 
