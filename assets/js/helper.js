@@ -136,9 +136,9 @@ function top_bar(left, center, right) {
     document.querySelector("div#top-bar").style.display = "block";
   }
 }
+let lock;
 
 function screenWakeLock(param) {
-  let lock;
   if (param == "lock") {
     lock = window.navigator.requestWakeLock("screen");
   }
