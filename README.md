@@ -49,10 +49,10 @@ Google's Open Source Plus Codes
 
 Support for GPX, GeoJson, and more is being reviewed. In the meantime you can save all the markers you create using 9 or using 5.
 
-### Search
+## Search
 
 The search can be opened with key 2, you can search for locations or start the search with / and then enter a Plus Code
->> Example:
+### Example:
 > /8FMWVC47+6C
 Suggestions or Autocomplete are provided by OpenStreetMap and do not work when offline, you always have Plus Codes!
 [Open Location Code / Plus Codes](https://en.wikipedia.org/wiki/Open_Location_Code)
