@@ -34,7 +34,6 @@ const weather = (() => {
       }
       // analyze HTTP status of the response
       if (xhr.status != 200) {
-        alert(xhr.status);
       }
     };
 
