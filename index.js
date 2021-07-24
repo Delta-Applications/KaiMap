@@ -340,65 +340,65 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 /**   <div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div> */
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div>'
+			'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p><p class="list-item__subtext">Map</p></div>'
 		);
 	
 
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="otm"><p class="list-item__text">OpenTopoMap</p></div>'
+			'<div class="item list-item focusable" data-map="otm"><p class="list-item__text">OpenTopoMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p></div>'
+			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p><p class="list-item__subtext">Map</p></div>'
 		);
 	
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p></div>'
+			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p><p class="list-item__subtext">Satellite</p></div>'
 		);
 		
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="ocm">OpenCycleMap</div>'
+			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="osm">OpenStreetMap</div>'
+			'<div class="item list-item focusable" data-map="osm"><p class="list-item__text">OpenStreetMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item" data-map="weather">Rainviewer</div>'
+				'<div class="item list-item focusable" data-map="weather"><p class="list-item__text">Rainviewer</p><p class="list-item__subtext">Layer</p></div>'
 			);
 
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item" data-map="earthquake">Earthquakes</div>'
+				'<div class="item list-item focusable" data-map="earthquake"><p class="list-item__text">Earthquakes</p><p class="list-item__subtext">Marker Group</p></div>'
 			);
 
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item" data-map="railway">Railways</div>'
+				'<div class="item list-item focusable" data-map="railway"><p class="list-item__text">Railways</p><p class="list-item__subtext">Layer</p></div>'
 			);
 
 			document
 				.querySelector("div#layers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item" data-map="owm">Precipitation</div>'
+					'<div class="item list-item focusable" data-map="owm"><p class="list-item__text">Precipitation</p><p class="list-item__subtext">Layer</p></div>'
 				);
 				document
 
 				.querySelector("div#layers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item" data-map="owm-wind">Wind</div>'
+					'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>>'
 				);
 
 				document
@@ -406,7 +406,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				.querySelector("div#layers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item" data-map="owm-temp">Temperature</div>'
+					'<div class="item list-item focusable" data-map="owm-temp"><p class="list-item__text">Temperature</p><p class="list-item__subtext">Layer</p></div>'
 				);
 		find_gpx();
 		find_geojson();
@@ -780,7 +780,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	////////////////////////
 
 	function addMapLayers(param) {
-		if (document.activeElement.className == "item" && windowOpen == "finder") {
+		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
 			let item_value = document.activeElement.getAttribute("data-map");
         if (item_value == "update-weather") {
