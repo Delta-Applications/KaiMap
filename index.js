@@ -68,7 +68,7 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
-let gps_Wakelet
+let gps_Wakelet;
 try {
 gps_wakelet = window.navigator.requestWakeLock("gps")
 } catch (error) {
@@ -638,11 +638,11 @@ function OptimizeLag(){
 		}
 
 		function error(err) {
-			console.log(err.message)
+			OptimizeLag()
+			console.log(err.message+" "+err.code)
+			document.querySelector("div#get-position").style.display = "none";
         		document.querySelector("div#message").style.display = "none";
 				document.querySelector("div#intro-footer").innerText = err.message
-				document.querySelector("div#get-position").style.display = "none";
-				console.log(err.message+" "+err.code)
 				OptimizeLag()
 
 			kaiosToaster({
