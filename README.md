@@ -35,14 +35,28 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 - **Key #** Cache Map Tiles
 - **Key \*** Jump between markers
 
+### Special Thanks to
+© OpenStreetMap contributors
+© OpenTopoMap
+© OpenCycleMap
+© Google Street (Map)
+© Microsoft Corporation > Bing Aerial 
+Unlicense - Luxferre's TinyOLC
+Polyfill > Promises
+Ajax Autocomplete for jQuery
+Google's Open Source Plus Codes
 ## Import & Export
 
-you have the possibility to import gpx and geojson. Markers can also be exported as geojson so that you can e.g. share them or edit them in another program.
+Support for GPX, GeoJson, and more is being reviewed. In the meantime you can save all the markers you create using 9 or using 5.
 
 ### Search
 
-The search can be opened with key 2, you can search for locations or start the search with / and then enter an open location code
-[open location code](https://en.wikipedia.org/wiki/Open_Location_Code)
+The search can be opened with key 2, you can search for locations or start the search with / and then enter a Plus Code
+>> Example:
+> /8FMWVC47+6C
+Suggestions or Autocomplete are provided by OpenStreetMap and do not work when offline, you always have Plus Codes!
+[Open Location Code / Plus Codes](https://en.wikipedia.org/wiki/Open_Location_Code)
+![hola](https://storage.googleapis.com/madebygoog.appspot.com/grow-ext-cloud-images-uploads/lockup_ic_PlusCodes_H_rgb_614x128px_clr_D812D83D.svg)
 
 ### GeoJson
 
