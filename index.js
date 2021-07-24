@@ -337,25 +337,25 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		document.querySelector("div#layers").innerHTML = "";
 
 		let el = document.querySelector("div#maps");
-
+/**   <div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div> */
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="toner">Toner</div>'
+			'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div>'
 		);
 	
 
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="otm">OpenTopoMap</div>'
+			'<div class="item list-item focusable" data-map="otm"><p class="list-item__text">OpenTopoMap</p></div>'
 		);
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="gstreet">Google Street</div>'
+			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p></div>'
 		);
 	
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item" data-map="satellite">Bing Aerial</div>'
+			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p></div>'
 		);
 		
 		el.insertAdjacentHTML(
