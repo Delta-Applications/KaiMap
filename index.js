@@ -398,7 +398,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				.querySelector("div#layers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>>'
+					'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>'
 				);
 
 				document

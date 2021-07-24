@@ -457,7 +457,12 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       });
       return false;
     }
-
+    kaiosToaster({
+      message: "Earthquakes",
+      position: 'north',
+      type: 'info',
+      timeout: 1000
+    });
 
     const today = new Date();
     const two_days_before = new Date(Date.now() - 24 * 3600 * 1000);

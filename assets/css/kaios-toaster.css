@@ -8,6 +8,9 @@
   text-align: center;
   word-wrap: break-word;
   opacity: 0;
+  font-family: "Lato-Regular";
+  font-weight: 100;
+  font-size: 0.95rem;
   z-index: 99999;
   transition: opacity 0.25s, top 0.25s, bottom 0.25s, -webkit-transform 0.25s;
   transition: transform 0.25s, opacity 0.25s, top 0.25s, bottom 0.25s;
