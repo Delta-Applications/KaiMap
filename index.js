@@ -535,14 +535,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	}
 
 
-function OptimizeLag(){
-	var children = 	document.getElementsByClassName("Loading__image___1-YIY");
-				for (var i = 0; i < children.length; i++) {
-				  var tableChild = children[i];
-				  // Do stuff
-				  tableChild.remove()
-				}
-}
+
 
 	////////////////////
 	////GEOLOCATION/////
@@ -585,8 +578,8 @@ function OptimizeLag(){
 
 		function success(pos) {
 			document.querySelector("div#get-position").style.display = "none";
-			OptimizeLag()
 
+			
 			kaiosToaster({
 				message: "Fetched position.",
 				position: 'north',
@@ -638,12 +631,10 @@ function OptimizeLag(){
 		}
 
 		function error(err) {
-			OptimizeLag()
 			console.log(err.message+" "+err.code)
 			document.querySelector("div#get-position").style.display = "none";
         		document.querySelector("div#message").style.display = "none";
 				document.querySelector("div#intro-footer").innerText = err.message
-				OptimizeLag()
 
 			kaiosToaster({
 				message:  err.message+": Loading last position.",
