@@ -715,13 +715,13 @@ function OptimizeLag(){
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
                 if (center_to_Screen == true) {
-					myAccuracy.remove()
 					map.flyTo(
-						new L.LatLng(position.coords.latitude, position.coords.longitude)
+						new L.LatLng(crd.latitude, crd.longitude)
 					);
+					myAccuracy.remove()
 				}else{
 					myAccuracy.remove()
-					myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy-2).addTo(map);
+					myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy).addTo(map);
 				}
 				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
                 informationHandler.PreciseGeoUpdate(crd)
@@ -731,7 +731,7 @@ function OptimizeLag(){
 				document.querySelector("div#message").style.display = "none";
         		document.querySelector("div#get-position").style.display = "none";
 
-				console.log(err.message+" "+err.code)
+				console.error(err.message+" "+err.code)
 				if (err.code == 1) {
 					kaiosToaster({
 						message: "Access to Geolocation is denied!",

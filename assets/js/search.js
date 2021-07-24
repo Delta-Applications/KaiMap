@@ -60,10 +60,7 @@ $(document).ready(function () {
     $("div#search-box").css("display", "block");
     $("div#search-box").find("input").focus();
     $("div#bottom-bar").css("display", "block");
-    toaster(
-      "Search for locations, names or OLC. To search for OLC, start your search query with /",
-      3000
-    );
+
     windowOpen = "search";
   };
 

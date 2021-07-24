@@ -8,7 +8,7 @@ div#olc {
   padding: 5px;
   background: white;
   color: black;
-  z-index: 3000;
+  z-index: 5;
   width: 100%;
   display: none;
 }
@@ -19,7 +19,7 @@ div#search-box {
     overflow: hidden;
     padding: 5px;
     position: fixed;
-    z-index: 2000;
+    z-index: 5;
     height: 35px;
     display: none;
 }
@@ -32,12 +32,14 @@ div#search-box input {
 .autocomplete-suggestions {
     border: 0px solid #999;
     background: white;
+    border-radius: 3px;
     overflow: auto;
     margin: 0px 0 0 0;
 }
 div.autocomplete-suggestion {
     padding: 0px 0px;
     margin: 0 0 0px 0;
+    border-radius: 3px;
     white-space: nowrap;
     overflow: hidden;
     background: white;
@@ -47,7 +49,7 @@ div.autocomplete-suggestion {
 }
 .autocomplete-suggestions strong {
     font-weight: normal;
-    color: red;
+    color: var(--accent-color);
 }
 .autocomplete-group {
     padding: 2px 5px;
@@ -56,4 +58,6 @@ div.autocomplete-suggestion {
 .autocomplete-group strong {
     display: block;
     border-bottom: 1px solid #000;
+    border-radius: 3px;
+
 }
