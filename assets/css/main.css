@@ -517,8 +517,8 @@ div#finder {
   top: 0px;
   left: 0px;
   background: #ffffff;
-  padding: 5px;
-  color: white;
+  padding: 0px;
+  color: black;
   display: none;
   overflow: hidden !important;
   max-height: 99vh !important;
@@ -572,10 +572,10 @@ div#finder div#question div#question-text {
 div.panel {
   display: none;
   margin: 40px 0px 0px 0px;
-  padding: 5px;
-  height: 85vh;
-  color: white;
-  background: rgba(0, 0, 0,0.4);
+  padding: 0px;
+  height: 90vh;
+  color: black;
+  background: #ffffff;
   overflow: hidden !important;
 }
 
