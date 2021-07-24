@@ -11,8 +11,8 @@
     "128": "/icons/icon-128-128.png"
   },
   "developer": {
-    "name": "strukturart",
-    "url": "https://github.com/strukturart/osm-map"
+    "name": "delta-apps",
+    "url": "https://github.com/Delta-Applications"
   },
 
 	"dependencies": {
