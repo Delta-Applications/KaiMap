@@ -1170,7 +1170,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 					tabIndex--;
 					items_list[tabIndex].focus();
 					document.activeElement.scrollIntoView({
-						block: "start",
+						block: "end",
 						behavior: "smooth",
 					});
 				}
