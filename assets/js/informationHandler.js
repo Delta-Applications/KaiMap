@@ -279,7 +279,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     document.getElementById("sunrise").innerText =
                 formattedTimer+" ("+utility.getRelativeTime(some.city.sunrise,null)+")";
             document.getElementById("grabtime").innerText =
-                some.list[0].dt_txt+" ("+utility.getRelativeTime(some.list[0].dt_txt,null)+")";
+                some.list[0].dt_txt+" ("+utility.getRelativeTime(some.list[0].dt,null)+")";
             }
 
         weather.openweather_call(
