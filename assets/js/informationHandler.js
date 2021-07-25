@@ -262,8 +262,6 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     some.list[0].dt_txt;
                 document.getElementById("temp").innerText =
                     some.list[0].main.temp + " °C";
-                        document.getElementById("feelslike").innerText =
-                    some.list[0].main.feels_like + " °C";
                         document.getElementById("hum").innerText =
                     some.list[0].main.humidity + "%rH";
                     document.getElementById("visibility").innerText =
