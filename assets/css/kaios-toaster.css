@@ -3,14 +3,13 @@
   background-color: #363636;
   border-radius: 3px;
   width: 100%;
-  min-height: 36px;
   color: #ffffff;
   text-align: center;
   word-wrap: break-word;
-  opacity: 0;
+  opacity: 0.4;
   font-family: "Lato-Regular";
   font-weight: 100;
-  font-size: 0.95rem;
+  font-size: 1.5rem;
   z-index: 99999;
   transition: opacity 0.25s, top 0.25s, bottom 0.25s, -webkit-transform 0.25s;
   transition: transform 0.25s, opacity 0.25s, top 0.25s, bottom 0.25s;
