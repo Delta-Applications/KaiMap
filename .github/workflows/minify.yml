@@ -1,29 +1,22 @@
-jobs:
-  test:
-    runs-on: ${{ matrix.os }}
+name: Minify Workflow
+on:
+  push:
+    branches: [ foo ]
 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-20.04]
-    env:
-      prepo: ${{github.repository}}
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Minify Actions
-      uses: amireshoon/minifyAction@main
-      with:
-        repo: $prepo
-    - name: Minifying Codes
-      run: |
-        minifier.sh $prepo
-    - name: Pushing to production branch
-      uses: actions-js/push@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        directory: github/workspace
-        branch: build
-        message: Minified CSS, Javascript, HTML.
-        author_name: Minify
-        author_email: amireshoon-minifyAction@users.noreply.github.com
-        force: true
+      # Checks-out your repository
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Minify Action
+        uses: anthonyftwang/minify-action@v1
+
+      # Auto-commit to repository
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Minify source code
+          branch: ${{ github.ref }}
