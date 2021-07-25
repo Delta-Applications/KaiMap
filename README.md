@@ -1,17 +1,19 @@
 # delta.map
+
 delta.map is a local offline and online caching client for viewing maps, weather, utilities, and more coming soon.
 This is still a beta, a direct fork of o.map, uploaded by me on github after viewing some suggestions.
 
 ![coolappbanner](https://user-images.githubusercontent.com/26120324/125851468-53672dea-c3ce-41df-b0ba-8a755d72f6f3.png)
 
+## Features
 
-### Features
 - Weather (OpenWeatherMap)
 - Hardware Information (Connection, Battery, GPS)
 - Maps (OpenTopoMap, OpenStreetMap, Satellite)
 - Layers (OpenWeatherMap Precipitation, Temperature, etc.), All Layers are cached and weather layers usually display a date pointing out the time the data was acquired
 
-### Screenshots
+## Screenshots
+
 ![screen](https://github.com/Delta-Applications/delta.map/raw/main/screenshots/screenshot%20(1).png)
 ![screen](https://github.com/Delta-Applications/delta.map/raw/main/screenshots/screenshot%20(2).png)
 ![screen](https://github.com/Delta-Applications/delta.map/raw/main/screenshots/screenshot%20(3).png)
@@ -36,6 +38,7 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 - **Key \*** Jump between markers
 
 ### Special Thanks to
+
 © OpenStreetMap contributors
 © OpenTopoMap
 © OpenCycleMap
@@ -45,6 +48,7 @@ Unlicense - Luxferre's TinyOLC
 Polyfill > Promises
 Ajax Autocomplete for jQuery
 Google's Open Source Plus Codes
+
 ## Import & Export
 
 Support for GPX, GeoJson, and more is being reviewed. In the meantime you can save all the markers you create using 9 or using 5.
@@ -77,4 +81,5 @@ We are considering making an auto-upater straight from GitHub.
 ![deltaice white](https://user-images.githubusercontent.com/26120324/125853046-7f21d205-e5b7-461e-af8c-f3548ec6c5cb.png)
 
 ## Upcoming Features and Known Bugs
+
 @ GeolocationWatch fails when the first init fails and can be fixed by re-opening the app

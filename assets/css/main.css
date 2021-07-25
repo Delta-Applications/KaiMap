@@ -8,7 +8,7 @@
 /* MAIN COLORS */
 
 :root {
---accent-color: rgb(31, 96, 237);
+  --accent-color: rgb(31, 96, 237);
   --color-one: black;
   --color-two: rgb(31, 96, 237);
   --color-three: silver;
@@ -29,11 +29,12 @@
 
 
 
-img#about{
-    display:block;
-    padding:1px;
-    font-size:13px
+img#about {
+  display: block;
+  padding: 1px;
+  font-size: 13px
 }
+
 *::-webkit-scrollbar {
   width: 0 !important;
   background-color: transparent !important;
@@ -153,6 +154,7 @@ div#message div {
   font-size: 14px;
   padding: 3px;
 }
+
 div#message div#intro-footer {
   position: absolute;
   bottom: 20px;
@@ -186,11 +188,12 @@ img.marker-1 {
   background: rgb(255, 72, 0);
   border-radius: 50%;
 }
+
 /*rgb(5, 58, 231)*/
 .default-marker {
   background: var(--accent-color);
   border-radius: 40%;
-  border: 3px solid var(--accent-color),0.5;
+  border: 3px solid var(--accent-color), 0.5;
   box-shadow: 3px 4px 5px rgb(17, 17, 17);
 }
 
@@ -198,12 +201,12 @@ img.marker-1 {
   width: 0px;
   height: 0px;
   background: #32a852;
- /* border-radius: 30%;*/
+  /* border-radius: 30%;*/
   border-width: 0 10px 20px 10px;
   border-style: solid;
-  border-color: rgba(18, 189, 47,0.5);
+  border-color: rgba(18, 189, 47, 0.5);
   box-shadow: 2px 2px 5px #111111;
-  
+
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
@@ -233,27 +236,33 @@ img.marker-1 {
   animation-iteration-count: infinite;
   opacity: 0;
 }
+
 @-webkit-keyframes pulsate {
   0% {
     -webkit-transform: scale(0.1, 0.1);
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(1.2, 1.2);
     opacity: 0;
   }
 }
+
 @keyframes pulsate {
   0% {
     -webkit-transform: scale(0.1, 0.1);
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     -webkit-transform: scale(1.2, 1.2);
     opacity: 0;
@@ -370,6 +379,7 @@ div#cross div:nth-child(4) {
   opacity: 1;
   transform: rotate(90deg);
 }
+
 /*
  top bar
  */
@@ -415,45 +425,50 @@ div#top-bar div#button-left {
  bottom bar
  */
 
-div#bottom-bar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    height:2rem;
-    z-index:200000;
-    background:#ccc;
-    display:none
+div#bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 2rem;
+  z-index: 200000;
+  background: #ccc;
+  display: none
 }
-div#bottom-bar div#inner{
-    position:relative
+
+div#bottom-bar div#inner {
+  position: relative
 }
-div#bottom-bar div{
-    background:#ccc;
-    color:#323232;
-    padding:.3rem
+
+div#bottom-bar div {
+  background: #ccc;
+  color: #323232;
+  padding: .3rem
 }
-div#bottom-bar div#button-center{
-    background:#ccc;
-    color:#323232;
-    padding:0;
-    width:30%;
-    text-align:center;
-    font-weight:700
+
+div#bottom-bar div#button-center {
+  background: #ccc;
+  color: #323232;
+  padding: 0;
+  width: 30%;
+  text-align: center;
+  font-weight: 700
 }
-div#bottom-bar div#button-left{
-    background:#ccc;
-    color:#323232;
-    padding:0;
-    width:20px;
-    text-align:left;
-    width:30%
+
+div#bottom-bar div#button-left {
+  background: #ccc;
+  color: #323232;
+  padding: 0;
+  width: 20px;
+  text-align: left;
+  width: 30%
 }
-div#bottom-bar div#button-right{
-    background:#ccc;
-    color:#323232;
-    padding:0;
-    width:30%;
-    text-align:right
+
+div#bottom-bar div#button-right {
+  background: #ccc;
+  color: #323232;
+  padding: 0;
+  width: 30%;
+  text-align: right
 }
 
 a#download-button {
@@ -550,7 +565,7 @@ div#finder .item:focus {
   background: var(--accent-color);
   border-color: #FFFF;
   border-radius: 3px;
-   color: white;
+  color: white;
 }
 
 div#finder div#question {
@@ -687,12 +702,16 @@ div#coordinations div#weather div img {
 .Loading__image___1-YIY {
   animation: Loading__rotate___NhRpC 1s linear infinite;
   text-align: center;
-  margin-left: 18%}
+  margin-left: 18%
+}
+
 @keyframes Loading__rotate___NhRpC {
   to {
-  transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
 }
-}.Loading__text___3Z8-j {
+
+.Loading__text___3Z8-j {
   margin-top: 10px;
   text-align: center;
 }

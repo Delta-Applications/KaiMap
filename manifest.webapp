@@ -15,9 +15,9 @@
     "url": "https://github.com/Delta-Applications"
   },
 
-	"dependencies": {
-		"ads-sdk": "1.5.0"
-	},
+  "dependencies": {
+    "ads-sdk": "1.5.0"
+  },
 
   "activities": {
     "open": {
@@ -52,7 +52,7 @@
       "description": "Required to show user's location on map"
     },
     "wifi-manage": {
-     "description": "Required to display Wifi Statistics"
+      "description": "Required to display Wifi Statistics"
     },
     "device-storage:sdcard": {
       "description": "Required to read and export GeoJson files to SD",
@@ -62,11 +62,11 @@
       "description": "Required to display Wifi Statistics"
     },
     "video-capture": {
-			"description": "Required to read QR Codes using the Camera"
-		},
+      "description": "Required to read QR Codes using the Camera"
+    },
     "camera": {
-			"description": "Controlling the camera flash"
-		},
+      "description": "Controlling the camera flash"
+    },
 
     "wake-lock": {},
     "power": {},

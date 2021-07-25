@@ -9,11 +9,11 @@ const weather = (() => {
     xhr.open(
       "GET",
       "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" +
-        lat +
-        "&lon=" +
-        lng +
-        "&appid=" +
-        "99d2594c090c1ee9a8ad525fd7a83f85"
+      lat +
+      "&lon=" +
+      lng +
+      "&appid=" +
+      "99d2594c090c1ee9a8ad525fd7a83f85"
     );
     xhr.timeout = 4000; // time in milliseconds
 
@@ -21,7 +21,7 @@ const weather = (() => {
 
     xhr.onload = function () {
       if (xhr.status == 200) {
-      console.log(JSON.stringify(JSON.parse(xhr.responseText)))
+        console.log(JSON.stringify(JSON.parse(xhr.responseText)))
         callback(JSON.parse(xhr.responseText));
       }
       if (xhr.status == 403) {
@@ -33,12 +33,13 @@ const weather = (() => {
         });
       }
       // analyze HTTP status of the response
-      if (xhr.status != 200) {
-      }
+      if (xhr.status != 200) {}
     };
 
     xhr.onerror = function (err) {
-      if (errorcool == true) {return}
+      if (errorcool == true) {
+        return
+      }
       kaiosToaster({
         message: "OWM Error: Connection Unavailable",
         position: 'north',

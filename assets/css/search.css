@@ -2,15 +2,15 @@
 */
 
 div#olc {
-  position: fixed;
-  top: 30px;
-  height: 20px;
-  padding: 5px;
-  background: white;
-  color: black;
-  z-index: 5;
-  width: 100%;
-  display: none;
+    position: fixed;
+    top: 30px;
+    height: 20px;
+    padding: 5px;
+    background: white;
+    color: black;
+    z-index: 5;
+    width: 100%;
+    display: none;
 }
 
 div#search-box {
@@ -23,12 +23,14 @@ div#search-box {
     height: 35px;
     display: none;
 }
+
 div#search-box input {
     width: 98%;
     display: block;
     height: 24px;
     padding: 3px;
 }
+
 .autocomplete-suggestions {
     border: 0px solid #999;
     background: white;
@@ -36,6 +38,7 @@ div#search-box input {
     overflow: auto;
     margin: 0px 0 0 0;
 }
+
 div.autocomplete-suggestion {
     padding: 0px 0px;
     margin: 0 0 0px 0;
@@ -44,17 +47,21 @@ div.autocomplete-suggestion {
     overflow: hidden;
     background: white;
 }
+
 .autocomplete-selected {
-    background: silver!Important;
+    background: silver !Important;
 }
+
 .autocomplete-suggestions strong {
     font-weight: normal;
     color: var(--accent-color);
 }
+
 .autocomplete-group {
     padding: 2px 5px;
-    background: black 
+    background: black
 }
+
 .autocomplete-group strong {
     display: block;
     border-bottom: 1px solid #000;

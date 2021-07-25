@@ -5,21 +5,21 @@ const utility = (() => {
   //let rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
 
   let units = {
-    year  : 24 * 60 * 60 * 1000 * 365,
-    month : 24 * 60 * 60 * 1000 * 365/12,
-    day   : 24 * 60 * 60 * 1000,
-    hour  : 60 * 60 * 1000,
+    year: 24 * 60 * 60 * 1000 * 365,
+    month: 24 * 60 * 60 * 1000 * 365 / 12,
+    day: 24 * 60 * 60 * 1000,
+    hour: 60 * 60 * 1000,
     minute: 60 * 1000,
     second: 1000
   }
-  let degToCompass = function(degree) {
+  let degToCompass = function (degree) {
     var val = Math.floor((degree / 22.5) + 0.5);
     var arr = ["N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SW", "SW", "W-SW", "W", "W-NW", "NW", "N-NW"];
     return arr[(val % 16)];
   };
 
-  let roundToTwo= function(num) {    
-    return +(Math.round(num + "e+2")  + "e-2");
+  let roundToTwo = function (num) {
+    return +(Math.round(num + "e+2") + "e-2");
   }
   let getColorFrom0to1 = function (value) {
     //value from 0 to 1
@@ -27,18 +27,18 @@ const utility = (() => {
     return ["hsl(", hue, ",100%,50%)"].join("");
   }
 
- 
-  
-  
- let getRelativeTime = function(d1, d2) {
-   d2 = new Date().getTime() / 1000
-   d1 = new Date(d1).getTime()
-    var elapsed = d1 - d2
-        return moment.duration(elapsed, "seconds").humanize(true);
-  }
-  
 
-  let formatBytes = function(bytes, decimals = 2) {
+
+
+  let getRelativeTime = function (d1, d2) {
+    d2 = new Date().getTime() / 1000
+    d1 = new Date(d1).getTime()
+    var elapsed = d1 - d2
+    return moment.duration(elapsed, "seconds").humanize(true);
+  }
+
+
+  let formatBytes = function (bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
 
     const k = 1024;
@@ -48,9 +48,13 @@ const utility = (() => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
+  }
 
   return {
-    degToCompass, getColorFrom0to1,formatBytes, roundToTwo,getRelativeTime
+    degToCompass,
+    getColorFrom0to1,
+    formatBytes,
+    roundToTwo,
+    getRelativeTime
   };
 })();

@@ -71,7 +71,7 @@ if (!navigator.geolocation) {
 }
 let gps_Wakelet;
 try {
-gps_wakelet = window.navigator.requestWakeLock("gps")
+	gps_wakelet = window.navigator.requestWakeLock("gps")
 } catch (error) {
 	// RequestWakeLock failed for device
 	// /shrug
@@ -86,51 +86,51 @@ let map = L.map("map-container", {
 	keyboard: true,
 }).fitWorld();
 
-document.addEventListener("DOMContentLoaded", function() {
-document.querySelector("div#intro-footer2").innerText = "Fetching location..";
+document.addEventListener("DOMContentLoaded", function () {
+	document.querySelector("div#intro-footer2").innerText = "Fetching location..";
 
 
 
-/*
-getKaiAd({
-	publisher: '43accaf9-7798-4925-804b-ec0fa006b010',
-	app: 'delta.map',
-	slot: 'ad-container',
-	
-	h: 90,
-	w: 728,
+	/*
+	getKaiAd({
+		publisher: '43accaf9-7798-4925-804b-ec0fa006b010',
+		app: 'delta.map',
+		slot: 'ad-container',
+		
+		h: 90,
+		w: 728,
 
-	// Max supported size is 240x264
-	// container is required for responsive ads
-	container: document.getElementById('ad-container'),
-	onerror: err => console.error('Custom catch:', err),
-	onready: ad => {
+		// Max supported size is 240x264
+		// container is required for responsive ads
+		container: document.getElementById('ad-container'),
+		onerror: err => console.error('Custom catch:', err),
+		onready: ad => {
 
-		// Ad is ready to be displayed
-		// calling 'display' will display the ad
-		ad.call('display', {
+			// Ad is ready to be displayed
+			// calling 'display' will display the ad
+			ad.call('display', {
 
-			// In KaiOS the app developer is responsible
-			// for user navigation, and can provide
-			// navigational className and/or a tabindex
+				// In KaiOS the app developer is responsible
+				// for user navigation, and can provide
+				// navigational className and/or a tabindex
 
-			// if the application is using
-			// a classname to navigate
-			// this classname will be applied
-			// to the container
-			navClass: 'items',
+				// if the application is using
+				// a classname to navigate
+				// this classname will be applied
+				// to the container
+				navClass: 'items',
 
-			// display style will be applied
-			// to the container block or inline-block
-			display: 'block',
-		})
-	}
-})
-	*/
+				// display style will be applied
+				// to the container block or inline-block
+				display: 'block',
+			})
+		}
+	})
+		*/
 
 
-	setTimeout(function() {
-document.querySelector("div#intro-footer2").innerText = "Your page should be ready by now..";
+	setTimeout(function () {
+		document.querySelector("div#intro-footer2").innerText = "Your page should be ready by now..";
 
 		//get location if not an activity open url
 		if (open_url === false) {
@@ -167,28 +167,28 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	map.addLayer(markers_group);
 
 
- /////////////////////
-    ////ZOOM MAP/////////
-    ////////////////////
+	/////////////////////
+	////ZOOM MAP/////////
+	////////////////////
 
-    function ZoomMap(in_out) {
-        let current_zoom_level = map.getZoom();
-        if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
-            if (in_out == "in") {
-                current_zoom_level = current_zoom_level + 1
-                map.setZoom(current_zoom_level);
-            }
-            if (in_out == "out") {
-                current_zoom_level = current_zoom_level - 1
-                map.setZoom(current_zoom_level);
-            }
-            zoom_level = current_zoom_level;
-            zoom_speed();
-        }
-    }
+	function ZoomMap(in_out) {
+		let current_zoom_level = map.getZoom();
+		if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
+			if (in_out == "in") {
+				current_zoom_level = current_zoom_level + 1
+				map.setZoom(current_zoom_level);
+			}
+			if (in_out == "out") {
+				current_zoom_level = current_zoom_level - 1
+				map.setZoom(current_zoom_level);
+			}
+			zoom_level = current_zoom_level;
+			zoom_speed();
+		}
+	}
 
-    function zoom_speed() {
-     /*
+	function zoom_speed() {
+		/*
     zoom levels:
     <2 -> 2000/3000/5000km
     >2 -> 1000km
@@ -208,142 +208,142 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
     >16 -> 50m
 
     */
-        if (zoom_level < 2) {
-            step = 20;
-        }
-        if (zoom_level > 2) {
-            step = 8;
-        }
-        if (zoom_level > 3) {
-            step = 4.5;
-        }
-        if (zoom_level > 4) {
-            step = 2.75;
-        }
-        if (zoom_level > 5) {
-            step = 1,2;
-        }
-        if (zoom_level > 6) {
-            step = 0.5;
-        }
-        if (zoom_level > 7) {
-            step = 0.3;
-        }
-        if (zoom_level > 8) {
-            step = 0.15;
-        }
-        if (zoom_level > 9) {
-            step = 0.075;
-        }
-        if (zoom_level > 10) {
-            step = 0.04;
-        }
-        if (zoom_level > 11) {
-            step = 0.02;
-        }
-        if (zoom_level > 12) {
-            step = 0.01;
-        }
-        if (zoom_level > 13) {
-            step = 0.005;
-        }
-        if (zoom_level > 14) {
-            step = 0.0025;
-        }
-        if (zoom_level > 15) {
-            step = 0.001;
-        }
-        if (zoom_level > 16) {
-            step = 0.0005;
-        }
-        return step;
-    }
+		if (zoom_level < 2) {
+			step = 20;
+		}
+		if (zoom_level > 2) {
+			step = 8;
+		}
+		if (zoom_level > 3) {
+			step = 4.5;
+		}
+		if (zoom_level > 4) {
+			step = 2.75;
+		}
+		if (zoom_level > 5) {
+			step = 1, 2;
+		}
+		if (zoom_level > 6) {
+			step = 0.5;
+		}
+		if (zoom_level > 7) {
+			step = 0.3;
+		}
+		if (zoom_level > 8) {
+			step = 0.15;
+		}
+		if (zoom_level > 9) {
+			step = 0.075;
+		}
+		if (zoom_level > 10) {
+			step = 0.04;
+		}
+		if (zoom_level > 11) {
+			step = 0.02;
+		}
+		if (zoom_level > 12) {
+			step = 0.01;
+		}
+		if (zoom_level > 13) {
+			step = 0.005;
+		}
+		if (zoom_level > 14) {
+			step = 0.0025;
+		}
+		if (zoom_level > 15) {
+			step = 0.001;
+		}
+		if (zoom_level > 16) {
+			step = 0.0005;
+		}
+		return step;
+	}
 
-  /////////////////////
-  //MAP NAVIGATION//
-  /////////////////////
+	/////////////////////
+	//MAP NAVIGATION//
+	/////////////////////
 
-  function MovemMap(direction) {
-    //if (!marker_latlng) {
-    if (windowOpen == "map" || windowOpen == "coordinations") {
-      let n = map.getCenter();
+	function MovemMap(direction) {
+		//if (!marker_latlng) {
+		if (windowOpen == "map" || windowOpen == "coordinations") {
+			let n = map.getCenter();
 
-      current_lat = n.lat;
-      current_lng = n.lng;
+			current_lat = n.lat;
+			current_lng = n.lng;
 
-      if (direction == "left") {
-        zoom_speed();
+			if (direction == "left") {
+				zoom_speed();
 
-        current_lng = n.lng - step;
-        map.panTo(new L.LatLng(current_lat, current_lng));
-      }
+				current_lng = n.lng - step;
+				map.panTo(new L.LatLng(current_lat, current_lng));
+			}
 
-      if (direction == "right") {
-        zoom_speed();
+			if (direction == "right") {
+				zoom_speed();
 
-        current_lng = n.lng + step;
-        map.panTo(new L.LatLng(current_lat, current_lng));
-      }
+				current_lng = n.lng + step;
+				map.panTo(new L.LatLng(current_lat, current_lng));
+			}
 
-      if (direction == "up") {
-        zoom_speed();
+			if (direction == "up") {
+				zoom_speed();
 
-        current_lat = n.lat + step;
-        map.panTo(new L.LatLng(current_lat, current_lng));
-      }
+				current_lat = n.lat + step;
+				map.panTo(new L.LatLng(current_lat, current_lng));
+			}
 
-      if (direction == "down") {
-        zoom_speed();
+			if (direction == "down") {
+				zoom_speed();
 
-        current_lat = n.lat - step;
-        map.panTo(new L.LatLng(current_lat, current_lng));
-      }
-    }
-  }
+				current_lat = n.lat - step;
+				map.panTo(new L.LatLng(current_lat, current_lng));
+			}
+		}
+	}
 
-    //////////////////////////////
-    ////KEYPAD HANDLER////////////
-    //////////////////////////////
+	//////////////////////////////
+	////KEYPAD HANDLER////////////
+	//////////////////////////////
 
-    let longpress = false;
-    const longpress_timespan = 1000;
-    let timeout;
+	let longpress = false;
+	const longpress_timespan = 1000;
+	let timeout;
 
-    function repeat_action(param) {
-        if (windowOpen == "map"){
-        switch (param.key) {
-            case 'ArrowUp':
-                MovemMap("up")
-                break;
-            case 'ArrowDown':
-                MovemMap("down")
-                break;
-            case 'ArrowLeft':
-                MovemMap("left")
-                break;
-            case 'ArrowRight':
-                MovemMap("right")
-                break; 
-            case 'Enter':
-                break;
-        }
-    }
-    }
+	function repeat_action(param) {
+		if (windowOpen == "map") {
+			switch (param.key) {
+				case 'ArrowUp':
+					MovemMap("up")
+					break;
+				case 'ArrowDown':
+					MovemMap("down")
+					break;
+				case 'ArrowLeft':
+					MovemMap("left")
+					break;
+				case 'ArrowRight':
+					MovemMap("right")
+					break;
+				case 'Enter':
+					break;
+			}
+		}
+	}
 
 
 
-	let build_menu = function() {
+	let build_menu = function () {
 		document.querySelector("div#tracksmarkers").innerHTML = "";
 		document.querySelector("div#maps").innerHTML = "";
 		document.querySelector("div#layers").innerHTML = "";
 
 		let el = document.querySelector("div#maps");
-/**   <div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div> */
+		/**   <div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div> */
 		el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p><p class="list-item__subtext">Map</p></div>'
 		);
-	
+
 
 		el.insertAdjacentHTML(
 			"afterend",
@@ -353,12 +353,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			"afterend",
 			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p><p class="list-item__subtext">Map</p></div>'
 		);
-	
+
 		el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p><p class="list-item__subtext">Satellite</p></div>'
 		);
-		
+
 		el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
@@ -388,27 +388,27 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				'<div class="item list-item focusable" data-map="railway"><p class="list-item__text">Railways</p><p class="list-item__subtext">Layer</p></div>'
 			);
 
-			document
-				.querySelector("div#layers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="owm"><p class="list-item__text">Precipitation</p><p class="list-item__subtext">Layer</p></div>'
-				);
-				document
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item list-item focusable" data-map="owm"><p class="list-item__text">Precipitation</p><p class="list-item__subtext">Layer</p></div>'
+			);
+		document
 
-				.querySelector("div#layers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>'
-				);
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>'
+			);
 
-				document
+		document
 
-				.querySelector("div#layers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="owm-temp"><p class="list-item__text">Temperature</p><p class="list-item__subtext">Layer</p></div>'
-				);
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item list-item focusable" data-map="owm-temp"><p class="list-item__text">Temperature</p><p class="list-item__subtext">Layer</p></div>'
+			);
 		find_gpx();
 		find_geojson();
 	};
@@ -416,7 +416,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	//////////////////////////////////
 	//READ GPX////////////////////////
 	/////////////////////////////////
-	let find_gpx = function() {
+	let find_gpx = function () {
 		//search gpx
 		let finder_gpx = new Applait.Finder({
 			type: "sdcard",
@@ -424,16 +424,16 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		});
 
 		finder_gpx.search(".gpx");
-		finder_gpx.on("searchComplete", function(needle, filematchcount) {});
+		finder_gpx.on("searchComplete", function (needle, filematchcount) {});
 
-		finder_gpx.on("fileFound", function(file, fileinfo, storageName) {
+		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
 			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
 
 			document
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-'<div class="item list-item focusable" data-map="gpx" readfile="'+fileinfo.name+'"><p class="list-item__text">'+ filename+'</p><p class="list-item__subtext">GPS Exchange Format</p></div>'				);
+					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
 		});
 	};
 
@@ -441,7 +441,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	//READ GEOJSON////////////////////////
 	/////////////////////////////////
 
-	let find_geojson = function() {
+	let find_geojson = function () {
 		//search geojson
 		let finder = new Applait.Finder({
 			type: "sdcard",
@@ -449,14 +449,14 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		});
 		finder.search(".geojson");
 
-		finder.on("searchComplete", function(needle, filematchcount) {});
-		finder.on("fileFound", function(file, fileinfo, storageName) {
+		finder.on("searchComplete", function (needle, filematchcount) {});
+		finder.on("fileFound", function (file, fileinfo, storageName) {
 			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
 			document
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="geojson" readfile="'+fileinfo.name+'"><p class="list-item__text">'+ filename+'</p><p class="list-item__subtext">GeoJSON</p></div>'
+					'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename + '</p><p class="list-item__subtext">GeoJSON</p></div>'
 				);
 		});
 	};
@@ -465,12 +465,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	///MENU//////////////////////////
 	/////////////////////////////////
 
-	let finder_tabindex = function() {
+	let finder_tabindex = function () {
 		//set tabindex
 		let t = -1;
 		let items = document.querySelectorAll(".item");
 		let items_list = [];
-		
+
 		for (let i = 0; i < items.length; i++) {
 			if (items[i].parentNode.style.display == "block") {
 				items_list.push(items[i]);
@@ -486,7 +486,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		document.querySelector("div#finder").style.display = "block";
 	};
 
-	let show_finder = function() {
+	let show_finder = function () {
 		finder_tabindex();
 		document.querySelector("div#finder").style.display = "block";
 		finder_navigation("start");
@@ -503,12 +503,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		});
 		finder.search(filename);
 
-		finder.on("fileFound", function(file, fileinfo, storageName) {
+		finder.on("fileFound", function (file, fileinfo, storageName) {
 			//file reader
 
 			let reader = new FileReader();
 
-			reader.onerror = function(event) {
+			reader.onerror = function (event) {
 				kaiosToaster({
 					message: "Failed to read " + filename + " GPX File.",
 					position: 'north',
@@ -518,20 +518,20 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				reader.abort();
 			};
 
-			reader.onloadend = function(event) {
+			reader.onloadend = function (event) {
 				var gpx = event.target.result; // URL to your GPX file or the GPX itself
 
 				new L.GPX(gpx, {
 						async: true,
 					})
-					.on("loaded", function(e) {
+					.on("loaded", function (e) {
 						map.fitBounds(e.target.getBounds());
 					})
 					.addTo(map);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
-				top_bar("","","")
+				top_bar("", "", "")
 			};
 
 			reader.readAsText(file);
@@ -551,20 +551,20 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	let myMarker;
 
 	var follow_icon = L.divIcon({
-		iconSize: [0,0],
+		iconSize: [0, 0],
 		iconAnchor: [30, 30],
 		html: '<div class="ringring"></div><div class="circle"></div>',
-	  });
-  
-	var default_icon = L.divIcon({
-	  iconSize: [0,0],
-	  iconAnchor: [30, 30],
-//	  iconUrl: "assets/css/images/marker-icon.png",
-	  html: '<div class="circle"></div>',
 	});
-  
-  let myAccuracy;
-  
+
+	var default_icon = L.divIcon({
+		iconSize: [0, 0],
+		iconAnchor: [30, 30],
+		//	  iconUrl: "assets/css/images/marker-icon.png",
+		html: '<div class="circle"></div>',
+	});
+
+	let myAccuracy;
+
 
 	function getLocation(option) {
 		marker_latlng = false;
@@ -578,12 +578,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			timeout: 10000,
 			maximumAge: 0,
 		};
-        		document.querySelector("div#message").style.display = "none";
+		document.querySelector("div#message").style.display = "none";
 
 		function success(pos) {
 			document.querySelector("div#get-position").style.display = "none";
 
-			
+
 			kaiosToaster({
 				message: "Fetched position.",
 				position: 'north',
@@ -594,7 +594,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			current_lat = crd.latitude;
 			current_lng = crd.longitude;
 			current_alt = crd.altitude;
-			  
+
 			current_heading = crd.heading;
 			//to store device loaction
 			device_lat = crd.latitude;
@@ -609,17 +609,17 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			localStorage.setItem("last_location", JSON.stringify(b));
 
 			if (option == "init") {
-				myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy).addTo(map);
+				myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy).addTo(map);
 				myMarker = L.marker([current_lat, current_lng], {
 					rotationAngle: 0,
-				  }).addTo(markers_group);				
-				  myMarker._icon.classList.add("marker-1");
-        // vv   
+				}).addTo(markers_group);
+				myMarker._icon.classList.add("marker-1");
+				// vv   
 				myMarker.setIcon(default_icon);
-		// ^^ 
-		geolocationWatch();
+				// ^^ 
+				geolocationWatch();
 
-		
+
 
 				map.setView([current_lat, current_lng], 12);
 				zoom_speed();
@@ -635,41 +635,41 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		}
 
 		function error(err) {
-			console.log(err.message+" "+err.code)
-		
-				if (setting.last_location != null){
-					kaiosToaster({
-						message:  err.message+": Loading last position.",
-						position: 'north',
-						type: 'error',
-						timeout: 3000
-					});
-		
-					current_lat = setting.last_location[0];
-					current_lng = setting.last_location[1];
-					current_alt = 0;
-					L.marker([current_lat, current_lng]).addTo(markers_group);
-		
-					map.setView([current_lat, current_lng], 12);
-					zoom_speed();
-					document.querySelector("div#get-position").style.display = "none";
-					document.querySelector("div#message").style.display = "none";
-				}else{
-					kaiosToaster({
-						message:  err.message+": No position saved.",
-						position: 'north',
-						type: 'error',
-						timeout: 3000
-					});
-					current_lat = 0;
-					current_lng = 0;
-					current_alt = 0;		
-					map.setView([0,0], 3);
-					zoom_speed();
-					document.querySelector("div#get-position").style.display = "none";
-					document.querySelector("div#message").style.display = "none";
-				}
-	
+			console.log(err.message + " " + err.code)
+
+			if (setting.last_location != null) {
+				kaiosToaster({
+					message: err.message + ": Loading last position.",
+					position: 'north',
+					type: 'error',
+					timeout: 3000
+				});
+
+				current_lat = setting.last_location[0];
+				current_lng = setting.last_location[1];
+				current_alt = 0;
+				L.marker([current_lat, current_lng]).addTo(markers_group);
+
+				map.setView([current_lat, current_lng], 12);
+				zoom_speed();
+				document.querySelector("div#get-position").style.display = "none";
+				document.querySelector("div#message").style.display = "none";
+			} else {
+				kaiosToaster({
+					message: err.message + ": No position saved.",
+					position: 'north',
+					type: 'error',
+					timeout: 3000
+				});
+				current_lat = 0;
+				current_lng = 0;
+				current_alt = 0;
+				map.setView([0, 0], 3);
+				zoom_speed();
+				document.querySelector("div#get-position").style.display = "none";
+				document.querySelector("div#message").style.display = "none";
+			}
+
 
 			return false;
 		}
@@ -677,7 +677,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		navigator.geolocation.getCurrentPosition(success, error, options);
 	}
 
-// always watch position
+	// always watch position
 
 
 
@@ -694,8 +694,9 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	//////////
 	let watchID;
 	let state_geoloc = false;
+
 	function geolocationWatch() {
-	
+
 		marker_latlng = false;
 
 		let geoLoc = navigator.geolocation;
@@ -703,49 +704,50 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		if (state_geoloc == false) {
 			document.querySelector("div#message").style.display = "none";
 
-		
+
 			state_geoloc = true;
-		    myMarker.setIcon(follow_icon);
+			myMarker.setIcon(follow_icon);
 			document.getElementById("cross").style.opacity = 0;
+
 			function showLocation(position) {
 				let crd = position.coords;
 				current_lat = crd.latitude;
 				current_lng = crd.longitude;
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
-  
-			
+
+
 
 
 				//store device location
 				device_lat = crd.latitude;
 				device_lng = crd.longitude;
 				if (crd.heading != null) {
-				//	myMarker.setRotationAngle(crd.heading);
-				  } else {
+					//	myMarker.setRotationAngle(crd.heading);
+				} else {
 					myMarker.setRotationAngle(0);
-				  }
+				}
 				//store location as fallout
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
-                if (center_to_Screen == true) {
+				if (center_to_Screen == true) {
 					map.flyTo(
 						new L.LatLng(crd.latitude, crd.longitude)
 					);
 					myAccuracy.remove()
-				}else{
+				} else {
 					myAccuracy.remove()
-					myAccuracy = L.circle([crd.latitude,crd.longitude], crd.accuracy).addTo(map);
+					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy).addTo(map);
 				}
 				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
-                informationHandler.PreciseGeoUpdate(crd)
+				informationHandler.PreciseGeoUpdate(crd)
 			}
 
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
-        		document.querySelector("div#get-position").style.display = "none";
+				document.querySelector("div#get-position").style.display = "none";
 
-				console.error(err.message+" "+err.code)
+				console.error(err.message + " " + err.code)
 				if (err.code == 1) {
 					kaiosToaster({
 						message: "Access to Geolocation is denied!",
@@ -787,25 +789,25 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
 			let item_value = document.activeElement.getAttribute("data-map");
-        if (item_value == "update-weather") {
-			let cdata = map.getCenter();
-           informationHandler.UpdateWeather(cdata)
-		}
-        if (item_value == "gstreet") {
+			if (item_value == "update-weather") {
+				let cdata = map.getCenter();
+				informationHandler.UpdateWeather(cdata)
+			}
+			if (item_value == "gstreet") {
 
-			map.removeLayer(tilesLayer);
-			maps.google_map();
-			top_bar("", "", "");
-			document.querySelector("div#finder").style.display = "none";
-		
-			windowOpen = "map";
-		}
-      	if (item_value == "ocm") {
-								map.removeLayer(tilesLayer);
+				map.removeLayer(tilesLayer);
+				maps.google_map();
+				top_bar("", "", "");
+				document.querySelector("div#finder").style.display = "none";
+
+				windowOpen = "map";
+			}
+			if (item_value == "ocm") {
+				map.removeLayer(tilesLayer);
 				maps.opencycle_map();
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
-			
+
 				windowOpen = "map";
 
 			}
@@ -819,7 +821,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "satellite") {
 				map.removeLayer(tilesLayer);
 				maps.satellite_map();
-			
+
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
 				windowOpen = "map";
@@ -829,7 +831,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				maps.toner_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
-			
+
 				windowOpen = "map";
 			}
 
@@ -838,7 +840,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				maps.osm_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
-			
+
 				windowOpen = "map";
 			}
 
@@ -847,7 +849,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				maps.moon_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
-			
+
 				map.setZoom(4);
 				windowOpen = "map";
 			}
@@ -855,7 +857,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "otm") {
 				map.removeLayer(tilesLayer);
 				top_bar("", "", "");
-		
+
 				maps.opentopo_map();
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
@@ -864,7 +866,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "owm") {
 				top_bar("", "", "");
 				maps.owm_precipit_layer();
-			
+
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
@@ -872,7 +874,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "owm-wind") {
 				top_bar("", "", "");
 				maps.owm_wind_layer();
-				
+
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
@@ -880,7 +882,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "owm-temp") {
 				top_bar("", "", "");
 				maps.owm_temp_layer();
-				
+
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
@@ -888,7 +890,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "railway") {
 				maps.railway_layer();
 				top_bar("", "", "");
-				
+
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
@@ -896,7 +898,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "earthquake") {
 				top_bar("", "", "");
 				maps.earthquake_layer();
-				
+
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
@@ -916,21 +918,23 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			if (item_value == "autoupdate-geolocation") {
 				windowOpen = "map";
 				document.querySelector("div#finder").style.display = "none";
-				if (center_to_Screen == true) {center_to_Screen = false
+				if (center_to_Screen == true) {
+					center_to_Screen = false
 					kaiosToaster({
 						message: "Stopped centering position",
 						position: 'north',
 						type: 'info',
 						timeout: 2000
 					});
-				} else 	 {
+				} else {
 					kaiosToaster({
 						message: "Started centering position",
 						position: 'north',
 						type: 'info',
 						timeout: 2000
 					});
-					center_to_Screen = true}
+					center_to_Screen = true
+				}
 			}
 
 			if (item_value == "update-position") {
@@ -969,7 +973,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			}
 
 			if (item_value == "photo") {
-				
+
 				mozactivity.photo();
 			}
 
@@ -981,17 +985,17 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				});
 				finder.search(document.activeElement.getAttribute("readfile"));
 				console.log(document.activeElement.getAttribute("readfile"))
-				finder.on("fileFound", function(file, fileinfo, storageName) {
+				finder.on("fileFound", function (file, fileinfo, storageName) {
 					//file reader
 
 					let geojson_data = "";
 					let reader = new FileReader();
 
-					reader.onerror = function(event) {
+					reader.onerror = function (event) {
 						reader.abort();
 					};
 
-					reader.onloadend = function(event) {
+					reader.onloadend = function (event) {
 						//check if json valid
 						try {
 							geojson_data = JSON.parse(event.target.result);
@@ -1010,7 +1014,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 						//https://blog.codecentric.de/2018/06/leaflet-geojson-daten/
 						L.geoJSON(geojson_data, {
 							// Marker Icon
-							pointToLayer: function(feature, latlng) {
+							pointToLayer: function (feature, latlng) {
 								let t = L.marker(latlng);
 								t.addTo(markers_group);
 								map.flyTo(latlng);
@@ -1019,12 +1023,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 							},
 
 							// Popup
-							onEachFeature: function(feature, layer) {
+							onEachFeature: function (feature, layer) {
 								console.log(feature);
 							},
 						}).addTo(map);
 						document.querySelector("div#finder").style.display = "none";
-						top_bar("","","")
+						top_bar("", "", "")
 						windowOpen = "map";
 					};
 
@@ -1033,11 +1037,13 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			}
 
 			//add gpx data
-			if (item_value == "gpx") {				
+			if (item_value == "gpx") {
 				loadGPX(document.activeElement.getAttribute("readfile"));
 			}
 		}
-       if(!item_value == "update-weather") {		top_bar("", "", "");	}
+		if (!item_value == "update-weather") {
+			top_bar("", "", "");
+		}
 	}
 
 	//qr scan listener
@@ -1097,10 +1103,10 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		windowOpen = "search";
 	}
 
-	let finder_panels = ["Imagery","Information", "Settings", "Shortcuts", "Impressum"];
+	let finder_panels = ["Imagery", "Information", "Settings", "Shortcuts", "Impressum"];
 	let count = 0;
 
-	let finder_navigation = function(dir) {
+	let finder_navigation = function (dir) {
 		tabIndex = 0;
 		bottom_bar("", "", "");
 
@@ -1132,11 +1138,11 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		top_bar("◀", finder_panels[count], "▶");
 
 
-    if (finder_panels[count] == "Information") {
-				windowOpen = "finder";
+		if (finder_panels[count] == "Information") {
+			windowOpen = "finder";
 
-	    informationHandler.UpdateInfo()
-		
+			informationHandler.UpdateInfo()
+
 		}
 
 	};
@@ -1152,7 +1158,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 					items_list.push(items[i]);
 				}
 			}
-		
+
 
 			if (move == "+1") {
 				if (tabIndex < items_list.length - 1) {
@@ -1183,7 +1189,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 	//////////////////////////////
 
 	if (navigator.mozSetMessageHandler) {
-		navigator.mozSetMessageHandler("activity", function(activityRequest) {
+		navigator.mozSetMessageHandler("activity", function (activityRequest) {
 			var option = activityRequest.source;
 			//gpx
 			if (option.name == "open") {
@@ -1209,7 +1215,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		});
 	}
 
-	
+
 
 
 	//////////////
@@ -1222,14 +1228,22 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				if (windowOpen == "map") maps.caching_tiles();
 				break;
 
-            case "1":
-					switch(screen.orientation.type) {
-						case 'portrait-primary': screen.orientation.lock('landscape-primary'); break;
-						case 'landscape-primary': screen.orientation.lock('portrait-secondary'); break;
-						case 'portrait-secondary': screen.orientation.lock('landscape-secondary'); break;
-						case 'landscape-secondary': screen.orientation.lock('portrait-primary'); break;
-					}
-					break;
+			case "1":
+				switch (screen.orientation.type) {
+					case 'portrait-primary':
+						screen.orientation.lock('landscape-primary');
+						break;
+					case 'landscape-primary':
+						screen.orientation.lock('portrait-secondary');
+						break;
+					case 'portrait-secondary':
+						screen.orientation.lock('landscape-secondary');
+						break;
+					case 'landscape-secondary':
+						screen.orientation.lock('portrait-primary');
+						break;
+				}
+				break;
 			case "0":
 				if (windowOpen == "finder") {
 					addMapLayers("delete-marker");
@@ -1245,10 +1259,10 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			case "Backspace":
 				if (windowOpen == "map") {
 					windowOpen = "";
-					if (confirm("Are you sure you want to exit?")){
+					if (confirm("Are you sure you want to exit?")) {
 						window.goodbye();
 					}
-						
+
 
 				}
 				break;
@@ -1354,29 +1368,29 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 				}
 
 				if (document.activeElement == document.getElementById("clear-cache")) {
-					if (confirm("Are you sure you want to delete all cached maps?")){
+					if (confirm("Are you sure you want to delete all cached maps?")) {
 						maps.delete_cache();
 						break;
 					}
-					
+
 					break;
 				}
 
 				if (
 					document.activeElement == document.getElementById("save-settings")
 				) {
-					if (confirm("Are you sure you want to save settings?")){
+					if (confirm("Are you sure you want to save settings?")) {
 						settings.save_settings();
 						break;
 					}
-						
+
 
 					break;
 				}
 				if (windowOpen == "finder" && qrscan == true) {
 					windowOpen = "scan";
 
-					qr.start_scan(function(callback) {
+					qr.start_scan(function (callback) {
 						let slug = callback;
 						document.getElementById("owm-key").value = slug;
 					});
@@ -1413,7 +1427,8 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 			case "4":
 				if (windowOpen == "map") {
-					if (center_to_Screen == true) {center_to_Screen = false
+					if (center_to_Screen == true) {
+						center_to_Screen = false
 						kaiosToaster({
 							message: "Stopped centering position",
 							position: 'north',
@@ -1421,14 +1436,15 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 							timeout: 2000
 						});
 						screenWakeLock("unlock");
-					} else 	 {
+					} else {
 						kaiosToaster({
 							message: "Started centering position",
 							position: 'north',
 							type: 'info',
 							timeout: 2000
 						});
-						center_to_Screen = true}
+						center_to_Screen = true
+					}
 					screenWakeLock("lock");
 				}
 
@@ -1477,7 +1493,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 				break;
 
-	
+
 
 			case "ArrowRight":
 				MovemMap("right");

@@ -42,7 +42,9 @@ const maps = (() => {
 
     var bbox = L.latLngBounds(L.latLng(swLat, swLng), L.latLng(neLat, neLng));
     tilesLayer.seed(bbox, 0, zoom_depth);
-if (windowOpen == "map"){    top_bar("", "Downloading", "");}
+    if (windowOpen == "map") {
+      top_bar("", "Downloading", "");
+    }
     screenWakeLock("lock");
 
     // Display seed progress on console
@@ -51,12 +53,16 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         100 -
         Math.floor((seedData.remainingLength / seedData.queueLength) * 100);
       console.log("Seeding " + percent + "% done");
-      if (windowOpen == "map"){  document.querySelector("div#top-bar div.button-center").innerText =
-        "Caching "+percent + "% done ("+(seedData.queueLength-seedData.remainingLength)+"/"+seedData.queueLength+")";}
+      if (windowOpen == "map") {
+        document.querySelector("div#top-bar div.button-center").innerText =
+          "Caching " + percent + "% done (" + (seedData.queueLength - seedData.remainingLength) + "/" + seedData.queueLength + ")";
+      }
     });
     tilesLayer.on("seedend", function (seedData) {
       setTimeout(() => {
-        if (windowOpen == "map"){  top_bar("", "", "");}
+        if (windowOpen == "map") {
+          top_bar("", "", "");
+        }
         kaiosToaster({
           message: "Finished caching",
           position: 'north',
@@ -65,17 +71,17 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         });
         screenWakeLock("unlock");
       }, 2000);
-     
+
     });
 
-    tilesLayer.on('tilecacheerror',function(ev){
-		  kaiosToaster({
-        message: "Cache Error @ "+ev.tile+": "+ev.error,
+    tilesLayer.on('tilecacheerror', function (ev) {
+      kaiosToaster({
+        message: "Cache Error @ " + ev.tile + ": " + ev.error,
         position: 'north',
         type: 'error',
         timeout: 2000
       });
-		});
+    });
 
     /*tilesLayer.on('tilecachemiss',function(ev){
 		  kaiosToaster({
@@ -90,14 +96,14 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       top_bar("", "", "");
       screenWakeLock("unlock");
       kaiosToaster({
-        message: "Failed caching: "+seedData,
+        message: "Failed caching: " + seedData,
         position: 'north',
         type: 'error',
         timeout: 2000
       });
     });
     tilesLayer.on("seedstart", function (seedData) {
-    
+
     });
   };
 
@@ -121,19 +127,18 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     });
     kaiads.DisplayFullScreenAd();
     tilesUrl = 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=c88c645ad8f64411bef71105c00710bc';
-        tilesLayer = L.tileLayer(tilesUrl, {
+    tilesLayer = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 17,
-      attribution:
-        "OpenCycleMap",
+      attribution: "OpenCycleMap",
     });
-        map.addLayer(tilesLayer);
-      caching_events();
-   
+    map.addLayer(tilesLayer);
+    caching_events();
+
   }
 
   function moon_map() {
@@ -148,8 +153,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       useOnlyCache: false,
       maxZoom: 12,
       minZoom: 2,
-      attribution:
-        'Moon Map',
+      attribution: 'Moon Map',
     });
 
     map.addLayer(tilesLayer);
@@ -172,8 +176,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 18,
-      attribution:
-        'Toner Map',
+      attribution: 'Toner Map',
     });
 
     map.addLayer(tilesLayer);
@@ -188,22 +191,22 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
-     tilesUrl = 'http://mt1.google.com/vt/lyrs=m@146&hl=en&x={x}&y={y}&z={z}'
-      tilesLayer = L.tileLayer(tilesUrl, {
-        useCache: true,
-        saveToCache: false,
-        crossOrigin: true,
-        cacheMaxAge: caching_time,
-        useOnlyCache: false,
-            minZoom: 0,
-            maxZoom: 18,
-            format: 'image/jpeg',
-            attribution: 'Google Street',
-        });
+    tilesUrl = 'http://mt1.google.com/vt/lyrs=m@146&hl=en&x={x}&y={y}&z={z}'
+    tilesLayer = L.tileLayer(tilesUrl, {
+      useCache: true,
+      saveToCache: false,
+      crossOrigin: true,
+      cacheMaxAge: caching_time,
+      useOnlyCache: false,
+      minZoom: 0,
+      maxZoom: 18,
+      format: 'image/jpeg',
+      attribution: 'Google Street',
+    });
 
-       
-        map.addLayer(tilesLayer);
-            caching_events();
+
+    map.addLayer(tilesLayer);
+    caching_events();
   }
 
   function satellite_map() {
@@ -214,11 +217,12 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
-      tilesLayer =  new L.tileLayer.bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
-       
-        map.addLayer(tilesLayer);
-            caching_events();
+    tilesLayer = new L.tileLayer.bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
+
+    map.addLayer(tilesLayer);
+    caching_events();
   }
+
   function opentopo_map() {
     kaiosToaster({
       message: "OpenTopoMap",
@@ -227,7 +231,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
-    
+
     tilesUrl = "https://tile.opentopomap.org/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
       useCache: true,
@@ -236,8 +240,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 17,
-      attribution:
-        "OpenTopoMap",
+      attribution: "OpenTopoMap",
     });
 
     map.addLayer(tilesLayer);
@@ -245,8 +248,9 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
   }
 
   let owmLayer;
+
   function owm_precipit_layer() {
-    
+
     if (map.hasLayer(owmLayer)) {
       map.removeLayer(owmLayer);
       kaiosToaster({
@@ -270,15 +274,14 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     tilesUrl =
       "https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=" +
       "99d2594c090c1ee9a8ad525fd7a83f85";
-      owmLayer = L.tileLayer(tilesUrl, {
+    owmLayer = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 18,
-      attribution:
-        'OpenWeatherMap',
+      attribution: 'OpenWeatherMap',
     });
 
     map.addLayer(owmLayer);
@@ -288,6 +291,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
 
 
   let owmLayer2;
+
   function owm_wind_layer() {
     if (map.hasLayer(owmLayer2)) {
       map.removeLayer(owmLayer2);
@@ -309,15 +313,14 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     tilesUrl =
       "https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=" +
       "99d2594c090c1ee9a8ad525fd7a83f85";
-      owmLayer2 = L.tileLayer(tilesUrl, {
+    owmLayer2 = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 18,
-      attribution:
-        'OpenWeatherMap',
+      attribution: 'OpenWeatherMap',
     });
 
     map.addLayer(owmLayer2);
@@ -326,6 +329,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
 
 
   let owmLayer3;
+
   function owm_temp_layer() {
     if (map.hasLayer(owmLayer3)) {
       map.removeLayer(owmLayer3);
@@ -348,15 +352,14 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     tilesUrl =
       "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=" +
       "99d2594c090c1ee9a8ad525fd7a83f85";
-      owmLayer3 = L.tileLayer(tilesUrl, {
+    owmLayer3 = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxZoom: 18,
-      attribution:
-        'OpenWeatherMap',
+      attribution: 'OpenWeatherMap',
     });
 
     map.addLayer(owmLayer3);
@@ -386,8 +389,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       useOnlyCache: false,
       maxZoom: 18,
 
-      attribution:
-        'OpenStreetMap',
+      attribution: 'OpenStreetMap',
     });
 
     map.addLayer(tilesLayer);
@@ -395,6 +397,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
   }
 
   let railwayLayer;
+
   function railway_layer() {
     if (map.hasLayer(railwayLayer)) {
       map.removeLayer(railwayLayer);
@@ -425,8 +428,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       useOnlyCache: false,
       maxZoom: 18,
 
-      attribution:
-        'OpenRailwayMap',
+      attribution: 'OpenRailwayMap',
     });
 
     map.addLayer(railwayLayer);
@@ -470,12 +472,12 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
     console.log(formatDate(two_days_before, "yy-mm-dd"));
 
     fetch(
-      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=" +
+        "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=" +
         formatDate(two_days_before, "yy-mm-dd") +
         "&endtime=" +
         formatDate(today, "yy-mm-dd")
-      //"&latitude=47&longitude=7&maxradiuskm=1800"
-    )
+        //"&latitude=47&longitude=7&maxradiuskm=1800"
+      )
       .then(function (response) {
         return response.json();
       })
@@ -486,7 +488,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
           type: 'info',
           timeout: 2000
         });
-    
+
         L.geoJSON(data, {
           // Marker Icon
 
@@ -558,7 +560,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
           type: 'info',
           timeout: 2000
         });
-    
+
 
         return response.json();
       })
@@ -614,11 +616,13 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            if (windowOpen == "map"){   top_bar(
-              "",
-              moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
-              ""
-            );}
+            if (windowOpen == "map") {
+              top_bar(
+                "",
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
+                ""
+              );
+            }
             //top_bar("", "a", "");
           }
 
@@ -628,11 +632,13 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            if (windowOpen == "map"){   top_bar(
-              "",
-              moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
-              ""
-            );}
+            if (windowOpen == "map") {
+              top_bar(
+                "",
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
+                ""
+              );
+            }
             //top_bar("", "a", "");
           }
 
@@ -642,11 +648,13 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
             map.addLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            if (windowOpen == "map"){   top_bar(
-              "",
-              moment.unix(data[data.length - 3]).format("DD.MM.YYYY, HH:MM:SS"),
-              ""
-            );}
+            if (windowOpen == "map") {
+              top_bar(
+                "",
+                moment.unix(data[data.length - 3]).format("DD.MM.YYYY, HH:MM:SS"),
+                ""
+              );
+            }
           }
 
           if (i == 3) {
@@ -655,24 +663,28 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
             map.removeLayer(weather_layer1);
             map.addLayer(weather_layer2);
             map.removeLayer(weather_layer3);
-            if (windowOpen == "map"){   top_bar(
-              "",
-              moment.unix(data[data.length - 2]).format("DD.MM.YYYY, HH:MM:SS"),
-              ""
-            );}
+            if (windowOpen == "map") {
+              top_bar(
+                "",
+                moment.unix(data[data.length - 2]).format("DD.MM.YYYY, HH:MM:SS"),
+                ""
+              );
+            }
           }
-          
+
           if (i == 4) {
             map.removeLayer(weather_layer);
             map.removeLayer(weather_layer0);
             map.removeLayer(weather_layer1);
             map.removeLayer(weather_layer2);
             map.addLayer(weather_layer3);
-            if (windowOpen == "map"){   top_bar(
-              "",
-              moment.unix(data[data.length - 1]).format("DD.MM.YYYY, HH:MM:SS"),
-              ""
-            );}
+            if (windowOpen == "map") {
+              top_bar(
+                "",
+                moment.unix(data[data.length - 1]).format("DD.MM.YYYY, HH:MM:SS"),
+                ""
+              );
+            }
           }
           if (i == 5) {
             i = 0;

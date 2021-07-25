@@ -59,33 +59,67 @@
 
 /* color when not focused */
 
-.slider-container, .list-item-indicator, .list-item, .checkbox-container, .radio-container, .button-container, .input-container, .textarea-container, .progress-container {
+.slider-container,
+.list-item-indicator,
+.list-item,
+.checkbox-container,
+.radio-container,
+.button-container,
+.input-container,
+.textarea-container,
+.progress-container {
     background: var(--item-background);
 }
 
-.slider-container__text, .list-item-indicator__text, .list-item__text, .checkbox-container__text, .radio-container__text, .progress-container__label {
+.slider-container__text,
+.list-item-indicator__text,
+.list-item__text,
+.checkbox-container__text,
+.radio-container__text,
+.progress-container__label {
     color: var(--item-text-color);
 }
 
-.slider-container__subtext, .list-item-indicator__subtext, .list-item__subtext, .checkbox-container__subtext, .radio-container__subtext, .input-container__label, .textarea-container__label {
+.slider-container__subtext,
+.list-item-indicator__subtext,
+.list-item__subtext,
+.checkbox-container__subtext,
+.radio-container__subtext,
+.input-container__label,
+.textarea-container__label {
     color: var(--item-subtext-color);
 }
 
 /* color when focused */
 
-.selected, .list-item:focus , .list-item-indicator:focus, .progress-container:focus {
+.selected,
+.list-item:focus,
+.list-item-indicator:focus,
+.progress-container:focus {
     background: var(--item-focused-background);
 }
 
-.progress-container:focus > .progress-container__label, .selected > .slider-container__text, .list-item-indicator:focus > .list-item-indicator__text, .list-item:focus > .list-item__text, .selected > .checkbox-container__text, .selected > .radio-container__text {
+.progress-container:focus>.progress-container__label,
+.selected>.slider-container__text,
+.list-item-indicator:focus>.list-item-indicator__text,
+.list-item:focus>.list-item__text,
+.selected>.checkbox-container__text,
+.selected>.radio-container__text {
     color: var(--item-focused-text-color);
 }
 
-.selected > .slider-container__subtext, .list-item-indicator:focus > .list-item-indicator__subtext, .list-item:focus > .list-item__subtext, .selected > .checkbox-container__subtext, .selected > .radio-container__subtext, .selected > .input-container__label, .selected > .textarea-container__label {
+.selected>.slider-container__subtext,
+.list-item-indicator:focus>.list-item-indicator__subtext,
+.list-item:focus>.list-item__subtext,
+.selected>.checkbox-container__subtext,
+.selected>.radio-container__subtext,
+.selected>.input-container__label,
+.selected>.textarea-container__label {
     color: var(--item-focused-subtext-color);
 }
 
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
     padding: 0;
@@ -199,11 +233,11 @@ html, body {
     border-width: 0 .2rem .2rem 0;
     display: inline-block;
     transform: rotate(-45deg) translateY(-50%);
-    top:22%;
-    left:85%;
+    top: 22%;
+    left: 85%;
 }
 
-.list-item-indicator:focus > .list-item-indicator__indicator {
+.list-item-indicator:focus>.list-item-indicator__indicator {
     border-color: var(--item-focused-subtext-color);
 }
 
@@ -262,7 +296,7 @@ html, body {
     width: 2rem;
     position: absolute;
     right: .5rem;
-    top:50%;
+    top: 50%;
     transform: translateY(-50%);
     border-width: 0 .2rem .2rem 0;
     display: inline-block;
@@ -305,15 +339,15 @@ html, body {
 }
 
 .checkbox-container__checkbox {
-  box-sizing: border-box;
-  height: 2rem;
-  width: 2rem;
-  top:50%;
-  transform: translateY(-50%);
-  position: absolute;
-  right: .5rem;
-  border-width: 0 .2rem .2rem 0;
-  display: inline-block;
+    box-sizing: border-box;
+    height: 2rem;
+    width: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    right: .5rem;
+    border-width: 0 .2rem .2rem 0;
+    display: inline-block;
 }
 
 /* List item with progress bar */
@@ -337,14 +371,14 @@ html, body {
 }
 
 .progress-container__progress {
-  -webkit-appearance: none;
-  margin: 1rem 0 0 0;
-  height: .5rem;
-  border: none;
-  border-radius: .5rem;
-  width: 100%;
-  grid-area: slider;
-  background: var(--progress-color);
+    -webkit-appearance: none;
+    margin: 1rem 0 0 0;
+    height: .5rem;
+    border: none;
+    border-radius: .5rem;
+    width: 100%;
+    grid-area: slider;
+    background: var(--progress-color);
 }
 
 .progress-container__progress::-moz-progress-bar {
@@ -355,11 +389,11 @@ html, body {
     height: .5rem;
 }
 
-.progress-container:focus > .progress-container__progress {
+.progress-container:focus>.progress-container__progress {
     background: var(--progress-focused-color);
 }
 
-.progress-container:focus > .progress-container__progress::-moz-progress-bar {
+.progress-container:focus>.progress-container__progress::-moz-progress-bar {
     background: var(--progress-focused-selected);
     border-right-color: var(--item-focused-background);
 }
@@ -378,13 +412,13 @@ html, body {
 }
 
 .slider-container__slider {
-  -webkit-appearance: none;
-  margin: 1rem 0 0 0;
-  height: .5rem;
-  border-radius: .5rem;
-  width: 100%;
-  grid-area: slider;
-  background: var(--slider-color);
+    -webkit-appearance: none;
+    margin: 1rem 0 0 0;
+    height: .5rem;
+    border-radius: .5rem;
+    width: 100%;
+    grid-area: slider;
+    background: var(--slider-color);
 }
 
 .slider-container__text {
@@ -421,7 +455,8 @@ html, body {
 }
 
 /* i have no idea how to remove this outline */
-.slider-container__slider::-moz-range-track, .slider-container__slider::-webkit-slider-runnable-track{
+.slider-container__slider::-moz-range-track,
+.slider-container__slider::-webkit-slider-runnable-track {
     outline: none;
 }
 
@@ -469,11 +504,13 @@ html, body {
 
 /* Input */
 
-.input-container, .textarea-container {
+.input-container,
+.textarea-container {
     padding: 1rem;
 }
 
-.input-container__input, .textarea-container__textarea {
+.input-container__input,
+.textarea-container__textarea {
     padding: 0 .3rem 0 .3rem;
     margin-top: .5rem;
     width: 100%;
@@ -492,7 +529,8 @@ html, body {
     height: var(--textarea-height);
 }
 
-.input-container__label, .textarea-container__label {
+.input-container__label,
+.textarea-container__label {
     font-size: 1.4rem;
     font-weight: 400;
     display: block;
@@ -501,7 +539,8 @@ html, body {
 
 /* Software Keys */
 
-.softkeys, .softkeys-icon {
+.softkeys,
+.softkeys-icon {
     box-sizing: border-box;
     padding: .5rem;
     column-gap: .5rem;
@@ -541,25 +580,25 @@ html, body {
 }
 
 @media only screen and (orientation : portrait) {
-  .softkeys {
-      grid-template-columns: 7.2rem 7.6rem 7.2rem;
-  }
+    .softkeys {
+        grid-template-columns: 7.2rem 7.6rem 7.2rem;
+    }
 }
 
 @media only screen and (orientation : portrait) {
-  .softkeys-icon {
-      grid-template-columns: 9.8rem 2.4rem 9.8rem;
-  }
-}
-
-@media screen and (orientation: landscape)  {
-  .softkeys {
-      grid-template-columns: 9.6rem 10.8rem 9.6rem;
-  }
+    .softkeys-icon {
+        grid-template-columns: 9.8rem 2.4rem 9.8rem;
+    }
 }
 
 @media screen and (orientation: landscape) {
-  .softkeys-icon {
-      grid-template-columns: 13.8rem 2.4rem 13.8rem;
-  }
+    .softkeys {
+        grid-template-columns: 9.6rem 10.8rem 9.6rem;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .softkeys-icon {
+        grid-template-columns: 13.8rem 2.4rem 13.8rem;
+    }
 }

@@ -27,6 +27,7 @@
   transform: translateX(-50%);
   top: -54px;
 }
+
 .kaios-toast-north.kaios-toast-shown {
   opacity: 1;
   top: 27px;
@@ -37,6 +38,7 @@
   transform: translateX(-50%);
   bottom: -30px;
 }
+
 .kaios-toast-south.kaios-toast-shown {
   opacity: 1;
   bottom: 30px;
@@ -47,16 +49,19 @@
   border-radius: 3px;
   color: #fff;
 }
+
 .kaios-toast-info {
   background-color: rgb(31, 96, 237);
   border-radius: 3px;
   color: #fff;
 }
+
 .kaios-toast-success {
   background-color: #62a465;
   border-radius: 3px;
   color: #fff;
 }
+
 .kaios-toast-warning {
   background-color: #ffb618;
   border-radius: 3px;
