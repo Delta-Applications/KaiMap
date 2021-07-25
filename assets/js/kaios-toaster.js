@@ -64,7 +64,6 @@
 
     this.el.appendChild(this.toast);
     prevToast = this;
-   // navigator.vibrate(1500)
     this.show();
 
     if (!debug && timeout) {

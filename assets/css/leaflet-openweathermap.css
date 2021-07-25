@@ -36,7 +36,6 @@
     font-weight: bold;
 }
 
-.owm-popup-main {}
 
 .owm-popup-main img {
     vertical-align: middle;
@@ -51,13 +50,8 @@
     font-size: 2em;
 }
 
-.owm-popup-details {}
-
-.owm-popup-detail {}
-
 .owm-popup-timestamp {
     color: gray;
     padding-top: 0.5em;
 }
 
-.owm-legend-item {}

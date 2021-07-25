@@ -71,7 +71,7 @@ if (!navigator.geolocation) {
 }
 let gps_Wakelet;
 try {
-	gps_wakelet = window.navigator.requestWakeLock("gps")
+	gps_wakelet = window.navigator.requestWakeLock("gps");
 } catch (error) {
 	// RequestWakeLock failed for device
 	// /shrug
@@ -175,11 +175,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		let current_zoom_level = map.getZoom();
 		if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
 			if (in_out == "in") {
-				current_zoom_level = current_zoom_level + 1
+				current_zoom_level = current_zoom_level + 1;
 				map.setZoom(current_zoom_level);
 			}
 			if (in_out == "out") {
-				current_zoom_level = current_zoom_level - 1
+				current_zoom_level = current_zoom_level - 1;
 				map.setZoom(current_zoom_level);
 			}
 			zoom_level = current_zoom_level;
@@ -313,16 +313,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (windowOpen == "map") {
 			switch (param.key) {
 				case 'ArrowUp':
-					MovemMap("up")
+					MovemMap("up");
 					break;
 				case 'ArrowDown':
-					MovemMap("down")
+					MovemMap("down");
 					break;
 				case 'ArrowLeft':
-					MovemMap("left")
+					MovemMap("left");
 					break;
 				case 'ArrowRight':
-					MovemMap("right")
+					MovemMap("right");
 					break;
 				case 'Enter':
 					break;
