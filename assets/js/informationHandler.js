@@ -254,12 +254,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
             document.getElementById("locationame").innerText =
                     some.city.name;
             
-            document.getElementById("sunset").innerText =
-                    formattedTime;
-                        document.getElementById("sunrise").innerText =
-                    formattedTimer;
-                document.getElementById("grabtime").innerText =
-                    some.list[0].dt_txt;
+                 
                 document.getElementById("temp").innerText =
                     some.list[0].main.temp + " °C";
                         document.getElementById("hum").innerText =
@@ -271,7 +266,7 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                         document.getElementById("pres").innerText =
                     some.list[0].main.pressure + " hPa";
                                 document.getElementById("desc").innerText =
-                    "("+some.list[0].weather[0].id+") "+some.list[0].weather[0].main;
+                    some.list[0].weather[0].id+" > "+some.list[0].weather[0].main;
                     
                     
 
@@ -279,6 +274,12 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                     var daynight = "d"
                     if (day == true) {daynight = "d"} else {daynight = "n"}
                 document.getElementById("icon").className ="list-item-indicator__indicator owf owf-"+some.list[0].weather[0].id+"-"+daynight+" owf-3x";
+                document.getElementById("sunset").innerText =
+                formattedTime+" ("+utility.getRelativeTime(some.city.sunset,null)+")";
+                    document.getElementById("sunrise").innerText =
+                formattedTimer+" ("+utility.getRelativeTime(some.city.sunrise,null)+")";
+            document.getElementById("grabtime").innerText =
+                some.list[0].dt_txt+" ("+utility.getRelativeTime(some.list[0].dt_txt,null)+")";
             }
 
         weather.openweather_call(

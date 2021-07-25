@@ -2,6 +2,16 @@
 ////UTILITY////////////
 ///////////////////
 const utility = (() => {
+  //let rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+
+  let units = {
+    year  : 24 * 60 * 60 * 1000 * 365,
+    month : 24 * 60 * 60 * 1000 * 365/12,
+    day   : 24 * 60 * 60 * 1000,
+    hour  : 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000
+  }
   let degToCompass = function(degree) {
     var val = Math.floor((degree / 22.5) + 0.5);
     var arr = ["N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SW", "SW", "W-SW", "W", "W-NW", "NW", "N-NW"];
@@ -17,6 +27,18 @@ const utility = (() => {
     return ["hsl(", hue, ",100%,50%)"].join("");
   }
 
+ 
+  
+  
+ let getRelativeTime = function(d1, d2) {
+   d2 = new Date().getTime() / 1000
+   d1 = new Date(d1).getTime()
+  console.log(d2+" "+d1)
+    var elapsed = d2 - d1
+        return moment.duration(elapsed, "seconds").humanize(true);
+  }
+  
+
   let formatBytes = function(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
 
@@ -30,6 +52,6 @@ const utility = (() => {
 }
 
   return {
-    degToCompass, getColorFrom0to1,formatBytes, roundToTwo
+    degToCompass, getColorFrom0to1,formatBytes, roundToTwo,getRelativeTime
   };
 })();
