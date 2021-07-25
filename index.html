@@ -1,20 +1,499 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
-}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>delta.map</title>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
+  <meta charset="utf-8" />
+  <link rel="manifest" href="manifest.webapp" type="application/x-web-app-manifest+json" />
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/kaios-native-ui.css" />
+  <link rel="stylesheet" href="assets/css/grid.css" />
+  <link rel="stylesheet" href="assets/css/leaflet.css" />
+  <link rel="stylesheet" href="assets/css/leaflet-search.css" />
+  <link rel="stylesheet" href="assets/css/leaflet-openweathermap.css" />
+  <link rel="stylesheet" href="assets/css/leaflet-ruler.css" />
+  <link rel="stylesheet" href="assets/css/search.css" />
+  <link rel="stylesheet" href="assets/css/qr-reader.css" />
+  <link rel="stylesheet" href="assets/css/kaios-toaster.css" />
+  <link rel="stylesheet" href="assets/css/owfont-regular.css" />
+</head>
+
+<body class="width-100 height-100">
+  <div id="get-position" class="flex justify-content-center align-item-center width-100 height-100">
+    <div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
+  </div>
+
+  <div id="message" class="flex justify-content-center align-item-center width-100 height-100">
+    <img id="about" class="center-fit" src="/assets/images/delta-greek_background.png">
+
+
+    <!--  <div></div><br> -->
+    <!--  <br><img class="loading_container"src="icons/loading.png">-->
+    <div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
+    <div id="intro-footer2"></div>
+  </div>
+
+  <div id="goodbye" class="flex justify-content-center align-item-center width-100 height-100">
+    <div id="donation">
+      please support my work, <br />make a donation<br />
+      paypal.me/strukturart<br />
+      Thank you!
+    </div>
+    <div id="ciao">
+      Closing delta.map<br />
+      <br />
+      <img src="/icons/icon-112-112.png">
+      <ul>
+        <li>Thank you</li>
+        <li>OpenStreetMap Contributors</li>
+      </ul>
+
+    </div>
+  </div>
+
+
+
+  <div id="toast" class="width-100"></div>
+
+  <div id="search-box">
+    <input type="text" id="search" placeholder="Search for a location" />
+  </div>
+  <div id="olc"></div>
+
+  <div id="user-input" class="width-100 flex justify-content-spacearound">
+    <div id="user-input-description"></div>
+    <input type="text" />
+    <div id="button-bar-save" class="flex justify-content-spacebetween width-100">
+      <div>Cancel</div>
+      <div>Save</div>
+    </div>
+  </div>
+
+  <div id="bottom-bar">
+    <div class="inner flex justify-content-spacebetween width-100">
+      <div id="button-left"></div>
+      <div id="button-center"></div>
+      <div id="button-right"></div>
+    </div>
+  </div>
+
+  <div id="top-bar" class="head">
+    <div class="inner flex justify-content-spacebetween width-100">
+      <div class="button-left"></div>
+      <div class="button-center"></div>
+      <div class="button-right"></div>
+    </div>
+  </div>
+
+
+  <div id="map-container"></div>
+
+
+
+
+  <div id="cross">
+    <div id="cross-inner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+    </div>
+
+  </div>
+
+
+  <!--
+/////////////////////////
+///LOCATION AND MAP//////
+/////////////////////////
+-->
+
+  <div id="coordinations" class="flex justify-content-center align-item-center width-100 height-100">
+    <div>
+
+      <div id="weather">
+
+
+        <!--- <div id="time"></div>-->
+        <!-- <div id="name2">Meteo</div>-->
+
+        <div class="flex3">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+
+//////////////////////
+///QR-Coderscanner/////
+/////////////////////
+-->
+
+  <div id="qr-screen">
+    <video id="video"></video>
+    <div id="corner-nw"></div>
+    <div id="corner-no"></div>
+    <div id="corner-so"></div>
+    <div id="corner-sw"></div>
+    <div id="startDecoding" hidden>Start Scanning</div>
+  </div>
+
+  <!--
+
+//////////////////////
+///FINDER ITEMS//////
+/////////////////////
+-->
+
+
+  <div id="finder" class="flex justify-content-center align-item-center width-100 height-100">
+    <div class="panel" id="Imagery">
+      <div class="separator">Maps</div>
+      <div id="maps"></div>
+
+      <div class="separator">Layers</div>
+      <div id="layers"></div>
+
+      <div class="separator">Tracks & Markers</div>
+      <div id="tracksmarkers"></div>
+
+    </div>
+    <div class="panel" id="Information">
+      <div class="separator">GEOLOCATION</div>
+      <!--<h2>Geolocation</h2><-->
+
+      <div class="item list-item focusable" tabindex=0>
+        <p class="list-item__text">Plus Code</p>
+        <p class="list-item__subtext" id="olcode">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Latitude</p>
+        <p class="list-item__subtext" id="lat">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Longitude</p>
+        <p class="list-item__subtext" id="lng">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Altitude</p>
+        <p class="list-item__subtext" id="altitude">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Heading</p>
+        <p class="list-item__subtext" id="heading">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Speed</p>
+        <p class="list-item__subtext" id="speed">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Distance from Device</p>
+        <p class="list-item__subtext" id="distance">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Accuracy</p>
+        <p class="list-item__subtext" id="acc">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Satellites</p>
+        <p class="list-item__subtext" id="satnum">#</p>
+      </div>
+
+      <div id="time"></div>
+      <div class="separator">WEATHER</div>
+
+
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Location</p>
+        <p class="list-item__subtext" id="locationame">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Data Time</p>
+        <p class="list-item__subtext" id="grabtime">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Status</p>
+        <p class="list-item__subtext" id="desc">#</p>
+        <i id="icon" class="owf owf-200-d owf"></i>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Temperature</p>
+        <p class="list-item__subtext" id="temp">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Humidity</p>
+        <p class="list-item__subtext" id="hum">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Pressure</p>
+        <p class="list-item__subtext" id="pres">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Wind</p>
+        <p class="list-item__subtext" id="wind">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Visibility</p>
+        <p class="list-item__subtext" id="visibility">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Sunset</p>
+        <p class="list-item__subtext" id="sunset">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Sunrise</p>
+        <p class="list-item__subtext" id="sunrise">#</p>
+      </div>
+      <button data-map="update-weather" class="item button-container__button focusable">Update OWM Data</button>
+
+
+      <div class="separator">Battery</div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Charge</p>
+        <p class="list-item__subtext" id="batteryCharge">#</p>
+      </div>
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Temperature</p>
+        <p class="list-item__subtext" id="batteryTemp">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Health</p>
+        <p class="list-item__subtext" id="batteryHealth">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text" id="batteryTimeType">Charging Time</p>
+        <p class="list-item__subtext" id="batteryTime">#</p>
+      </div>
+
+      <div class="separator">Connectivity</div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Status</p>
+        <p class="list-item__subtext" id="wifiStatus">#</p>
+      </div>
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Connection Type</p>
+        <p class="list-item__subtext" id="conntype">#</p>
+      </div>
+
+
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Wifi Network</p>
+        <p class="list-item__subtext" id="wifiNetwork">#</p>
+      </div>
+
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">MAC Address</p>
+        <p class="list-item__subtext" id="wifiMac">#</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">IP Address</p>
+        <p class="list-item__subtext" id="wifiIP">#</p>
+      </div>
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Data Received</p>
+        <p class="list-item__subtext" id="dataRX">#</p>
+      </div>
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Data Transmitted</p>
+        <p class="list-item__subtext" id="dataTX">#</p>
+      </div>
+
+
+      <div class="item list-item focusable">
+        <p class="list-item__text">Data Type</p>
+        <p class="list-item__subtext" id="dataTypeC">#</p>
+      </div>
+
+
+
+
+    </div>
+
+    <div class="panel" id="Settings">
+      <h2>OpenWeatherMap</h2>
+      <label for="owm-key">OpenWeatherMap API-Key</label>
+      <input type="tel" class="item" id="owm-key" tabindex="0" />
+
+      <h2>Offline Maps</h2>
+      <label for="cache-time">After how many days should the maps be re-downloaded?</label><br />
+      <input class="item" type="tel" pattern="^[0-9]*$" id="cache-time" tabindex="1" /><br />
+
+      <label for="cache-zoom">How much zoom level should be saved?</label><br />
+      <input class="item" type="tel" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom" tabindex="2" /><br />
+
+      <label for="zoomposition">topleft - topright - bottomleft - bottomright | Zoom Control</label><br />
+      <input class="item" type="text" id="zoomposition" tabindex="2" /><br />
+
+      <button class="item" id="clear-cache" tabindex="3">Clear offline cache</button>
+      <h2>Export</h2>
+      <label for="export-path">Export path</label>
+      <input class="item" type="text" id="export-path" tabindex="4" />
+      <br />
+      <h2>General</h2>
+
+      <button tabindex="5" class="item" id="save-settings">Save Settings</button>
+    </div>
+    <div class="panel" id="Impressum">
+
+      <div tabindex="0" class="item">
+        <p>
+          Ads are dictated based on tracking by KaiAds, a service ran by KaiOS. Ads can be disabled in the source code
+          for expert users.
+        </p>
+        <p>
+          Various software and map data are used in this app, please note the licenses.
+        </p>
+        <ul>
+          <li>o.map UNLICENSE</li>
+          <li>Leaflet - BSD-2-Clause License</li>
+          <li>Ajax AutoComplete - MIT License</li>
+          <li>leaflet.tilelayer.pouchdbcached MIT license</li>
+          <li>leaflet ruler MIT License</li>
+          <li>OpenStreetMap</li>
+          <li>OpenTopoMap</li>
+          <li>Thunderforest</li>
+          <li>earthquake.usgs.gov</li>
+          <li>OpenRailwayMap</li>
+          <li>OpenWeatherMap</li>
+          <li>OpenStreetMap Contributors (I am one myself)</li>
+          <li>KaiAds (Not Opensource)</li>
+
+        </ul>
+
+        <p>I thank the people who provide this data
+          and take care of their maintenance.</p>
+
+        <p>It took me many hours to develop the app, please donate an amount if you use the app regularly. </p>
+
+      </div>
+
+      <a tabindex="1" target="blank" class="item" href="https://paypal.me/strukturart">
+        <button class="paypal-button">paypal donation</button>
+      </a>
+      </button>
+    </div>
+
+    <div class="panel" id="Shortcuts">
+      <div class="item list-item focusable" tabindex="0" data-map="update-position">
+        <p class="list-item__text">Toggle Location Update</p>
+        <p class="list-item__subtext">Short Press 1</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Rotate screen</p>
+        <p class="list-item__subtext">Long Press 1</p>
+      </div>
+      <div class="item list-item focusable" data-map="search">
+        <p class="list-item__text">Search</p>
+        <p class="list-item__subtext">Short Press 2</p>
+      </div>
+      <div class="item list-item focusable" data-map="autoupdate-geolocation">
+        <p class="list-item__text">Center Position</p>
+        <p class="list-item__subtext">Short Press 4</p>
+      </div>
+      <div class="item list-item focusable" data-map="savelocation">
+        <p class="list-item__text">Save position as Marker</p>
+        <p class="list-item__subtext">Short Press 5</p>
+      </div>
+      <div class="item list-item focusable" data-map="coordinations">
+        <p class="list-item__text">Camera Flashlight</p>
+        <p class="list-item__subtext">Short Press 6</p>
+      </div>
+      <div class="item list-item focusable" data-map="ruler">
+        <p class="list-item__text">Measure Distance</p>
+        <p class="list-item__subtext">Short Press 7</p>
+      </div>
+      <div class="item list-item focusable" data-map="export">
+        <p class="list-item__text">Export Markers</p>
+        <p class="list-item__subtext">Short Press 8</p>
+      </div>
+      <div class="item list-item focusable" data-map="add-marker-icon">
+        <p class="list-item__text">Add Marker</p>
+        <p class="list-item__subtext">Short Press 9</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Jump between Markers</p>
+        <p class="list-item__subtext">Short Press *</p>
+      </div>
+      <div class="item list-item focusable" data-map="cache-map">
+        <p class="list-item__text">Download Near Map Tiles</p>
+        <p class="list-item__subtext">Long Press #</p>
+      </div>
+      <div class="item list-item focusable" data-map="share">
+        <p class="list-item__text">Share Position</p>
+        <p class="list-item__subtext">Short Press 0</p>
+      </div>
+      <div class="item list-item focusable">
+        <p class="list-item__text">Rainviewer</p>
+        <p class="list-item__subtext">Long Press 0</p>
+      </div>
+      <div class="item list-item focusable" data-map="photo">
+        <p class="list-item__text">Take a photo</p>
+        <p class="list-item__subtext">Press here</p>
+      </div>
+
+
+
+
+    </div>
+
+
+  </div>
+
+
+  <script defer src="assets/exclude-js/jsQR.js"></script>
+  <script defer src="assets/js/scan.js"></script>
+  <script defer src="assets/js/settings.js"></script>
+  <script defer src="assets/js/utility.js"></script>
+
+
+  <script defer src="assets/js/jQuery-3.1.0.js"></script>
+  <script defer src="assets/js/moments.min.js"></script>
+  <script defer src="assets/js/applait.finder.min.js"></script>
+  <script defer src="assets/js/olc.js"></script>
+  <script defer src="assets/js/leaflet.js"></script>
+  <script defer src="assets/js/pouchDB.js"></script>
+  <script defer src="assets/js/L.TileLayer.PouchDBCached.js"></script>
+  <script defer src="assets/js/jquery.autocomplete.min.js"></script>
+  <script defer src="assets/js/tile.stamen.1.3.0.min.js"></script>
+  <script defer src="assets/js/leaflet-openweathermap.js"></script>
+  <script defer src="assets/js/leaflet.rotatedMarker.js"></script>
+  <script defer src="assets/js/leaflet-ruler.js"></script>
+  <script defer src="assets/js/gpx.js"></script>
+  <script defer src="index.js"></script>
+  <script defer src="assets/js/maps.js"></script>
+  <script defer src="assets/js/helper.js"></script>
+  <script defer src="assets/js/exportGeoJson.js"></script>
+  <script defer src="assets/js/mozactivity.js"></script>
+  <script defer src="assets/js/search.js"></script>
+  <script defer src="assets/js/goodbye.js"></script>
+  <script defer src="assets/js/openweather.js"></script>
+  <script defer src="assets/js/module.js"></script>
+  <script defer src="assets/js/kaios-toaster.js"></script>
+  <script defer src="assets/js/informationHandler.js"></script>
+  <script defer src="assets/js/mozactivity.flash.js"></script>
+  <script defer src="assets/js/polyfill.min.js"></script>
+  <script defer src="assets/js/kaios-native-ui.js"></script>
+  <script defer src="assets/js/L.BingLayer.js"></script>
+
+
+
+  <script src="assets/js/kaiads.js"></script>
+  <script src="https://static.kaiads.com/ads-sdk/ads-sdk.v5.min.js"></script>
+
+</body>
+
+</html>

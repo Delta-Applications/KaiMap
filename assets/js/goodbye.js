@@ -1,20 +1,31 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
-}
+window.goodbye = function () {
+  kaiads.DisplayFullScreenAd();
+
+  document.getElementById("goodbye").style.display = "block";
+
+  if (localStorage.clickcount) {
+    localStorage.clickcount = Number(localStorage.clickcount) + 1;
+  } else {
+    localStorage.clickcount = 1;
+  }
+
+  if (localStorage.clickcount == 3) {
+    message();
+  } else {
+    document.getElementById("ciao").style.display = "block";
+    setTimeout(function () {
+      kaiads.DisplayFullScreenAd();
+
+      window.close();
+    }, 4000);
+  }
+
+  function message() {
+    document.getElementById("donation").style.display = "block";
+    setTimeout(function () {
+      localStorage.clickcount = 1;
+
+      window.close();
+    }, 6000);
+  }
+};

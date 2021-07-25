@@ -1,20 +1,60 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
-}
+////////////////////
+////UTILITY////////////
+///////////////////
+const utility = (() => {
+  //let rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+
+  let units = {
+    year: 24 * 60 * 60 * 1000 * 365,
+    month: 24 * 60 * 60 * 1000 * 365 / 12,
+    day: 24 * 60 * 60 * 1000,
+    hour: 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000
+  }
+  let degToCompass = function (degree) {
+    var val = Math.floor((degree / 22.5) + 0.5);
+    var arr = ["N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SW", "SW", "W-SW", "W", "W-NW", "NW", "N-NW"];
+    return arr[(val % 16)];
+  };
+
+  let roundToTwo = function (num) {
+    return +(Math.round(num + "e+2") + "e-2");
+  }
+  let getColorFrom0to1 = function (value) {
+    //value from 0 to 1
+    var hue = ((1 - value) * 120).toString(10);
+    return ["hsl(", hue, ",100%,50%)"].join("");
+  }
+
+
+
+
+  let getRelativeTime = function (d1, d2) {
+    d2 = new Date().getTime() / 1000
+    d1 = new Date(d1).getTime()
+    var elapsed = d1 - d2
+    return moment.duration(elapsed, "seconds").humanize(true);
+  }
+
+
+  let formatBytes = function (bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  return {
+    degToCompass,
+    getColorFrom0to1,
+    formatBytes,
+    roundToTwo,
+    getRelativeTime
+  };
+})();

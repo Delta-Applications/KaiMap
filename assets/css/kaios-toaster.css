@@ -1,20 +1,69 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
+.kaios-toast {
+  position: fixed;
+  background-color: #363636;
+  border-radius: 3px;
+  width: 100%;
+  color: #ffffff;
+  text-align: center;
+  word-wrap: break-word;
+  opacity: 0.4;
+  font-family: "Lato-Regular";
+  font-weight: 100;
+  font-size: 1.5rem;
+  z-index: 99999;
+  transition: opacity 0.25s, top 0.25s, bottom 0.25s, -webkit-transform 0.25s;
+  transition: transform 0.25s, opacity 0.25s, top 0.25s, bottom 0.25s;
+  transition: transform 0.25s, opacity 0.25s, top 0.25s, bottom 0.25s, -webkit-transform 0.25s;
+  box-sizing: border-box;
+  max-width: 18rem;
+}
+
+.kaios-toast-content {
+  padding: 8px
+}
+
+.kaios-toast-north {
+  left: 50%;
+  transform: translateX(-50%);
+  top: -54px;
+}
+
+.kaios-toast-north.kaios-toast-shown {
+  opacity: 1;
+  top: 27px;
+}
+
+.kaios-toast-south {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -30px;
+}
+
+.kaios-toast-south.kaios-toast-shown {
+  opacity: 1;
+  bottom: 30px;
+}
+
+.kaios-toast-error {
+  background-color: #ff3d3d;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.kaios-toast-info {
+  background-color: rgb(31, 96, 237);
+  border-radius: 3px;
+  color: #fff;
+}
+
+.kaios-toast-success {
+  background-color: #62a465;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.kaios-toast-warning {
+  background-color: #ffb618;
+  border-radius: 3px;
+  color: #fff;
 }

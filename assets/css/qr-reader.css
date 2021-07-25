@@ -1,20 +1,78 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
+div#qr-screen {
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 200000;
+    display: block;
+    min-height: 100vh;
+    min-width: 100vw;
+    z-index: 2000000000000;
+    display: none;
+}
+
+#video {
+    bottom: 0;
+    height: auto;
+    min-height: 100%;
+    min-width: 100%;
+    position: fixed;
+    right: 0;
+    width: auto;
+}
+
+#startDecoding {
+    background: #0095dd;
+    border-radius: 40px;
+    color: #fff;
+    font-family: Arial, sans;
+    font-size: 20px;
+    left: 50%;
+    margin: -30px 0 0 -95px;
+    padding: 20px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    width: 150px;
+}
+
+#corner-nw,
+#corner-no,
+#corner-so,
+#corner-sw {
+    border: #fff 6px solid;
+    height: 30px;
+    position: fixed;
+    width: 30px;
+}
+
+#corner-nw {
+    border-bottom: 0;
+    border-right: 0;
+    border-top-left-radius: 20px;
+    left: 20px;
+    top: 20px;
+}
+
+#corner-no {
+    border-bottom: 0;
+    border-left: 0;
+    border-top-right-radius: 20px;
+    right: 20px;
+    top: 20px;
+}
+
+#corner-so {
+    border-bottom-right-radius: 20px;
+    border-left: 0;
+    border-top: 0;
+    bottom: 20px;
+    right: 20px;
+}
+
+#corner-sw {
+    border-bottom-left-radius: 20px;
+    border-right: 0;
+    border-top: 0;
+    bottom: 20px;
+    left: 20px;
 }

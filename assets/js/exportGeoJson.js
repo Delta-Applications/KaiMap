@@ -1,20 +1,55 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
-}
+const geojson = ((_) => {
+  ///////////
+  //save geoJson file
+  /////////////////
+  const save_geojson = function (file_path_name, type) {
+    let extData;
+
+    if (type == "single") {
+      // Create a marker
+      let n = markers_group.getLayers();
+      var marker = n[n.length - 1];
+      // Get the GeoJSON object
+      var single = marker.toGeoJSON();
+      // Log to console
+
+      extData = JSON.stringify(single);
+    }
+
+    if (type == "collection") {
+      let collection = markers_group.toGeoJSON();
+      let bounds = map.getBounds();
+
+      collection.bbox = [
+        [
+          bounds.getSouthWest().lng,
+          bounds.getSouthWest().lat,
+          bounds.getNorthEast().lng,
+          bounds.getNorthEast().lat,
+        ],
+      ];
+
+      extData = JSON.stringify(collection);
+    }
+
+    let geojson_file = new Blob([extData], {
+      type: "application/json",
+    });
+    let sdcard = navigator.getDeviceStorage("sdcard");
+    let requestAdd = sdcard.addNamed(geojson_file, file_path_name);
+
+    requestAdd.onsuccess = function () {
+      toaster("Export successful", 3000);
+      windowOpen = "map";
+    };
+
+    requestAdd.onerror = function () {
+      toaster("Unable to write the file: " + this.error, 2000);
+      windowOpen = "map";
+    };
+  };
+
+  return {
+    save_geojson,
+  };
+})();

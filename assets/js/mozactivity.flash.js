@@ -1,20 +1,98 @@
-Error: Cannot find module 'fs/promises'
-Require stack:
-- /usr/local/lib/node_modules/minify/lib/minify.js
-- /usr/local/lib/node_modules/minify/bin/minify.js
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-    at Module.require (internal/modules/cjs/loader.js:887:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
-    at Module._compile (internal/modules/cjs/loader.js:999:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
-    at Module.load (internal/modules/cjs/loader.js:863:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-    at Module.require (internal/modules/cjs/loader.js:887:19) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/usr/local/lib/node_modules/minify/lib/minify.js',
-    '/usr/local/lib/node_modules/minify/bin/minify.js'
-  ]
-}
+////////////////////
+////UTILITY////////////
+///////////////////
+const flashlight = (() => {
+  var eventName = document.ontouchdown ? 'touchdown' : 'mousedown';
+
+  function setupCamera(next) {
+    if (!navigator.mozCameras) {
+      return next('No camera');
+    }
+
+    function found(camera) {
+      if (count <= 0) {
+        return;
+      }
+      count--;
+      if (camera) {
+        var flashModes = camera.capabilities.flashModes;
+        console.log('flashModes: ' + flashModes);
+        if (flashModes && flashModes.indexOf('torch') >= 0) {
+          count = -1;
+          next(null, camera);
+        }
+      }
+      if (!count) {
+        next('No flash');
+      }
+    }
+
+    function getCameraPromise(id) {
+      var promise = navigator.mozCameras.getCamera({
+        camera: cameras[i]
+      }, {mode: 'unspecified'}).then(function(result) {
+        found(result.camera);
+      });
+    }
+
+    function getCameraCallback(id) {
+      navigator.mozCameras.getCamera({
+        camera: id
+      }, null, found, function(err) {
+        throw new Error(err);
+      });
+    }
+
+    var oldStyle = navigator.mozCameras.getCamera.length == 3;
+    console.log('oldStyle', oldStyle);
+    var getCamera = oldStyle ? getCameraCallback : getCameraPromise;
+
+    var cameras = navigator.mozCameras.getListOfCameras();
+    var count = cameras.length;
+    console.log('getListOfCameras: ' + count);
+    for (var i = 0; i < count; i++) {
+      console.log('getCamera:', cameras[i]);
+      getCamera(cameras[i]);
+    }
+    if (!count) {
+      next('No camera');
+    }
+  }
+
+  var torching = false;
+  var currentCamera = null;
+
+  function trigger(to, release) {
+    torching = (to != null) ? to : (!torching);
+
+    if (torching) {
+      document.body.classList.add('torching');
+    } else {
+      document.body.classList.remove('torching');
+    }
+
+    if (currentCamera) {
+      currentCamera.flashMode = (torching) ? 'torch' : 'auto';
+      console.log('Set flashMode:', currentCamera.flashMode);
+      return;
+    }
+
+    console.log('Calling setupCamera');
+    setupCamera(function(err, camera) {
+      if (!camera) {
+        console.warn(err);
+        document.body.classList.add('unsupported');
+        return;
+      }
+      document.body.classList.add('supported');
+      currentCamera = camera;
+      console.log('Setting flashMode');
+      camera.flashMode = (torching) ? 'torch' : 'auto';
+    });
+  }
+  
+    return {
+     trigger
+    };
+  })();
+  
