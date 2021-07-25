@@ -278,8 +278,10 @@ var formattedTimer = hours2 + ':' + minutes2.substr(-2) + ':' + seconds2.substr(
                 formattedTime+" ("+utility.getRelativeTime(some.city.sunset,null)+")";
                     document.getElementById("sunrise").innerText =
                 formattedTimer+" ("+utility.getRelativeTime(some.city.sunrise,null)+")";
+              var grabtime = utility.getRelativeTime(some.list[0].dt,null)
+             grabtime = grabtime.charAt(0).toUpperCase() + grabtime.slice(1);
             document.getElementById("grabtime").innerText =
-                some.list[0].dt_txt+" ("+utility.getRelativeTime(some.list[0].dt,null)+")";
+             grabtime
             }
 
         weather.openweather_call(

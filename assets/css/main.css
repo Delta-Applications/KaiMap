@@ -374,14 +374,17 @@ div#cross div:nth-child(4) {
  top bar
  */
 
-div#top-bar {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  height: 15px;
-  z-index: 6;
-  background: black;
-  display: none;
+ div#top-bar {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2.8rem;
+  height: 2.8rem;
+  padding: 0 1rem 0 1rem;
+  background: var(--header-background);
+  color: var(--header-color);
+  font-size: 1.7rem;
+  font-weight: 400;
+  text-transform: var(--capitalization);
 }
 
 div#top-bar div#inner {

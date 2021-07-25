@@ -33,8 +33,7 @@ const utility = (() => {
  let getRelativeTime = function(d1, d2) {
    d2 = new Date().getTime() / 1000
    d1 = new Date(d1).getTime()
-  console.log(d2+" "+d1)
-    var elapsed = d2 - d1
+    var elapsed = d1 - d2
         return moment.duration(elapsed, "seconds").humanize(true);
   }
   
