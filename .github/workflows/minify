@@ -1,0 +1,29 @@
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+    env:
+      prepo: ${{github.repository}}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Minify Actions
+      uses: amireshoon/minifyAction@main
+      with:
+        repo: $prepo
+    - name: Minifying Codes
+      run: |
+        minifier.sh $prepo
+    - name: Pushing to production branch
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        directory: github/workspace
+        branch: build
+        message: Minified CSS, Javascript, HTML.
+        author_name: Minify
+        author_email: amireshoon-minifyAction@users.noreply.github.com
+        force: true
