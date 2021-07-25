@@ -6,7 +6,6 @@
 >> Weather = Simple saving OpenWeatherMap based weather application, could support data provider setting in the future, such as AccuWeather.
 >> Waypoints = Detailed saving of Waypoints in a /Waypoints/ folder in the phone. Uses JSON and accurately lets the user pick a title, description, category, type of waypoint, 
                and automatically display distance.
-   -- 💼🌲 🌳 🌴 🪵 🌱 🌿 ☘️ 🍀 🎍 🪴 🎋 🍃 🍂 🍁 🍄🪨🍽⚽️🎖✈️🚀🏔 🗻🏠 🏡 🏘 🏚🏥🏛🛠🧱🚰🚾♿️ 🅿️🚮📓 📔 📒 📕 📗 📘 📙🔴 🟠 🟡 🟢 🔵 🟣 ⚫️ ⚪️ 🟤🟥 🟧 🟨 🟩 🟦 🟪 ⬛️ ⬜️ 🟫
 
 
 >> Compass = Can point to magnetic nord, or offset to nord pole. It can also point to a waypoint selected in the menu.

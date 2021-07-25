@@ -1,5 +1,6 @@
 "use strict";
 "enablePrivelege";
+
 $('div#about').css('message', 'none');
 $('img#about').css('display', 'none');
 //setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
@@ -426,12 +427,13 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 		finder_gpx.on("searchComplete", function(needle, filematchcount) {});
 
 		finder_gpx.on("fileFound", function(file, fileinfo, storageName) {
+			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
+
 			document
-				.querySelector("div#gpx")
+				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item" data-map="gpx">' + fileinfo.name + "</div>"
-				);
+'<div class="item list-item focusable" data-map="gpx" readfile="'+fileinfo.name+'"><p class="list-item__text">'+ filename+'</p><p class="list-item__subtext">GPS Exchange Format</p></div>'				);
 		});
 	};
 
@@ -449,11 +451,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 		finder.on("searchComplete", function(needle, filematchcount) {});
 		finder.on("fileFound", function(file, fileinfo, storageName) {
+			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
 			document
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item" data-map="geojson">' + fileinfo.name + "</div>"
+					'<div class="item list-item focusable" data-map="geojson" readfile="'+fileinfo.name+'"><p class="list-item__text">'+ filename+'</p><p class="list-item__subtext">GeoJSON</p></div>'
 				);
 		});
 	};
@@ -528,6 +531,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
+				top_bar("","","")
 			};
 
 			reader.readAsText(file);
@@ -971,13 +975,12 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 
 			//add geoJson data
 			if (item_value == "geojson") {
-				top_bar("", "", "");
 				let finder = new Applait.Finder({
 					type: "sdcard",
 					debugMode: false,
 				});
-				finder.search(document.activeElement.innerText);
-
+				finder.search(document.activeElement.getAttribute("readfile"));
+				console.log(document.activeElement.getAttribute("readfile"))
 				finder.on("fileFound", function(file, fileinfo, storageName) {
 					//file reader
 
@@ -994,7 +997,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 							geojson_data = JSON.parse(event.target.result);
 						} catch (e) {
 							kaiosToaster({
-								message: "GeoJson File is invalid.",
+								message: "GeoJSON File is invalid.",
 								position: 'north',
 								type: 'error',
 								timeout: 5000
@@ -1021,7 +1024,7 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 							},
 						}).addTo(map);
 						document.querySelector("div#finder").style.display = "none";
-
+						top_bar("","","")
 						windowOpen = "map";
 					};
 
@@ -1030,9 +1033,8 @@ document.querySelector("div#intro-footer2").innerText = "Your page should be rea
 			}
 
 			//add gpx data
-			if (item_value == "gpx") {
-				top_bar("", "", "");
-				loadGPX(document.activeElement.innerText);
+			if (item_value == "gpx") {				
+				loadGPX(document.activeElement.getAttribute("readfile"));
 			}
 		}
        if(!item_value == "update-weather") {		top_bar("", "", "");	}
