@@ -201,7 +201,6 @@ html, body {
     transform: rotate(-45deg) translateY(-50%);
     top:22%;
     left:85%;
-    color:var(--item-subtext-color);
 }
 
 .list-item-indicator:focus > .list-item-indicator__indicator {
