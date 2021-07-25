@@ -1,50 +1,20 @@
-.leaflet-ruler {
-  height: 35px;
-  width: 35px;
-  background-image: url("../images/icon.png");
-  /* <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> */
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.leaflet-ruler:hover {
-  background-image: url("../images/icon-colored.png");
-  /* <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> */
-}
-
-.leaflet-ruler-clicked {
-  height: 35px;
-  width: 35px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url("../images/icon-colored.png");
-  border-color: chartreuse !important;
-}
-
-.leaflet-bar {
-  background-color: #ffffff;
-}
-
-.leaflet-control {
-  cursor: pointer;
-}
-
-.result-tooltip {
-  background-color: white;
-  border-width: medium;
-  border-color: #de0000;
-  font-size: smaller;
-}
-
-.moving-tooltip {
-  background-color: rgba(255, 255, 255, 0.7);
-  background-clip: padding-box;
-  opacity: 0.5;
-  border: dotted;
-  border-color: red;
-  font-size: smaller;
-}
-
-.plus-length {
-  padding-left: 45px;
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
 }

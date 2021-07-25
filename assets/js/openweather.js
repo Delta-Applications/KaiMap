@@ -1,58 +1,20 @@
-const weather = (() => {
-  let errorcool = false
-  let openweather_call = function (lat, lng, apikey, callback) {
-    console.log(lat + "/" + lng + "/" + apikey);
-
-    let xhr = new XMLHttpRequest({
-      mozSystem: true,
-    });
-    xhr.open(
-      "GET",
-      "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" +
-      lat +
-      "&lon=" +
-      lng +
-      "&appid=" +
-      "99d2594c090c1ee9a8ad525fd7a83f85"
-    );
-    xhr.timeout = 4000; // time in milliseconds
-
-    xhr.ontimeout = function (e) {};
-
-    xhr.onload = function () {
-      if (xhr.status == 200) {
-        console.log(JSON.stringify(JSON.parse(xhr.responseText)))
-        callback(JSON.parse(xhr.responseText));
-      }
-      if (xhr.status == 403) {
-        kaiosToaster({
-          message: "OWM Error: Access Forbidden",
-          position: 'north',
-          type: 'warning',
-          timeout: 3000
-        });
-      }
-      // analyze HTTP status of the response
-      if (xhr.status != 200) {}
-    };
-
-    xhr.onerror = function (err) {
-      if (errorcool == true) {
-        return
-      }
-      kaiosToaster({
-        message: "OWM Error: Connection Unavailable",
-        position: 'north',
-        type: 'warning',
-        timeout: 3000
-      });
-      errorcool = true
-      console.log(err);
-    };
-    xhr.send();
-  };
-
-  return {
-    openweather_call,
-  };
-})();
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
+}
