@@ -61,7 +61,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
           message: "Finished caching",
           position: 'north',
           type: 'success',
-          timeout: 1000
+          timeout: 2000
         });
         screenWakeLock("unlock");
       }, 2000);
@@ -73,7 +73,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         message: "Cache Error @ "+ev.tile+": "+ev.error,
         position: 'north',
         type: 'error',
-        timeout: 1000
+        timeout: 2000
       });
 		});
 
@@ -82,7 +82,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         message: "Cache Miss: "+ev.url,
         position: 'north',
         type: 'warning',
-        timeout: 1000
+        timeout: 2000
       });
 		});*/ //Happens too frequently to be an important message
 
@@ -93,7 +93,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
         message: "Failed caching: "+seedData,
         position: 'north',
         type: 'error',
-        timeout: 1000
+        timeout: 2000
       });
     });
     tilesLayer.on("seedstart", function (seedData) {
@@ -117,7 +117,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OpenCycleMap",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
     tilesUrl = 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=c88c645ad8f64411bef71105c00710bc';
@@ -161,7 +161,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "Toner Map",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
     tilesUrl = "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png";
@@ -185,7 +185,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "Google Street",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
      tilesUrl = 'http://mt1.google.com/vt/lyrs=m@146&hl=en&x={x}&y={y}&z={z}'
@@ -211,7 +211,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "Bing Aerial",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
       tilesLayer =  new L.tileLayer.bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
@@ -224,7 +224,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OpenTopoMap",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
     
@@ -262,7 +262,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OWM Precipitation",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
 
@@ -304,7 +304,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OWM Wind",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
     tilesUrl =
       "https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=" +
@@ -342,7 +342,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OWM Temperature",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
     tilesUrl =
@@ -373,7 +373,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "OpenStreetMap",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
 
@@ -411,7 +411,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "Railways",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
 
@@ -461,7 +461,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
       message: "Earthquakes",
       position: 'north',
       type: 'info',
-      timeout: 1000
+      timeout: 2000
     });
 
     const today = new Date();
@@ -484,7 +484,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
           message: "Earthquakes Layer",
           position: 'north',
           type: 'info',
-          timeout: 1000
+          timeout: 2000
         });
     
         L.geoJSON(data, {
@@ -556,7 +556,7 @@ if (windowOpen == "map"){    top_bar("", "Downloading", "");}
           message: "Rainviewer",
           position: 'north',
           type: 'info',
-          timeout: 1000
+          timeout: 2000
         });
     
 
