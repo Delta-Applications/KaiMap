@@ -1,15 +1,1 @@
-let classesWithColoredParents = /checkbox-container__checkbox|radio-container__radio|input-container__input|textarea-container__textarea|slider-container__slider/g;
-
-const callFunction = (callback, e) => {
-  let element = e.target;
-  //if element has any of those classes in regex then its parent will change class. 
-  if (element.className && element.className.match(classesWithColoredParents))
-    callback(element.parentElement);
-};
-
-const blur = (element) => element.classList.remove('selected');
-
-const focus = (element) => element.classList.add('selected');
-
-window.addEventListener('focus', e => callFunction(focus, e), true);
-window.addEventListener('blur', e => callFunction(blur, e), true);
+let classesWithColoredParents=/checkbox-container__checkbox|radio-container__radio|input-container__input|textarea-container__textarea|slider-container__slider/g;const callFunction=(e,t)=>{let a=t.target;a.className&&a.className.match(classesWithColoredParents)&&e(a.parentElement)},blur=e=>e.classList.remove("selected"),focus=e=>e.classList.add("selected");window.addEventListener("focus",(e=>callFunction(focus,e)),!0),window.addEventListener("blur",(e=>callFunction(blur,e)),!0);
