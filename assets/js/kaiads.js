@@ -1,66 +1,20 @@
-const kaiads = (() => {
-////////////////////////////////////
-// ** KaiAds Management Module ** //
-
-var DisplayAds = false // Change this if you are viewing source-code and prefer to not use Ads
-
-var Publisher = "43accaf9-7798-4925-804b-ec0fa006b010" // Publisher ID
-var Application = "delta.map" // Application Name
-////////////////////////////////////
-// This module is not official. 
-// Its purpose is to facilitate
-// access to KaiAds by Delta Apps.
-////////////////////////////////////
-
-// Generate a random number between 2 and 10, including both 2 and 10
-function generateRandomIntegerInRange(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
 }
-
-//$.loadScript('https://static.kaiads.com/ads-sdk/ads-sdk.v5.min.js',function(){})
-
-function ConnectivityCheck(){
-    if (navigator.mozWifiManager.connection.status == "disconnected") {DisplayAds = false}
-    DisplayAds = navigator.onLine
-}
-
-
-let DisplayFullScreenAd = function() {
-    try {
-        if (!DisplayAds == false) {
-            ConnectivityCheck();
-
-            getKaiAd({
-                publisher: Publisher,
-                app: Application,
-                slot: 'ad-container',
-        
-                // Max supported size is 240x264
-                // container is required for responsive ads
-                onerror: err => console.error('**KaiAds** [ERROR] ', err.message),
-                onready: ad => {
-              
-                  // Ad is ready to be displayed
-                  // calling 'display' will display the ad
-                  if (generateRandomIntegerInRange(1,2) == 1) {
-                    ad.call('display')
-                  }
-                  // Introduce chance to reduce annoyances by full-screen Advertisements
-                }
-              })
-    
-        }
-        
-      }
-      catch(err) {
-        console.error('**KaiAds** [ERROR] ', err.message)
-      } 
-   
-    
-}
-
-
-return {
-    DisplayFullScreenAd
-  };
-})();

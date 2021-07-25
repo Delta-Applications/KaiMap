@@ -1,60 +1,20 @@
-const module = (() => {
-  ////////////////////
-  ////RULER///////////
-  ///////////////////
-  var ruler_activ = false;
-  let ruler_toggle = function () {
-    if (ruler_activ) {
-      $(".leaflet-interactive").remove();
-      $("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
-      $(
-        "div.leaflet-tooltip.result-tooltip.leaflet-zoom-animated.leaflet-tooltip-left"
-      ).remove();
-      $("div.leaflet-ruler").remove();
-      $(".result-tooltip").remove();
-      $(".moving-tooltip").remove();
-
-      L.control.ruler().remove();
-
-      ruler_activ = false;
-      navigator.spatialNavigationEnabled = false;
-
-      return false;
-    }
-    if (!ruler_activ) {
-      L.control.ruler().addTo(map);
-      $("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
-
-      navigator.spatialNavigationEnabled = true;
-      ruler_activ = true;
-
-      return false;
-    }
-  };
-
-  let index = 0;
-  let jump_to_layer = function () {
-    let l = markers_group.getLayers();
-    index = index + 1;
-
-    console.log(l.length);
-
-    if (index > l.length - 1) index = 0;
-
-    map.setView(l[index]._latlng, current_zoom_level);
-  };
-
-  let calc_distance = function (from_lat, from_lng, to_lat, to_lng) {
-    distance = map.distance([from_lat, from_lng], [to_lat, to_lng]) / 1000;
-
-    distance = Math.ceil(distance).toFixed(2);
-
-    return distance;
-  };
-
-  return {
-    ruler_toggle,
-    jump_to_layer,
-    calc_distance,
-  };
-})();
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
+}

@@ -1,107 +1,20 @@
-"use strict";
-
-let olc_lat_lng;
-
-//https://www.devbridge.com/sourcery/components/jquery-autocomplete/
-$(document).ready(function () {
-  const ac_selected_station = $("#search").autocomplete({
-    serviceUrl:
-      "https://nominatim.openstreetmap.org/search?format=json&addressdetails=0",
-    minChars: 1,
-    showNoSuggestionNotice: true,
-    paramName: "q",
-    lookupLimit: 10,
-    deferRequestBy: 2000,
-    transformResult: function (response) {
-      var obj = $.parseJSON(response);
-      return {
-        suggestions: $.map(obj, function (dataItem) {
-          return {
-            value: dataItem.display_name,
-            data_lat: dataItem.lat,
-            data_lon: dataItem.lon,
-          };
-        }),
-      };
-    },
-    onSearchStart: function () {},
-    onSearchError: function (query, jqXHR, textStatus, errorThrown) {
-      toaster(JSON.stringify(jqXHR), 2000);
-    },
-    onSelect: function (suggestion) {
-      let lat_lon = [suggestion.data_lat, suggestion.data_lon];
-      			localStorage.setItem("last_location", JSON.stringify(lat_lon));
-
-      addMarker(lat_lon[0], lat_lon[1]);
-    },
-  });
-
-  //add marker
-  function addMarker(lat, lng) {
-    map.setView([lat, lng], 13);
-    hideSearch();
-    current_lat = Number(lat);
-    current_lng = Number(lng);
- 
-    L.marker([current_lat, current_lng]).addTo(markers_group);
-    toaster("Press 5 to save the search result as marker");
-  }
-
-  //////////////////////////
-  ////SEARCH BOX////////////
-  /////////////////////////
-
-  window.showSearch = function () {
-    $("#search").autocomplete().enable();
-
-    bottom_bar("Close", "SELECT", "");
-    $("div#search-box").find("input").val("");
-
-    $("div#search-box").css("display", "block");
-    $("div#search-box").find("input").focus();
-    $("div#bottom-bar").css("display", "block");
-
-    windowOpen = "search";
-  };
-
-  window.hideSearch = function () {
-    $("div#bottom-bar").css("display", "none");
-    $("div#search-box").css("display", "none");
-    $("div#search-box").find("input").val("");
-    $("div#search-box").find("input").blur();
-    $("div#olc").css("display", "none");
-
-    windowOpen = "map";
-  };
-
-  //////////////////////////
-  ////OLC////////////
-  /////////////////////////
-
-  document.getElementById("search").addEventListener("input", function () {
-    let input_val = $("#search").val();
-    var n = input_val.startsWith("/");
-    if (n) {
-      input_val = input_val.replace("/", "");
-      $("#search").autocomplete().disable();
-
-      $("div.autocomplete-suggestions").css("display", "none");
-      $("div.autocomplete-suggestion").css("display", "none");
-      $("div#olc").css("display", "block");
-      $("#olc").text(OLC.decode(input_val));
-
-      let ll = String(OLC.decode(input_val));
-
-      if (ll.includes("NaN") == false) {
-        olc_lat_lng = ll.split(",");
-        map.setView([olc_lat_lng[0], olc_lat_lng[1]], 13);
-      }
-    }
-
-    if (n == false) {
-      $("div.autocomplete-suggestions").css("display", "block");
-      $("div#olc").css("display", "none");
-      $("#search").autocomplete().enable();
-    }
-  });
-});
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
+}

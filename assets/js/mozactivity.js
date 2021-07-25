@@ -1,66 +1,20 @@
-const mozactivity = (() => {
-
-  const getPath = function () {
-    var a = new MozActivity({
-      name: "pick",
-    });
-    a.onsuccess = function () {
-      alert(a.result);
-    };
-    a.onerror = function () {
-      alert("Failure when trying to pick");
-    };
-  };
-
-  let share_position = function () {
-    let a =
-      "https://www.openstreetmap.org/?mlat=" +
-      current_lat +
-      "&mlon=" +
-      current_lng +
-      "#map=13/" +
-      current_lat +
-      "/" +
-      current_lng +
-      "&layers=T";
-
-    let activity = new MozActivity({
-      name: "share",
-      data: {
-        type: "url",
-        url: a,
-      },
-    });
-
-    activity.onsuccess = function () {
-      console.log("successfully shared");
-    };
-
-    activity.onerror = function () {
-      console.log("The activity encounter en error: " + this.error);
-    };
-  };
-
-  const photo = function () {
-    let activity = new MozActivity({
-      name: "record",
-      data: {
-        type: ["photos", "videos"],
-      },
-    });
-
-    activity.onsuccess = function () {
-      console.log("successfully");
-    };
-
-    activity.onerror = function () {
-      console.log("The activity encounter en error: " + this.error);
-    };
-  };
-
-  return {
-    photo,
-    share_position,
-    getPath,
-  };
-})();
+Error: Cannot find module 'fs/promises'
+Require stack:
+- /usr/local/lib/node_modules/minify/lib/minify.js
+- /usr/local/lib/node_modules/minify/bin/minify.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+    at Module.require (internal/modules/cjs/loader.js:887:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (/usr/local/lib/node_modules/minify/lib/minify.js:5:20)
+    at Module._compile (internal/modules/cjs/loader.js:999:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Module.require (internal/modules/cjs/loader.js:887:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/usr/local/lib/node_modules/minify/lib/minify.js',
+    '/usr/local/lib/node_modules/minify/bin/minify.js'
+  ]
+}
