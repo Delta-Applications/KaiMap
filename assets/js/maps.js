@@ -626,7 +626,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
                 ""
               );
             }
@@ -642,7 +642,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS"),
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
                 ""
               );
             }
@@ -658,7 +658,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 3]).format("DD.MM.YYYY, HH:MM:SS"),
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 3], null)+")",
                 ""
               );
             }
@@ -673,7 +673,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 2]).format("DD.MM.YYYY, HH:MM:SS"),
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 2], null)+")",
                 ""
               );
             }
@@ -688,7 +688,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 1]).format("DD.MM.YYYY, HH:MM:SS"),
+                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 1], null)+")",
                 ""
               );
             }
@@ -699,8 +699,13 @@ const maps = (() => {
         }, 2000);
       })
       .catch(function (err) {
-        toaster("Failed to load weather data", 3000);
-      });
+        kaiosToaster({
+          message: "Failed to load Rainviewer data",
+          position: 'north',
+          type: 'error',
+          timeout: 3000
+        });
+        });
   }
   return {
     opencycle_map,
