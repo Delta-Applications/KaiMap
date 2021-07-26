@@ -796,10 +796,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		  let item_value = document.activeElement.getAttribute("data-action");
 	
 		  if (item_value == "remove_marker") {
-			map.removeLayer(selected_marker);
-			toaster("marker removed", 4000);
-			document.querySelector("div#markers-option").style.display = "none";
-			windowOpen = "map";
+			  if (confirm("Are you sure you want to remove this marker?") == true) {
+				map.removeLayer(selected_marker);
+			
+				kaiosToaster({
+					message: "Marker removed",
+					position: 'north',
+					type: 'error',
+					timeout: 3000
+				});				
+				document.querySelector("div#markers-option").style.display = "none";
+				windowOpen = "map";
+			  }
+		
 		  }
 		}
 	  };
