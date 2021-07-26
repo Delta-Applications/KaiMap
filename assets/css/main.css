@@ -564,7 +564,6 @@ div#finder div#close {
 div#finder .item:focus {
   background: var(--accent-color);
   border-color: #FFFF;
-  border-radius: 3px;
   color: white;
 }
 

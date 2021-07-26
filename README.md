@@ -4,6 +4,11 @@ delta.map is a local offline and online caching client for viewing maps, weather
 This is still a beta, a direct fork of o.map, uploaded by me on github after viewing some suggestions.
 
 ![coolappbanner](https://user-images.githubusercontent.com/26120324/125851468-53672dea-c3ce-41df-b0ba-8a755d72f6f3.png)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fgjbae1212%2Fhit-counter&count_bg=%23144FDC&title_bg=%23333131&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false)](https://hits.seeyoufarm.com)
+![License](https://img.shields.io/github/license/Delta-applications/delta.map)
+![Checks](https://img.shields.io/github/checks-status/Delta-applications/delta.map/main)
+![CommitActivity](https://img.shields.io/github/commit-activity/w/Delta-applications/delta.map)
+![Starts](https://img.shields.io/github/stars/Delta-Applications/delta.map)
 
 ## Features
 
