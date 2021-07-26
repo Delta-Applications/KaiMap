@@ -55,6 +55,7 @@ let setting = {
 	cache_zoom: localStorage.getItem("cache-zoom"),
 	last_location: JSON.parse(localStorage.getItem("last_location")),
 	openweather_api: localStorage.getItem("owm-key"),
+	last_weather: localStorage.getItem("last_weather"),
 };
 
 console.log(JSON.stringify(setting));
@@ -549,7 +550,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////////////////////////
 
 	let myMarker;
-
+    let LastPosMarker;
 	var follow_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
@@ -575,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		let options = {
 			enableHighAccuracy: true,
-			timeout: 10000,
+			timeout: 20000,
 			maximumAge: 0,
 		};
 		document.querySelector("div#message").style.display = "none";
@@ -648,7 +649,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_lat = setting.last_location[0];
 				current_lng = setting.last_location[1];
 				current_alt = 0;
-				L.marker([current_lat, current_lng]).addTo(markers_group);
+				LastPosMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
 
 				map.setView([current_lat, current_lng], 12);
 				zoom_speed();
@@ -716,7 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
 
-
+        
 
 
 				//store device location
@@ -741,6 +742,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
 				informationHandler.PreciseGeoUpdate(crd)
+				LastPosMarker.remove();
 			}
 
 			function errorHandler(err) {
