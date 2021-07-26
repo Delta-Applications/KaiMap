@@ -50,7 +50,7 @@ const module = (() => {
   let calc_distance = function (from_lat, from_lng, to_lat, to_lng) {
     distance = map.distance([from_lat, from_lng], [to_lat, to_lng]) / 1000;
 
-    distance = Math.ceil(distance).toFixed(2);
+    distance = distance.toFixed(2);
 
     return distance;
   };

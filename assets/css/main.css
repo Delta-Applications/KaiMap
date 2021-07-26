@@ -591,6 +591,15 @@ div#markers-option .item:focus {
   color: white;
 }
 
+div#markers-option #remove_marker:focus {
+  background: rgb(236, 73, 73);
+  border-color: #FFFF;
+  color: white;
+}
+
+
+
+
 div#finder div#question {
   background: black;
   color: white;
