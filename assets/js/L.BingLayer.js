@@ -68,7 +68,6 @@
 		useCache: true,
 		saveToCache: false,
 		crossOrigin: true,
-		cacheMaxAge: caching_time,
 		useOnlyCache: false,
 		attribution:
         "Bing Aerial",
@@ -94,7 +93,7 @@
 		  console.warn('use options.bingMapsKey instead of options.BingMapsKey')
 		}
 		if (!options || !options.bingMapsKey) {
-		  throw new Error('Must supply options.BingMapsKey')
+		  throw new Error('Must supply options.bingMapsKey')
 		}
 		options = L.setOptions(this, options)
 		if (VALID_IMAGERY_SETS.indexOf(options.imagerySet) < 0) {

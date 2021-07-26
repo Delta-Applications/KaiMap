@@ -1,0 +1,18 @@
+{
+
+
+
+
+"OpenStreetMap":{
+"tilesUrl":"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+"attribution":"OpenStreetMap",
+"maxZoom": 18,
+"minZoom": 0
+}
+
+
+
+
+
+
+}
