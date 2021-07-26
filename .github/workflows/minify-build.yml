@@ -1,0 +1,22 @@
+name: Minify Workflow
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Minify:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository
+      - uses: actions/checkout@v2
+        with:
+          ref: build
+
+      - name: Minify code
+        uses: anthonyftwang/minify-action@v1.0.1
+
+      # Auto-commit to repository
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Commit to build
+          branch: build
