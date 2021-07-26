@@ -128,6 +128,7 @@ const maps = (() => {
     kaiads.DisplayFullScreenAd();
     tilesUrl = 'https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=c88c645ad8f64411bef71105c00710bc';
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -146,6 +147,7 @@ const maps = (() => {
     tilesUrl =
       "https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-moon-basemap-v0-1/all/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -170,6 +172,7 @@ const maps = (() => {
 
     tilesUrl = "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -193,6 +196,7 @@ const maps = (() => {
     kaiads.DisplayFullScreenAd();
     tilesUrl = 'http://mt1.google.com/vt/lyrs=m@146&hl=en&x={x}&y={y}&z={z}'
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -234,6 +238,7 @@ const maps = (() => {
 
     tilesUrl = "https://tile.opentopomap.org/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -382,6 +387,7 @@ const maps = (() => {
 
     tilesUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -421,6 +427,7 @@ const maps = (() => {
     tilesUrl = "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png";
 
     railwayLayer = L.tileLayer(tilesUrl, {
+      edgeBufferTiles: 2,
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
