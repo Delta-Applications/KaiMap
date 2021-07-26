@@ -428,13 +428,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_gpx.on("searchComplete", function (needle, filematchcount) {});
 
 		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
-			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
+			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 
 			document
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
+					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_+ '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
 		});
 	};
 
@@ -452,12 +452,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		finder.on("searchComplete", function (needle, filematchcount) {});
 		finder.on("fileFound", function (file, fileinfo, storageName) {
-			let filename = fileinfo.name.split('.').slice(0, -1).join('.');
+			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 			document
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename + '</p><p class="list-item__subtext">GeoJSON</p></div>'
+					'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GeoJSON</p></div>'
 				);
 		});
 	};
