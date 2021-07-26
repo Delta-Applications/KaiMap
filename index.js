@@ -11,7 +11,8 @@ let current_alt;
 let altitude;
 let current_heading;
 let center_to_Screen;
-
+let selected_marker = "";
+let selecting_marker;
 
 //to store device loaction
 let device_lat;
@@ -466,6 +467,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	///MENU//////////////////////////
 	/////////////////////////////////
 
+
+
+	
 	let finder_tabindex = function () {
 		//set tabindex
 		let t = -1;
@@ -484,7 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				});
 			}
 		}
-		document.querySelector("div#finder").style.display = "block";
+	//	document.querySelector("div#finder").style.display = "block";
 	};
 
 	let show_finder = function () {
@@ -787,7 +791,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////////////////////////
 	/////MENU///////////////
 	////////////////////////
+ function 	markers_action() {
+		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
+		  let item_value = document.activeElement.getAttribute("data-action");
+	
+		  if (item_value == "remove_marker") {
+			map.removeLayer(selected_marker);
+			toaster("marker removed", 4000);
+			document.querySelector("div#markers-option").style.display = "none";
+			windowOpen = "map";
+		  }
+		}
+	  };
+	  
 
+	  
 	function addMapLayers(param) {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
@@ -1151,7 +1169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	function nav(move) {
-		if (windowOpen == "finder") {
+		if (windowOpen == "finder" || windowOpen == "markers_option") {
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -1279,11 +1297,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	function shortpress_action(param) {
 		switch (param.key) {
 			case "Backspace":
-				if (windowOpen == "finder") {
+				if (windowOpen == "finder" || windowOpen == "markers_option" ) {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
+					document.querySelector("div#markers-option").style.display = "none";
 					windowOpen = "map";
 
 					break;
@@ -1303,6 +1322,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "SoftLeft":
+				if (selecting_marker == true) {
+					bottom_bar("", "", "");
+					selected_marker = "";
+					selecting_marker = false;
+					break;
+				  }
+
+
 				if (windowOpen == "search") {
 					hideSearch();
 					break;
@@ -1319,6 +1346,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
+				
 				break;
 
 			case "SoftRight":
@@ -1348,6 +1376,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					//save_delete_marker("save_marker");
 					break;
 				}
+
+
+			
 
 				break;
 
@@ -1406,6 +1437,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					break;
 				}
+
+				if (windowOpen == "map" && selecting_marker == true) {
+					document.querySelector("div#markers-option").style.display = "block";
+					document.querySelector("div#markers-option").children[0].focus();
+					finder_tabindex();
+					windowOpen = "markers_option";
+
+                  let marker_stats = selected_marker
+
+					document.querySelector("#marker-position").innerText = marker_stats._latlng.lat+", "+marker_stats._latlng.lng;
+					document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng);
+
+
+
+
+
+
+					bottom_bar("", "SELECT", "");
+		  
+					break;
+				  }
+		  
+				  if (windowOpen == "markers_option" && selected_marker != "") {
+					markers_action();
+					break;
+				  }
+
 
 				break;
 
@@ -1492,8 +1550,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "*":
-				module.jump_to_layer();
-
+				selected_marker = module.jump_to_layer();
+				selecting_marker = true;
+				bottom_bar("Cancel", "SELECT", "");
 				break;
 
 
