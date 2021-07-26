@@ -807,6 +807,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				});				
 				document.querySelector("div#markers-option").style.display = "none";
 				windowOpen = "map";
+				bottom_bar("","","")
 			  }
 		
 		  }
@@ -1551,7 +1552,7 @@ if (selected_marker == myMarker) {document.querySelector("#remove_marker").style
 
 			case "9":
 				if (windowOpen == "map")
-					L.marker([current_lat, current_lng]).addTo(markers_group);
+					L.marker(map.getCenter()).addTo(markers_group);
 				break;
 
 			case "0":
