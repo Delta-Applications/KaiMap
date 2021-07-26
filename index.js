@@ -85,7 +85,7 @@ let map = L.map("map-container", {
 	zoomControl: false,
 	dragging: false,
 	keyboard: true,
-}).fitWorld();
+}).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 
 document.addEventListener("DOMContentLoaded", function () {
 	document.querySelector("div#intro-footer2").innerText = "Fetching location..";
@@ -666,7 +666,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_lat = 0;
 				current_lng = 0;
 				current_alt = 0;
-				map.setView([0, 0], 3);
+				map.setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 				zoom_speed();
 				document.querySelector("div#get-position").style.display = "none";
 				document.querySelector("div#message").style.display = "none";
