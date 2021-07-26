@@ -610,7 +610,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			localStorage.setItem("last_location", JSON.stringify(b));
 
 			if (option == "init") {
-				myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy).addTo(map);
+				// Subtract 1 since if Accuracy is low, how can we be accurate about the accuracy? Haha, also looks better
+				myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy-1).addTo(map);
 				myMarker = L.marker([current_lat, current_lng], {
 					rotationAngle: 0,
 				}).addTo(markers_group);

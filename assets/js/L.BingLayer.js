@@ -242,15 +242,15 @@
 		  var prevAttributions = this._attributions
 		  // Add any new provider attributions in the current area to the attribution control
 		  newAttributions.forEach(function (attr) {
-			if (prevAttributions.indexOf(attr) > -1) return
-			//map.attributionControl.addAttribution(attr)
+			if (prevAttributions.indexOf(attr) > 0) return
+		//	map.attributionControl.addAttribution(newAttributions[1])
 		  })
 		  // Remove any attributions that are no longer in the current area from the attribution control
 		  prevAttributions.filter(function (attr) {
-			if (newAttributions.indexOf(attr) > -1) return
-			//map.attributionControl.removeAttribution(attr)
+			if (newAttributions.indexOf(attr) > 0) return
+		//	map.attributionControl.removeAttribution(attr)
 		  })
-		 // this._attributions = newAttributions
+		  //this._attributions = newAttributions
 		}.bind(this))
 	  },
 	
