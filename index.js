@@ -413,6 +413,31 @@ document.addEventListener("DOMContentLoaded", function () {
 			);
 		find_gpx();
 		find_geojson();
+		find_kml();
+	};
+
+	//////////////////////////////////
+	//READ KML////////////////////////
+	/////////////////////////////////
+	let find_kml = function () {
+		//search kml
+		let finder_kml = new Applait.Finder({
+			type: "sdcard",
+			debugMode: false,
+		});
+
+		finder_kml.search(".kml");
+		finder_kml.on("searchComplete", function (needle, filematchcount) {});
+
+		finder_kml.on("fileFound", function (file, fileinfo, storageName) {
+			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+
+			document
+				.querySelector("div#tracksmarkers")
+				.insertAdjacentHTML(
+					"afterend",
+					'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_+ '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
+		});
 	};
 
 	//////////////////////////////////
@@ -497,6 +522,56 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_navigation("start");
 		windowOpen = "finder";
 	};
+
+ function loadKML(filename){
+	 console.log("test1")
+	let finder = new Applait.Finder({
+		type: "sdcard",
+		debugMode: false,
+	});
+	finder.search(filename);
+
+	finder.on("fileFound", function (file, fileinfo, storageName) {
+		//file reader
+		console.log("test2")
+
+		let reader = new FileReader();
+
+		reader.onerror = function (event) {
+			kaiosToaster({
+				message: "Failed to read " + filename + " GPX File.",
+				position: 'north',
+				type: 'warning',
+				timeout: 3000
+			});
+			reader.abort();
+		};
+
+		reader.onloadend = function (event) {
+			console.log("test3")
+
+			var kml = event.target.result; // URL to your GPX file or the GPX itself
+		//    kml = parser.parseFromString(kml, 'text/xml');
+console.log(kml,event.target.result)
+			const track = new L.KML(kml);
+			map.addLayer(track);
+
+			// Adjust map to show the kml
+			const bounds = track.getBounds();
+			map.fitBounds(bounds);
+
+			document.querySelector("div#finder").style.display = "none";
+			windowOpen = "map";
+			top_bar("", "", "")
+		};
+
+		reader.readAsText(file);
+	});	
+ }
+
+
+
+
 
 	/////////////////////////
 	/////Load GPX///////////
@@ -1091,6 +1166,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			//add gpx data
 			if (item_value == "gpx") {
 				loadGPX(document.activeElement.getAttribute("readfile"));
+			}
+			if (item_value == "kml") {
+				loadKML(document.activeElement.getAttribute("readfile"));
 			}
 		}
 		if (!item_value == "update-weather") {
