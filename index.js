@@ -796,6 +796,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		  let item_value = document.activeElement.getAttribute("data-action");
 	
 		  if (item_value == "save_marker") {
+			bottom_bar("","","")
+			windowOpen = "map";
+            selecting_marker = false;
 			document.querySelector("div#markers-option").style.display = "none";
 			save_mode = "geojson-single";
 			user_input("open", document.querySelector("#marker-pluscode").innerText+"_"+now());
@@ -803,8 +806,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			document.getElementById("user-input-description").innerText =
 			  "Export marker in GeoJSON format";
 			  
-			//windowOpen = "map";
 		  }
+
+		  if (item_value == "share_marker") {
+			windowOpen = "map";
+            selecting_marker = false;
+			document.querySelector("div#markers-option").style.display = "none";
+            mozactivity.share_marker_position(selected_marker._latlng,document.querySelector("#marker-pluscode").innerText)
+			bottom_bar("","","")
+		  }
+
 	
 
 		  if (item_value == "remove_marker") {
@@ -1349,7 +1360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					save_mode = "";
 					break;
 				}
-				
+
 				if (selecting_marker == true) {
 					bottom_bar("", "", "");
 					selected_marker = "";
