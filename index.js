@@ -1038,7 +1038,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					debugMode: false,
 				});
 				finder.search(document.activeElement.getAttribute("readfile"));
-				console.log(document.activeElement.getAttribute("readfile"))
 				finder.on("fileFound", function (file, fileinfo, storageName) {
 					//file reader
 
@@ -1078,7 +1077,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 							// Popup
 							onEachFeature: function (feature, layer) {
-								console.log(feature);
 							},
 						}).addTo(map);
 						document.querySelector("div#finder").style.display = "none";
@@ -1515,7 +1513,6 @@ if (selected_marker == myMarker) {document.querySelector("#remove_marker").style
 				break;
 
 			case "3":
-				console.log(windowOpen);
 
 				if (windowOpen == "map") {
 					show_finder();
