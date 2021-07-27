@@ -21,7 +21,7 @@ const weather = (() => {
 
     xhr.onload = function () {
       if (xhr.status == 200) {
-        localStorage.setItem("last_weather", JSON.stringify(xhr.responseText));
+        localStorage.setItem("last_weather", xhr.responseText);
         callback(JSON.parse(xhr.responseText));
       }
       if (xhr.status == 403) {
