@@ -795,6 +795,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
 		  let item_value = document.activeElement.getAttribute("data-action");
 	
+		  if (item_value == "save_marker") {
+			document.querySelector("div#markers-option").style.display = "none";
+			bottom_bar("","","")
+			save_mode = "geojson-single";
+			user_input("open", now());
+			document.getElementById("user-input-description").innerText =
+			  "Export marker in GeoJSON format";
+			  
+			//windowOpen = "map";
+		  }
+	
+
 		  if (item_value == "remove_marker") {
 			  if (confirm("Are you sure you want to remove this marker?") == true) {
 				map.removeLayer(selected_marker);

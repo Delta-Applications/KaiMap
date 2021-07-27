@@ -58,21 +58,24 @@ let toaster = function (text, time) {
 
 function user_input(param, file_name) {
   if (param == "open") {
-    document.querySelector("div#user-input").style.bottom = "0px";
+    bottom_bar("Cancel","","Save")
+    document.querySelector("div#user-input").style.display = "block";
     document.querySelector("div#user-input input").focus();
     document.querySelector("div#user-input input").value = file_name;
     windowOpen = "user-input";
   }
   if (param == "close") {
-    document.querySelector("div#user-input").style.bottom = "-1000px";
+    bottom_bar("","","")
+    document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
     windowOpen = "map";
   }
 
   if (param == "return") {
     let input_value = document.querySelector("div#user-input input").value;
-    document.querySelector("div#user-input").style.bottom = "-1000px";
+    document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
+    bottom_bar("","","")
     return input_value;
   }
 }

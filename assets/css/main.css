@@ -58,7 +58,7 @@ body {
   position: relative;
   margin: 0px;
   padding: 0px;
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   line-height: 1.4rem;
   -webkit-appearance: none;
   scroll-behavior: smooth;
@@ -295,15 +295,15 @@ USER INPUT////////////////*/
 div#user-input {
   position: fixed;
   height: 80px;
-  bottom: -80px;
-  background: gray;
-  color: white;
+  bottom: 0px;
+  background: #ccc;
+  color: black;
   z-index: 2000;
   padding: 5px;
 }
 
 div#user-input input {
-  margin: 5px 0 5px 0;
+  margin: -25px 0 5px 0;
   height: 20px;
   width: 90%;
   font-size: 1.1rem;

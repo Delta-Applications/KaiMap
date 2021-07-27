@@ -63,13 +63,9 @@
   </div>
   <div id="olc"></div>
 
-  <div id="user-input" class="width-100 flex justify-content-spacearound">
-    <div id="user-input-description"></div>
+  <div id="user-input" class="width-100 flex justify-content-spacearound" style="display: none;">
+    <div id="user-input-description" style="margin: -10px 0px 5px;"></div>
     <input type="text" />
-    <div id="button-bar-save" class="flex justify-content-spacebetween width-100">
-      <div>Cancel</div>
-      <div>Save</div>
-    </div>
   </div>
 
   <div id="bottom-bar">
@@ -107,6 +103,8 @@
 
 
   <div id="markers-option" class="flex justify-content-center align-item-center width-100 height-100">
+    <div class="separator">Info</div>
+
     <div class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Plus Code</p>
       <p class="list-item__subtext" id="marker-pluscode">#</p>
@@ -118,6 +116,14 @@
     <div class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Distance from Device</p>
       <p class="list-item__subtext" id="marker-distance">#</p>
+    </div>
+    <div class="separator">Manage</div>
+
+
+
+    <div data-action="save_marker"  class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Export</p>
+      <p class="list-item__subtext">GeoJSON</p>
     </div>
     <div data-action="remove_marker" id="remove_marker" class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Remove</p>
