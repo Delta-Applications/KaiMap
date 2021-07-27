@@ -524,7 +524,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
  function loadKML(filename){
-	 console.log("test1")
 	let finder = new Applait.Finder({
 		type: "sdcard",
 		debugMode: false,
@@ -533,7 +532,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	finder.on("fileFound", function (file, fileinfo, storageName) {
 		//file reader
-		console.log("test2")
 
 		let reader = new FileReader();
 
@@ -548,14 +546,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		};
 
 		reader.onloadend = function (event) {
-			console.log("test3")
-
-			var kml = event.target.result; // URL to your GPX file or the GPX itself
-		//    kml = parser.parseFromString(kml, 'text/xml');
-console.log(kml,event.target.result)
+			const parser = new DOMParser();
+			var kmltext = event.target.result; 
+		    var kml = parser.parseFromString(kmltext, 'text/xml');
+			console.log(kmltext,kml)
 			const track = new L.KML(kml);
 			map.addLayer(track);
-
+            
 			// Adjust map to show the kml
 			const bounds = track.getBounds();
 			map.fitBounds(bounds);
