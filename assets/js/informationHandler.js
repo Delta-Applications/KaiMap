@@ -159,8 +159,7 @@ const informationHandler = (() => {
             }
 
 
-            document.querySelector("#lat").innerText = data.lat;
-            document.querySelector("#lng").innerText = data.long;
+            document.querySelector("#pos").innerText = data.lat+", "+data.long;
             document.querySelector("#heading").innerText = utility.degToCompass(data.heading) + " " + data.heading;
             document.querySelector("#altitude").innerText = data.altitude;
             document.querySelector("#acc").innerText = data.accuracy + "± m";
