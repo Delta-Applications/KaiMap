@@ -797,9 +797,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 		  if (item_value == "save_marker") {
 			document.querySelector("div#markers-option").style.display = "none";
-			bottom_bar("","","")
 			save_mode = "geojson-single";
-			user_input("open", now());
+			user_input("open", document.querySelector("#marker-pluscode").innerText+"_"+now());
+			bottom_bar("Cancel", "", "Save");
 			document.getElementById("user-input-description").innerText =
 			  "Export marker in GeoJSON format";
 			  
@@ -1344,6 +1344,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "SoftLeft":
+				if (windowOpen == "user-input") {
+					user_input("close");
+					save_mode = "";
+					break;
+				}
+				
 				if (selecting_marker == true) {
 					bottom_bar("", "", "");
 					selected_marker = "";
@@ -1362,11 +1368,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (windowOpen == "user-input") {
-					user_input("close");
-					save_mode = "";
-					break;
-				}
+				
 
 				
 				break;
@@ -1558,8 +1560,9 @@ if (selected_marker == myMarker) {document.querySelector("#remove_marker").style
 				if (windowOpen == "map") {
 					save_mode = "geojson-collection";
 					user_input("open", now());
+					bottom_bar("Cancel", "", "Save");
 					document.getElementById("user-input-description").innerText =
-						"Export all Markers as GeoJson file";
+						"Export all Markers as a GeoJSON file";
 				}
 
 				break;

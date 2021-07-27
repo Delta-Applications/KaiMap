@@ -59,13 +59,13 @@
   <div id="toast" class="width-100"></div>
 
   <div id="search-box">
-    <input type="text" id="search" placeholder="Search for a location" />
+    <input type="text" id="search" placeholder="Search for a location or /PLUS+CODE"/>
   </div>
   <div id="olc"></div>
 
   <div id="user-input" class="width-100 flex justify-content-spacearound" style="display: none;">
-    <div id="user-input-description" style="margin: -10px 0px 5px;"></div>
-    <input type="text" />
+    <div id="user-input-description"></div>
+    <input type="text"/>
   </div>
 
   <div id="bottom-bar">
@@ -350,11 +350,12 @@
     </div>
 
     <div class="panel" id="Settings">
-      <h2>OpenWeatherMap</h2>
-      <label for="owm-key">OpenWeatherMap API-Key</label>
-      <input type="tel" class="item" id="owm-key" tabindex="0" />
+      <div class="separator">OpenWeatherMap</div>
+      <label for="owm-key">API Key</label>
+      <input type="tel" class="item" id="owm-key" tabindex="0"/>
 
-      <h2>Offline Maps</h2>
+      <div class="separator">Offline Imagery</div>
+
       <label for="cache-time">After how many days should the maps be re-downloaded?</label><br />
       <input class="item" type="tel" pattern="^[0-9]*$" id="cache-time" tabindex="1" /><br />
 
@@ -367,11 +368,11 @@
       <input class="item" type="text" id="zoomposition" tabindex="2" /><br />
 
       <button class="item" id="clear-cache" tabindex="3">Clear offline cache</button>
-      <h2>Export</h2>
+      <div class="separator">Export</div>
       <label for="export-path">Export path</label>
       <input class="item" type="text" id="export-path" tabindex="4" />
       <br />
-      <h2>General</h2>
+      <div class="separator">General</div>
 
       <button tabindex="5" class="item" id="save-settings">Save Settings</button>
     </div>

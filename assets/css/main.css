@@ -294,7 +294,7 @@ USER INPUT////////////////*/
 
 div#user-input {
   position: fixed;
-  height: 80px;
+  height: 70px;
   bottom: 0px;
   background: #ccc;
   color: black;
@@ -303,9 +303,9 @@ div#user-input {
 }
 
 div#user-input input {
-  margin: -25px 0 5px 0;
+  margin: 8px 0 5px 0;
   height: 20px;
-  width: 90%;
+  width: 100%;
   font-size: 1.1rem;
 }
 

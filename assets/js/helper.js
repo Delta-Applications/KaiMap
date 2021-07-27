@@ -65,16 +65,20 @@ function user_input(param, file_name) {
     windowOpen = "user-input";
   }
   if (param == "close") {
+    selecting_marker = false;
     bottom_bar("","","")
     document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
+    console.log("close")
     windowOpen = "map";
   }
 
   if (param == "return") {
+    selecting_marker = false;
     let input_value = document.querySelector("div#user-input input").value;
     document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
+    console.log("return")
     bottom_bar("","","")
     return input_value;
   }
