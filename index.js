@@ -1384,11 +1384,13 @@ document.addEventListener("DOMContentLoaded", function () {
 						"single"
 					);
 					save_mode = "";
+					user_input("close")
 					break;
 				}
 
 				if (windowOpen == "user-input" && save_mode == "geojson-collection") {
 					geojson.save_geojson(user_input("return") + ".geojson", "collection");
+					user_input("close")
 					save_mode = "";
 					break;
 				}
