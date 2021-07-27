@@ -1660,9 +1660,12 @@ if (selected_marker == myMarker) {document.querySelector("#remove_marker").style
 				break;
 
 			case "*":
-				selected_marker = module.jump_to_layer();
-				selecting_marker = true;
-				bottom_bar("Cancel", "SELECT", "");
+				if (windowOpen = "map") {
+					selected_marker = module.jump_to_layer();
+					selecting_marker = true;
+					bottom_bar("Cancel", "SELECT", "");
+				}
+				
 				break;
 
 
