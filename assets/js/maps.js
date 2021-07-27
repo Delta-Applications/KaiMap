@@ -518,6 +518,7 @@ const maps = (() => {
       });
   };
 
+ 
   let running = false;
   let k;
   let weather_layer,
@@ -575,7 +576,7 @@ const maps = (() => {
           "https://tilecache.rainviewer.com/v2/radar/" +
           data[data.length - 4] +
           "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer0 = L.tileLayer(weather_url);
+        weather_layer0 = L.tileLayer(weather_url0);
 
         weather_url1 =
           "https://tilecache.rainviewer.com/v2/radar/" +
@@ -617,9 +618,10 @@ const maps = (() => {
             map.removeLayer(weather_layer2);
             map.removeLayer(weather_layer3);
             if (windowOpen == "map") {
+
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
+                moment.unix(data[data.length - 5]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 5], null)+")",
                 ""
               );
             }
@@ -635,7 +637,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
+                moment.unix(data[data.length - 4]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
                 ""
               );
             }
@@ -651,7 +653,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 3], null)+")",
+                moment.unix(data[data.length - 3]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 3], null)+")",
                 ""
               );
             }
@@ -666,7 +668,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 2], null)+")",
+                moment.unix(data[data.length - 2]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 2], null)+")",
                 ""
               );
             }
@@ -681,7 +683,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD.MM.YYYY, HH:MM:SS") + " ("+ utility.getRelativeTime(data[data.length - 1], null)+")",
+                moment.unix(data[data.length - 1]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 1], null)+")",
                 ""
               );
             }
