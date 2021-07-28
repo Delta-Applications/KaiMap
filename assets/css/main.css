@@ -435,6 +435,8 @@ div#markers-option {
   position: fixed;
   z-index: 5;
   display: none;
+  overflow: hidden !important;
+  max-height: 99vh !important;
 }
 
 
