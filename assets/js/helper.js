@@ -112,8 +112,13 @@ function deleteFile(storage, path, notification) {
   };
 
   requestDel.onerror = function () {
-    toaster("Unable to delete the file: " + this.error);
-  };
+    kaiosToaster({
+      message: "Unable to delete file:"+ this.error+" .",
+      position: 'north',
+      type: 'error',
+      timeout: 3000
+    });
+    };
 }
 
 //bottom bar
@@ -148,14 +153,20 @@ function screenWakeLock(param) {
   let lock;
 
   if (param == "lock") {
-    lock = window.navigator.requestWakeLock("screen");
+    try {
+      lock = window.navigator.requestWakeLock("screen");
+    } catch (error) {
+      
+    }
   }
 
   if (param == "unlock") {
-    if (lock.topic == "screen") {
-      lock.unlock();
-    }
-  }
+    try {
+      if (lock.topic == "screen") {
+      
+        lock.unlock();
+      }
+    } catch (error) {}}
 }
 
 let add_file = function () {

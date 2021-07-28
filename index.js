@@ -1553,17 +1553,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					document.querySelector("div#markers-option").children[0].focus();
 					finder_tabindex();
 					windowOpen = "markers_option";
-					document.querySelector("#remove_marker").style.display = "block";
-                  let marker_stats = selected_marker
-if (selected_marker == myMarker) {document.querySelector("#remove_marker").style.display = "none"} // Delete remove marker option if marker is myMarker
-					document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5)+", "+marker_stats._latlng.lng.toFixed(5);
-					document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
-
-
-
-
-					document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng);
-		  
+					bottom_bar("","","")
+					informationHandler.PreciseMarkerUpdate(selected_marker)
 					break;
 				  }
 		  

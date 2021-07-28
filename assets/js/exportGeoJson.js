@@ -39,12 +39,22 @@ const geojson = ((_) => {
     let requestAdd = sdcard.addNamed(geojson_file, file_path_name);
 
     requestAdd.onsuccess = function () {
-      toaster("Export successful", 3000);
-      windowOpen = "map";
+      kaiosToaster({
+        message: "Successfully exported GeoJSON",
+        position: 'north',
+        type: 'success',
+        timeout: 3000
+      });
+        windowOpen = "map";
     };
 
     requestAdd.onerror = function () {
-      toaster("Unable to write the file: " + this.error, 2000);
+      kaiosToaster({
+        message: "Unable to write to file:"+ this.error+" .",
+        position: 'north',
+        type: 'error',
+        timeout: 3000
+      });
       windowOpen = "map";
     };
   };
