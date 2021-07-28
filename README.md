@@ -9,7 +9,7 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 ![Checks](https://img.shields.io/github/checks-status/Delta-applications/delta.map/main)
 ![CommitActivity](https://img.shields.io/github/commit-activity/w/Delta-applications/delta.map)
 ![Starts](https://img.shields.io/github/stars/Delta-Applications/delta.map)
-
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)  
 ## Features
 
 - Weather (OpenWeatherMap)
