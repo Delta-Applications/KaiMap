@@ -10,11 +10,16 @@ jobs:
       # Checks-out your repository
       - uses: actions/checkout@v2
         with:
-          ref: build
+          ref: main
 
       - name: Minify code
         uses: anthonyftwang/minify-action@v1.0.1
 
+  # Checks-out your repository
+      - uses: actions/checkout@v2
+        with:
+          ref: build
+          
       # Auto-commit to repository
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
