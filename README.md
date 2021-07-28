@@ -72,6 +72,10 @@ Suggestions or Autocomplete are provided by OpenStreetMap and do not work when o
 - Validation: [geojsonlint](http://geojsonlint.com/)
 - GeoJson Map: [geojson Map] https://geojson-maps.ash.ms/
 
+## Donate
+
+We currently accept bitcoin: 3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw
+
 ## How to install
 
 The app is not available through the https://www.kaiostech.com/store/ as they are currently only accepting apps using the KaiAds SDK (Annoying giant pimple and dating advertisements)
