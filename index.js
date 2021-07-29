@@ -1542,6 +1542,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				if (windowOpen == "map" && selecting_marker == true) {
+					if (selected_marker == myMarker) {
+						document.querySelector("#remove_marker").style.display = "none"
+					} // Delete remove marker option if marker is myMarker
 					document.querySelector("div#markers-option").style.display = "block";
 					document.querySelector("div#markers-option").children[0].focus();
 					finder_tabindex();
