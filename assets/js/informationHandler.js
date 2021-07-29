@@ -124,8 +124,6 @@ const informationHandler = (() => {
 
     let PreciseMarkerUpdate = function (marker){
 
-        document.querySelector("#remove_marker").style.display = "block";
-
         let marker_stats = marker
        
           document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5)+", "+marker_stats._latlng.lng.toFixed(5);
