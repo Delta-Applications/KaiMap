@@ -23,6 +23,7 @@ let current_zoom_level;
 let new_lat = 0;
 let new_lng = 0;
 let curPos = 0;
+let myMarker = "";
 let windowOpen;
 let message_body = "";
 let tabIndex = 0;
@@ -1541,10 +1542,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				if (windowOpen == "map" && selecting_marker == true) {
+					document.querySelector("div#markers-option").style.display = "block";
 					if (selected_marker == myMarker) {
 						document.querySelector("#remove_marker").style.display = "none"
 					} // Delete remove marker option if marker is myMarker
-					document.querySelector("div#markers-option").style.display = "block";
 					document.querySelector("div#markers-option").children[0].focus();
 					finder_tabindex();
 					windowOpen = "markers_option";
