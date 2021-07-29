@@ -71,13 +71,6 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
-let gps_Wakelet;
-try {
-	gps_wakelet = window.navigator.requestWakeLock("gps");
-} catch (error) {
-	// RequestWakeLock failed for device
-	// /shrug
-}
 
 document.querySelector("div#intro-footer2").innerText = "Loading.";
 

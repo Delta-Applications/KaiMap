@@ -125,9 +125,9 @@ const informationHandler = (() => {
     let PreciseMarkerUpdate = function (marker){
 
         document.querySelector("#remove_marker").style.display = "block";
-        
+
         let marker_stats = marker
-        if (selected_marker == myMarker) {
+        if (marker_stats == myMarker) {
             
             document.querySelector("#remove_marker").style.display = "none"
         
