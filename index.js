@@ -3,7 +3,6 @@
 
 $('div#about').css('message', 'none');
 $('img#about').css('display', 'none');
-//setTimeout(() => {         $('img#about').css('display', 'none');   }, 3000);
 let step = 0.001;
 let current_lng;
 let current_lat;

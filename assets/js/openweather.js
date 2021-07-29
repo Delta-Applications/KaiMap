@@ -1,19 +1,17 @@
 const weather = (() => {
   let errorcool = false
   let openweather_call = function (lat, lng, apikey, callback) {
-    console.log(lat + "/" + lng + "/" + apikey);
-
     let xhr = new XMLHttpRequest({
       mozSystem: true,
     });
     xhr.open(
       "GET",
-      "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" +
+      "https://api.openweathermap.org/data/2.5/forecast?cnt=1&units=metric&lat=" +
       lat +
       "&lon=" +
       lng +
       "&appid=" +
-      "99d2594c090c1ee9a8ad525fd7a83f85"
+     apikey
     );
     xhr.timeout = 4000; // time in milliseconds
 
