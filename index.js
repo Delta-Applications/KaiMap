@@ -23,7 +23,6 @@ let current_zoom_level;
 let new_lat = 0;
 let new_lng = 0;
 let curPos = 0;
-let myMarker = "";
 let windowOpen;
 let message_body = "";
 let tabIndex = 0;
