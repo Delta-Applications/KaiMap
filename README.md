@@ -9,7 +9,7 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 ![Checks](https://img.shields.io/github/checks-status/Delta-applications/delta.map/main)
 ![CommitActivity](https://img.shields.io/github/commit-activity/w/Delta-applications/delta.map)
 ![Starts](https://img.shields.io/github/stars/Delta-Applications/delta.map)
-
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)  
 ## Features
 
 - Weather (OpenWeatherMap)
@@ -74,7 +74,9 @@ Suggestions or Autocomplete are provided by OpenStreetMap and do not work when o
 
 ## Donate
 
-We currently accept bitcoin: 3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw
+We currently accept bitcoin: 3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw  
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)  
+Donations are very appreciated and they aid in development. Im currently looking to buy a Nokia 8110 4G or a Nokia 6300 4G
 
 ## How to install
 
