@@ -263,6 +263,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (windowOpen == "map" || windowOpen == "coordinations") {
 			let n = map.getCenter();
 
+			if (selecting_marker) {
+				selecting_marker = false;
+				bottom_bar("", "", "");
+			}
+
 			current_lat = n.lat;
 			current_lng = n.lng;
 
@@ -514,6 +519,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#finder").style.display = "block";
 		finder_navigation("start");
 		windowOpen = "finder";
+	};
+
+	let show_markers_options = function () {
+		document.querySelector("div#markers-option").style.display = "block";
+
+		tabIndex = 0;
+		finder_tabindex();
+
+		if (selected_marker == myMarker) {
+			document.querySelector("#remove_marker").style.display = "none"
+		} // Delete remove marker option if marker is myMarker
+		document.querySelector("div#markers-option").children[0].focus();
+		windowOpen = "markers_option";
+		bottom_bar("","","")
+		informationHandler.PreciseMarkerUpdate(selected_marker)
 	};
 
     /////////////////////////
@@ -1568,15 +1588,7 @@ function loadGeoJSON(filename){
 				}
 
 				if (windowOpen == "map" && selecting_marker == true) {
-					document.querySelector("div#markers-option").style.display = "block";
-					if (selected_marker == myMarker) {
-						document.querySelector("#remove_marker").style.display = "none"
-					} // Delete remove marker option if marker is myMarker
-					document.querySelector("div#markers-option").children[0].focus();
-					finder_tabindex();
-					windowOpen = "markers_option";
-					bottom_bar("","","")
-					informationHandler.PreciseMarkerUpdate(selected_marker)
+					show_markers_options()
 					break;
 				  }
 		  
@@ -1683,7 +1695,7 @@ function loadGeoJSON(filename){
 
 			case "ArrowRight":
 				MovemMap("right");
-
+               
 				if (windowOpen == "finder") {
 					finder_navigation("+1");
 				}
