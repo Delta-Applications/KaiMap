@@ -623,7 +623,7 @@ div.panel {
   margin: 20px 0px 0px 0px;
   padding: 0px;
   height: 90vh;
-  color: black;
+  color: var(--item-subtext-color);
   background: #ffffff;
   overflow: hidden !important;
 }

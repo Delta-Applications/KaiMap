@@ -172,7 +172,7 @@ const informationHandler = (() => {
 
             document.querySelector("#pos").innerText = data.lat+", "+data.long;
             document.querySelector("#heading").innerText = utility.degToCompass(data.heading) + " " + data.heading;
-            document.querySelector("#altitude").innerText = data.altitude;
+            document.querySelector("#altitude").innerText = data.altitude+" m";
             document.querySelector("#acc").innerText = data.accuracy + "± m";
             document.querySelector("#distance").innerText = data.DistanceFromCenter + " km"
             document.querySelector("#speed").innerText = data.speed + " km/h"
@@ -292,9 +292,9 @@ const informationHandler = (() => {
             document.getElementById("temp").innerText =
                 some.list[0].main.temp + " °C";
             document.getElementById("hum").innerText =
-                some.list[0].main.humidity + "%rH";
+                some.list[0].main.humidity + "% rH";
             document.getElementById("visibility").innerText =
-                Math.round(some.list[0].visibility / 1000) + "km";
+                (some.list[0].visibility / 1000).toFixed(2) + " km";
             document.getElementById("wind").innerText =
                 some.list[0].wind.speed + " m/s | " + utility.degToCompass(some.list[0].wind.deg) + " " + some.list[0].wind.deg + "°";
             document.getElementById("pres").innerText =

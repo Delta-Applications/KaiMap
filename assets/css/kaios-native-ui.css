@@ -232,16 +232,16 @@ body {
     height: 1rem;
     width: 1rem;
     position: absolute;
-    right: 1.5rem;
     border-width: 0 .2rem .2rem 0;
     display: inline-block;
+    border-color: var(--item-subtext-color);
     transform: rotate(-45deg) translateY(-50%);
-    top: 22%;
-    left: 85%;
+    top: 10%;
+    left: 82%;
 }
 
 .list-item-indicator:focus>.list-item-indicator__indicator {
-    border-color: var(--item-focused-subtext-color);
+    color: var(--item-focused-subtext-color);
 }
 
 /* Separator */

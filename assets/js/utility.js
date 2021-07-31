@@ -2,16 +2,7 @@
 ////UTILITY////////////
 ///////////////////
 const utility = (() => {
-  //let rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
-
-  let units = {
-    year: 24 * 60 * 60 * 1000 * 365,
-    month: 24 * 60 * 60 * 1000 * 365 / 12,
-    day: 24 * 60 * 60 * 1000,
-    hour: 60 * 60 * 1000,
-    minute: 60 * 1000,
-    second: 1000
-  }
+  
   let degToCompass = function (degree) {
     var val = Math.floor((degree / 22.5) + 0.5);
     var arr = ["N", "N-NE", "NE", "E-NE", "E", "E-SE", "SE", "S-SE", "S", "S-SW", "SW", "W-SW", "W", "W-NW", "NW", "N-NW"];
