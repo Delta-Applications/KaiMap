@@ -131,9 +131,6 @@
 		L.DomEvent.on(tile, 'load', L.bind(this._tileOnLoad, this, done, tile))
 		L.DomEvent.on(tile, 'error', L.bind(this._tileOnError, this, done, tile))
 	
-		if (this.options.crossOrigin) {
-		  tile.crossOrigin = ''
-		}
 	
 		/*
 		 Alt tag is set to empty string to keep screen readers from reading URL and for compliance reasons

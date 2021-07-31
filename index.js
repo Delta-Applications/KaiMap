@@ -12,6 +12,7 @@ let current_heading;
 let center_to_Screen;
 let selected_marker = "";
 let selecting_marker;
+let selecting_path;
 
 //to store device loaction
 let device_lat;
@@ -1141,7 +1142,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 							// Popup
 							onEachFeature: function (feature, layer) {
-							},
+								if (feature.geometry != "") {
+								  console.log(feature.geometry.coordinates[0]);
+								  let p = feature.geometry.coordinates[0];
+								  p.reverse();
+								  map.flyTo(p);
+								}
+							  },
 						}).addTo(map);
 						document.querySelector("div#finder").style.display = "none";
 						top_bar("", "", "")
