@@ -35,25 +35,29 @@ const weather = (() => {
     };
 
     xhr.onerror = function (err) {
-      if (errorcool == true) {
-        return
-      }
+    
       try {
-        kaiosToaster({
-          message: "OWM Error: Offline, loading saved Weather",
-          position: 'north',
-          type: 'warning',
-          timeout: 2000
-        });
+        if (errorcool == false) {
+          kaiosToaster({
+            message: "OWM Error: Offline, loading saved Weather",
+            position: 'north',
+            type: 'warning',
+            timeout: 2000
+          });
+          errorcool = true
+        }
+        
         callback(JSON.parse(localStorage.getItem("last_weather")))
 
       } catch (error) {
-        kaiosToaster({
-          message: "OWM Error: Connection Unavailable",
-          position: 'north',
-          type: 'warning',
-          timeout: 3000
-        });
+        if (errorcool == true) {
+          kaiosToaster({
+            message: "OWM Error: Connection Unavailable",
+            position: 'north',
+            type: 'warning',
+            timeout: 3000
+          });
+        }
         errorcool = true
       console.log(err);
       }
