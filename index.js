@@ -516,6 +516,74 @@ document.addEventListener("DOMContentLoaded", function () {
 		windowOpen = "finder";
 	};
 
+    /////////////////////////
+	/////Load GeoJSON///////////
+	///////////////////////
+function loadGeoJSON(filename){
+	let finder = new Applait.Finder({
+		type: "sdcard",
+		debugMode: false,
+	});
+	finder.search(filename);
+	finder.on("fileFound", function (file, fileinfo, storageName) {
+		//file reader
+
+		let geojson_data = "";
+		let reader = new FileReader();
+
+		reader.onerror = function (event) {
+			reader.abort();
+		};
+
+		reader.onloadend = function (event) {
+			//check if json valid
+			try {
+				geojson_data = JSON.parse(event.target.result);
+			} catch (e) {
+				kaiosToaster({
+					message: "GeoJSON File is invalid.",
+					position: 'north',
+					type: 'error',
+					timeout: 4000
+				});
+				return false;
+			}
+
+			//if valid add layer
+			//to do if geojson is marker add to  marker_array[]
+			//https://blog.codecentric.de/2018/06/leaflet-geojson-daten/
+			L.geoJSON(geojson_data, {
+				// Marker Icon
+				pointToLayer: function (feature, latlng) {
+					let t = L.marker(latlng);
+					t.addTo(markers_group);
+					map.flyTo(latlng);
+					windowOpen = "map";
+					json_modified = true;
+				},
+
+				// Popup
+				onEachFeature: function (feature, layer) {
+					if (feature.geometry != "") {
+					  console.log(feature.geometry.coordinates[0]);
+					  let p = feature.geometry.coordinates[0];
+					  p.reverse();
+					  map.flyTo(p);
+					}
+				  },
+			}).addTo(map);
+			document.querySelector("div#finder").style.display = "none";
+			top_bar("", "", "")
+			windowOpen = "map";
+		};
+
+		reader.readAsText(file);
+	});
+}
+	/////////////////////////
+	/////Load KML///////////
+	///////////////////////
+	
  function loadKML(filename){
 	let finder = new Applait.Finder({
 		type: "sdcard",
@@ -530,7 +598,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		reader.onerror = function (event) {
 			kaiosToaster({
-				message: "Failed to read " + filename + " GPX File.",
+				message: "Failed to read " + filename + " KML File.",
 				position: 'north',
 				type: 'warning',
 				timeout: 3000
@@ -541,8 +609,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		reader.onloadend = function (event) {
 			const parser = new DOMParser();
 			var kmltext = event.target.result; 
-		    var kml = parser.parseFromString(kmltext, 'text/xml');
-			console.log(kmltext,kml)
+			var kml;
+			try {
+				kml = parser.parseFromString(kmltext, 'text/xml');
+			} catch (error) {
+				kaiosToaster({
+					message: "KML File is invalid.",
+					position: 'north',
+					type: 'error',
+					timeout: 4000
+				});
+				return false;
+			}
 			const track = new L.KML(kml);
 			map.addLayer(track);
             
@@ -1098,65 +1176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//add geoJson data
 			if (item_value == "geojson") {
-				let finder = new Applait.Finder({
-					type: "sdcard",
-					debugMode: false,
-				});
-				finder.search(document.activeElement.getAttribute("readfile"));
-				finder.on("fileFound", function (file, fileinfo, storageName) {
-					//file reader
-
-					let geojson_data = "";
-					let reader = new FileReader();
-
-					reader.onerror = function (event) {
-						reader.abort();
-					};
-
-					reader.onloadend = function (event) {
-						//check if json valid
-						try {
-							geojson_data = JSON.parse(event.target.result);
-						} catch (e) {
-							kaiosToaster({
-								message: "GeoJSON File is invalid.",
-								position: 'north',
-								type: 'error',
-								timeout: 5000
-							});
-							return false;
-						}
-
-						//if valid add layer
-						//to do if geojson is marker add to  marker_array[]
-						//https://blog.codecentric.de/2018/06/leaflet-geojson-daten/
-						L.geoJSON(geojson_data, {
-							// Marker Icon
-							pointToLayer: function (feature, latlng) {
-								let t = L.marker(latlng);
-								t.addTo(markers_group);
-								map.flyTo(latlng);
-								windowOpen = "map";
-								json_modified = true;
-							},
-
-							// Popup
-							onEachFeature: function (feature, layer) {
-								if (feature.geometry != "") {
-								  console.log(feature.geometry.coordinates[0]);
-								  let p = feature.geometry.coordinates[0];
-								  p.reverse();
-								  map.flyTo(p);
-								}
-							  },
-						}).addTo(map);
-						document.querySelector("div#finder").style.display = "none";
-						top_bar("", "", "")
-						windowOpen = "map";
-					};
-
-					reader.readAsText(file);
-				});
+			loadGeoJSON(document.activeElement.getAttribute("readfile"));
 			}
 
 			//add gpx data
