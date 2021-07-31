@@ -1421,17 +1421,15 @@ function loadGeoJSON(filename){
 					return false;
 				}
 				break;
-
-			case "Backspace":
-				if (windowOpen == "map") {
-					windowOpen = "";
-					if (confirm("Are you sure you want to exit?")) {
-						window.goodbye();
+				case "Backspace":
+					if (windowOpen == "map") {
+						if (confirm("Are you sure you want to reload?")) {
+							windowOpen = "";
+						window.location.reload()
+						}
 					}
-
-
-				}
-				break;
+					break;
+				
 		}
 	}
 
@@ -1441,6 +1439,16 @@ function loadGeoJSON(filename){
 
 	function shortpress_action(param) {
 		switch (param.key) {
+			
+			case "EndCall":
+				if (windowOpen == "map") {
+					if (confirm("Are you sure you want to exit?")) {
+						windowOpen = "";
+						window.close();
+					}
+				}
+				break;
+
 			case "Backspace":
 				if (windowOpen == "finder" || windowOpen == "markers_option" ) {
 					top_bar("", "", "");
