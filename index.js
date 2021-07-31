@@ -1733,10 +1733,10 @@ function loadGeoJSON(filename){
 	////////////////////////////////
 
 	function handleKeyDown(evt) {
+        if (evt.key == "EndCall") evt.preventDefault();		
 		if (evt.key == "Backspace" && !$("input").is(":focus"))
 			evt.preventDefault();
 		if (!evt.repeat) {
-			//evt.preventDefault();
 			longpress = false;
 			timeout = setTimeout(() => {
 				longpress = true;
@@ -1751,9 +1751,8 @@ function loadGeoJSON(filename){
 	}
 
 	function handleKeyUp(evt) {
-		//evt.preventDefault();
 		if (evt.key == "Backspace") evt.preventDefault();
-
+        if (evt.key == "EndCall") evt.preventDefault();
 		clearTimeout(timeout);
 		if (!longpress) {
 			shortpress_action(evt);
