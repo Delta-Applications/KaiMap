@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				position: 'north',
 				type: 'info',
 			});
-			maps.osm_map();
+			maps.opencycle_map();
 			getLocation("init");
 
 
@@ -361,11 +361,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
+			'<div class="item list-item focusable" data-map="osm"><p class="list-item__text">OpenStreetMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		el.insertAdjacentHTML(
 			"afterend",
-			'<div class="item list-item focusable" data-map="osm"><p class="list-item__text">OpenStreetMap</p><p class="list-item__subtext">Map</p></div>'
+			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		document
 			.querySelector("div#layers")
