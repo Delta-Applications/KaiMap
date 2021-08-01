@@ -27,9 +27,10 @@ const maps = (() => {
       //console.log("Cache hit: ", ev.url);
     });
     tilesLayer.on("tilecachemiss", function (ev) {
-      //console.log("Cache miss: ", ev.url);
+      console.warn("[CACHE CONTROL] Cache miss: ", ev.url);
     });
     tilesLayer.on("tilecacheerror", function (ev) {
+      console.error("[CACHE CONTROL] Cache error: ", ev.tile, ev.error);
       //console.log("Cache error: ", ev.tile, ev.error);
     });
   };
