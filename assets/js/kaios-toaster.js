@@ -30,6 +30,9 @@
     var message = ref.message; if (message === void 0) message = '';
     var position = ref.position; if (position === void 0 || ['north', 'south'].indexOf(position) === -1) position = 'south';
     var timeout = ref.timeout; if ( timeout === void 0 ) timeout = 3000;
+    // Dynamic Timeout Calculation: Manual option will slowly be deprecated
+    timeout = ((message.length / 19) + 1.5)*1000;
+    //
     var el = ref.el; if ( el === void 0 ) el = document.body;
     var rounded = ref.rounded; if ( rounded === void 0 ) rounded = false;
     var type = ref.type; if ( type === void 0 ) type = '';
