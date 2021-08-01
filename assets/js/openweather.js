@@ -1,6 +1,7 @@
 const weather = (() => {
   let errorcool = false
   let openweather_call = function (lat, lng, apikey, callback) {
+    if (!apikey) {apikey = setting.openweather_api}
     let xhr = new XMLHttpRequest({
       mozSystem: true,
     });

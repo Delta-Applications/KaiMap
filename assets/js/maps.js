@@ -217,8 +217,7 @@ const maps = (() => {
       timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
-    tilesLayer = new L.tileLayer.bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
-
+    tilesLayer = new L.TileLayer.Bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
     map.addLayer(tilesLayer);
     caching_events();
   }
