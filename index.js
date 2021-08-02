@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_+ '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
+					'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
 		});
 	};
 
@@ -458,7 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				.querySelector("div#tracksmarkers")
 				.insertAdjacentHTML(
 					"afterend",
-					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_+ '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
+					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
 		});
 	};
 
@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-	
+
 	let finder_tabindex = function () {
 		//set tabindex
 		let t = -1;
@@ -511,7 +511,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				});
 			}
 		}
-	//	document.querySelector("div#finder").style.display = "block";
+		//	document.querySelector("div#finder").style.display = "block";
 	};
 
 	let show_finder = function () {
@@ -532,130 +532,130 @@ document.addEventListener("DOMContentLoaded", function () {
 		} // Delete remove marker option if marker is myMarker
 		document.querySelector("div#markers-option").children[0].focus();
 		windowOpen = "markers_option";
-		bottom_bar("","","")
+		bottom_bar("", "", "")
 		informationHandler.PreciseMarkerUpdate(selected_marker)
 	};
 
-    /////////////////////////
+	/////////////////////////
 	/////Load GeoJSON///////////
 	///////////////////////
-function loadGeoJSON(filename){
-	let finder = new Applait.Finder({
-		type: "sdcard",
-		debugMode: false,
-	});
-	finder.search(filename);
-	finder.on("fileFound", function (file, fileinfo, storageName) {
-		//file reader
+	function loadGeoJSON(filename) {
+		let finder = new Applait.Finder({
+			type: "sdcard",
+			debugMode: false,
+		});
+		finder.search(filename);
+		finder.on("fileFound", function (file, fileinfo, storageName) {
+			//file reader
 
-		let geojson_data = "";
-		let reader = new FileReader();
+			let geojson_data = "";
+			let reader = new FileReader();
 
-		reader.onerror = function (event) {
-			reader.abort();
-		};
+			reader.onerror = function (event) {
+				reader.abort();
+			};
 
-		reader.onloadend = function (event) {
-			//check if json valid
-			try {
-				geojson_data = JSON.parse(event.target.result);
-			} catch (e) {
-				kaiosToaster({
-					message: "GeoJSON File is invalid.",
-					position: 'north',
-					type: 'error',
-					timeout: 4000
-				});
-				return false;
-			}
+			reader.onloadend = function (event) {
+				//check if json valid
+				try {
+					geojson_data = JSON.parse(event.target.result);
+				} catch (e) {
+					kaiosToaster({
+						message: "GeoJSON File is invalid.",
+						position: 'north',
+						type: 'error',
+						timeout: 4000
+					});
+					return false;
+				}
 
-			//if valid add layer
-			//to do if geojson is marker add to  marker_array[]
-			//https://blog.codecentric.de/2018/06/leaflet-geojson-daten/
-			L.geoJSON(geojson_data, {
-				// Marker Icon
-				pointToLayer: function (feature, latlng) {
-					let t = L.marker(latlng);
-					t.addTo(markers_group);
-					map.flyTo(latlng);
-					windowOpen = "map";
-					json_modified = true;
-				},
+				//if valid add layer
+				//to do if geojson is marker add to  marker_array[]
+				//https://blog.codecentric.de/2018/06/leaflet-geojson-daten/
+				L.geoJSON(geojson_data, {
+					// Marker Icon
+					pointToLayer: function (feature, latlng) {
+						let t = L.marker(latlng);
+						t.addTo(markers_group);
+						map.flyTo(latlng);
+						windowOpen = "map";
+						json_modified = true;
+					},
 
-				// Popup
-				onEachFeature: function (feature, layer) {
-					if (feature.geometry != "") {
-					  console.log(feature.geometry.coordinates[0]);
-					  let p = feature.geometry.coordinates[0];
-					  p.reverse();
-					  map.flyTo(p);
-					}
-				  },
-			}).addTo(map);
-			document.querySelector("div#finder").style.display = "none";
-			top_bar("", "", "")
-			windowOpen = "map";
-		};
+					// Popup
+					onEachFeature: function (feature, layer) {
+						if (feature.geometry != "") {
+							console.log(feature.geometry.coordinates[0]);
+							let p = feature.geometry.coordinates[0];
+							p.reverse();
+							map.flyTo(p);
+						}
+					},
+				}).addTo(map);
+				document.querySelector("div#finder").style.display = "none";
+				top_bar("", "", "")
+				windowOpen = "map";
+			};
 
-		reader.readAsText(file);
-	});
-}
+			reader.readAsText(file);
+		});
+	}
 	/////////////////////////
 	/////Load KML///////////
 	///////////////////////
-	
- function loadKML(filename){
-	let finder = new Applait.Finder({
-		type: "sdcard",
-		debugMode: false,
-	});
-	finder.search(filename);
 
-	finder.on("fileFound", function (file, fileinfo, storageName) {
-		//file reader
+	function loadKML(filename) {
+		let finder = new Applait.Finder({
+			type: "sdcard",
+			debugMode: false,
+		});
+		finder.search(filename);
 
-		let reader = new FileReader();
+		finder.on("fileFound", function (file, fileinfo, storageName) {
+			//file reader
 
-		reader.onerror = function (event) {
-			kaiosToaster({
-				message: "Failed to read " + filename + " KML File.",
-				position: 'north',
-				type: 'warning',
-				timeout: 3000
-			});
-			reader.abort();
-		};
+			let reader = new FileReader();
 
-		reader.onloadend = function (event) {
-			const parser = new DOMParser();
-			var kmltext = event.target.result; 
-			var kml;
-			try {
-				kml = parser.parseFromString(kmltext, 'text/xml');
-			} catch (error) {
+			reader.onerror = function (event) {
 				kaiosToaster({
-					message: "KML File is invalid.",
+					message: "Failed to read " + filename + " KML File.",
 					position: 'north',
-					type: 'error',
-					timeout: 4000
+					type: 'warning',
+					timeout: 3000
 				});
-				return false;
-			}
-			const track = new L.KML(kml);
-			map.addLayer(track);
-            
-			// Adjust map to show the kml
-			const bounds = track.getBounds();
-			map.fitBounds(bounds);
+				reader.abort();
+			};
 
-			document.querySelector("div#finder").style.display = "none";
-			windowOpen = "map";
-			top_bar("", "", "")
-		};
+			reader.onloadend = function (event) {
+				const parser = new DOMParser();
+				var kmltext = event.target.result;
+				var kml;
+				try {
+					kml = parser.parseFromString(kmltext, 'text/xml');
+				} catch (error) {
+					kaiosToaster({
+						message: "KML File is invalid.",
+						position: 'north',
+						type: 'error',
+						timeout: 4000
+					});
+					return false;
+				}
+				const track = new L.KML(kml);
+				map.addLayer(track);
 
-		reader.readAsText(file);
-	});	
- }
+				// Adjust map to show the kml
+				const bounds = track.getBounds();
+				map.fitBounds(bounds);
+
+				document.querySelector("div#finder").style.display = "none";
+				windowOpen = "map";
+				top_bar("", "", "")
+			};
+
+			reader.readAsText(file);
+		});
+	}
 
 
 
@@ -717,7 +717,7 @@ function loadGeoJSON(filename){
 	/////////////////////////
 
 	let myMarker;
-    let LastPosMarker;
+	let LastPosMarker;
 	var follow_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
@@ -778,7 +778,7 @@ function loadGeoJSON(filename){
 
 			if (option == "init") {
 				// Subtract 1 since if Accuracy is low, how can we be accurate about the accuracy? Haha, also looks better
-				myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy-1).addTo(map);
+				myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy - 1).addTo(map);
 				myMarker = L.marker([current_lat, current_lng], {
 					rotationAngle: 0,
 				}).addTo(markers_group);
@@ -885,7 +885,7 @@ function loadGeoJSON(filename){
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
 
-        
+
 
 
 				//store device location
@@ -910,7 +910,7 @@ function loadGeoJSON(filename){
 				}
 				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
 				informationHandler.PreciseGeoUpdate(crd)
-				LastPosMarker.remove();
+				if (LastPosMarker) LastPosMarker.remove();
 			}
 
 			function errorHandler(err) {
@@ -954,54 +954,54 @@ function loadGeoJSON(filename){
 	/////////////////////////
 	/////MENU///////////////
 	////////////////////////
- function 	markers_action() {
+	function markers_action() {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
-		  let item_value = document.activeElement.getAttribute("data-action");
-	
-		  if (item_value == "save_marker") {
-			bottom_bar("","","")
-			windowOpen = "map";
-            selecting_marker = false;
-			document.querySelector("div#markers-option").style.display = "none";
-			save_mode = "geojson-single";
-			user_input("open", document.querySelector("#marker-pluscode").innerText+"_"+now());
-			bottom_bar("Cancel", "", "Save");
-			document.getElementById("user-input-description").innerText =
-			  "Export marker in GeoJSON format";
-			  
-		  }
+			let item_value = document.activeElement.getAttribute("data-action");
 
-		  if (item_value == "share_marker") {
-			windowOpen = "map";
-            selecting_marker = false;
-			document.querySelector("div#markers-option").style.display = "none";
-            mozactivity.share_marker_position(selected_marker._latlng,document.querySelector("#marker-pluscode").innerText)
-			bottom_bar("","","")
-		  }
-
-	
-
-		  if (item_value == "remove_marker") {
-			  if (confirm("Are you sure you want to remove this marker?") == true) {
-				map.removeLayer(selected_marker);
-			
-				kaiosToaster({
-					message: "Marker removed",
-					position: 'north',
-					type: 'error',
-					timeout: 3000
-				});				
-				document.querySelector("div#markers-option").style.display = "none";
+			if (item_value == "save_marker") {
+				bottom_bar("", "", "")
 				windowOpen = "map";
-				bottom_bar("","","")
-			  }
-		
-		  }
-		}
-	  };
-	  
+				selecting_marker = false;
+				document.querySelector("div#markers-option").style.display = "none";
+				save_mode = "geojson-single";
+				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now());
+				bottom_bar("Cancel", "", "Save");
+				document.getElementById("user-input-description").innerText =
+					"Export marker in GeoJSON format";
 
-	  
+			}
+
+			if (item_value == "share_marker") {
+				windowOpen = "map";
+				selecting_marker = false;
+				document.querySelector("div#markers-option").style.display = "none";
+				mozactivity.share_marker_position(selected_marker._latlng, document.querySelector("#marker-pluscode").innerText)
+				bottom_bar("", "", "")
+			}
+
+
+
+			if (item_value == "remove_marker") {
+				if (confirm("Are you sure you want to remove this marker?") == true) {
+					map.removeLayer(selected_marker);
+
+					kaiosToaster({
+						message: "Marker removed",
+						position: 'north',
+						type: 'error',
+						timeout: 3000
+					});
+					document.querySelector("div#markers-option").style.display = "none";
+					windowOpen = "map";
+					bottom_bar("", "", "")
+				}
+
+			}
+		}
+	};
+
+
+
 	function addMapLayers(param) {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
@@ -1196,7 +1196,7 @@ function loadGeoJSON(filename){
 
 			//add geoJson data
 			if (item_value == "geojson") {
-			loadGeoJSON(document.activeElement.getAttribute("readfile"));
+				loadGeoJSON(document.activeElement.getAttribute("readfile"));
 			}
 
 			//add gpx data
@@ -1421,15 +1421,15 @@ function loadGeoJSON(filename){
 					return false;
 				}
 				break;
-				case "Backspace":
-					if (windowOpen == "map") {
-						if (confirm("Are you sure you want to reload?")) {
-							windowOpen = "";
+			case "Backspace":
+				if (windowOpen == "map") {
+					if (confirm("Are you sure you want to reload?")) {
+						windowOpen = "";
 						window.location.reload()
-						}
 					}
-					break;
-				
+				}
+				break;
+
 		}
 	}
 
@@ -1439,7 +1439,7 @@ function loadGeoJSON(filename){
 
 	function shortpress_action(param) {
 		switch (param.key) {
-			
+
 			case "EndCall":
 				if (windowOpen == "map") {
 					if (confirm("Are you sure you want to exit?")) {
@@ -1450,7 +1450,7 @@ function loadGeoJSON(filename){
 				break;
 
 			case "Backspace":
-				if (windowOpen == "finder" || windowOpen == "markers_option" ) {
+				if (windowOpen == "finder" || windowOpen == "markers_option") {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
@@ -1486,7 +1486,7 @@ function loadGeoJSON(filename){
 					selected_marker = "";
 					selecting_marker = false;
 					break;
-				  }
+				}
 
 
 				if (windowOpen == "search") {
@@ -1499,9 +1499,9 @@ function loadGeoJSON(filename){
 					break;
 				}
 
-				
 
-				
+
+
 				break;
 
 			case "SoftRight":
@@ -1535,7 +1535,7 @@ function loadGeoJSON(filename){
 				}
 
 
-			
+
 
 				break;
 
@@ -1598,12 +1598,12 @@ function loadGeoJSON(filename){
 				if (windowOpen == "map" && selecting_marker == true) {
 					show_markers_options()
 					break;
-				  }
-		  
-				  if (windowOpen == "markers_option" && selected_marker != "") {
+				}
+
+				if (windowOpen == "markers_option" && selected_marker != "") {
 					markers_action();
 					break;
-				  }
+				}
 
 
 				break;
@@ -1696,14 +1696,14 @@ function loadGeoJSON(filename){
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
 				}
-				
+
 				break;
 
 
 
 			case "ArrowRight":
 				MovemMap("right");
-               
+
 				if (windowOpen == "finder") {
 					finder_navigation("+1");
 				}
@@ -1733,7 +1733,7 @@ function loadGeoJSON(filename){
 	////////////////////////////////
 
 	function handleKeyDown(evt) {
-        if (evt.key == "EndCall") evt.preventDefault();		
+		if (evt.key == "EndCall") evt.preventDefault();
 		if (evt.key == "Backspace" && !$("input").is(":focus"))
 			evt.preventDefault();
 		if (!evt.repeat) {
@@ -1752,7 +1752,7 @@ function loadGeoJSON(filename){
 
 	function handleKeyUp(evt) {
 		if (evt.key == "Backspace") evt.preventDefault();
-        if (evt.key == "EndCall") evt.preventDefault();
+		if (evt.key == "EndCall") evt.preventDefault();
 		clearTimeout(timeout);
 		if (!longpress) {
 			shortpress_action(evt);

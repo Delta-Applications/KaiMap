@@ -122,15 +122,15 @@ const informationHandler = (() => {
         }
     }
 
-    let PreciseMarkerUpdate = function (marker){
+    let PreciseMarkerUpdate = function (marker) {
 
         let marker_stats = marker
-       
-          document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5)+", "+marker_stats._latlng.lng.toFixed(5);
-          document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
-          document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
 
-        
+        document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5) + ", " + marker_stats._latlng.lng.toFixed(5);
+        document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
+        document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
+
+
 
     }
 
@@ -170,9 +170,9 @@ const informationHandler = (() => {
             }
 
 
-            document.querySelector("#pos").innerText = data.lat+", "+data.long;
+            document.querySelector("#pos").innerText = data.lat + ", " + data.long;
             document.querySelector("#heading").innerText = utility.degToCompass(data.heading) + " " + data.heading;
-            document.querySelector("#altitude").innerText = data.altitude+" m";
+            document.querySelector("#altitude").innerText = data.altitude + " m";
             document.querySelector("#acc").innerText = data.accuracy + "± m";
             document.querySelector("#distance").innerText = data.DistanceFromCenter + " km"
             document.querySelector("#speed").innerText = data.speed + " km/h"
