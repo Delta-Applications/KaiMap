@@ -288,7 +288,7 @@ const maps = (() => {
       attribution: 'STRAVA Heatmap',
       maxNativeZoom: 15,
       maxZoom: 16,
-      //Set maxZoom to 11 if using Low-Res
+      //Set maxNativeZoom to 11 if using Low-Res
     });
 
     map.addLayer(stravaLayer);
