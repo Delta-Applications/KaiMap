@@ -286,7 +286,9 @@ const maps = (() => {
       cacheMaxAge: caching_time,
       useOnlyCache: false,*/
       attribution: 'STRAVA Heatmap',
-      maxZoom: 15,
+      maxNativeZoom: 15,
+      maxZoom: 16,
+      //Set maxZoom to 11 if using Low-Res
     });
 
     map.addLayer(stravaLayer);
