@@ -247,6 +247,53 @@ const maps = (() => {
     caching_events();
   }
 
+  let stravaLayer;
+  function strava_heatmap(){
+    if (map.hasLayer(stravaLayer)) {
+      map.removeLayer(stravaLayer);
+      kaiosToaster({
+        message: "Removed Layer",
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
+      return false;
+    }
+
+    kaiosToaster({
+      message: "STRAVA Heatmap",
+      position: 'north',
+      type: 'info',
+      timeout: 2000
+    });
+
+// STRAVA HEATMAP
+/* Unfortunately High-Res Heatmap is issued only to users with an account, here's a template if you have one
+   and want to use the High-Res version: */
+// "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=MYVALUE&Policy=MYVALUE&Signature=MYVALUE" 
+// And here's the default low-res:
+// "https://heatmap-external-{s}.strava.com/tiles/all/hot/{z}/{x}/{y}.png"
+
+    tilesUrl =
+      "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=APKAIDPUN4QMG7VUQPSA&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYyODgxNzQxOH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjI3NTkzNDE4fX19XX0_&Signature=cwyko1CyKIckjwGGCUme-5mdyGXdksFIc7YfUI7LuILtFOGu-bpif1szTJ7xFtVEcT05LhQ39HaDXG9x7YnQvC02~phY6ddQw9pRxHzzNrHSupOkgXRoKATgtlWXyQd5stOxe4uBaMVsuiQYWnxWYMplxct7Ogjvkar~7N87kGkl7Tp4wxBq9ZDnwUm2E8mXTUTJdyVo59w-kDeXfGpPrszfTrQ3VUF~9cx6rvTNcYwEWFiJJ1dbj3~GLs7WmfN07gcQg5jx0R5XPi4C2avRiOEnH9dUg0dvoos3FtFwFv6N6tTVyvYh7V-bp4oB1u-nnLJY3T8~RwTrFzQFYIMaQA__" 
+    stravaLayer = L.tileLayer(tilesUrl, {
+      /*useCache: true,
+      saveToCache: false,
+      crossOrigin: false,
+      // Note: Something about crossOrigin makes it not work, /shrug
+      // Set crossOrigin to false when using Low-Res/No Account
+      // Comment out from useCache to useOnlyCache when using High-Res
+      cacheMaxAge: caching_time,
+      useOnlyCache: false,*/
+      attribution: 'STRAVA Heatmap',
+      maxZoom: 15,
+    });
+
+    map.addLayer(stravaLayer);
+    caching_events();
+  }
+
+
   let owmLayer;
 
   function owm_precipit_layer() {
@@ -704,6 +751,7 @@ const maps = (() => {
   }
   return {
     opencycle_map,
+    strava_heatmap,
     moon_map,
     earthquake_layer,
     satellite_map,

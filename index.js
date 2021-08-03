@@ -373,6 +373,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				"afterend",
 				'<div class="item list-item focusable" data-map="weather"><p class="list-item__text">Rainviewer</p><p class="list-item__subtext">Layer</p></div>'
 			);
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item list-item focusable" data-map="strava-heatmap"><p class="list-item__text">Strava Heatmap</p><p class="list-item__subtext">Layer</p></div>'
+			);
 
 		document
 			.querySelector("div#layers")
@@ -900,10 +906,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
 				if (center_to_Screen == true) {
-					map.flyTo(
-						new L.LatLng(crd.latitude, crd.longitude)
-					);
-					myAccuracy.remove()
+					if (selecting_marker & selected_marker != myMarker){}else{
+						map.flyTo(
+							new L.LatLng(crd.latitude, crd.longitude)
+						);
+						myAccuracy.remove()
+					}
 				} else {
 					myAccuracy.remove()
 					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy).addTo(map);
@@ -1006,6 +1014,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
 			let item_value = document.activeElement.getAttribute("data-map");
+			if (item_value == "strava-heatmap") {
+				top_bar("", "", "");
+				maps.strava_heatmap();
+
+				document.querySelector("div#finder").style.display = "none";
+				windowOpen = "map";
+				
+			}
 			if (item_value == "update-weather") {
 				let cdata = map.getCenter();
 				informationHandler.UpdateWeather(cdata)
