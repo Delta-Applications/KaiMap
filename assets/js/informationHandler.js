@@ -300,7 +300,7 @@ const informationHandler = (() => {
             document.getElementById("pres").innerText =
                 some.list[0].main.pressure + " hPa";
             document.getElementById("desc").innerText =
-                some.list[0].weather[0].id + " > " + some.list[0].weather[0].main;
+                some.list[0].weather[0].id + " - " + some.list[0].weather[0].main;
 
 
 
