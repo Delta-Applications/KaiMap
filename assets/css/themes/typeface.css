@@ -1,0 +1,8 @@
+/*THIS IS NOT A THEME. USING THIS IN YOUR SETTINGS WILL STYLE THE APP INCORRECTLY
+  USE THIS TO CHANGE FONT, I LIKE NOKIA SANS OR NOKIA PURE, BUT FEEL FREE TO SWITCH BACK
+  TO LATO*/
+
+  @font-face {
+    font-family: "Lato-Regular"; /*DO NOT CHANGE*/
+    src: url("../fonts/Nokia-Pure.ttf"); /*CHANGE THIS*/
+  }

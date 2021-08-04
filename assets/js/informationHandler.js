@@ -347,18 +347,6 @@ const informationHandler = (() => {
             var start = new Date();
 
             var samples0 = navigator.mozNetworkStats.getSamples(network, start, end); // returns a mozNetworkStats object
-            var DataType = navigator.mozNetworkStats.network
-
-            if (DataType == null) {
-                document.getElementById("dataTypeC").innerText = "Merged"
-            }
-            if (DataType == navigator.mozNetworkStats.WIFI) {
-                document.getElementById("dataTypeC").innerText = "Wi-Fi"
-            }
-            if (DataType == navigator.mozNetworkStats.MOBILE) {
-                document.getElementById("dataTypeC").innerText = "Mobile"
-            }
-
             samples0.onsuccess = function () {
                 document.getElementById("dataRX").innerText = utility.formatBytes(samples0.result.data[0].rxBytes)
                 document.getElementById("dataTX").innerText = utility.formatBytes(samples0.result.data[0].txBytes)
