@@ -1,0 +1,53 @@
+:root {
+    font-family: "Open Sans", sans-serif;
+    font-size: 10px;
+
+    /* you can edit these variables */
+
+    /* change to 'none', if there are problems with capitalization */
+    --capitalization: capitalize;
+
+    /* change to 'auto', if you want scrolling */
+    --content-overflow: hidden;
+
+    --app-background: #131313;
+
+    --header-background: rgb(31, 96, 237);
+    --header-color: #131313;
+
+    --softkeys-background: #131313;
+    --softkeys-color: #ffffff;
+
+    --item-background: #131313;
+    --item-text-color: #ffffff;
+    --item-subtext-color: #adadad;
+
+    --item-focused-background: rgb(31, 96, 237);
+    --item-focused-text-color: #131313;
+    --item-focused-subtext-color: #131313;
+
+    --arrow-color: #000000;
+
+    --button-background: #131313;
+    --button-color: #ffffff;
+
+    --button-background-focused: rgb(31, 96, 237);
+    --button-color-focused: #131313;
+
+    --textarea-height: 5rem;
+
+    --slider-color: #AAAAAA;
+    --slider-color-selected: rgb(31, 96, 237);
+
+    --slider-focused-color: #AAAAAA;
+    --slider-focused-selected: #ffffff;
+
+    --progress-color: #AAAAAA;
+    --progress-color-selected: rgb(31, 96, 237);
+
+    --progress-focused-color: #AAAAAA;
+    --progress-focused-selected: #ffffff;
+
+    --separator-background: #2f2f2f;
+    --separator-color: #929292;
+}

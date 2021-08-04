@@ -296,8 +296,8 @@ div#user-input {
   position: fixed;
   height: 70px;
   bottom: 0px;
-  background: #ccc;
-  color: black;
+  background: var(--app-background);
+  color: var(--item-text-color);
   z-index: 2000;
   padding: 5px;
 }
@@ -390,8 +390,8 @@ div#top-bar {
   left: 0px;
   height: 15px;
   z-index: 6;
-  background: var(--accent-color);
-  color: white;
+  background: var(--header-background);
+  color: var(--header-color);
   font-size: 1.3rem;
   font-weight: 400;
   text-transform: capitalize;
@@ -403,8 +403,8 @@ div#top-bar div#inner {
 }
 
 div#top-bar div {
-  background: var(--accent-color);
-  color: white;
+  background: var(--header-background);
+  color: var(--header-color);
   font-size: 1.3rem;
   font-weight: 400;
   text-transform: capitalize;
@@ -412,8 +412,8 @@ div#top-bar div {
 }
 
 div#top-bar div#button-center {
-  background: var(--accent-color);
-  color: white;
+  background: var(--header-background);
+  color: var(--header-color);
   padding: 2px;
   width: 30%;
   text-align: center;
@@ -421,8 +421,8 @@ div#top-bar div#button-center {
 }
 
 div#top-bar div#button-left {
-  background: var(--accent-color);
-  color: white;
+  background: var(--header-background);
+  color: var(--header-color);
   padding: 2px;
   width: 20px;
   text-align: left;
@@ -431,7 +431,7 @@ div#top-bar div#button-left {
 
 
 div#markers-option {
-  background: white;
+  background: var(--app-background);
   position: fixed;
   z-index: 5;
   display: none;
@@ -450,7 +450,7 @@ div#bottom-bar {
   left: 0;
   height: 2rem;
   z-index: 200000;
-  background: #ccc;
+  background: var(--app-background);
   display: none
 }
 
@@ -459,14 +459,14 @@ div#bottom-bar div#inner {
 }
 
 div#bottom-bar div {
-  background: #ccc;
-  color: #323232;
+  background: var(--app-background);
+  color: var(--item-text-color);
   padding: .3rem
 }
 
 div#bottom-bar div#button-center {
-  background: #ccc;
-  color: #323232;
+  background: var(--app-background);
+  color: var(--item-text-color);
   padding: 0;
   width: 30%;
   text-align: center;
@@ -474,8 +474,8 @@ div#bottom-bar div#button-center {
 }
 
 div#bottom-bar div#button-left {
-  background: #ccc;
-  color: #323232;
+  background: var(--app-background);
+  color: var(--item-text-color);
   padding: 0;
   width: 20px;
   text-align: left;
@@ -483,8 +483,8 @@ div#bottom-bar div#button-left {
 }
 
 div#bottom-bar div#button-right {
-  background: #ccc;
-  color: #323232;
+  background: var(--app-background);
+  color: var(--item-text-color);
   padding: 0;
   width: 30%;
   text-align: right
@@ -551,7 +551,7 @@ div#finder {
   z-index: 5;
   top: 0px;
   left: 0px;
-  background: #ffffff;
+  background: var(--app-background);
   padding: 0px;
   color: black;
   display: none;
@@ -583,20 +583,20 @@ div#finder div#close {
 
 div#finder .item:focus {
   background: var(--accent-color);
-  border-color: #FFFF;
-  color: white;
+  border-color: var(--item-focused-text-color);
+  color: var(--item-focused-text-color);
 }
 
 div#markers-option .item:focus {
   background: var(--accent-color);
-  border-color: #FFFF;
-  color: white;
+  border-color: var(--item-focused-text-color);
+  color: var(--item-focused-text-color);
 }
 
 div#markers-option #remove_marker:focus {
   background: rgb(236, 73, 73);
-  border-color: #FFFF;
-  color: white;
+  border-color: var(--item-focused-text-color);
+  color: var(--item-focused-text-color);
 }
 
 
@@ -624,7 +624,7 @@ div.panel {
   padding: 0px;
   height: 90vh;
   color: var(--item-subtext-color);
-  background: #ffffff;
+  background: var(--item-background);
   overflow: hidden !important;
 }
 
