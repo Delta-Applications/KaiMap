@@ -45,10 +45,7 @@ img#about {
   outline: 0px;
 }
 
-@font-face {
-  font-family: "Lato-Regular";
-  src: url("../fonts/Lato-Regular.ttf");
-}
+
 
 html,
 body {

@@ -1,5 +1,8 @@
+@font-face {
+    font-family: "Lato-Regular";
+    src: url("../fonts/Nokia-Sans600.ttf");
+  }
 :root {
-    font-family: "Open Sans", sans-serif;
     font-size: 10px;
 
     /* you can edit these variables */
