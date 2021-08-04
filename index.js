@@ -529,6 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	let show_markers_options = function () {
 		document.querySelector("div#markers-option").style.display = "block";
+		document.querySelector("#remove_marker").style.display = "block"
 
 		tabIndex = 0;
 		finder_tabindex();
@@ -906,7 +907,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				let b = [crd.latitude, crd.longitude];
 				localStorage.setItem("last_location", JSON.stringify(b));
 				if (center_to_Screen == true) {
-					if (selecting_marker & selected_marker != myMarker){}else{
+				if (selecting_marker & selected_marker != myMarker){}else{
 						map.flyTo(
 							new L.LatLng(crd.latitude, crd.longitude)
 						);
