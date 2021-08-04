@@ -17,6 +17,10 @@ const settings = ((_) => {
       "zoomposition",
       document.getElementById("zoomposition").value
     );
+    localStorageWriteRead(
+      "theme",
+      document.getElementById("theme").value
+    );
     toaster("Settings Saved", 2000);
   };
 
@@ -35,13 +39,17 @@ const settings = ((_) => {
     document.getElementById("zoomposition").value = localStorage.getItem(
       "zoomposition"
     );
-
+    document.getElementById("theme").value = localStorage.getItem(
+      "theme"
+    );
+    document.getElementById("current_theme").setAttribute('href',"assets/css/themes/"+localStorage.getItem("theme") );
     let settings_arr = [
       localStorage.getItem("export-path"),
       localStorage.getItem("owm-key"),
       localStorage.getItem("cache-time"),
       localStorage.getItem("cache-zoom"),
       localStorage.getItem("zoomposition"),
+      localStorage.getItem("theme"),
 
     ];
     return settings_arr;
