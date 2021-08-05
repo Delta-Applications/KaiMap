@@ -1026,6 +1026,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "update-weather") {
 				let cdata = map.getCenter();
 				informationHandler.UpdateWeather(cdata)
+				kaiads.DisplayFullScreenAd();
+
 			}
 			if (item_value == "gstreet") {
 
@@ -1407,10 +1409,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function longpress_action(param) {
 		switch (param.key) {
+			
 			case "#":
 				if (windowOpen == "map") maps.caching_tiles();
 				break;
-
+            case "6":
+				if (navigator.hasFeature("device.capability.torch")) {
+					let FlashLightManager = navigator.getFlashlightManager().then(function (Flashlight) {
+						console.log(Flashlight)
+						Flashlight.flashlightEnabled = !Flashlight.flashlightEnabled
+					})
+				}else{
+					kaiosToaster({
+						message: "Your device does not have a front torch.",
+						position: 'north',
+						type: 'warning',
+						timeout: 2000
+					});
+				}
+				
+				
+				break;
 			case "1":
 				switch (screen.orientation.type) {
 					case 'portrait-primary':
@@ -1461,7 +1480,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "map") {
 					if (confirm("Are you sure you want to exit?")) {
 						windowOpen = "";
-						window.close();
+						window.goodbye();
 					}
 				}
 				break;

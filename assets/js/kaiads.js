@@ -2,7 +2,7 @@ const kaiads = (() => {
   ////////////////////////////////////
   // ** KaiAds Management Module ** //
 
-  var DisplayAds = false // Change this if you are viewing source-code and prefer to not use Ads
+  var DisplayAds = false
 
   var Publisher = "43accaf9-7798-4925-804b-ec0fa006b010" // Publisher ID
   var Application = "delta.map" // Application Name
@@ -12,7 +12,7 @@ const kaiads = (() => {
   // access to KaiAds by Delta Apps.
   ////////////////////////////////////
 
-  // Generate a random number between 2 and 10, including both 2 and 10
+  // Generate a random number between 1 and 2
   function generateRandomIntegerInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

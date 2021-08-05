@@ -48,6 +48,12 @@
   },
 
   "permissions": {
+    "feature-detection":{
+      "description": "Check device capabilities such as Torch"
+    },
+    "flashlight":{
+     "description": "Light up 800T Flashlight"
+    },
     "geolocation": {
       "description": "Required to show user's location on map"
     },
@@ -65,7 +71,7 @@
       "description": "Required to read QR Codes using the Camera"
     },
     "camera": {
-      "description": "Controlling the camera flash"
+      "description": "Light up Camera Flash"
     },
 
     "wake-lock": {},
