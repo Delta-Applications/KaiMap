@@ -42,7 +42,7 @@ const settings = ((_) => {
     document.getElementById("theme").value = localStorage.getItem(
       "theme"
     );
-    document.getElementById("current_theme").setAttribute('href',"assets/css/themes/"+localStorage.getItem("theme") );
+    document.getElementById("current_theme").setAttribute('href',"assets/css/themes/"+(localStorage.getItem("theme") || "light.css") );
     let settings_arr = [
       localStorage.getItem("export-path"),
       localStorage.getItem("owm-key"),
