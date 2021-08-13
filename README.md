@@ -4,11 +4,12 @@ delta.map is a local offline and online caching client for viewing maps, weather
 This is still a beta, a direct fork of o.map, uploaded by me on github after viewing some suggestions.
 
 ![coolappbanner](https://user-images.githubusercontent.com/26120324/125851468-53672dea-c3ce-41df-b0ba-8a755d72f6f3.png)
+[![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but the author(s) intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fgjbae1212%2Fhit-counter&count_bg=%23144FDC&title_bg=%23333131&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![License](https://img.shields.io/github/license/Delta-applications/delta.map)
 ![Checks](https://img.shields.io/github/checks-status/Delta-applications/delta.map/main)
 ![CommitActivity](https://img.shields.io/github/commit-activity/w/Delta-applications/delta.map)
-![Starts](https://img.shields.io/github/stars/Delta-Applications/delta.map)
+![Stars](https://img.shields.io/github/stars/Delta-Applications/delta.map)
 [![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)
 [![Donate with Ethereum](https://en.cryptobadges.io/badge/small/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)](https://en.cryptobadges.io/donate/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)
 
