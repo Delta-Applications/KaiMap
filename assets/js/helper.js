@@ -121,6 +121,14 @@ function deleteFile(storage, path, notification) {
     };
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 //bottom bar
 function bottom_bar(left, center, right) {
   document.querySelector("div#bottom-bar div#button-left").textContent = left;

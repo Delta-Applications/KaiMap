@@ -310,6 +310,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	let timeout;
 
 	function repeat_action(param) {
+		if (windowOpen == "finder") {
+			switch (param.key) {
+				case 'ArrowUp':
+					nav("-1");
+					break;
+			    case 'ArrowDown':
+					nav("+1");
+					break;
+			}
+		}
 		if (windowOpen == "map") {
 			switch (param.key) {
 				case 'ArrowUp':
