@@ -49,7 +49,7 @@ img#about {
 
 html,
 body {
-  font-family: "Lato-Regular";
+  font-family: "Open Sans";
   font-weight: 100;
   width: 100%;
   position: relative;
@@ -123,14 +123,14 @@ div#get-position {
   z-index: 5;
   left: 0;
   top: 0;
-  background: white;
+  background: var(--app-background);
   color: white;
   font-size: 14px;
   padding: 5px;
 }
 
 div#get-position div {
-  background: white;
+  background: var(--app-background);
   color: white;
   font-size: 14px;
   padding: 3px;
@@ -140,13 +140,14 @@ div#get-position div#intro-footer {
   position: absolute;
   bottom: 20px;
   font-size: 0.8rem;
+  font-weight: 500;
   text-align: center;
   width: 100%;
   left: 0px;
 }
 
 div#message div {
-  background: black;
+  background: var(--app-background);
   color: white;
   font-size: 14px;
   padding: 3px;
@@ -467,6 +468,7 @@ div#bottom-bar div#button-center {
   padding: 0;
   width: 30%;
   text-align: center;
+  font-size: 17px;
   font-weight: 700
 }
 
@@ -476,6 +478,8 @@ div#bottom-bar div#button-left {
   padding: 0;
   width: 20px;
   text-align: left;
+  font-weight: 600;
+  font-size: 14px;
   width: 30%
 }
 
@@ -483,7 +487,9 @@ div#bottom-bar div#button-right {
   background: var(--app-background);
   color: var(--item-text-color);
   padding: 0;
-  width: 30%;
+  width: 30%;  
+  font-weight: 600;
+  font-size: 14px;
   text-align: right
 }
 
@@ -527,6 +533,7 @@ div#message div#intro-footer2 {
   bottom: 20px;
   font-size: 1.8rem;
   text-align: center;
+  font-weight: 500;
   width: 100%;
   left: 0px;
   color: var(--accent-color);

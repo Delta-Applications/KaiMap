@@ -7,6 +7,10 @@
     /* change to 'none', if there are problems with capitalization */
     --capitalization: capitalize;
 
+    --chkbox-off-mask-selected: url("images/checkbox-off-kaios-2.5.3_white.svg");
+    --chkbox-on-mask-selected: url("images/checkbox-on-kaios-2.5.3_white.svg");
+    --chkbox-off-mask-norm: url("images/checkbox-off-kaios-2.5.3_black.svg");
+    --chkbox-on-mask-norm: url("images/checkbox-on-kaios-2.5.3_black.svg");
     /* change to 'auto', if you want scrolling */
     --content-overflow: hidden;
 

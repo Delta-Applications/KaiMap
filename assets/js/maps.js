@@ -248,9 +248,10 @@ const maps = (() => {
   }
 
   let stravaLayer;
-  function strava_heatmap(){
+  function strava_heatmap(ame){
     if (map.hasLayer(stravaLayer)) {
       map.removeLayer(stravaLayer);
+      ame.childNodes[2].checked = 0
       kaiosToaster({
         message: "Removed Layer",
         position: 'north',
@@ -259,6 +260,7 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
 
     kaiosToaster({
       message: "STRAVA Heatmap",
@@ -298,9 +300,11 @@ const maps = (() => {
 
   let owmLayer;
 
-  function owm_precipit_layer() {
+  function owm_precipit_layer(ame) {
 
     if (map.hasLayer(owmLayer)) {
+      ame.childNodes[2].checked = 0
+
       map.removeLayer(owmLayer);
       kaiosToaster({
         message: "Removed Layer",
@@ -310,6 +314,7 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
 
     kaiosToaster({
       message: "OWM Precipitation",
@@ -341,8 +346,10 @@ const maps = (() => {
 
   let owmLayer2;
 
-  function owm_wind_layer() {
+  function owm_wind_layer(ame) {
     if (map.hasLayer(owmLayer2)) {
+      ame.childNodes[2].checked = 0
+
       map.removeLayer(owmLayer2);
       kaiosToaster({
         message: "Removed Layer",
@@ -352,6 +359,7 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
 
     kaiosToaster({
       message: "OWM Wind",
@@ -379,9 +387,11 @@ const maps = (() => {
 
   let owmLayer3;
 
-  function owm_temp_layer() {
+  function owm_temp_layer(ame) {
     if (map.hasLayer(owmLayer3)) {
       map.removeLayer(owmLayer3);
+      ame.childNodes[2].checked = 0
+
       kaiosToaster({
         message: "Removed Layer",
         position: 'north',
@@ -390,6 +400,7 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
 
     kaiosToaster({
       message: "OWM Temperature",
@@ -447,8 +458,10 @@ const maps = (() => {
 
   let railwayLayer;
 
-  function railway_layer() {
+  function railway_layer(ame) {
     if (map.hasLayer(railwayLayer)) {
+      ame.childNodes[2].checked = 0
+
       map.removeLayer(railwayLayer);
       kaiosToaster({
         message: "Removed Layer",
@@ -458,6 +471,7 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
 
     kaiosToaster({
       message: "Railways",
@@ -497,8 +511,10 @@ const maps = (() => {
   }
 
   let markers_group_eq = new L.FeatureGroup();
-  let earthquake_layer = function () {
+  let earthquake_layer = function (ame) {
     if (map.hasLayer(markers_group_eq)) {
+      ame.childNodes[2].checked = 0
+
       map.removeLayer(markers_group_eq);
       kaiosToaster({
         message: "Removed Layer",
@@ -508,6 +524,8 @@ const maps = (() => {
       });
       return false;
     }
+    ame.childNodes[2].checked = 1
+
     kaiosToaster({
       message: "Earthquakes",
       position: 'north',
@@ -576,7 +594,7 @@ const maps = (() => {
     weather_layer2,
     weather_layer3;
 
-  function weather_map() {
+  function weather_map(ame) {
     kaiads.DisplayFullScreenAd();
 
     let weather_url;
@@ -587,6 +605,8 @@ const maps = (() => {
       map.removeLayer(weather_layer1);
       map.removeLayer(weather_layer2);
       map.removeLayer(weather_layer3);
+      ame.childNodes[2].checked = 0
+
       kaiosToaster({
         message: "Removed Layer",
         position: 'north',
@@ -603,6 +623,7 @@ const maps = (() => {
     fetch("https://api.rainviewer.com/public/maps.json")
       .then(function (response) {
         running = true;
+        ame.childNodes[2].checked = 1
 
         kaiosToaster({
           message: "Rainviewer",

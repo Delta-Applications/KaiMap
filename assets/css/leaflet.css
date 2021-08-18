@@ -247,6 +247,7 @@
 
 /* visual tweaks */
 .leaflet-container {
+	font-weight: 600;
 	background: #000000;
 	outline: 0;
 }
@@ -271,6 +272,7 @@
 
 /* attribution and scale controls */
 .leaflet-container .leaflet-control-attribution {
+	font-weight: 600;
 	background: #fff;
 	background: rgba(255, 255, 255, 0.7);
 	margin: 0;
@@ -278,6 +280,7 @@
 
 .leaflet-control-attribution,
 .leaflet-control-scale-line {
+	font-weight: 600;
 	border: 1px solid #1c1c1c;
 	border-radius: 3px;
 	border-bottom: none;
@@ -295,6 +298,7 @@
 
 .leaflet-container .leaflet-control-attribution,
 .leaflet-container .leaflet-control-scale {
+	font-weight: 600;
 	font-size: 9px;
 }
 
@@ -307,6 +311,7 @@
 }
 
 .leaflet-control-scale-line {
+	font-weight: 600;
 	border: 1px solid #1c1c1c;
 	border-radius: 3px;
 	border-top: none;

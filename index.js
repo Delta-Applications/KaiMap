@@ -1,8 +1,6 @@
 "use strict";
 "enablePrivelege";
 
-$('div#about').css('message', 'none');
-$('img#about').css('display', 'none');
 let step = 0.001;
 let current_lng;
 let current_lat;
@@ -139,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			maps.opencycle_map();
 			getLocation("init");
 
+		
 
 
 			//   setTimeout(function () {
@@ -377,45 +376,46 @@ document.addEventListener("DOMContentLoaded", function () {
 			"afterend",
 			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
-		document
-			.querySelector("div#layers")
-			.insertAdjacentHTML(
-				"afterend",
-				'<div class="item list-item focusable" data-map="weather"><p class="list-item__text">Rainviewer</p><p class="list-item__subtext">Layer</p></div>'
-			);
-		document
-			.querySelector("div#layers")
-			.insertAdjacentHTML(
-				"afterend",
-				'<div class="item list-item focusable" data-map="strava-heatmap"><p class="list-item__text">Strava Heatmap</p><p class="list-item__subtext">Layer</p></div>'
-			);
 
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item list-item focusable" data-map="earthquake"><p class="list-item__text">Earthquakes</p><p class="list-item__subtext">Marker Group</p></div>'
+				'<div class="item checkbox-container" data-map="weather"><p class="checkbox-container__text">Rainviewer</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+				);
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item checkbox-container" data-map="strava-heatmap"><p class="checkbox-container__text">Strava Heatmap</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item list-item focusable" data-map="railway"><p class="list-item__text">Railways</p><p class="list-item__subtext">Layer</p></div>'
+				'<div class="item checkbox-container" data-map="earthquake"><p class="checkbox-container__text">Earthquakes</p><p class="checkbox-container__subtext">Marker Group</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item list-item focusable" data-map="owm"><p class="list-item__text">Precipitation</p><p class="list-item__subtext">Layer</p></div>'
+				'<div class="item checkbox-container" data-map="railway"><p class="checkbox-container__text">Railways</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+			);
+
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item checkbox-container" data-map="owm"><p class="checkbox-container__text">Precipitation</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 		document
 
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item list-item focusable" data-map="owm-wind"><p class="list-item__text">Wind</p><p class="list-item__subtext">Layer</p></div>'
+				'<div class="item checkbox-container" data-map="owm-wind"><p class="checkbox-container__text">Wind</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 
 		document
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item list-item focusable" data-map="owm-temp"><p class="list-item__text">Temperature</p><p class="list-item__subtext">Layer</p></div>'
+				'<div class="item checkbox-container" data-map="owm-temp"><p class="checkbox-container__text">Temperature</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 		find_gpx();
 		find_geojson();
@@ -763,6 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			timeout: 20000,
 			maximumAge: 0,
 		};
+		
 		document.querySelector("div#message").style.display = "none";
 
 		function success(pos) {
@@ -974,7 +975,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////MENU///////////////
 	////////////////////////
 	function markers_action() {
-		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
+		if (document.activeElement.className == "item list-item focusable" ||  document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
 			let item_value = document.activeElement.getAttribute("data-action");
 
 			if (item_value == "save_marker") {
@@ -1022,12 +1023,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	function addMapLayers(param) {
-		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
+		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item checkbox-container" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
 			let item_value = document.activeElement.getAttribute("data-map");
+
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");
-				maps.strava_heatmap();
+				maps.strava_heatmap(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
@@ -1058,7 +1060,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			}
 			if (item_value == "weather") {
-				maps.weather_map();
+				maps.weather_map(document.activeElement);
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
 				windowOpen = "map";
@@ -1111,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "owm") {
 				top_bar("", "", "");
-				maps.owm_precipit_layer();
+				maps.owm_precipit_layer(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
@@ -1119,7 +1121,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "owm-wind") {
 				top_bar("", "", "");
-				maps.owm_wind_layer();
+				maps.owm_wind_layer(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
@@ -1127,14 +1129,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "owm-temp") {
 				top_bar("", "", "");
-				maps.owm_temp_layer();
+				maps.owm_temp_layer(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			}
 
 			if (item_value == "railway") {
-				maps.railway_layer();
+				maps.railway_layer(document.activeElement);
 				top_bar("", "", "");
 
 				document.querySelector("div#finder").style.display = "none";
@@ -1143,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "earthquake") {
 				top_bar("", "", "");
-				maps.earthquake_layer();
+				maps.earthquake_layer(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
@@ -1393,6 +1395,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			//link
 			if (option.name == "view") {
 				open_url = true;
+				build_menu();
+				document.querySelector("div#message").style.display = "none";
+		        document.querySelector("div#get-position").style.display = "none";
+				maps.opencycle_map();
+
 				const url_split = option.data.url.split("/");
 				current_lat = url_split[url_split.length - 2];
 				current_lng = url_split[url_split.length - 1];
@@ -1403,9 +1410,18 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_lat = Number(current_lat);
 				current_lng = Number(current_lng);
 
-				myMarker = L.marker([current_lat, current_lng]).addTo(map);
+				myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
 				map.setView([current_lat, current_lng], 13);
 				zoom_speed();
+				kaiosToaster({
+					message: "Updating location. Use * to go back to this marker.",
+					position: 'north',
+					type: 'info',
+				});
+				setTimeout(function() {
+					getLocation("init");
+				}, 5000)
+	
 			}
 		});
 	}
@@ -1487,10 +1503,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param.key) {
 
 			case "EndCall":
-				if (windowOpen == "map") {
+				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option") {
 					if (confirm("Are you sure you want to exit?")) {
-						windowOpen = "";
 						window.goodbye();
+						windowOpen = "";
 					}
 				}
 				break;
@@ -1587,7 +1603,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "Enter":
 				if (windowOpen == "search") {
-					L.marker([olc_lat_lng[0], olc_lat_lng[1]]).addTo(map);
+					L.marker([olc_lat_lng[0], olc_lat_lng[1]]).addTo(markers_group);
 					map.setView([olc_lat_lng[0], olc_lat_lng[1]], 13);
 
 					hideSearch();

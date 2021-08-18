@@ -1,10 +1,11 @@
 {
-  "version": "1.2.6",
-  "name": "delta.map",
+  "version": "1.2.7",
+  "name": "KaiMap",
   "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
   "launch_path": "/index.html",
   "type": "certified",
   "fullscreen": true,
+  "theme_color": "#1F60ED",
   "icons": {
     "56": "/icons/icon-56-56.png",
     "112": "/icons/icon-112-112.png",
