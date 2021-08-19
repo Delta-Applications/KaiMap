@@ -74,7 +74,10 @@
     "camera": {
       "description": "Light up Camera Flash"
     },
-
+    "device-storage:sdcard": {
+      "description": "Scan and write SD-Card for GPX, GeoJSON, and KML Files",
+      "access": "readwrite"
+    },
     "wake-lock": {},
     "power": {},
 

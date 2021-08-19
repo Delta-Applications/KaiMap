@@ -11,6 +11,7 @@ let center_to_Screen;
 let selected_marker = "";
 let selecting_marker;
 let selecting_path;
+let tracking_path = false;
 
 //to store device loaction
 let device_lat;
@@ -40,6 +41,9 @@ let marker_latlng = false;
 let json_modified = false;
 
 let markers_group = new L.FeatureGroup();
+let tracking_group = new L.FeatureGroup();
+let measure_group = new L.FeatureGroup();
+let measure_group_path = new L.FeatureGroup();
 
 let save_mode; // to check save geojson or update json
 
@@ -55,6 +59,8 @@ let setting = {
 	last_location: JSON.parse(localStorage.getItem("last_location")),
 	openweather_api: localStorage.getItem("owm-key"),
 	last_weather: localStorage.getItem("last_weather"),
+	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
+
 };
 
 console.log(JSON.stringify(setting));
@@ -159,7 +165,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		.addTo(map);
 
 	map.addLayer(markers_group);
-
+	map.addLayer(measure_group);
+	map.addLayer(measure_group_path);
+	map.addLayer(tracking_group);
 
 	/////////////////////
 	////ZOOM MAP/////////
@@ -984,10 +992,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				selecting_marker = false;
 				document.querySelector("div#markers-option").style.display = "none";
 				save_mode = "geojson-single";
-				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now());
+				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(),"Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
-				document.getElementById("user-input-description").innerText =
-					"Export marker in GeoJSON format";
+				
 
 			}
 
@@ -1537,11 +1544,26 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "SoftLeft":
+				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
+					user_input("close");
+					save_mode = "";
+					module.measure_distance("destroy_tracking");
+					kaiosToaster({
+						message: "Tracking stopped.",
+						position: 'north',
+						type: 'info',
+						timeout: 5000
+					});
+					break;
+				  }
+
 				if (windowOpen == "user-input") {
 					user_input("close");
 					save_mode = "";
 					break;
 				}
+
+			
 
 				if (selecting_marker == true) {
 					bottom_bar("", "", "");
@@ -1583,6 +1605,15 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
+
+				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
+					geojson.save_geojson(setting.export_path + user_input("return") + ".geojson", "tracking");
+					save_mode = "";
+					user_input("close")
+					break;
+				  }
+		  
+
 				if (windowOpen == "user-input" && save_mode == "geojson-collection") {
 					geojson.save_geojson(user_input("return") + ".geojson", "collection");
 					user_input("close")
@@ -1619,6 +1650,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					});
 					break;
 				}
+
+			
 
 				if (document.activeElement == document.getElementById("clear-cache")) {
 					if (confirm("Are you sure you want to delete all cached maps?")) {
@@ -1671,9 +1704,29 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "1":
-				if (windowOpen == "map") getLocation("update_marker");
-				geolocationWatch();
-
+				if (windowOpen == "map") {
+					if (tracking_path) {
+						kaiosToaster({
+							message: "Tracking paused.",
+							position: 'north',
+							type: 'info',
+							timeout: 5000
+						});
+					  save_mode = "geojson-tracking";
+					  user_input("open", now(), "Export tracked path as GeoJSON");
+		  
+					  return true;
+					} else {
+					  tracking_path = true;
+					  kaiosToaster({
+						message: "Tracking started.",
+						position: 'north',
+						type: 'info',
+						timeout: 5000
+					});
+					  module.measure_distance("tracking");
+					}
+				  }
 				break;
 
 			case "2":
@@ -1716,10 +1769,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "5":
 				if (windowOpen == "map") {
 					save_mode = "geojson-single";
-					user_input("open", now());
+					user_input("open", now(),"Save this Marker as a GeoJson file");
 					bottom_bar("Cancel", "", "Save");
-					document.getElementById("user-input-description").innerText =
-						"Save this Marker as a GeoJson file";
 					break;
 				}
 				break;
@@ -1735,10 +1786,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "8":
 				if (windowOpen == "map") {
 					save_mode = "geojson-collection";
-					user_input("open", now());
+					user_input("open", now(), "Export all Markers as a GeoJSON file");
 					bottom_bar("Cancel", "", "Save");
-					document.getElementById("user-input-description").innerText =
-						"Export all Markers as a GeoJSON file";
+				
 				}
 
 				break;

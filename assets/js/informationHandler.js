@@ -174,7 +174,16 @@ const informationHandler = (() => {
             document.querySelector("#heading").innerText = utility.degToCompass(data.heading) + " " + data.heading;
             document.querySelector("#altitude").innerText = data.altitude + " m";
             document.querySelector("#acc").innerText = data.accuracy + "± m";
-            document.querySelector("#distance").innerText = data.DistanceFromCenter + " km"
+            if (!tracking_path) {
+                if (data.DistanceFromCenter != 0) {
+                    document.querySelector("div#distance-main").style.display = "block"
+                    document.querySelector("#distance-title").innerText = "Device Distance"
+                    document.querySelector("#distance").innerText = ((data.DistanceFromCenter).toFixed(2)) + " km";
+                }else{
+                    document.querySelector("div#distance-main").style.display = "none"
+                }
+             
+            }
             document.querySelector("#speed").innerText = data.speed + " km/h"
 
             data.olc = OLC.encode(data.raw.latitude, data.raw.longitude)

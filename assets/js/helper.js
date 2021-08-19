@@ -56,7 +56,8 @@ let toaster = function (text, time) {
   }
 };
 
-function user_input(param, file_name) {
+function user_input(param, file_name, desc) {
+  document.getElementById("user-input-description").innerText = desc;
   if (param == "open") {
     bottom_bar("Cancel","","Save")
     document.querySelector("div#user-input").style.display = "block";

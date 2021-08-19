@@ -16,6 +16,16 @@ const geojson = ((_) => {
       extData = JSON.stringify(single);
     }
 
+    if (type == "path") {
+      let single = tracking_group.toGeoJSON();
+      extData = JSON.stringify(single);
+    }
+
+    if (type == "tracking") {
+      let e = tracking_group.toGeoJSON();
+      extData = JSON.stringify(e);
+    }
+
     if (type == "collection") {
       let collection = markers_group.toGeoJSON();
       let bounds = map.getBounds();
@@ -36,6 +46,14 @@ const geojson = ((_) => {
       type: "application/json",
     });
     let sdcard = navigator.getDeviceStorage("sdcard");
+    if (sdcard.lowDiskSpace) {
+      kaiosToaster({
+      message: "SD-Card Disk Space is low",
+      position: 'north',
+      type: 'warning',
+      timeout: 3000
+    });
+  }
     let requestAdd = sdcard.addNamed(geojson_file, file_path_name);
 
     requestAdd.onsuccess = function () {
@@ -49,6 +67,7 @@ const geojson = ((_) => {
     };
 
     requestAdd.onerror = function () {
+      console.error(this.error)
       kaiosToaster({
         message: "Unable to write to file:"+ this.error+" .",
         position: 'north',
