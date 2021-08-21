@@ -141,32 +141,51 @@ const informationHandler = (() => {
             // Initialize
             let data = {}
             data.raw = crd
-            //data.GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif'));
+            
+            // Store Location as Fallout
+            let b = [data.raw.latitude, data.raw.longitude];
+			localStorage.setItem("last_location", JSON.stringify(b));
+
+            try {
+                data.GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num; 
+                document.querySelector("div#sat-main").style.display = "block"
+            } catch (error) {
+                data.GPSif = "Unavailable"
+                document.querySelector("div#sat-main").style.display = "none"
+            }
             // Calculate Device Location from Center of Screen
             let f = map.getCenter();
             data.DistanceFromCenter = module.calc_distance(data.raw.latitude, data.raw.longitude, f.lat, f.lng)
             // Calculate Metrics
             if (data.raw.altitude) {
+                document.querySelector("div#altitude-main").style.display = "block"
                 data.altitude = data.raw.altitude.toFixed(1)
             } else {
                 data.altitude = 0
+                document.querySelector("div#altitude-main").style.display = "none"
             }
             data.lat = data.raw.latitude.toFixed(5);
             data.long = data.raw.longitude.toFixed(5);
             if (data.raw.heading) {
+                document.querySelector("div#heading-main").style.display = "block"
                 data.heading = data.raw.heading.toFixed(0)
             } else {
                 data.heading = 0
+                document.querySelector("div#heading-main").style.display = "none"
             }
             if (data.raw.accuracy) {
+                document.querySelector("div#accuracy-main").style.display = "block"
                 data.accuracy = Math.round(data.raw.accuracy)
             } else {
-                data.accuracy = 0
+                data.accuracy = 0.
+                document.querySelector("div#accuracy-main").style.display = "none"
             }
             if (data.raw.speed) {
                 data.speed = utility.roundToTwo(crd.speed * 3.6).toFixed(1)
+                document.querySelector("div#speed-main").style.display = "block"
             } else {
                 data.speed = 0
+                document.querySelector("div#speed-main").style.display = "none"
             }
 
 
@@ -174,11 +193,15 @@ const informationHandler = (() => {
             document.querySelector("#heading").innerText = utility.degToCompass(data.heading) + " " + data.heading;
             document.querySelector("#altitude").innerText = data.altitude + " m";
             document.querySelector("#acc").innerText = data.accuracy + "± m";
+            device_alt = data.altitude
+            device_heading = data.heading
+            device_speed = data.speed
+
             if (!tracking_path) {
-                if (data.DistanceFromCenter != 0) {
+                if (data.DistanceFromCenter >= 0.02) {
                     document.querySelector("div#distance-main").style.display = "block"
                     document.querySelector("#distance-title").innerText = "Device Distance"
-                    document.querySelector("#distance").innerText = ((data.DistanceFromCenter).toFixed(2)) + " km";
+                    document.querySelector("#distance").innerText = parseFloat(data.DistanceFromCenter).toFixed(2) + " km";
                 }else{
                     document.querySelector("div#distance-main").style.display = "none"
                 }
@@ -188,7 +211,7 @@ const informationHandler = (() => {
 
             data.olc = OLC.encode(data.raw.latitude, data.raw.longitude)
             document.querySelector("#olcode").innerText = data.olc
-            //document.querySelector("#satnum").innerText = data.GPSif.num
+            document.querySelector("#satnum").innerText = data.GPSif
         } catch (error) {
             console.error(error.message)
         }

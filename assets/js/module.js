@@ -107,7 +107,7 @@ const module = (() => {
       if (localStorage.getItem("tracking_cache") != null) {
         if (
           window.confirm(
-            "Looks like tracking has been interrupted before, would you like to continue??"
+            "Looks like tracking has been interrupted before, would you like to continue?"
           )
         ) {
           let d = localStorage.getItem("tracking_cache");
@@ -135,33 +135,40 @@ const module = (() => {
       let calc = 0;
 
       tracking_interval = setInterval(function () {
+        console.log(tracking_cache)
         polyline_tracking.addLatLng([
           device_lat,
           device_lng,
         ]);
 
+        GPSif = 0;
+        try {
+          GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num; 
+        } catch (error) {
+          data.GPSif = "Unavailable"
+        }
+
+
         tracking_cache.push({
           lat: device_lat,
           lng: device_lng,
           alt: device_alt,
+          sats: GPSif,
+          speed: device_speed,
+          heading: device_heading,
         });
 
         if (tracking_cache.length > 2) {
           tracking_distance = calc_distance(
-            Number(tracking_cache[tracking_cache.length - 1].lat),
-            Number(tracking_cache[tracking_cache.length - 1].lng),
-            Number(tracking_cache[tracking_cache.length - 2].lat),
-            Number(tracking_cache[tracking_cache.length - 2].lng)
+            parseFloat(tracking_cache[tracking_cache.length - 1].lat),
+            parseFloat(tracking_cache[tracking_cache.length - 1].lng),
+            parseFloat(tracking_cache[tracking_cache.length - 2].lat),
+            parseFloat(tracking_cache[tracking_cache.length - 2].lng)
           );
-
-          tracking_distance = tracking_distance / 1000;
-
-          calc += Number(tracking_distance);
-            
+          calc += tracking_distance
           document.querySelector("div#distance-main").style.display = "block"
           document.querySelector("#distance-title").innerText = "Tracking Distance"
-          document.querySelector("#distance").innerText =
-            calc.toFixed(2) + " km";
+          document.querySelector("#distance").innerText = parseFloat(calc).toFixed(2) + " km";
 
           //check if old tracking
           let k = JSON.stringify(tracking_cache);
@@ -173,7 +180,7 @@ const module = (() => {
           if (setting.tracking_screenlock) screenWakeLock("unlock", "screen");
           screenWakeLock("unlock", "gps");
         }
-      }, 10000);
+      }, 2150);
     }
 
     if (action == "addMarker") {

@@ -5,7 +5,7 @@ const kaiads = (() => {
   var DisplayAds = false
 
   var Publisher = "43accaf9-7798-4925-804b-ec0fa006b010" // Publisher ID
-  var Application = "delta.map" // Application Name
+  var Application = "KaiMap" // Application Name
   ////////////////////////////////////
   // This module is not official. 
   // Its purpose is to facilitate

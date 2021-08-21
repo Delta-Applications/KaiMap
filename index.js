@@ -16,6 +16,11 @@ let tracking_path = false;
 //to store device loaction
 let device_lat;
 let device_lng;
+let device_alt;
+let device_sat;
+let device_speed;
+let device_heading;
+
 
 let zoom_level = 14;
 let current_zoom_level;
@@ -76,7 +81,6 @@ if (!navigator.geolocation) {
 	});
 }
 
-document.querySelector("div#intro-footer2").innerText = "Loading.";
 
 //leaflet add basic map
 let map = L.map("map-container", {
@@ -788,19 +792,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			current_lat = crd.latitude;
 			current_lng = crd.longitude;
 			current_alt = crd.altitude;
-
 			current_heading = crd.heading;
 			//to store device loaction
-			device_lat = crd.latitude;
-			device_lng = crd.longitude;
+            informationHandler.PreciseGeoUpdate(crd)
 
 			if (option == "share") {
 				mozactivity.share_position();
 			}
 
 			//store location as fallout
-			let b = [crd.latitude, crd.longitude];
-			localStorage.setItem("last_location", JSON.stringify(b));
+		
 
 			if (option == "init") {
 				// Subtract 1 since if Accuracy is low, how can we be accurate about the accuracy? Haha, also looks better
@@ -1595,9 +1596,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				if (windowOpen == "user-input" && save_mode == "geojson-single") {
-					console.log(setting.export_path + user_input("return") + ".geojson");
+					console.log(user_input("return") + ".geojson");
 					geojson.save_geojson(
-						setting.export_path + user_input("return") + ".geojson",
+						user_input("return") + ".geojson",
 						"single"
 					);
 					save_mode = "";
@@ -1607,7 +1608,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
-					geojson.save_geojson(setting.export_path + user_input("return") + ".geojson", "tracking");
+					geojson.save_geojson(user_input("return") + ".geojson", "tracking");
 					save_mode = "";
 					user_input("close")
 					break;

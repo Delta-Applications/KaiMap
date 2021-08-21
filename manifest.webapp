@@ -4,6 +4,7 @@
   "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
   "launch_path": "/index.html",
   "type": "certified",
+  "origin": "app://kaimap.delta.org",
   "fullscreen": true,
   "theme_color": "#1F60ED",
   "icons": {
