@@ -1848,6 +1848,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	function handleKeyDown(evt) {
 		if (evt.key == "EndCall") evt.preventDefault();
 		if (evt.key == "Backspace" && !$("input").is(":focus") && windowOpen != "map") evt.preventDefault();
+		// For some reasons empty inputs don't focus so it allows the app to be minimized also in empty inputs
 		if (!evt.repeat) {
 			longpress = false;
 			timeout = setTimeout(() => {
