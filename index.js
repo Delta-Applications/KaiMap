@@ -1847,8 +1847,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function handleKeyDown(evt) {
 		if (evt.key == "EndCall") evt.preventDefault();
-		if (evt.key == "Backspace" && !$("input").is(":focus"))
-			evt.preventDefault();
+		if (evt.key == "Backspace" && !$("input").is(":focus") && windowOpen != "map") evt.preventDefault();
 		if (!evt.repeat) {
 			longpress = false;
 			timeout = setTimeout(() => {
@@ -1864,7 +1863,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function handleKeyUp(evt) {
-		if (evt.key == "Backspace") evt.preventDefault();
+		if (evt.key == "Backspace") evt.preventDefault(); // Disable close app by holding backspace
 		if (evt.key == "EndCall") evt.preventDefault();
 		clearTimeout(timeout);
 		if (!longpress) {
