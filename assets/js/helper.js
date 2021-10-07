@@ -56,23 +56,31 @@ let toaster = function (text, time) {
   }
 };
 
-function user_input(param, file_name) {
+function user_input(param, file_name, desc) {
+  document.getElementById("user-input-description").innerText = desc;
   if (param == "open") {
-    document.querySelector("div#user-input").style.bottom = "0px";
+    bottom_bar("Cancel","","Save")
+    document.querySelector("div#user-input").style.display = "block";
     document.querySelector("div#user-input input").focus();
     document.querySelector("div#user-input input").value = file_name;
     windowOpen = "user-input";
   }
   if (param == "close") {
-    document.querySelector("div#user-input").style.bottom = "-1000px";
+    selecting_marker = false;
+    bottom_bar("","","")
+    document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
+    console.log("close")
     windowOpen = "map";
   }
 
   if (param == "return") {
+    selecting_marker = false;
     let input_value = document.querySelector("div#user-input input").value;
-    document.querySelector("div#user-input").style.bottom = "-1000px";
+    document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
+    console.log("return")
+    bottom_bar("","","")
     return input_value;
   }
 }
@@ -105,8 +113,21 @@ function deleteFile(storage, path, notification) {
   };
 
   requestDel.onerror = function () {
-    toaster("Unable to delete the file: " + this.error);
-  };
+    kaiosToaster({
+      message: "Unable to delete file:"+ this.error+" .",
+      position: 'north',
+      type: 'error',
+      timeout: 3000
+    });
+    };
+}
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
 }
 
 //bottom bar
@@ -139,15 +160,22 @@ function top_bar(left, center, right) {
 
 function screenWakeLock(param) {
   let lock;
+
   if (param == "lock") {
-    lock = window.navigator.requestWakeLock("screen");
+    try {
+      lock = window.navigator.requestWakeLock("screen");
+    } catch (error) {
+      
+    }
   }
 
   if (param == "unlock") {
-    if (lock.topic == "screen") {
-      lock.unlock();
-    }
-  }
+    try {
+      if (lock.topic == "screen") {
+      
+        lock.unlock();
+      }
+    } catch (error) {}}
 }
 
 let add_file = function () {

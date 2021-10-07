@@ -1,0 +1,38 @@
+Weather 
+Sun and Moon [OFFLINE] Using Sun Calc
+
+
+
+
+
+
+
+
+
+
+
+[Garmin InReach Explorer+ To KaiOS Software]
+>> Map = delta.map (Minified) Possible removal of useless features
+>> Trip Info = Trip Computer, Time, GPS, Heading, Elevation, Battery
+>> Messages = Possible messaging service relying on matrix, switching to SMS or MMS when offline, much like iMessage
+>> Sun and Moon = Data about sun and moon, offline sunrise, sunset, visual rapresentation, similiar to Here Info
+>> Weather = Simple saving OpenWeatherMap based weather application, could support data provider setting in the future, such as AccuWeather.
+>> Waypoints = Detailed saving of Waypoints in a /Waypoints/ folder in the phone. Uses JSON and accurately lets the user pick a title, description, category, type of waypoint, 
+               and automatically display distance.
+
+
+>> Compass = Can point to magnetic nord, or offset to nord pole. It can also point to a waypoint selected in the menu.
+
+
+@@ These functions were just selected. Applications may become different due to limitations or the oppossite.
+@@ These functions reflect the current limitations of KaiOS 2.5.2 running a specific Gecko version. Most of these are planned to work offline or 
+   by caching data when online.
+
+
+
+
+
+
+
+
+

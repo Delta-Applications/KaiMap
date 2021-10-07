@@ -1,12 +1,15 @@
 .kaios-toast {
   position: fixed;
   background-color: #363636;
+  border-radius: 3px;
   width: 100%;
-  min-height: 36px;
-  color: #ffffff;
+  color: var(--item-focused-text-color);
   text-align: center;
   word-wrap: break-word;
-  opacity: 0;
+  opacity: 0.4;
+  font-family: "Open Sans";
+  font-weight: 100;
+  font-size: 1.5rem;
   z-index: 99999;
   transition: opacity 0.25s, top 0.25s, bottom 0.25s, -webkit-transform 0.25s;
   transition: transform 0.25s, opacity 0.25s, top 0.25s, bottom 0.25s;
@@ -24,6 +27,7 @@
   transform: translateX(-50%);
   top: -54px;
 }
+
 .kaios-toast-north.kaios-toast-shown {
   opacity: 1;
   top: 27px;
@@ -34,6 +38,7 @@
   transform: translateX(-50%);
   bottom: -30px;
 }
+
 .kaios-toast-south.kaios-toast-shown {
   opacity: 1;
   bottom: 30px;
@@ -41,17 +46,24 @@
 
 .kaios-toast-error {
   background-color: #ff3d3d;
-  color: #fff;
+  border-radius: 3px;
+  color: var(--item-focused-text-color);
 }
+
 .kaios-toast-info {
   background-color: rgb(31, 96, 237);
-  color: #fff;
+  border-radius: 3px;
+  color: var(--item-focused-text-color);
 }
+
 .kaios-toast-success {
-  background-color: #62a465;
-  color: #fff;
+  background-color: #3fc075;
+  border-radius: 3px;
+  color: var(--item-focused-text-color);
 }
+
 .kaios-toast-warning {
   background-color: #ffb618;
-  color: #fff;
+  border-radius: 3px;
+  color: var(--item-focused-text-color);
 }

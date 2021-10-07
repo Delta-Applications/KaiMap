@@ -5,8 +5,7 @@ let olc_lat_lng;
 //https://www.devbridge.com/sourcery/components/jquery-autocomplete/
 $(document).ready(function () {
   const ac_selected_station = $("#search").autocomplete({
-    serviceUrl:
-      "https://nominatim.openstreetmap.org/search?format=json&addressdetails=0",
+    serviceUrl: "https://nominatim.openstreetmap.org/search?format=json&addressdetails=0",
     minChars: 1,
     showNoSuggestionNotice: true,
     paramName: "q",
@@ -30,7 +29,7 @@ $(document).ready(function () {
     },
     onSelect: function (suggestion) {
       let lat_lon = [suggestion.data_lat, suggestion.data_lon];
-      			localStorage.setItem("last_location", JSON.stringify(lat_lon));
+      localStorage.setItem("last_location", JSON.stringify(lat_lon));
 
       addMarker(lat_lon[0], lat_lon[1]);
     },
@@ -42,7 +41,7 @@ $(document).ready(function () {
     hideSearch();
     current_lat = Number(lat);
     current_lng = Number(lng);
- 
+
     L.marker([current_lat, current_lng]).addTo(markers_group);
     toaster("Press 5 to save the search result as marker");
   }
@@ -60,10 +59,7 @@ $(document).ready(function () {
     $("div#search-box").css("display", "block");
     $("div#search-box").find("input").focus();
     $("div#bottom-bar").css("display", "block");
-    toaster(
-      "Search for locations, names or OLC. To search for OLC, start your search query with /",
-      3000
-    );
+
     windowOpen = "search";
   };
 

@@ -24,12 +24,30 @@
 
   var prevToast = null;
 
+   /**
+ * Display a toaster for a calculated set of time.
+ * @param {Object[]} ref - An array containing all of the toaster options.
+ * @param {string} ref[].message - The message to display as a toaster.
+ * @param {string} ref[].position - Either south or north. The position of the toaster.
+ * @param {string} ref[].type - The type of the toaster. [info|success|warning|error] Each type has a different color associated with it.
+ * @param {number} ref[].timeout - [DEPRECATED] The timeout duration of the toaster. It is now calculated dynamically using the message length.
+ * @example
+ * kaiosToaster({
+		message: "Hello world!.",
+		position: 'north',
+		type: 'info',
+		timeout: 2000
+	});
+ */
   var Toast = function Toast(ref) {
     var this$1 = this;
     if ( ref === void 0 ) ref = {};
     var message = ref.message; if (message === void 0) message = '';
     var position = ref.position; if (position === void 0 || ['north', 'south'].indexOf(position) === -1) position = 'south';
     var timeout = ref.timeout; if ( timeout === void 0 ) timeout = 3000;
+    // Dynamic Timeout Calculation: Manual option will slowly be deprecated
+    timeout = ((message.length / 19) + 1.5)*1000;
+    //
     var el = ref.el; if ( el === void 0 ) el = document.body;
     var rounded = ref.rounded; if ( rounded === void 0 ) rounded = false;
     var type = ref.type; if ( type === void 0 ) type = '';
@@ -100,9 +118,25 @@
     }, 300);
   };
 
+  /**
+ * Display a toaster for a calculated set of time.
+ * @param {Object[]} ref - An array containing all of the toaster options.
+ * @param {string} ref[].message - The message to display as a toaster.
+ * @param {string} ref[].position - Either south or north. The position of the toaster.
+ * @param {string} ref[].type - The type of the toaster. [info|success|warning|error] Each type has a different color associated with it.
+ * @param {number} ref[].timeout - [DEPRECATED] The timeout duration of the toaster. It is now calculated dynamically using the message length.
+ * @example
+ * kaiosToaster({
+		message: "Hello world!.",
+		position: 'north',
+		type: 'info',
+		timeout: 2000
+	});
+ */
   function toast(options) {
     return new Toast(options);
   }
+
 
   var loop = function () {
     toast[type] = function (options) { return toast(nanoAssign_common({

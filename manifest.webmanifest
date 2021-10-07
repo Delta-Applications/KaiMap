@@ -1,0 +1,100 @@
+{
+    "name": "KaiMap",
+    "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
+    "theme_color": "#1F60ED",
+    "lang": "en-US",
+    "start_url": "/index.html",
+    "icons": [
+      {
+        "src": "/icons/icon-56-56.png",
+        "type": "image/png",
+        "sizes": "56x56"
+      },
+      {
+        "src": "/icons/icon-112-112.png",
+        "type": "image/png",
+        "sizes": "112x112"
+      },
+      {
+        "src": "/icons/icon-128-128.png",
+        "type": "image/png",
+        "sizes": "128x128"
+      }
+    ],
+    "b2g_features": {
+      "version": "1.2.7",
+      "type": "certified",
+      "origin": "app://kaimap.delta.org",
+      "fullscreen": true,
+      "developer": {
+        "name": "delta-apps",
+        "url": "https://github.com/Delta-Applications"
+      },
+      "dependencies": {
+        "ads-sdk": "1.5.0"
+      },
+      "activities": {
+        "open": {
+          "filters": {
+            "type": [
+              "application/gpx+xml",
+              "text/xml",
+              "application/xml",
+              "application/octet-stream"
+            ]
+          },
+          "disposition": "inline",
+          "returnValue": true,
+          "href": "/index.html"
+        },
+        "view": {
+          "filters": {
+            "type": "url",
+            "url": {
+              "required": true,
+              "regexp": "\t^https:\\/\\/[a-z.]{0,4}openstreetmap.org\\/#map=(\\d){2}(\\/)[+-]?([0-9]*[.])?[0-9]+(\\/)[+-]?([0-9]*[.])?[0-9]+"
+            }
+          },
+          "disposition": "inline",
+          "returnValue": true,
+          "href": "/index.html"
+        }
+      },
+      "permissions": {
+        "feature-detection": {
+          "description": "Check device capabilities such as Torch"
+        },
+        "flashlight": {
+          "description": "Light up 800T Flashlight"
+        },
+        "geolocation": {
+          "description": "Required to show user's location on map"
+        },
+        "wifi-manage": {
+          "description": "Required to display Wifi Statistics"
+        },
+        "device-storage:sdcard": {
+          "description": "Scan and write SD-Card for GPX, GeoJSON, and KML Files",
+          "access": "readwrite"
+        },
+        "networkstats-manage": {
+          "description": "Required to display Wifi Statistics"
+        },
+        "video-capture": {
+          "description": "Required to read QR Codes using the Camera"
+        },
+        "camera": {
+          "description": "Light up Camera Flash"
+        },
+        "wake-lock": {},
+        "power": {},
+        "spatialnavigation-app-manage": {
+          "navigator.spatialNavigationEnabled": false
+        },
+        "systemXHR": {
+          "description": "Required to load remote content"
+        }
+      },
+      "core": true
+    }
+  }

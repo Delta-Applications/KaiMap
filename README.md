@@ -1,15 +1,32 @@
-# delta.map
-delta.map is a local offline and online caching client for viewing maps, weather, utilities, and more coming soon.
+# KaiMap
+
+KaiMap is a local offline and online caching client for viewing maps, weather, utilities, and more coming soon.
 This is still a beta, a direct fork of o.map, uploaded by me on github after viewing some suggestions.
 
 ![coolappbanner](https://user-images.githubusercontent.com/26120324/125851468-53672dea-c3ce-41df-b0ba-8a755d72f6f3.png)
+[![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but the author(s) intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fgjbae1212%2Fhit-counter&count_bg=%23144FDC&title_bg=%23333131&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false)](https://hits.seeyoufarm.com)
+![License](https://img.shields.io/github/license/Delta-applications/KaiMap)
+![Checks](https://img.shields.io/github/checks-status/Delta-applications/KaiMap/main)
+![CommitActivity](https://img.shields.io/github/commit-activity/w/Delta-applications/KaiMap)
+![Stars](https://img.shields.io/github/stars/Delta-Applications/KaiMap)
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)
+[![Donate with Ethereum](https://en.cryptobadges.io/badge/small/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)](https://en.cryptobadges.io/donate/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)
 
+## Features
 
-### Features
 - Weather (OpenWeatherMap)
 - Hardware Information (Connection, Battery, GPS)
 - Maps (OpenTopoMap, OpenStreetMap, Satellite)
 - Layers (OpenWeatherMap Precipitation, Temperature, etc.), All Layers are cached and weather layers usually display a date pointing out the time the data was acquired
+
+## Screenshots
+
+![screen](https://github.com/Delta-Applications/KaiMap/raw/main/screenshots/screenshot%20(1).png)
+![screen](https://github.com/Delta-Applications/KaiMap/raw/main/screenshots/screenshot%20(2).png)
+![screen](https://github.com/Delta-Applications/KaiMap/raw/main/screenshots/screenshot%20(3).png)
+![screen](https://github.com/Delta-Applications/KaiMap/raw/main/screenshots/screenshot%20(4).png)
+![screen](https://github.com/Delta-Applications/KaiMap/raw/main/screenshots/screenshot%20(5).png)
 
 ### Manual
 
@@ -28,20 +45,41 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 - **Key #** Cache Map Tiles
 - **Key \*** Jump between markers
 
+### Special Thanks to
+
+© OpenStreetMap contributors
+© OpenTopoMap
+© OpenCycleMap
+© Google Street (Map)
+© Microsoft Corporation > Bing Aerial 
+Unlicense - Luxferre's TinyOLC
+Polyfill > Promises
+Ajax Autocomplete for jQuery
+Google's Open Source Plus Codes
+
 ## Import & Export
 
-you have the possibility to import gpx and geojson. Markers can also be exported as geojson so that you can e.g. share them or edit them in another program.
+Support for GPX, GeoJson, and more is being reviewed. In the meantime you can save all the markers you create using 9 or using 5.
 
-### Search
+## Search
 
-The search can be opened with key 2, you can search for locations or start the search with / and then enter an open location code
-[open location code](https://en.wikipedia.org/wiki/Open_Location_Code)
+The search can be opened with key 2, you can search for locations or start the search with / and then enter a Plus Code  
+Example --> /8FMWVC47+6C  
+Suggestions or Autocomplete are provided by OpenStreetMap and do not work when offline, you always have Plus Codes!  
+[Open Location Code / Plus Codes](https://en.wikipedia.org/wiki/Open_Location_Code)
+![Logo](https://storage.googleapis.com/madebygoog.appspot.com/grow-ext-cloud-images-uploads/lockup_ic_PlusCodes_H_rgb_614x128px_clr_D812D83D.svg)
 
 ### GeoJson
 
 - Online tool: [geojson.io](http://geojson.io/#map=1/-55/228)
 - Validation: [geojsonlint](http://geojsonlint.com/)
 - GeoJson Map: [geojson Map] https://geojson-maps.ash.ms/
+
+## Donate
+
+[![Donate with Ethereum](https://en.cryptobadges.io/badge/big/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)](https://en.cryptobadges.io/donate/0x84b0934598958e6a1507e26ac1a63f71384fcbc8)
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)](https://en.cryptobadges.io/donate/3P44apMLSALiV8yJDJdZNpmpGC1aWiowXw)  
+Donations are very appreciated and they aid in development. Im currently looking to buy a Nokia 8000 4G or a Nokia 6300 4G, :)
 
 ## How to install
 
@@ -57,4 +95,5 @@ We are considering making an auto-upater straight from GitHub.
 ![deltaice white](https://user-images.githubusercontent.com/26120324/125853046-7f21d205-e5b7-461e-af8c-f3548ec6c5cb.png)
 
 ## Upcoming Features and Known Bugs
+
 @ GeolocationWatch fails when the first init fails and can be fixed by re-opening the app

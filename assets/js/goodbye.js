@@ -21,7 +21,7 @@ window.goodbye = function () {
   }
 
   function message() {
-    document.getElementById("donation").style.display = "block";
+    kaiads.DisplayFullScreenAd();
     setTimeout(function () {
       localStorage.clickcount = 1;
 

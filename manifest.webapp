@@ -1,23 +1,25 @@
 {
-  "version": "1.2.1",
-  "name": "delta.map",
+  "version": "1.2.7",
+  "name": "KaiMap",
   "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
   "launch_path": "/index.html",
   "type": "certified",
+  "origin": "app://kaimap.delta.org",
   "fullscreen": true,
+  "theme_color": "#1F60ED",
   "icons": {
     "56": "/icons/icon-56-56.png",
     "112": "/icons/icon-112-112.png",
     "128": "/icons/icon-128-128.png"
   },
   "developer": {
-    "name": "strukturart",
-    "url": "https://github.com/strukturart/osm-map"
+    "name": "delta-apps",
+    "url": "https://github.com/Delta-Applications"
   },
 
-	"dependencies": {
-		"ads-sdk": "1.5.0"
-	},
+  "dependencies": {
+    "ads-sdk": "1.5.0"
+  },
 
   "activities": {
     "open": {
@@ -48,11 +50,17 @@
   },
 
   "permissions": {
+    "feature-detection":{
+      "description": "Check device capabilities such as Torch"
+    },
+    "flashlight":{
+     "description": "Light up 800T Flashlight"
+    },
     "geolocation": {
       "description": "Required to show user's location on map"
     },
     "wifi-manage": {
-     "description": "Required to display Wifi Statistics"
+      "description": "Required to display Wifi Statistics"
     },
     "device-storage:sdcard": {
       "description": "Required to read and export GeoJson files to SD",
@@ -62,10 +70,15 @@
       "description": "Required to display Wifi Statistics"
     },
     "video-capture": {
-			"description": "Required to read QR Codes using the Camera"
-		},
-
-
+      "description": "Required to read QR Codes using the Camera"
+    },
+    "camera": {
+      "description": "Light up Camera Flash"
+    },
+    "device-storage:sdcard": {
+      "description": "Scan and write SD-Card for GPX, GeoJSON, and KML Files",
+      "access": "readwrite"
+    },
     "wake-lock": {},
     "power": {},
 
