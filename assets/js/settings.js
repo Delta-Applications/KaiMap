@@ -25,7 +25,7 @@ const settings = ((_) => {
   };
 
   let load_settings = function () {
-    document.getElementById("owm-key").value = "99d2594c090c1ee9a8ad525fd7a83f85";
+    document.getElementById("owm-key").value = "218d9d905d231fb8afc17678b43c2c14";
     document.getElementById("cache-time").value = localStorage.getItem(
       "cache-time"
     );

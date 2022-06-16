@@ -228,8 +228,6 @@ img.marker-1 {
   position: absolute;
   left: 18px;
   top: 18px;
-  -webkit-animation: pulsate 1s ease-out;
-  -webkit-animation-iteration-count: infinite;
   animation: pulsate 1s ease-out;
   animation-iteration-count: infinite;
   opacity: 0;

@@ -184,6 +184,49 @@ const maps = (() => {
     caching_events();
   }
 
+
+  //https://stackoverflow.com/questions/37229561/how-to-import-export-database-from-pouchdb
+  function export_mapdata() {
+    tilesLayer._db
+      .info()
+      .then(function (result) {
+        console.log(result);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+
+    tilesLayer._db
+      .allDocs({
+        include_docs: true,
+        attachments: true,
+      })
+      .then(function (result) {
+        console.log(result);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  function import_mapdata({
+    target: {
+      files: [file],
+    },
+  }) {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ({ target: { result } }) => {
+        db.bulkDocs(
+          JSON.parse(result),
+          { new_edits: false }, // not change revision
+          (...args) => console.log("DONE", args)
+        );
+      };
+      reader.readAsText(file);
+    }
+  }
+
   function google_map() {
     kaiosToaster({
       message: "Google Street",
@@ -222,25 +265,52 @@ const maps = (() => {
     map.addLayer(tilesLayer);
     caching_events();
   }
+//			//https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+  function clarity(){
 
-  function opentopo_map() {
     kaiosToaster({
-      message: "OpenTopoMap",
+      message: "Esri World Clarity",
       position: 'north',
       type: 'info',
       timeout: 2000
     });
     kaiads.DisplayFullScreenAd();
 
-    tilesUrl = "https://tile.opentopomap.org/{z}/{x}/{y}.png";
+    tilesUrl = "https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
     tilesLayer = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
       cacheMaxAge: caching_time,
       useOnlyCache: false,
-      maxZoom: 17,
-      attribution: "OpenTopoMap",
+      maxNativeZoom: 18,
+      maxZoom: 22,
+      attribution: "Esri World Clarity",
+    });
+
+    map.addLayer(tilesLayer);
+    caching_events();
+
+  }
+  function opentopo_map() {
+    kaiosToaster({
+      message: "Here WeGo Hybrid",
+      position: 'north',
+      type: 'info',
+      timeout: 2000
+    });
+    kaiads.DisplayFullScreenAd();
+
+    tilesUrl = "https://{s}.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&token=djPZyynKsbTjIUDOBcHZ2g&lg=ENG";
+    tilesLayer = L.tileLayer(tilesUrl, {
+      useCache: true,
+      saveToCache: false,
+      crossOrigin: true,
+      cacheMaxAge: caching_time,
+      useOnlyCache: false,
+      maxZoom: 18,
+      attribution: "Here WeGo Hybrid",
+      subdomains: ['1','2','3'] 
     });
 
     map.addLayer(tilesLayer);
@@ -344,6 +414,8 @@ const maps = (() => {
 
 
 
+
+  
   let owmLayer2;
 
   function owm_wind_layer(ame) {
@@ -585,6 +657,94 @@ const maps = (() => {
       });
   };
 
+
+  let overlayer = "";
+
+  let addMap = function (name, url, attribution, max_zoom, type, activeEl) {
+    //map
+    if (type == "Map") {
+
+      kaiosToaster({
+        message: name || "?",
+        position: 'north',
+        type: 'info',
+        timeout: 2000
+      });
+
+      tilesLayer = L.tileLayer(url, {
+        useCache: true,
+        saveToCache: false,
+        crossOrigin: true,
+        cacheMaxAge: caching_time,
+        useOnlyCache: false,
+        maxZoom: max_zoom,
+        attribution: attribution,
+      });
+
+      map.addLayer(tilesLayer);
+      caching_events();
+      localStorage.setItem("last_map", url);
+
+      if (navigator.onLine == true) {
+        tilesLayer.on("tileerror", function (error, tile) {
+          url = url.replace("{z}", "1");
+          url = url.replace("{y}", "1");
+          url = url.replace("{x}", "1");
+
+          helper.allow_unsecure(url);
+        });
+      }
+    }
+    //overlayer
+    if (type == "Layer") {
+      console.log("wowow")
+      if (map.hasLayer(overlayer)) {
+        map.removeLayer(overlayer);
+        //activeEl.childNodes[2].checked = 0
+        kaiosToaster({
+          message: "Removed Layer",
+          position: 'north',
+          type: 'error',
+          timeout: 1000
+        });
+        return false;
+      }
+      kaiosToaster({
+        message: name+" Layer" || "?",
+        position: 'north',
+        type: 'info',
+        timeout: 2000
+      });
+      console.log(name)
+
+
+      //activeEl.childNodes[2].checked = 1
+
+
+      overlayer = L.tileLayer(url, {
+        useCache: true,
+        saveToCache: false,
+        crossOrigin: true,
+        cacheMaxAge: caching_time,
+        useOnlyCache: false,
+        maxZoom: max_zoom,
+        attribution: attribution,
+      });
+
+      map.addLayer(overlayer);
+      console.log(url)
+
+      caching_events();
+    }
+  };
+
+  map.on("layeradd", function (event) {
+    if (map.hasLayer(overlayer)) {
+      overlayer.bringToFront();
+      return false;
+    }
+  });
+
  
   let running = false;
   let k;
@@ -776,8 +936,10 @@ const maps = (() => {
     opencycle_map,
     strava_heatmap,
     moon_map,
+    addMap,
     earthquake_layer,
     satellite_map,
+    clarity,
     toner_map,
     google_map,
     opentopo_map,
