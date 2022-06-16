@@ -1943,28 +1943,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			case "ArrowRight":
-				MovemMap("right");
+
+				/*
+				switch (screen.orientation.type) {
+					case 'portrait-primary':
+						screen.orientation.lock('landscape-primary');
+						break;
+					case 'landscape-primary':
+						screen.orientation.lock('portrait-secondary');
+						break;
+					case 'portrait-secondary':
+						screen.orientation.lock('landscape-secondary');
+						break;
+					case 'landscape-secondary':
+						screen.orientation.lock('portrait-primary');
+						break;
+				}
+				*/
+				if (screen.orientation.type == 'portrait-primary') MovemMap("right");
+				if (screen.orientation.type == 'portrait-secondary') MovemMap("left");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("up") & nav("-1");	
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("down") & nav("+1");	
 
 				if (windowOpen == "finder") {
-					finder_navigation("+1");
+					if (screen.orientation.type == 'portrait-primary') finder_navigation("+1");
+					if (screen.orientation.type == 'portrait-secondary') finder_navigation("-1");
+
 				}
 				break;
 
 			case "ArrowLeft":
-				MovemMap("left");
+				if (screen.orientation.type == 'portrait-primary') MovemMap("left");
+				if (screen.orientation.type == 'portrait-secondary') MovemMap("right");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("down") & nav("+1");	
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("up") & nav("-1");
 				if (windowOpen == "finder") {
-					finder_navigation("-1");
+					if (screen.orientation.type == 'portrait-primary') finder_navigation("-1");
+					if (screen.orientation.type == 'portrait-secondary') finder_navigation("+1");
 				}
 				break;
 
 			case "ArrowUp":
-				MovemMap("up");
-				nav("-1");
+				if (screen.orientation.type == 'portrait-primary') nav("-1") & MovemMap("up");
+				if (screen.orientation.type == 'portrait-secondary') nav("+1") & MovemMap("down");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("left");	
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("right");	
+
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("-1");	
+					if (screen.orientation.type == 'landscape-secondary') finder_navigation("+1");
+				}
 				break;
 
 			case "ArrowDown":
-				MovemMap("down");
-				nav("+1");
+				if (screen.orientation.type == 'portrait-primary') nav("+1") & MovemMap("down");
+				if (screen.orientation.type == 'portrait-secondary') nav("-1") & MovemMap("up");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("right");	
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("left");	
+
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("+1");	
+					if (screen.orientation.type == 'landscape-secondary') finder_navigation("-1");
+				}
 				break;
 		}
 	}
