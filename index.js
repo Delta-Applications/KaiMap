@@ -952,6 +952,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#message").style.display = "none";
 			}
 
+			retrying = true
+			geolocationWatch();
+
 
 			return false;
 		}
@@ -976,9 +979,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	//////////
 	let watchID;
 	let state_geoloc = false;
+	let retrying = false;
+	let confirmed = false;
+	let mym1 = false
 
-	function geolocationWatch() {
-
+	window.geolocationWatch = function() {
+		console.log(retrying,confirmed,state_geoloc)
 		marker_latlng = false;
 
 		let geoLoc = navigator.geolocation;
@@ -988,17 +994,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			state_geoloc = true;
-			myMarker.setIcon(follow_icon);
 			document.getElementById("cross").style.opacity = 0;
 
 			function showLocation(position) {
+				console.log(retrying,position)
+
+				if (retrying == true) {
+					confirmed = confirmed || confirm("The geolocation service is working again, update location?")
+					if (!confirmed) {
+						return;
+					}
+				}
 				let crd = position.coords;
 				current_lat = crd.latitude;
 				current_lng = crd.longitude;
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
-
-
+				
+				if (mym1 == false && retrying == true && !myMarker) {
+					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy - 1).addTo(map);
+					myMarker = L.marker([current_lat, current_lng], {
+						rotationAngle: 0,
+					}).addTo(markers_group);
+					myMarker._icon.classList.add("marker-1");
+					// vv   
+					myMarker.setIcon(follow_icon);
+					mym1 = true
+				} 
+			
 
 
 				//store device location
@@ -1031,6 +1054,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
 				document.querySelector("div#get-position").style.display = "none";
+				console.log(retrying,err)
+				if (retrying == true) return;
 
 				console.error(err.message + " " + err.code)
 				if (err.code == 1) {
@@ -1051,7 +1076,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			let options = {
-				timeout: 60000,
+				timeout: retrying ? 10000 : 60000,
 			};
 			watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
 			return true;
@@ -1909,7 +1934,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "7":
-				if (windowOpen == "map") module.ruler_toggle();
+				if (windowOpen == "map" && confirm("Activate ruler? (You will need to restart the app after using it)")) module.ruler_toggle();
 				break;
 
 			case "8":
