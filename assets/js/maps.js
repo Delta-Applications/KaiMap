@@ -832,11 +832,6 @@ const maps = (() => {
           "/256/{z}/{x}/{y}/2/1_1.png";
         weather_layer3 = L.tileLayer(weather_url3);
 
-        let tilesUrl = "https://tile.opentopomap.org/{z}/{x}/{y}.png";
-        let tilesLayer = L.tileLayer(tilesUrl, {
-          maxZoom: 18,
-        });
-
         map.addLayer(weather_layer);
         map.addLayer(weather_layer0);
         map.addLayer(weather_layer1);
