@@ -132,46 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		*/
 
 
-	setTimeout(function () {
-		document.querySelector("div#intro-footer2").innerText = "Your page should be ready by now..";
-
-		//get location if not an activity open url
-		if (open_url === false) {
-			build_menu();
-
-			kaiosToaster({
-				message: "Use 3 to access Main Menu.",
-				position: 'north',
-				type: 'info',
-			});
-			maps.opencycle_map();
-			getLocation("init");
-
-
-
-
-			//   setTimeout(function () {
-			//    document.querySelector(".leaflet-control-attribution").style.display =
-			//     "none";
-			//  }, 8000);
-		}
-		///set default map
-
-		windowOpen = "map";
-	}, 4000);
-
-	L.control
-		.scale({
-			position: localStorage.getItem("zoomposition") || "topright",
-			metric: true,
-			imperial: false,
-		})
-		.addTo(map);
-
-	map.addLayer(markers_group);
-	map.addLayer(measure_group);
-	map.addLayer(measure_group_path);
-	map.addLayer(tracking_group);
+	
 
 	/////////////////////
 	////ZOOM MAP/////////
@@ -628,7 +589,7 @@ document.addEventListener("DOMContentLoaded", function () {
 								//<p class="checkbox-container__subtext">Layer</p>
 								//<input type="checkbox" tabindex="0" class="checkbox-container__input"/>
 								//<div class="checkbox-container__checkbox"></div></div>'
-								key.type +
+								key.Type +
 								'"  data-maxzoom="' +
 								key.MaxZoom +
 								'"  data-url="' +
@@ -1010,7 +971,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_lng = crd.longitude;
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
+
 				
+
 				if (mym1 == false && retrying == true && !myMarker) {
 					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy - 1).addTo(map);
 					myMarker = L.marker([current_lat, current_lng], {
@@ -2067,4 +2030,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	document.addEventListener("keydown", handleKeyDown);
 	document.addEventListener("keyup", handleKeyUp);
+
+	setTimeout(function () {
+		document.querySelector("div#intro-footer2").innerText = "Your page should be ready by now..";
+
+		//get location if not an activity open url
+		if (open_url === false) {
+			build_menu();
+
+			kaiosToaster({
+				message: "Use 3 to access Main Menu.",
+				position: 'north',
+				type: 'info',
+			});
+			maps.opencycle_map();
+			getLocation("init");
+
+
+
+
+			//   setTimeout(function () {
+			//    document.querySelector(".leaflet-control-attribution").style.display =
+			//     "none";
+			//  }, 8000);
+		}
+		///set default map
+
+		windowOpen = "map";
+	}, 4000);
+
+	L.control
+		.scale({
+			position: localStorage.getItem("zoomposition") || "topright",
+			metric: true,
+			imperial: false,
+		})
+		.addTo(map);
+
+	map.addLayer(markers_group);
+	map.addLayer(measure_group);
+	map.addLayer(measure_group_path);
+	map.addLayer(tracking_group);
 });

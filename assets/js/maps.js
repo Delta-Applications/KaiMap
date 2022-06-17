@@ -481,7 +481,7 @@ const maps = (() => {
       timeout: 2000
     });
 
-    tilesUrl =
+    tilesUrl = 
       "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=" +
       "99d2594c090c1ee9a8ad525fd7a83f85";
     owmLayer3 = L.tileLayer(tilesUrl, {
@@ -658,9 +658,10 @@ const maps = (() => {
   };
 
 
-  let overlayer = "";
+  let overlayers = {};
 
   let addMap = function (name, url, attribution, max_zoom, type, activeEl) {
+    console.log(name, url, attribution, max_zoom, type, activeEl)
     //map
     if (type == "Map") {
 
@@ -697,16 +698,16 @@ const maps = (() => {
     }
     //overlayer
     if (type == "Layer") {
-      console.log("wowow")
-      if (map.hasLayer(overlayer)) {
-        map.removeLayer(overlayer);
-        //activeEl.childNodes[2].checked = 0
+      if (overlayers[url] && map.hasLayer(overlayers[url].layer)) {
+        map.removeLayer(overlayers[url].layer);
+        overlayers[url].element.childNodes[2].checked = 0
         kaiosToaster({
           message: "Removed Layer",
           position: 'north',
           type: 'error',
           timeout: 1000
         });
+        delete(overlayers[url])
         return false;
       }
       kaiosToaster({
@@ -717,11 +718,12 @@ const maps = (() => {
       });
       console.log(name)
 
+      overlayers[url] = {}
+      overlayers[url].element = activeEl
+      overlayers[url].element.childNodes[2].checked = 1
 
-      //activeEl.childNodes[2].checked = 1
 
-
-      overlayer = L.tileLayer(url, {
+      overlayers[url].layer = L.tileLayer(url, {
         useCache: true,
         saveToCache: false,
         crossOrigin: true,
@@ -731,18 +733,22 @@ const maps = (() => {
         attribution: attribution,
       });
 
-      map.addLayer(overlayer);
-      console.log(url)
+      map.addLayer( overlayers[url].layer);
+      console.log("yolo",overlayers)
 
       caching_events();
     }
   };
 
+
   map.on("layeradd", function (event) {
-    if (map.hasLayer(overlayer)) {
-      overlayer.bringToFront();
-      return false;
-    }
+    Object.entries(overlayers).map(item => {
+      if (map.hasLayer(item.layer)) {
+        item.layer.bringToFront();
+        return false;
+      }
+    })
+    
   });
 
  

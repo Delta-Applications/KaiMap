@@ -177,7 +177,7 @@ const informationHandler = (() => {
                 document.querySelector("div#accuracy-main").style.display = "block"
                 data.accuracy = Math.round(data.raw.accuracy)
             } else {
-                data.accuracy = 0.
+                data.accuracy = 0
                 document.querySelector("div#accuracy-main").style.display = "none"
             }
             if (data.raw.speed) {
