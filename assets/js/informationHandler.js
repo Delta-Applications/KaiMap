@@ -163,6 +163,14 @@ const informationHandler = (() => {
                     box.remove();
                 });
 
+                function appendoverpassdata(tag,value){
+                    let el = document.createElement('div');
+                    el.className = "item list-item focusable overpassdata"
+                    el.setAttribute("tabindex", 0)
+                    el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
+                    insertAfter(el, document.querySelector("#marker-overpass"))
+                }
+
                 if (!data || !data.elements[0]) {
                     let el = document.createElement('div');
                     el.className = "item list-item focusable overpassdata"
@@ -170,15 +178,26 @@ const informationHandler = (() => {
                     el.innerHTML = '<p class="list-item__text">No data</p><p class="list-item__subtext">No data/empty response</p>'
                     insertAfter(el, document.querySelector("#marker-overpass"))
                 } else {
+
+                    appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
+                    appendoverpassdata("Id",data.elements[0].id)
+
+                  
+
+            
+
+                    123323587
+
                     for (var tag in data.elements[0].tags) {
+                        if (tag == "name") return;
                         let value = data.elements[0].tags[tag]
                         //let content = '\n<div class="item list-item focusable" tabindex=0><p class="list-item__text">'+tag+'</p><p class="list-item__subtext">'+value+'</p></div>'
                         //console.log(content)
-                        let el = document.createElement('div');
-                        el.className = "item list-item focusable overpassdata"
-                        el.setAttribute("tabindex", 0)
-                        el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
-                        insertAfter(el, document.querySelector("#marker-overpass"))
+                        appendoverpassdata(tag,value)
+                    }
+
+                    if (Object.keys(data.elements).length > 1) {
+                        appendoverpassdata("Other hidden elements",Object.keys(data.elements).length - 1)
                     }
 
                 }
