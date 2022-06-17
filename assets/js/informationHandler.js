@@ -179,10 +179,9 @@ const informationHandler = (() => {
                     insertAfter(el, document.querySelector("#marker-overpass"))
                 } else {
 
-                 
-                    if (Object.keys(data.elements).length > 1) {
-                        appendoverpassdata("Other hidden elements",Object.keys(data.elements).length - 1)
-                    }
+                    appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
+                    appendoverpassdata("Id",data.elements[0].id)
+
                 
                     for (var tag in data.elements[0].tags) {
                         if (tag == "name") return;
@@ -192,10 +191,9 @@ const informationHandler = (() => {
                         appendoverpassdata(tag,value)
                     }
 
-                   
-
-                    appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
-                    appendoverpassdata("Id",data.elements[0].id)
+                    if (Object.keys(data.elements).length > 1) {
+                        appendoverpassdata("Other hidden elements",Object.keys(data.elements).length - 1)
+                    }
 
                 }
                 tabIndex = 0;
