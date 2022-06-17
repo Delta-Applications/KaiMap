@@ -143,6 +143,21 @@ const informationHandler = (() => {
         var query = L.Util.template('[out:json];' + 'node(around:{radius},{lat},{lng})[name];' + 'way(around:{radius},{lat},{lng})[name];' + 'out body qt 1;', kwargs);
         url = 'http://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
 
+        function appendoverpassdata(tag,value){
+            let el = document.createElement('div');
+            el.className = "item list-item focusable overpassdata"
+            el.setAttribute("tabindex", 0)
+            el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
+            insertAfter(el, document.querySelector("#marker-overpass"))
+        }
+        const boxes = document.querySelectorAll('.overpassdata');
+
+        boxes.forEach(box => {
+            box.remove();
+        });
+
+        if (!navigator.onLine) return appendoverpassdata("Data unavailable","Device is offline")
+
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
 
@@ -157,26 +172,11 @@ const informationHandler = (() => {
                 }
                 console.log(data)
                 // do stuff with data
-                const boxes = document.querySelectorAll('.overpassdata');
-
-                boxes.forEach(box => {
-                    box.remove();
-                });
-
-                function appendoverpassdata(tag,value){
-                    let el = document.createElement('div');
-                    el.className = "item list-item focusable overpassdata"
-                    el.setAttribute("tabindex", 0)
-                    el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
-                    insertAfter(el, document.querySelector("#marker-overpass"))
-                }
+               
+             
 
                 if (!data || !data.elements[0]) {
-                    let el = document.createElement('div');
-                    el.className = "item list-item focusable overpassdata"
-                    el.setAttribute("tabindex", 0)
-                    el.innerHTML = '<p class="list-item__text">No data</p><p class="list-item__subtext">No data/empty response</p>'
-                    insertAfter(el, document.querySelector("#marker-overpass"))
+                    appendoverpassdata("No data","or empty response")
                 } else {
 
                
@@ -189,7 +189,7 @@ const informationHandler = (() => {
                         let value = data.elements[0].tags[tag]
                         appendoverpassdata(tag,value)
                     }
-                    
+
                     appendoverpassdata("Id",data.elements[0].id)
                     appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
                     
