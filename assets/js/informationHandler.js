@@ -122,6 +122,10 @@ const informationHandler = (() => {
         }
     }
 
+    function insertAfter(newNode, existingNode) {
+        existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+    }
+
     let PreciseMarkerUpdate = function (marker) {
 
         let marker_stats = marker
@@ -130,6 +134,61 @@ const informationHandler = (() => {
         document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
 
+
+        kwargs = {
+            lat: marker_stats._latlng.lat,
+            lng: marker_stats._latlng.lng,
+            radius: 100 - (5 * map.getZoom())
+        };
+        var query = L.Util.template('[out:json];' + 'node(around:{radius},{lat},{lng})[name];' + 'way(around:{radius},{lat},{lng})[name];' + 'out body qt 1;', kwargs);
+        url = 'http://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+
+        xhr.onload = function (e) {
+            L.DomUtil.removeClass(map._container, "loading");
+            if (this.status == 200) {
+                var data;
+                try {
+                    data = JSON.parse(this.response);
+                } catch (err) {
+                    console.error(err);
+                }
+                console.log(data)
+                // do stuff with data
+                const boxes = document.querySelectorAll('.overpassdata');
+
+                boxes.forEach(box => {
+                    box.remove();
+                });
+
+                if (!data || !data.elements[0]) {
+                    let el = document.createElement('div');
+                    el.className = "item list-item focusable overpassdata"
+                    el.setAttribute("tabindex", 0)
+                    el.innerHTML = '<p class="list-item__text">No data</p><p class="list-item__subtext">No data/empty response</p>'
+                    insertAfter(el, document.querySelector("#marker-overpass"))
+                } else {
+                    for (var tag in data.elements[0].tags) {
+                        let value = data.elements[0].tags[tag]
+                        //let content = '\n<div class="item list-item focusable" tabindex=0><p class="list-item__text">'+tag+'</p><p class="list-item__subtext">'+value+'</p></div>'
+                        //console.log(content)
+                        let el = document.createElement('div');
+                        el.className = "item list-item focusable overpassdata"
+                        el.setAttribute("tabindex", 0)
+                        el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
+                        insertAfter(el, document.querySelector("#marker-overpass"))
+                    }
+
+                }
+                tabIndex = 0;
+                finder_tabindex();
+            } else {}
+        };
+
+        L.DomUtil.addClass(map._container, "loading");
+        xhr.send();
 
 
     }
@@ -141,13 +200,13 @@ const informationHandler = (() => {
             // Initialize
             let data = {}
             data.raw = crd
-            
+
             // Store Location as Fallout
             let b = [data.raw.latitude, data.raw.longitude];
-			localStorage.setItem("last_location", JSON.stringify(b));
+            localStorage.setItem("last_location", JSON.stringify(b));
 
             try {
-                data.GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num; 
+                data.GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num;
                 document.querySelector("div#sat-main").style.display = "block"
             } catch (error) {
                 data.GPSif = "Unavailable"
@@ -202,10 +261,10 @@ const informationHandler = (() => {
                     document.querySelector("div#distance-main").style.display = "block"
                     document.querySelector("#distance-title").innerText = "Device Distance"
                     document.querySelector("#distance").innerText = parseFloat(data.DistanceFromCenter).toFixed(2) + " km";
-                }else{
+                } else {
                     document.querySelector("div#distance-main").style.display = "none"
                 }
-             
+
             }
             document.querySelector("#speed").innerText = data.speed + " km/h"
 

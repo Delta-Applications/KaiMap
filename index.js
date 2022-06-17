@@ -74,7 +74,7 @@ console.log(JSON.stringify(setting));
 
 if (!navigator.geolocation) {
 	kaiosToaster({
-		message: "Your device does not support Geolocation.",
+		message: "Your device does not support Geolocation",
 		position: 'north',
 		type: 'warning',
 		timeout: 2000
@@ -488,7 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-	let finder_tabindex = function () {
+	window.finder_tabindex = function () {
 		//set tabindex
 		let t = -1;
 		let items = document.querySelectorAll(".item");
@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					data = JSON.parse(event.target.result);
 				} catch (e) {
 					kaiosToaster({
-						message: "Maps JSON File is invalid.",
+						message: "Maps JSON File is invalid",
 						position: 'north',
 						type: 'error',
 						timeout: 4000
@@ -637,7 +637,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					geojson_data = JSON.parse(event.target.result);
 				} catch (e) {
 					kaiosToaster({
-						message: "GeoJSON File is invalid.",
+						message: "GeoJSON File is invalid",
 						position: 'north',
 						type: 'error',
 						timeout: 4000
@@ -694,7 +694,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			reader.onerror = function (event) {
 				kaiosToaster({
-					message: "Failed to read " + filename + " KML File.",
+					message: "Failed to read " + filename + " KML File",
 					position: 'north',
 					type: 'warning',
 					timeout: 3000
@@ -710,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					kml = parser.parseFromString(kmltext, 'text/xml');
 				} catch (error) {
 					kaiosToaster({
-						message: "KML File is invalid.",
+						message: "KML File is invalid",
 						position: 'north',
 						type: 'error',
 						timeout: 4000
@@ -754,7 +754,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			reader.onerror = function (event) {
 				kaiosToaster({
-					message: "Failed to read " + filename + " GPX File.",
+					message: "Failed to read " + filename + " GPX File",
 					position: 'north',
 					type: 'warning',
 					timeout: 3000
@@ -830,7 +830,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			kaiosToaster({
-				message: "Fetched position.",
+				message: "Fetched position",
 				position: 'north',
 				type: 'success',
 				timeout: 2000
@@ -882,7 +882,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (setting.last_location != null) {
 				kaiosToaster({
-					message: err.message + ": Loading last position.",
+					message: err.message + ": Loading last position",
 					position: 'north',
 					type: 'error',
 					timeout: 3000
@@ -899,7 +899,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#message").style.display = "none";
 			} else {
 				kaiosToaster({
-					message: err.message + ": No position saved.",
+					message: err.message + ": No position saved",
 					position: 'north',
 					type: 'error',
 					timeout: 3000
@@ -1023,14 +1023,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				console.error(err.message + " " + err.code)
 				if (err.code == 1) {
 					kaiosToaster({
-						message: "Access to Geolocation is denied!",
+						message: "Access to Geolocation is denied",
 						position: 'north',
 						type: 'error',
 						timeout: 2000
 					});
 				} else if (err.code == 2) {
 					kaiosToaster({
-						message: "Position is unavailable!",
+						message: "Position is unavailable",
 						position: 'north',
 						type: 'error',
 						timeout: 2000
@@ -1322,7 +1322,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "add-marker-icon") {
 				kaiosToaster({
-					message: "Return and press 9 to add a Marker.",
+					message: "Return and press 9 to add a Marker",
 					position: 'north',
 					type: 'info',
 					timeout: 5000
@@ -1526,7 +1526,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				map.setView([current_lat, current_lng], 13);
 				zoom_speed();
 				kaiosToaster({
-					message: "Updating location. Use * to go back to this marker.",
+					message: "Updating location. Use * to go back to this marker",
 					position: 'north',
 					type: 'info',
 				});
@@ -1559,7 +1559,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					})
 				} else {
 					kaiosToaster({
-						message: "Your device does not have a front torch.",
+						message: "Your device does not have a front torch",
 						position: 'north',
 						type: 'warning',
 						timeout: 2000
@@ -1653,7 +1653,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					save_mode = "";
 					user_input("close")
 					kaiosToaster({
-						message: "Tracking continued.",
+						message: "Tracking continued",
 						position: 'north',
 						type: 'info',
 						timeout: 5000
@@ -1747,7 +1747,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					current_lng = Number(olc_lat_lng[1]);
 
 					kaiosToaster({
-						message: "Press 5 to save Marker.",
+						message: "Press 5 to save Marker",
 						position: 'north',
 						type: 'info',
 						timeout: 5000
@@ -1760,7 +1760,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					save_mode = "";
 					module.measure_distance("destroy_tracking");
 					kaiosToaster({
-						message: "Tracking stopped.",
+						message: "Tracking stopped",
 						position: 'north',
 						type: 'info',
 						timeout: 5000
@@ -1823,7 +1823,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "map") {
 					if (tracking_path) {
 						kaiosToaster({
-							message: "Tracking paused.",
+							message: "Tracking paused",
 							position: 'north',
 							type: 'info',
 							timeout: 5000
@@ -1836,7 +1836,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					} else {
 						tracking_path = true;
 						kaiosToaster({
-							message: "Tracking started.",
+							message: "Tracking started",
 							position: 'north',
 							type: 'info',
 							timeout: 5000
@@ -2039,7 +2039,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			build_menu();
 
 			kaiosToaster({
-				message: "Use 3 to access Main Menu.",
+				message: "Use 3 to access the main menu",
 				position: 'north',
 				type: 'info',
 			});
