@@ -90,7 +90,7 @@ let map = L.map("map-container", {
 }).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 
 document.addEventListener("DOMContentLoaded", function () {
-	document.querySelector("div#intro-footer2").innerText = "Fetching location..";
+	//document.querySelector("div#intro-footer2").innerText = "Fetching location..";
 
 
 
