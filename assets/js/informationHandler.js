@@ -182,12 +182,7 @@ const informationHandler = (() => {
                     appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
                     appendoverpassdata("Id",data.elements[0].id)
 
-                  
-
-            
-
-                    123323587
-
+                
                     for (var tag in data.elements[0].tags) {
                         if (tag == "name") return;
                         let value = data.elements[0].tags[tag]
