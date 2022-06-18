@@ -8,6 +8,7 @@ let current_alt;
 let altitude;
 let current_heading;
 let center_to_Screen;
+let north_rotation = true;
 let selected_marker = "";
 let selecting_marker;
 let selecting_path;
@@ -87,6 +88,8 @@ let map = L.map("map-container", {
 	zoomControl: false,
 	dragging: false,
 	keyboard: true,
+	rotate: true,
+	bearing: 0,
 }).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -132,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		*/
 
 
-	
+
 
 	/////////////////////
 	////ZOOM MAP/////////
@@ -944,8 +947,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	let confirmed = false;
 	let mym1 = false
 
-	window.geolocationWatch = function() {
-		console.log(retrying,confirmed,state_geoloc)
+	window.geolocationWatch = function () {
+		console.log(retrying, confirmed, state_geoloc)
 		marker_latlng = false;
 
 		let geoLoc = navigator.geolocation;
@@ -958,7 +961,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			document.getElementById("cross").style.opacity = 0;
 
 			function showLocation(position) {
-				console.log(retrying,position)
+				console.log(retrying, position)
 
 				if (retrying == true) {
 					confirmed = confirmed || confirm("The geolocation service is working again, update location?")
@@ -972,7 +975,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_alt = crd.altitude;
 				current_heading = crd.heading;
 
+				//implement heading thing here
+
+				if (north_rotation == false) {
+					map.setBearing(current_heading);
+				}
+
 				
+
 
 				if (mym1 == false && retrying == true && !myMarker) {
 					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy - 1).addTo(map);
@@ -983,8 +993,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					// vv   
 					myMarker.setIcon(follow_icon);
 					mym1 = true
-				} 
-			
+				}
+
 
 
 				//store device location
@@ -1017,7 +1027,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			function errorHandler(err) {
 				document.querySelector("div#message").style.display = "none";
 				document.querySelector("div#get-position").style.display = "none";
-				console.log(retrying,err)
+				console.log(retrying, err)
 				if (retrying == true) return;
 
 				console.error(err.message + " " + err.code)
@@ -1350,7 +1360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				top_bar("", "", "");
 			}
 		}
-	
+
 	}
 
 	//qr scan listener
@@ -1593,6 +1603,30 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "map") {
 					maps.weather_map();
 					return false;
+				}
+				break;
+
+			case "4":
+				if (windowOpen == "map") {
+					// toggle north orientation (rotate map with heading)
+					if (north_rotation == true) {
+						north_rotation = false;
+						kaiosToaster({
+							message: "Device orientation",
+							position: 'north',
+							type: 'info',
+							timeout: 2000
+						});
+					} else {
+						north_rotation = true;
+						map.setBearing(0)
+						kaiosToaster({
+							message: "North orientation",
+							position: 'north',
+							type: 'info',
+							timeout: 2000
+						});
+					}
 				}
 				break;
 			case "Backspace":
@@ -1950,8 +1984,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				*/
 				if (screen.orientation.type == 'portrait-primary') MovemMap("right");
 				if (screen.orientation.type == 'portrait-secondary') MovemMap("left");
-				if (screen.orientation.type == 'landscape-primary') MovemMap("up") & nav("-1");	
-				if (screen.orientation.type == 'landscape-secondary') MovemMap("down") & nav("+1");	
+				if (screen.orientation.type == 'landscape-primary') MovemMap("up") & nav("-1");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("down") & nav("+1");
 
 				if (windowOpen == "finder") {
 					if (screen.orientation.type == 'portrait-primary') finder_navigation("+1");
@@ -1963,7 +1997,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "ArrowLeft":
 				if (screen.orientation.type == 'portrait-primary') MovemMap("left");
 				if (screen.orientation.type == 'portrait-secondary') MovemMap("right");
-				if (screen.orientation.type == 'landscape-primary') MovemMap("down") & nav("+1");	
+				if (screen.orientation.type == 'landscape-primary') MovemMap("down") & nav("+1");
 				if (screen.orientation.type == 'landscape-secondary') MovemMap("up") & nav("-1");
 				if (windowOpen == "finder") {
 					if (screen.orientation.type == 'portrait-primary') finder_navigation("-1");
@@ -1974,11 +2008,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "ArrowUp":
 				if (screen.orientation.type == 'portrait-primary') nav("-1") & MovemMap("up");
 				if (screen.orientation.type == 'portrait-secondary') nav("+1") & MovemMap("down");
-				if (screen.orientation.type == 'landscape-primary') MovemMap("left");	
-				if (screen.orientation.type == 'landscape-secondary') MovemMap("right");	
+				if (screen.orientation.type == 'landscape-primary') MovemMap("left");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("right");
 
 				if (windowOpen == "finder") {
-					if (screen.orientation.type == 'landscape-primary') finder_navigation("-1");	
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("-1");
 					if (screen.orientation.type == 'landscape-secondary') finder_navigation("+1");
 				}
 				break;
@@ -1986,11 +2020,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "ArrowDown":
 				if (screen.orientation.type == 'portrait-primary') nav("+1") & MovemMap("down");
 				if (screen.orientation.type == 'portrait-secondary') nav("-1") & MovemMap("up");
-				if (screen.orientation.type == 'landscape-primary') MovemMap("right");	
-				if (screen.orientation.type == 'landscape-secondary') MovemMap("left");	
+				if (screen.orientation.type == 'landscape-primary') MovemMap("right");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("left");
 
 				if (windowOpen == "finder") {
-					if (screen.orientation.type == 'landscape-primary') finder_navigation("+1");	
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("+1");
 					if (screen.orientation.type == 'landscape-secondary') finder_navigation("-1");
 				}
 				break;
