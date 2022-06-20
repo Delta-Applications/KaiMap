@@ -801,15 +801,26 @@ document.addEventListener("DOMContentLoaded", function () {
 	var follow_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
-		html: '<div class="ringring"></div><div class="circle"></div>',
+		zIndexOffset: 1000,
+		html: '<svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" version="1.1" viewBox="-12 -12 24 24"><circle r="9" style="stroke:#fff;stroke-width:3;fill:#2A93EE;fill-opacity:1;opacity:1;animation: leaflet-control-locate-throb 4s ease infinite;"></circle></svg>',
 	});
 
 	var default_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
+		zIndexOffset: 1000,
 		//	  iconUrl: "assets/css/images/marker-icon.png",
-		html: '<div class="circle"></div>',
+		html: '<svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" version="1.1" viewBox="-12 -12 24 24"><circle r="9" style="stroke:#fff;stroke-width:2;fill:#2A93EE;fill-opacity:1;opacity:1;"></circle></svg>',
 	});
+
+
+	var compass_icon = L.divIcon({
+		iconSize: [9, 30],
+		//	  iconUrl: "assets/css/images/marker-icon.png",
+		html: '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate(deg);"><path d="M0,0 l4.5,8 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;"></path></svg>',
+	});
+
+	let compassMarker;
 
 	let myAccuracy;
 
@@ -964,7 +975,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			document.getElementById("cross").style.opacity = 0;
 
 			function showLocation(position) {
-				console.log(retrying, position)
+				console.log(retrying, position.coords)
 
 				if (retrying == true) {
 					if (!confirmed && !prompted) {
@@ -988,6 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					map.setBearing(current_heading);
 				}
 
+				if (myMarker) myMarker.setIcon(follow_icon);
 				
 
 
@@ -1007,9 +1019,23 @@ document.addEventListener("DOMContentLoaded", function () {
 				//store device location
 				device_lat = crd.latitude;
 				device_lng = crd.longitude;
-				if (crd.heading != null) {
-					//	myMarker.setRotationAngle(crd.heading);
+
+				
+				if (crd.heading != 0) {
+					if (!compassMarker) {
+						compassMarker = L.marker([current_lat, current_lng], {
+							rotationAngle: 0,
+						}).addTo(markers_group);
+						// vv   
+						compassMarker.setIcon(compass_icon);
+					}
+					compassMarker._icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate('+crd.heading+'deg)"><path d="M0,0 l4.5,6 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;" /></svg>'
+					console.log(compassMarker)
+					myMarker.setZIndexOffset(1000)
 				} else {
+					if (compassMarker) map.removeLayer(compassMarker);
+					if (compassMarker) compassMarker = null;
+
 					myMarker.setRotationAngle(0);
 				}
 				//store location as fallout
@@ -1026,6 +1052,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					myAccuracy.remove()
 					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy).addTo(map);
 				}
+				if (compassMarker) compassMarker.setLatLng([crd.latitude, crd.longitude]).update();
 				myMarker.setLatLng([crd.latitude, crd.longitude]).update();
 				informationHandler.PreciseGeoUpdate(crd)
 				if (LastPosMarker) LastPosMarker.remove();
@@ -1036,6 +1063,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#get-position").style.display = "none";
 				console.log(retrying, err)
 				if (retrying == true) return;
+
+				if (myMarker) myMarker.setIcon(default_icon);
 
 				console.error(err.message + " " + err.code)
 				if (err.code == 1) {
