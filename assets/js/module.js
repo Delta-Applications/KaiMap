@@ -55,7 +55,7 @@ const module = (() => {
     return distance;
   };
 
-  
+
   /////////////////////
   ////PATH & TRACKING
   ///////////////////
@@ -127,15 +127,16 @@ const module = (() => {
           localStorage.removeItem("tracking_cache");
           tracking_cache = [];
         }
-      } else {
-      }
+      } else {}
       if (setting.tracking_screenlock) screenWakeLock("lock", "screen");
 
       screenWakeLock("lock", "gps");
       let calc = 0;
+      let passed_time = 0;
 
       tracking_interval = setInterval(function () {
         console.log(tracking_cache)
+        passed_time += 1
         polyline_tracking.addLatLng([
           device_lat,
           device_lng,
@@ -143,22 +144,28 @@ const module = (() => {
 
         GPSif = 0;
         try {
-          GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num; 
+          GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num;
         } catch (error) {
           data.GPSif = "Unavailable"
         }
 
 
         tracking_cache.push({
-          lat: device_lat,
-          lng: device_lng,
-          alt: device_alt,
-          sats: GPSif,
-          speed: device_speed,
-          heading: device_heading,
+          lat: device_lat, //Latitude
+          lng: device_lng, //Longitude
+          alt: device_alt, //Altitude
+          sats: GPSif, //Satellites
+          speed: device_speed,//Speed
+          heading: device_heading,//Heading
+          time: new Date().getTime()//passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
         });
 
         if (tracking_cache.length > 2) {
+          var fe = polyline_tracking.getLatLngs(), tot = 0
+
+          for (var i = 0; i < fe.length - 1; i++) {
+            tot += L.latLng([fe[i].lat, fe[i].lng]).distanceTo([fe[i + 1].lat, fe[i + 1].lng])
+          }
           tracking_distance = calc_distance(
             parseFloat(tracking_cache[tracking_cache.length - 1].lat),
             parseFloat(tracking_cache[tracking_cache.length - 1].lng),
@@ -166,6 +173,8 @@ const module = (() => {
             parseFloat(tracking_cache[tracking_cache.length - 2].lng)
           );
           calc += tracking_distance
+
+          calc = (tot / 1000).toFixed(3) + " km"
           document.querySelector("div#distance-main").style.display = "block"
           document.querySelector("#distance-title").innerText = "Tracking Distance"
           document.querySelector("#distance").innerText = parseFloat(calc).toFixed(2) + " km";

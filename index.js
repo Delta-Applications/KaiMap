@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	function MovemMap(direction) {
 		//if (!marker_latlng) {
 		if (windowOpen == "map" || windowOpen == "coordinations") {
+			if (center_to_Screen == true) return;
 			let n = map.getCenter();
 
 			if (selecting_marker) {
@@ -946,6 +947,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	let retrying = false;
 	let confirmed = false;
 	let mym1 = false
+	let prompted = false;
+
 
 	window.geolocationWatch = function () {
 		console.log(retrying, confirmed, state_geoloc)
@@ -964,7 +967,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				console.log(retrying, position)
 
 				if (retrying == true) {
-					confirmed = confirmed || confirm("The geolocation service is working again, update location?")
+					if (!confirmed && !prompted) {
+						prompted = true;
+						confirmed = confirm("The geolocation service is working again, update location?")
+					}
 					if (!confirmed) {
 						return;
 					}
@@ -976,6 +982,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				current_heading = crd.heading;
 
 				//implement heading thing here
+				// I had to put back the newer leaflet.js version that does not support rotation, because of some bugs and the markers not working
 
 				if (north_rotation == false) {
 					map.setBearing(current_heading);
