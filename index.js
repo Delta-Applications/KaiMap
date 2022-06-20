@@ -1944,8 +1944,9 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 2000
 						});
 						center_to_Screen = true
+						screenWakeLock("lock");
 					}
-					screenWakeLock("lock");
+
 				}
 
 				break;
