@@ -1935,6 +1935,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							type: 'info',
 							timeout: 2000
 						});
+						map.attributionControl.removeAttribution('(🔒)');
 						screenWakeLock("unlock");
 					} else {
 						kaiosToaster({
@@ -1944,6 +1945,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 2000
 						});
 						center_to_Screen = true
+						map.attributionControl.addAttribution('(🔒)');
 						screenWakeLock("lock");
 					}
 

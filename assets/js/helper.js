@@ -164,7 +164,6 @@ function screenWakeLock(param) {
   if (param == "lock") {
     try {
       lock = window.navigator.requestWakeLock("screen");
-      map.attributionControl.addAttribution('(🔒)');
     } catch (error) {
       
     }
@@ -175,7 +174,6 @@ function screenWakeLock(param) {
       if (lock.topic == "screen") {
       
         lock.unlock();
-        map.attributionControl.removeAttribution('(🔒)');
       }
     } catch (error) {}}
 }
