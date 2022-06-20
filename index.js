@@ -801,14 +801,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	var follow_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
-		zIndexOffset: 1000,
 		html: '<svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" version="1.1" viewBox="-12 -12 24 24"><circle r="9" style="stroke:#fff;stroke-width:3;fill:#2A93EE;fill-opacity:1;opacity:1;animation: leaflet-control-locate-throb 4s ease infinite;"></circle></svg>',
 	});
 
 	var default_icon = L.divIcon({
 		iconSize: [0, 0],
 		iconAnchor: [30, 30],
-		zIndexOffset: 1000,
 		//	  iconUrl: "assets/css/images/marker-icon.png",
 		html: '<svg class="circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" version="1.1" viewBox="-12 -12 24 24"><circle r="9" style="stroke:#fff;stroke-width:2;fill:#2A93EE;fill-opacity:1;opacity:1;"></circle></svg>',
 	});
@@ -1031,7 +1029,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 					compassMarker._icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate('+crd.heading+'deg)"><path d="M0,0 l4.5,6 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;" /></svg>'
 					console.log(compassMarker)
-					myMarker.setZIndexOffset(1000)
 				} else {
 					if (compassMarker) map.removeLayer(compassMarker);
 					if (compassMarker) compassMarker = null;
