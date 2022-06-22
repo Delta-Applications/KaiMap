@@ -1624,7 +1624,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				break;
-			case "1":
+			case "3":
 				switch (screen.orientation.type) {
 					case 'portrait-primary':
 						screen.orientation.lock('landscape-primary');
