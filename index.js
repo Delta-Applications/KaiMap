@@ -56,21 +56,6 @@ let save_mode; // to check save geojson or update json
 let caching_time = 86400000;
 let zoom_depth = 4;
 
-let settings_data = settings.load_settings();
-let setting = {
-	export_path: localStorage.getItem("export-path"),
-	owm_key: localStorage.getItem("owm-key"),
-	cache_time: localStorage.getItem("cache-time"),
-	cache_zoom: localStorage.getItem("cache-zoom"),
-	last_location: JSON.parse(localStorage.getItem("last_location")),
-	openweather_api: localStorage.getItem("owm-key"),
-	last_weather: localStorage.getItem("last_weather"),
-	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-
-};
-
-console.log(JSON.stringify(setting));
-
 
 
 if (!navigator.geolocation) {
@@ -91,6 +76,31 @@ let map = L.map("map-container", {
 	rotate: true,
 	bearing: 0,
 }).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
+
+window.ScaleControl = L.control
+.scale({
+	position: localStorage.getItem("zoomposition") || "topright",
+	metric: true,
+	imperial: false,
+})
+.addTo(map);
+
+let settings_data = settings.load_settings();
+
+let setting = {
+	export_path: localStorage.getItem("export-path"),
+	owm_key: localStorage.getItem("owm-key"),
+	cache_time: localStorage.getItem("cache-time"),
+	cache_zoom: localStorage.getItem("cache-zoom"),
+	last_location: JSON.parse(localStorage.getItem("last_location")),
+	openweather_api: localStorage.getItem("owm-key"),
+	last_weather: localStorage.getItem("last_weather"),
+	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
+
+};
+
+console.log(JSON.stringify(setting));
+
 
 document.addEventListener("DOMContentLoaded", function () {
 	//document.querySelector("div#intro-footer2").innerText = "Fetching location..";
@@ -998,7 +1008,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				if (myMarker) myMarker.setIcon(follow_icon);
-				
+
 
 
 				if (mym1 == false && retrying == true && !myMarker) {
@@ -1018,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				device_lat = crd.latitude;
 				device_lng = crd.longitude;
 
-				
+
 				if (crd.heading != 0) {
 					if (!compassMarker) {
 						compassMarker = L.marker([current_lat, current_lng], {
@@ -1027,7 +1037,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						// vv   
 						compassMarker.setIcon(compass_icon);
 					}
-					compassMarker._icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate('+crd.heading+'deg)"><path d="M0,0 l4.5,6 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;" /></svg>'
+					compassMarker._icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate(' + crd.heading + 'deg)"><path d="M0,0 l4.5,6 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;" /></svg>'
 					console.log(compassMarker)
 				} else {
 					if (compassMarker) map.removeLayer(compassMarker);
@@ -1078,6 +1088,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						type: 'error',
 						timeout: 2000
 					});
+
+
 				}
 			}
 
@@ -1397,17 +1409,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	//qr scan listener
-	const qr_listener = document.querySelector("input#owm-key");
+	
 	let qrscan = false;
-	qr_listener.addEventListener("focus", (event) => {
-		bottom_bar("", "QR SCAN", "");
-		qrscan = true;
-	});
-
-	qr_listener.addEventListener("blur", (event) => {
-		qrscan = false;
-		bottom_bar("", "", "");
-	});
+	
 
 	////////////////////////////////////////
 	////COORDINATIONS PANEL/////////////////
@@ -1457,6 +1461,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	let count = 0;
 
 	let finder_navigation = function (dir) {
+		if (!$("input").is(":focus")) {
+
 		tabIndex = 0;
 		bottom_bar("", "", "");
 
@@ -1471,19 +1477,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			finder_tabindex();
 		}
 
-		if (dir == "+1") {
-			count++;
-			if (count > finder_panels.length - 1) count = finder_panels.length - 1;
-			document.getElementById(finder_panels[count]).style.display = "block";
-			finder_tabindex();
-		}
-		if (dir == "-1") {
-			count--;
-			if (count < 0) count = 0;
-			document.getElementById(finder_panels[count]).style.display = "block";
-			finder_tabindex();
-		}
+			if (dir == "+1") {
+				count++;
+				if (count > finder_panels.length - 1) count = finder_panels.length - 1;
+				document.getElementById(finder_panels[count]).style.display = "block";
+				finder_tabindex();
+			}
+			if (dir == "-1") {
+				count--;
+				if (count < 0) count = 0;
+				document.getElementById(finder_panels[count]).style.display = "block";
+				finder_tabindex();
+			}
+	
 
+	
 
 		top_bar("◀", finder_panels[count], "▶");
 
@@ -1494,21 +1502,26 @@ document.addEventListener("DOMContentLoaded", function () {
 			informationHandler.UpdateInfo()
 
 		}
+	}
 
 	};
 
 	function nav(move) {
-		if (windowOpen == "finder" || windowOpen == "markers_option") {
+		if ((windowOpen == "finder" || windowOpen == "markers_option") ) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
 			let items_list = [];
 			for (let i = 0; i < items.length; i++) {
+				if (items[i].style.display == "none") continue;
 				if (items[i].parentNode.style.display == "block") {
 					items_list.push(items[i]);
 				}
 			}
-
+			
+			if (document.activeElement.tagName == "INPUT") {
+				document.activeElement.parentNode.focus()
+			}
 
 			if (move == "+1") {
 				if (tabIndex < items_list.length - 1) {
@@ -1670,6 +1683,20 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 				}
 				break;
+			case "SoftLeft":
+				if (windowOpen == "finder" && qrscan == true) {
+					console.log("triggered")
+					windowOpen = "scan";
+					qrscan = false;
+					bottom_bar("", "", "");
+					qr.start_scan(function (callback) {
+						document.getElementById("owm-key").value = callback;
+						windowOpen == "finder"
+					});
+
+					break;
+				}
+				break;
 
 		}
 	}
@@ -1679,6 +1706,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//////////////
 
 	function shortpress_action(param) {
+		console.log(param)
 		switch (param.key) {
 
 			case "EndCall":
@@ -1691,7 +1719,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "Backspace":
-				if (windowOpen == "finder" || windowOpen == "markers_option") {
+				if ((windowOpen == "finder" || windowOpen == "markers_option") && !$("input").is(":focus")) {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
@@ -1709,8 +1737,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				if (windowOpen == "scan") {
 					qr.stop_scan();
-					windowOpen = "setting";
+					windowOpen = "finder";
 					break;
+				}
+
+				if (document.activeElement.tagName == "INPUT") {
+					document.activeElement.parentNode.focus()
 				}
 
 				break;
@@ -1845,6 +1877,19 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
+				if (document.activeElement.classList.contains("input-container")) {
+					document.activeElement.children[1].focus()
+					if (document.activeElement == document.querySelector("input#owm-key")) {
+						bottom_bar("SCAN QR", "", "");
+						qrscan = true;
+					
+						document.querySelector("input#owm-key").addEventListener("blur", (event) => {
+							qrscan = false;
+							bottom_bar("", "", "");
+						});
+					}
+				}
+
 				if (
 					document.activeElement == document.getElementById("save-settings")
 				) {
@@ -1856,16 +1901,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					break;
 				}
-				if (windowOpen == "finder" && qrscan == true) {
-					windowOpen = "scan";
 
-					qr.start_scan(function (callback) {
-						let slug = callback;
-						document.getElementById("owm-key").value = slug;
-					});
-
-					break;
-				}
 
 				if (windowOpen == "finder") {
 					addMapLayers("add-marker");
@@ -2073,7 +2109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function handleKeyDown(evt) {
 		if (evt.key == "EndCall") evt.preventDefault();
-		if (evt.key == "Backspace" && !$("input").is(":focus") && windowOpen != "map") evt.preventDefault();
+		if (evt.key == "Backspace" && (!$("input").is(":focus") || windowOpen != "map")) evt.preventDefault();
 		// For some reasons empty inputs don't focus so it allows the app to be minimized also in empty inputs
 		if (!evt.repeat) {
 			longpress = false;
@@ -2129,13 +2165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		windowOpen = "map";
 	}, 4000);
 
-	L.control
-		.scale({
-			position: localStorage.getItem("zoomposition") || "topright",
-			metric: true,
-			imperial: false,
-		})
-		.addTo(map);
+
 
 	map.addLayer(markers_group);
 	map.addLayer(measure_group);

@@ -8,8 +8,8 @@
   <meta charset="utf-8" />
   <link rel="manifest" href="manifest.webapp" type="application/x-web-app-manifest+json" />
   <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
-  <link rel="stylesheet" href="assets/css/themes/light.css" id="current_theme"/>
-  <link rel="stylesheet" href="assets/css/themes/typeface.css" id="typeface"/>
+  <link rel="stylesheet" href="assets/css/themes/light.css" id="current_theme" />
+  <link rel="stylesheet" href="assets/css/themes/typeface.css" id="typeface" />
 
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/kaios-native-ui.css" />
@@ -49,13 +49,13 @@
   <div id="toast" class="width-100"></div>
 
   <div id="search-box">
-    <input type="text" id="search" placeholder="Search for a location or /PLUS+CODE"/>
+    <input type="text" id="search" placeholder="Search for a location or /PLUS+CODE" />
   </div>
   <div id="olc"></div>
 
   <div id="user-input" class="width-100 flex justify-content-spacearound" style="display: none;">
     <div id="user-input-description"></div>
-    <input type="text"/>
+    <input type="text" />
   </div>
 
   <div id="bottom-bar">
@@ -112,11 +112,11 @@
     <div class="separator">Manage</div>
 
 
-    <div data-action="share_marker"  class="item list-item focusable" tabindex=0>
+    <div data-action="share_marker" class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Share</p>
       <p class="list-item__subtext">Email / SMS</p>
     </div>
-    <div data-action="save_marker"  class="item list-item focusable" tabindex=0>
+    <div data-action="save_marker" class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Export</p>
       <p class="list-item__subtext">GeoJSON</p>
     </div>
@@ -124,8 +124,8 @@
       <p class="list-item__text">Remove</p>
       <p class="list-item__subtext">Delete marker from the map</p>
     </div>
-    
-</div>
+
+  </div>
 
   <!--
 /////////////////////////
@@ -335,31 +335,47 @@
 
     <div class="panel" id="Settings">
       <div class="separator">OpenWeatherMap</div>
-      <label for="owm-key">API Key</label>
-      <input type="tel" class="item" id="owm-key" tabindex="0"/>
+      <div class="item list-item focusable input-container" tabindex="0">
+        <label class="input-container__label">OWM Api Key</label>
+        <input class="input-container__input focusable" id="owm-key" tabindex="0" type="tel">
+      </div>
 
-      <div class="separator">Offline Imagery</div>
+      <div class="separator">Imagery</div>
+      <div class="item list-item focusable input-container" tabindex="1">
+        <label class="input-container__label">Re-download maps after N days</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" id="cache-time" tabindex="1" type="tel">
+      </div>
 
-      <label for="cache-time">After how many days should the maps be re-downloaded?</label><br />
-      <input class="item" type="tel" pattern="^[0-9]*$" id="cache-time" tabindex="1" /><br />
+      <div class="item list-item focusable input-container" tabindex="2">
+        <label class="input-container__label">Save maps up to N zoom level</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom" tabindex="2"
+          type="tel">
+      </div>
 
+      <div class="item list-item focusable input-container" tabindex="3">
+        <label class="input-container__label">Map Scale Position (tl, tr, bl, br)</label>
+        <input class="input-container__input focusable" id="zoomposition" tabindex="3" type="text">
+      </div>
 
-      
-      <label for="cache-zoom">How much zoom level should be saved?</label><br />
-      <input class="item" type="tel" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom" tabindex="2" /><br />
+      <button id="clear-cache" tabindex="4" class="item button-container__button focusable">
+        Clear map cache
+      </button>
 
-      <label for="zoomposition">topleft - topright - bottomleft - bottomright | Zoom Control</label><br />
-      <input class="item" type="text" id="zoomposition" tabindex="2" /><br />
-
-      <button class="item" id="clear-cache" tabindex="3">Clear offline cache</button>
       <div class="separator">Export</div>
-      <label for="export-path">Export path</label>
-      <input class="item" type="text" id="export-path" tabindex="4" />
-      <br />
+
+      <div class="item list-item focusable input-container" tabindex="4">
+        <label class="input-container__label">File Export Path</label>
+        <input class="input-container__input focusable" id="export-path" tabindex="4" type="text">
+      </div>
+
       <div class="separator">General</div>
-      <label>Theme (eg. light.css)</label>
-      <input class="item" type="text" id="theme" tabindex="4" value="light.css"/>
-      <button tabindex="5" class="item" id="save-settings">Save Settings</button>
+
+      <div class="item list-item focusable input-container" tabindex="5">
+        <label class="input-container__label">Theme (eg. light.css)</label>
+        <input class="input-container__input focusable" id="theme" tabindex="5" type="text">
+      </div>
+     
+      <button tabindex="6" class="item button-container__button focusable" id="save-settings">Save Settings</button>
     </div>
     <div class="panel" id="Impressum">
 
