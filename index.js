@@ -465,6 +465,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		find_geojson();
 		find_kml();
 		load_maps();
+		osm_server_list_gpx();
+		finder_tabindex()
+
 	};
 
 	//////////////////////////////////
@@ -555,7 +558,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.text())
 			.then((data) => {
 				console.log(data);
-				document.querySelector("div#osm-server-gpx").innerHTML = "";
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("gpx_file");
@@ -595,6 +597,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						}
 					}
 				}
+				finder_tabindex()
 			})
 
 			.catch((error) => {
@@ -808,6 +811,8 @@ document.addEventListener("DOMContentLoaded", function () {
 							);
 					}
 				});
+				finder_tabindex()
+
 			};
 
 			reader.readAsText(file);
@@ -1374,6 +1379,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//add gpx data from osm
 			if (item_value == "gpx-osm") {
+				console.assert(item_Value)
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
 			}
 
