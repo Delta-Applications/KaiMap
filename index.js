@@ -78,12 +78,12 @@ let map = L.map("map-container", {
 }).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 
 window.ScaleControl = L.control
-.scale({
-	position: localStorage.getItem("zoomposition") || "topright",
-	metric: true,
-	imperial: false,
-})
-.addTo(map);
+	.scale({
+		position: localStorage.getItem("zoomposition") || "topright",
+		metric: true,
+		imperial: false,
+	})
+	.addTo(map);
 
 let settings_data = settings.load_settings();
 
@@ -296,34 +296,60 @@ document.addEventListener("DOMContentLoaded", function () {
 	let timeout;
 
 	function repeat_action(param) {
-		if (windowOpen == "finder") {
-			switch (param.key) {
-				case 'ArrowUp':
-					nav("-1");
-					break;
-				case 'ArrowDown':
-					nav("+1");
-					break;
-			}
+		switch (param.key) {
+			case 'ArrowUp':
+				if (screen.orientation.type == 'portrait-primary') nav("-1") & MovemMap("up");
+				if (screen.orientation.type == 'portrait-secondary') nav("+1") & MovemMap("down");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("left");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("right");
+
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("-1");
+					if (screen.orientation.type == 'landscape-secondary') finder_navigation("+1");
+				}
+
+				break;
+			case 'ArrowDown':
+				if (screen.orientation.type == 'portrait-primary') nav("+1") & MovemMap("down");
+				if (screen.orientation.type == 'portrait-secondary') nav("-1") & MovemMap("up");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("right");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("left");
+
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'landscape-primary') finder_navigation("+1");
+					if (screen.orientation.type == 'landscape-secondary') finder_navigation("-1");
+				}
+				break;
+				break;
+		
+			case "ArrowRight":
+
+				if (screen.orientation.type == 'portrait-primary') MovemMap("right");
+				if (screen.orientation.type == 'portrait-secondary') MovemMap("left");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("up") & nav("-1");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("down") & nav("+1");
+
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'portrait-primary') finder_navigation("+1");
+					if (screen.orientation.type == 'portrait-secondary') finder_navigation("-1");
+
+				}
+				break;
+
+			case "ArrowLeft":
+				if (screen.orientation.type == 'portrait-primary') MovemMap("left");
+				if (screen.orientation.type == 'portrait-secondary') MovemMap("right");
+				if (screen.orientation.type == 'landscape-primary') MovemMap("down") & nav("+1");
+				if (screen.orientation.type == 'landscape-secondary') MovemMap("up") & nav("-1");
+				if (windowOpen == "finder") {
+					if (screen.orientation.type == 'portrait-primary') finder_navigation("-1");
+					if (screen.orientation.type == 'portrait-secondary') finder_navigation("+1");
+				}
+
+				break;
+		
 		}
-		if (windowOpen == "map") {
-			switch (param.key) {
-				case 'ArrowUp':
-					MovemMap("up");
-					break;
-				case 'ArrowDown':
-					MovemMap("down");
-					break;
-				case 'ArrowLeft':
-					MovemMap("left");
-					break;
-				case 'ArrowRight':
-					MovemMap("right");
-					break;
-				case 'Enter':
-					break;
-			}
-		}
+
 	}
 
 
@@ -1409,9 +1435,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	//qr scan listener
-	
+
 	let qrscan = false;
-	
+
 
 	////////////////////////////////////////
 	////COORDINATIONS PANEL/////////////////
@@ -1463,19 +1489,19 @@ document.addEventListener("DOMContentLoaded", function () {
 	let finder_navigation = function (dir) {
 		if (!$("input").is(":focus")) {
 
-		tabIndex = 0;
-		bottom_bar("", "", "");
+			tabIndex = 0;
+			bottom_bar("", "", "");
 
-		let d = document.querySelectorAll("div.panel");
-		for (let b = 0; b < d.length; b++) {
-			d[b].style.display = "none";
-		}
+			let d = document.querySelectorAll("div.panel");
+			for (let b = 0; b < d.length; b++) {
+				d[b].style.display = "none";
+			}
 
 
-		if (dir == "start") {
-			document.getElementById(finder_panels[count]).style.display = "block";
-			finder_tabindex();
-		}
+			if (dir == "start") {
+				document.getElementById(finder_panels[count]).style.display = "block";
+				finder_tabindex();
+			}
 
 			if (dir == "+1") {
 				count++;
@@ -1489,25 +1515,25 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById(finder_panels[count]).style.display = "block";
 				finder_tabindex();
 			}
-	
-
-	
-
-		top_bar("◀", finder_panels[count], "▶");
 
 
-		if (finder_panels[count] == "Information") {
-			windowOpen = "finder";
 
-			informationHandler.UpdateInfo()
 
+			top_bar("◀", finder_panels[count], "▶");
+
+
+			if (finder_panels[count] == "Information") {
+				windowOpen = "finder";
+
+				informationHandler.UpdateInfo()
+
+			}
 		}
-	}
 
 	};
 
 	function nav(move) {
-		if ((windowOpen == "finder" || windowOpen == "markers_option") ) { //&& !$("input").is(":focus")
+		if ((windowOpen == "finder" || windowOpen == "markers_option")) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -1518,7 +1544,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					items_list.push(items[i]);
 				}
 			}
-			
+
 			if (document.activeElement.tagName == "INPUT") {
 				document.activeElement.parentNode.focus()
 			}
@@ -1882,7 +1908,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (document.activeElement == document.querySelector("input#owm-key")) {
 						bottom_bar("SCAN QR", "", "");
 						qrscan = true;
-					
+
 						document.querySelector("input#owm-key").addEventListener("blur", (event) => {
 							qrscan = false;
 							bottom_bar("", "", "");
@@ -2035,7 +2061,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 
-
+				// The following lines of code adjust navigation to "rotate" based on the current screen orientation, and do not support devices with default landscape mode
 			case "ArrowRight":
 
 				/*
