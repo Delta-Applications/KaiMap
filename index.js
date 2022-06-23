@@ -47,6 +47,7 @@ let marker_latlng = false;
 let json_modified = false;
 
 let markers_group = new L.FeatureGroup();
+let unselectable_markers_group = new L.FeatureGroup();
 let tracking_group = new L.FeatureGroup();
 let measure_group = new L.FeatureGroup();
 let measure_group_path = new L.FeatureGroup();
@@ -296,6 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let timeout;
 
 	function repeat_action(param) {
+		console.log("repeat", param)
 		switch (param.key) {
 			case 'ArrowUp':
 				if (screen.orientation.type == 'portrait-primary') nav("-1") & MovemMap("up");
@@ -349,13 +351,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "SoftRight":
 				if (windowOpen == "map") {
 					ZoomMap("in");
-					break;
 				}
 				break;
 			case "SoftLeft":
 				if (windowOpen == "map") {
 					ZoomMap("out");
-					break;
+				}
+				break;
+			case "*":
+				if (windowOpen == "map") {
+					selected_marker = module.jump_to_layer();
+					selecting_marker = true;
+					bottom_bar("Cancel", "SELECT", "");
 				}
 				break;
 
@@ -1215,7 +1222,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (!compassMarker) {
 						compassMarker = L.marker([current_lat, current_lng], {
 							rotationAngle: 0,
-						}).addTo(markers_group);
+						}).addTo(unselectable_markers_group);
 						// vv   
 						compassMarker.setIcon(compass_icon);
 					}
@@ -2364,4 +2371,5 @@ document.addEventListener("DOMContentLoaded", function () {
 	map.addLayer(measure_group);
 	map.addLayer(measure_group_path);
 	map.addLayer(tracking_group);
+	map.addLayer(unselectable_markers_group);
 });
