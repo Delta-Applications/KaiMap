@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (screen.orientation.type == 'landscape-secondary') finder_navigation("-1");
 				}
 				break;
-		
+
 			case "ArrowRight":
 
 				if (screen.orientation.type == 'portrait-primary') MovemMap("right");
@@ -346,7 +346,19 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				break;
-		
+			case "SoftRight":
+				if (windowOpen == "map") {
+					ZoomMap("in");
+					break;
+				}
+				break;
+			case "SoftLeft":
+				if (windowOpen == "map") {
+					ZoomMap("out");
+					break;
+				}
+				break;
+
 		}
 
 	}
@@ -518,6 +530,150 @@ document.addEventListener("DOMContentLoaded", function () {
 					'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GeoJSON</p></div>'
 				);
 		});
+	};
+
+
+	let osm_server_list_gpx = function () {
+		console.log("load osm");
+		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
+
+		const myHeaders = new Headers({
+			Authorization: n,
+		});
+
+		return fetch("https://api.openstreetmap.org/api/0.6/user/gpx_files", {
+				method: "GET",
+				headers: myHeaders,
+			})
+			.then((response) => response.text())
+			.then((data) => {
+				console.log(data);
+				document.querySelector("div#osm-server-gpx").innerHTML = "";
+				const parser = new DOMParser();
+				const xml = parser.parseFromString(data, "application/xml");
+				let s = xml.getElementsByTagName("gpx_file");
+				//filter by tag
+				for (let i = 0; i < s.length; i++) {
+					if (setting.osm_tag == null || setting.osm_tag == "") {
+						let m = {
+							name: s[i].getAttribute("name"),
+							id: s[i].getAttribute("id"),
+						};
+
+						document
+							.querySelector("div#tracksmarkers")
+							.insertAdjacentHTML(
+								"afterend",
+								'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+							);
+
+
+					} else {
+						for (let n = 0; n < s[i].childNodes.length; n++) {
+							if (s[i].childNodes[n].tagName == "tag") {
+								if (s[i].childNodes[n].textContent == setting.osm_tag) {
+									let m = {
+										name: s[i].getAttribute("name"),
+										id: s[i].getAttribute("id"),
+									};
+
+									document
+										.querySelector("div#tracksmarkers")
+										.insertAdjacentHTML(
+											"afterend",
+											'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+										);
+								}
+							}
+						}
+					}
+				}
+			})
+
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	let osm_server_load_gpx = function (id) {
+		console.log("token: " + localStorage.getItem("openstreetmap_token"));
+		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
+
+		const myHeaders = new Headers({
+			Authorization: n,
+			Accept: "application/gpx+xml",
+		});
+
+		return fetch("https://api.openstreetmap.org/api/0.6/gpx/" + id + "/data", {
+				method: "GET",
+				headers: myHeaders,
+			})
+			.then((response) => response.text())
+			.then((data) => {
+				var gpx = data;
+				new L.GPX(gpx, {
+						async: true,
+					})
+					.on("loaded", function (e) {
+						map.fitBounds(e.target.getBounds());
+					})
+					.addTo(map);
+
+				windowOpen = "map";
+			})
+
+			.catch((error) => {
+				helper.side_toaster(error, 2000);
+			});
+	};
+
+	let osm_server_upload_gpx = function (filename, gpx_data) {
+		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
+		const myHeaders = new Headers({
+			Authorization: n,
+		});
+
+		var blob = new Blob([gpx_data], {
+			type: "application/gpx",
+		});
+
+		let formData = new FormData();
+		formData.append("description", "uploaded from o.map");
+		formData.append("visibility", "private");
+		formData.append("file", blob, filename);
+
+		return fetch("https://api.openstreetmap.org/api/0.6/gpx/create", {
+				method: "POST",
+				body: formData,
+				headers: myHeaders,
+			})
+			.then((response) => response.text())
+			.then((data) => {
+				helper.side_toaster("file uploaded", 4000);
+			})
+
+			.catch((error) => {
+				helper.side_toaster(error, 4000);
+			});
+	};
+
+	let OAuth_osm = function () {
+		let n = window.location.href;
+		const url = new URL("https://www.openstreetmap.org/oauth2/authorize");
+		url.searchParams.append("response_type", "code");
+		url.searchParams.append(
+			"client_id",
+			"KEcqDV16BjfRr-kYuOyRGmiQcx6YCyRz8T21UjtQWy4"
+		);
+		url.searchParams.append(
+			"redirect_uri",
+			"https://strukturart.github.io/o.map/oauth.html"
+		);
+		url.searchParams.append("scope", "write_gpx read_gpx");
+
+		const windowRef = window.open(url.toString());
+
+		windowRef.addEventListener("tokens", (ev) => osm_server_list_gpx());
 	};
 
 	//////////////////////////////////
@@ -702,6 +858,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						if (feature.geometry != "") {
 							console.log(feature.geometry.coordinates[0]);
 							let p = feature.geometry.coordinates[0];
+							if (p == undefined) return;
 							p.reverse();
 							map.flyTo(p);
 						}
@@ -1207,6 +1364,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			let item_value = document.activeElement.getAttribute("data-map");
+
+			//add gpx data from osm
+			if (item_value == "gpx-osm") {
+				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
+			}
 
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");
@@ -1901,9 +2063,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					break;
 				}
+				if (document.activeElement == document.getElementById("osm-oauth")) {
+					OAuth_osm();
+
+					break;
+				}
 
 				if (document.activeElement.classList.contains("input-container")) {
 					document.activeElement.children[1].focus()
+					//evventually add check for checkboxes
 					if (document.activeElement == document.querySelector("input#owm-key")) {
 						bottom_bar("SCAN QR", "", "");
 						qrscan = true;
@@ -2028,7 +2196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "7":
-				if (windowOpen == "map" && confirm("Activate ruler? (You will need to restart the app after using it)")) module.ruler_toggle();
+				if (windowOpen == "map" && confirm("Toggle ruler? (You will need to restart the app after using it)")) module.ruler_toggle();
 				break;
 
 			case "8":
@@ -2134,7 +2302,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function handleKeyDown(evt) {
 		if (evt.key == "EndCall") evt.preventDefault();
-		if (evt.key == "Backspace" && (!$("input").is(":focus") || windowOpen != "map")) evt.preventDefault();
+		if (evt.key == "Backspace" && (!$("input").is(":focus") && windowOpen != "map")) evt.preventDefault();
 		// For some reasons empty inputs don't focus so it allows the app to be minimized also in empty inputs
 		if (!evt.repeat) {
 			longpress = false;

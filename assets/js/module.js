@@ -226,6 +226,33 @@ const module = (() => {
     }
   };
 
+  function loadGPX_data(filename, callback) {
+    if (filename) {
+      let finder = new Applait.Finder({
+        type: "sdcard",
+        debugMode: false,
+      });
+      finder.search(filename);
+
+      finder.on("fileFound", function (file, fileinfo, storageName) {
+        //file reader
+
+        let reader = new FileReader();
+
+        reader.onerror = function (event) {
+          helper.toaster("can't read file", 3000);
+          reader.abort();
+        };
+
+        reader.onloadend = function (event) {
+          callback(filename, event.target.result);
+        };
+
+        reader.readAsText(file);
+      });
+    }
+  }
+
 
 
 
@@ -234,5 +261,6 @@ const module = (() => {
     ruler_toggle,
     jump_to_layer,
     calc_distance,
+    loadGPX_data
   };
 })();
