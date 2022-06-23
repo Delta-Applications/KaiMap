@@ -320,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (screen.orientation.type == 'landscape-secondary') finder_navigation("-1");
 				}
 				break;
-				break;
 		
 			case "ArrowRight":
 
