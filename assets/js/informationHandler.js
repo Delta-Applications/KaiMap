@@ -126,7 +126,7 @@ const informationHandler = (() => {
         existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
     }
 
-    let PreciseMarkerUpdate = function (marker) {
+    let PreciseMarkerUpdate = function (marker,nooverpass) {
 
         let marker_stats = marker
 
@@ -134,7 +134,7 @@ const informationHandler = (() => {
         document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
 
-
+        if (nooverpass) return;
         kwargs = {
             lat: marker_stats._latlng.lat,
             lng: marker_stats._latlng.lng,

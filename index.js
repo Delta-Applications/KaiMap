@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 			case "*":
 				if (windowOpen == "map") {
+					if (selected_marker) selected_marker.off('move',selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
@@ -714,6 +715,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_navigation("start");
 		windowOpen = "finder";
 	};
+	
+	let selected_marker_onmove = function(oldLatLng,newLatLng){
+		informationHandler.PreciseMarkerUpdate(selected_marker,true)
+	}
 
 	let show_markers_options = function () {
 		document.querySelector("div#markers-option").style.display = "block";
@@ -728,6 +733,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#markers-option").children[0].focus();
 		windowOpen = "markers_option";
 		bottom_bar("", "", "")
+		
+		if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+
 		informationHandler.PreciseMarkerUpdate(selected_marker)
 	};
 
@@ -1315,6 +1323,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 				selecting_marker = false;
 				document.querySelector("div#markers-option").style.display = "none";
+				if (selected_marker) selected_marker.on('move',selected_marker_onmove);
 				save_mode = "geojson-single";
 				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
@@ -1326,6 +1335,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 				selecting_marker = false;
 				document.querySelector("div#markers-option").style.display = "none";
+				if (selected_marker) selected_marker.on('move',selected_marker_onmove);
 				mozactivity.share_marker_position(selected_marker._latlng, document.querySelector("#marker-pluscode").innerText)
 				bottom_bar("", "", "")
 			}
@@ -1334,6 +1344,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {
+					if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+
 					map.removeLayer(selected_marker);
 
 					kaiosToaster({
@@ -1924,6 +1936,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
+					if (selected_marker) selected_marker.on('move',selected_marker_onmove);
 					document.querySelector("div#markers-option").style.display = "none";
 					windowOpen = "map";
 
@@ -1970,6 +1983,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				if (selecting_marker == true) {
 					bottom_bar("", "", "");
+					selected_marker.off('move',selected_marker_onmove)
+					if (isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
 					selected_marker = "";
 					selecting_marker = false;
 					break;
@@ -2233,6 +2248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "*":
 				if (windowOpen == "map") {
+					if (selected_marker) selected_marker.off('move',selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");

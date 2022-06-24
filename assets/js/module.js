@@ -33,6 +33,12 @@ const module = (() => {
   };
 
   let index = 0;
+  //move from window. to module. asap
+  window.current_marker = ""
+  window.isjumpingtomarkeronmove = false
+  window.marker_jumpto_onmove = function(){
+    map.flyTo(current_marker._latlng, map.getZoom());
+  }
   let jump_to_layer = function () {
     let l = markers_group.getLayers();
     index = index + 1;
@@ -41,7 +47,12 @@ const module = (() => {
 
     if (index > l.length - 1) index = 0;
 
-    map.setView(l[index]._latlng, map.getZoom());
+    if (current_marker && isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
+    map.flyTo(l[index]._latlng, map.getZoom());
+    current_marker = l[index]
+    isjumpingtomarkeronmove = true
+    if (current_marker) current_marker.on('move',marker_jumpto_onmove);
+
     //console.log(l[index]._leaflet_id);
     let p = l[index]._leaflet_id;
     return l[index];
