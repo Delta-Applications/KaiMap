@@ -876,7 +876,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					// Popup
 					onEachFeature: function (feature, layer) {
 						if (feature.geometry != "") {
-							console.log(feature.geometry.coordinates[0]);
 							let p = feature.geometry.coordinates[0];
 							if (p == undefined) return;
 							p.reverse();
@@ -1172,7 +1171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	window.geolocationWatch = function () {
-		console.log(retrying, confirmed, state_geoloc)
 		marker_latlng = false;
 
 		let geoLoc = navigator.geolocation;
@@ -1185,7 +1183,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			document.getElementById("cross").style.opacity = 0;
 
 			function showLocation(position) {
-				console.log(retrying, position.coords)
 
 				if (retrying == true) {
 					if (!confirmed && !prompted) {
@@ -1240,7 +1237,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						compassMarker.setIcon(compass_icon);
 					}
 					compassMarker._icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="30" version="1.1" viewBox="-4.5 0 9 30" style="transform: rotate(' + crd.heading + 'deg)"><path d="M0,0 l4.5,6 l-9,0 z" style="stroke:#fff;stroke-width:0;fill:#2A93EE;fill-opacity:1;opacity:1;" /></svg>'
-					console.log(compassMarker)
 				} else {
 					if (compassMarker) map.removeLayer(compassMarker);
 					if (compassMarker) compassMarker = null;
@@ -1918,7 +1914,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	//////////////
 
 	function shortpress_action(param) {
-		console.log(param)
 		switch (param.key) {
 
 			case "EndCall":
