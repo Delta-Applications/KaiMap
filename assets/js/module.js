@@ -37,7 +37,7 @@ const module = (() => {
   window.current_marker = ""
   window.isjumpingtomarkeronmove = false
   window.marker_jumpto_onmove = function(){
-    map.flyTo(current_marker._latlng, map.getZoom());
+    map.panTo(current_marker._latlng);
   }
   let jump_to_layer = function () {
     let l = markers_group.getLayers();
@@ -48,7 +48,7 @@ const module = (() => {
     if (index > l.length - 1) index = 0;
 
     if (current_marker && isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
-    map.flyTo(l[index]._latlng, map.getZoom());
+    map.panTo(l[index]._latlng, map.getZoom());
     current_marker = l[index]
     isjumpingtomarkeronmove = true
     if (current_marker) current_marker.on('move',marker_jumpto_onmove);
