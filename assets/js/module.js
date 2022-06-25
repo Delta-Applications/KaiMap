@@ -43,8 +43,6 @@ const module = (() => {
     let l = markers_group.getLayers();
     index = index + 1;
 
-    console.log(l.length);
-
     if (index > l.length - 1) index = 0;
 
     if (current_marker && isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);

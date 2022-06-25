@@ -571,6 +571,8 @@ const maps = (() => {
     caching_events();
   }
 
+
+
   function formatDate(date, format) {
     const map = {
       mm: date.getMonth() + 1,
@@ -627,10 +629,9 @@ const maps = (() => {
           type: 'info',
           timeout: 2000
         });
-
+        
         L.geoJSON(data, {
           // Marker Icon
-
 
 
           pointToLayer: function (feature, latlng) {
@@ -734,7 +735,6 @@ const maps = (() => {
       });
 
       map.addLayer( overlayers[url].layer);
-      console.log("yolo",overlayers)
 
       caching_events();
     }
@@ -837,7 +837,6 @@ const maps = (() => {
         map.addLayer(weather_layer1);
         map.addLayer(weather_layer2);
         map.addLayer(weather_layer3);
-
         let i = -1;
         k = setInterval(() => {
           i++;
