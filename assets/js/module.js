@@ -40,13 +40,19 @@ const module = (() => {
     map.panTo(current_marker._latlng);
   }
   let jump_to_layer = function () {
-    let l = markers_group.getLayers();
+    let group = markers_group
+    if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
+
+    let l = group.getLayers();
     index = index + 1;
 
     if (index > l.length - 1) index = 0;
 
     if (current_marker && isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
     map.panTo(l[index]._latlng, map.getZoom());
+    if(group == markers_group_osmnotes) {
+      top_bar("", l[index].note_data.comments[0].text, "");
+    }
     current_marker = l[index]
     isjumpingtomarkeronmove = true
     if (current_marker) current_marker.on('move',marker_jumpto_onmove);

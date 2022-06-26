@@ -127,7 +127,12 @@ const informationHandler = (() => {
     }
 
     let PreciseMarkerUpdate = function (marker,nooverpass) {
-
+        if (map.hasLayer(markers_group_osmnotes)) {
+            
+            
+        
+            return
+        } //bypass all code below and display note info
         let marker_stats = marker
 
         document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5) + ", " + marker_stats._latlng.lng.toFixed(5);

@@ -120,6 +120,7 @@ const maps = (() => {
   };
 
   function opencycle_map() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "OpenCycleMap",
       position: 'north',
@@ -143,7 +144,7 @@ const maps = (() => {
   }
 
   function moon_map() {
-
+    if (tilesLayer) map.removeLayer(tilesLayer);
     tilesUrl =
       "https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-moon-basemap-v0-1/all/{z}/{x}/{y}.png";
     tilesLayer = L.tileLayer(tilesUrl, {
@@ -162,6 +163,7 @@ const maps = (() => {
   }
 
   function toner_map() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "Toner Map",
       position: 'north',
@@ -216,10 +218,15 @@ const maps = (() => {
   }) {
     if (file) {
       const reader = new FileReader();
-      reader.onload = ({ target: { result } }) => {
+      reader.onload = ({
+        target: {
+          result
+        }
+      }) => {
         db.bulkDocs(
-          JSON.parse(result),
-          { new_edits: false }, // not change revision
+          JSON.parse(result), {
+            new_edits: false
+          }, // not change revision
           (...args) => console.log("DONE", args)
         );
       };
@@ -228,6 +235,7 @@ const maps = (() => {
   }
 
   function google_map() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "Google Street",
       position: 'north',
@@ -254,6 +262,7 @@ const maps = (() => {
   }
 
   function satellite_map() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "Bing Aerial",
       position: 'north',
@@ -265,9 +274,9 @@ const maps = (() => {
     map.addLayer(tilesLayer);
     caching_events();
   }
-//			//https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
-  function clarity(){
-
+  //			//https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+  function clarity() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "Esri World Clarity",
       position: 'north',
@@ -292,7 +301,9 @@ const maps = (() => {
     caching_events();
 
   }
+
   function opentopo_map() {
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "Here WeGo Hybrid",
       position: 'north',
@@ -310,7 +321,7 @@ const maps = (() => {
       useOnlyCache: false,
       maxZoom: 18,
       attribution: "Here WeGo Hybrid",
-      subdomains: ['1','2','3'] 
+      subdomains: ['1', '2', '3']
     });
 
     map.addLayer(tilesLayer);
@@ -318,7 +329,8 @@ const maps = (() => {
   }
 
   let stravaLayer;
-  function strava_heatmap(ame){
+
+  function strava_heatmap(ame) {
     if (map.hasLayer(stravaLayer)) {
       map.removeLayer(stravaLayer);
       ame.childNodes[2].checked = 0
@@ -339,15 +351,15 @@ const maps = (() => {
       timeout: 2000
     });
 
-// STRAVA HEATMAP
-/* Unfortunately High-Res Heatmap is issued only to users with an account, here's a template if you have one
-   and want to use the High-Res version: */
-// "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=MYVALUE&Policy=MYVALUE&Signature=MYVALUE" 
-// And here's the default low-res:
-// "https://heatmap-external-{s}.strava.com/tiles/all/hot/{z}/{x}/{y}.png"
+    // STRAVA HEATMAP
+    /* Unfortunately High-Res Heatmap is issued only to users with an account, here's a template if you have one
+       and want to use the High-Res version: */
+    // "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=MYVALUE&Policy=MYVALUE&Signature=MYVALUE" 
+    // And here's the default low-res:
+    // "https://heatmap-external-{s}.strava.com/tiles/all/hot/{z}/{x}/{y}.png"
 
     tilesUrl =
-      "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=APKAIDPUN4QMG7VUQPSA&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYyODgxNzQxOH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjI3NTkzNDE4fX19XX0_&Signature=cwyko1CyKIckjwGGCUme-5mdyGXdksFIc7YfUI7LuILtFOGu-bpif1szTJ7xFtVEcT05LhQ39HaDXG9x7YnQvC02~phY6ddQw9pRxHzzNrHSupOkgXRoKATgtlWXyQd5stOxe4uBaMVsuiQYWnxWYMplxct7Ogjvkar~7N87kGkl7Tp4wxBq9ZDnwUm2E8mXTUTJdyVo59w-kDeXfGpPrszfTrQ3VUF~9cx6rvTNcYwEWFiJJ1dbj3~GLs7WmfN07gcQg5jx0R5XPi4C2avRiOEnH9dUg0dvoos3FtFwFv6N6tTVyvYh7V-bp4oB1u-nnLJY3T8~RwTrFzQFYIMaQA__" 
+      "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=APKAIDPUN4QMG7VUQPSA&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYyODgxNzQxOH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjI3NTkzNDE4fX19XX0_&Signature=cwyko1CyKIckjwGGCUme-5mdyGXdksFIc7YfUI7LuILtFOGu-bpif1szTJ7xFtVEcT05LhQ39HaDXG9x7YnQvC02~phY6ddQw9pRxHzzNrHSupOkgXRoKATgtlWXyQd5stOxe4uBaMVsuiQYWnxWYMplxct7Ogjvkar~7N87kGkl7Tp4wxBq9ZDnwUm2E8mXTUTJdyVo59w-kDeXfGpPrszfTrQ3VUF~9cx6rvTNcYwEWFiJJ1dbj3~GLs7WmfN07gcQg5jx0R5XPi4C2avRiOEnH9dUg0dvoos3FtFwFv6N6tTVyvYh7V-bp4oB1u-nnLJY3T8~RwTrFzQFYIMaQA__"
     stravaLayer = L.tileLayer(tilesUrl, {
       /*useCache: true,
       saveToCache: false,
@@ -415,7 +427,7 @@ const maps = (() => {
 
 
 
-  
+
   let owmLayer2;
 
   function owm_wind_layer(ame) {
@@ -481,7 +493,7 @@ const maps = (() => {
       timeout: 2000
     });
 
-    tilesUrl = 
+    tilesUrl =
       "https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=" +
       "99d2594c090c1ee9a8ad525fd7a83f85";
     owmLayer3 = L.tileLayer(tilesUrl, {
@@ -503,7 +515,7 @@ const maps = (() => {
 
 
   function osm_map() {
-
+    if (tilesLayer) map.removeLayer(tilesLayer);
     kaiosToaster({
       message: "OpenStreetMap",
       position: 'north',
@@ -555,7 +567,7 @@ const maps = (() => {
 
     tilesUrl = "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png";
 
-    railwayLayer = L.tileLayer(tilesUrl, { 
+    railwayLayer = L.tileLayer(tilesUrl, {
       useCache: true,
       saveToCache: false,
       crossOrigin: true,
@@ -629,7 +641,7 @@ const maps = (() => {
           type: 'info',
           timeout: 2000
         });
-        
+
         L.geoJSON(data, {
           // Marker Icon
 
@@ -672,6 +684,7 @@ const maps = (() => {
         type: 'info',
         timeout: 2000
       });
+      if (tilesLayer) map.removeLayer(tilesLayer);
 
       tilesLayer = L.tileLayer(url, {
         useCache: true,
@@ -682,7 +695,6 @@ const maps = (() => {
         maxZoom: max_zoom,
         attribution: attribution,
       });
-
       map.addLayer(tilesLayer);
       caching_events();
       localStorage.setItem("last_map", url);
@@ -712,7 +724,7 @@ const maps = (() => {
         return false;
       }
       kaiosToaster({
-        message: name+" Layer" || "?",
+        message: name + " Layer" || "?",
         position: 'north',
         type: 'info',
         timeout: 2000
@@ -734,7 +746,7 @@ const maps = (() => {
         attribution: attribution,
       });
 
-      map.addLayer( overlayers[url].layer);
+      map.addLayer(overlayers[url].layer);
 
       caching_events();
     }
@@ -748,10 +760,93 @@ const maps = (() => {
         return false;
       }
     })
-    
+
   });
 
- 
+
+  // To-do: Add an OSM Notes layer, once clicked, it will fetch all the notes in the map bounds and create markers in a group
+  // When the layer is disabled, the notes marker group is removed, when the layer is enabled, the * key will only select the notes markers,
+  // and when clicked, it will show the note's data along with all of the comments, and possibly, allow the user to reply anonimously or with their osm account
+
+  window.markers_group_osmnotes = new L.FeatureGroup();
+
+  let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
+  //let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json?lat=0&lon=0&text=Lorem+ipsum'
+
+  let osm_notes = function (ame) {
+    if (map.hasLayer(markers_group_osmnotes)) {
+      ame.childNodes[2].checked = 0
+
+      map.removeLayer(markers_group_osmnotes);
+      kaiosToaster({
+        message: "Removed Layer",
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
+      return false;
+    }
+    ame.childNodes[2].checked = 1
+
+    kaiosToaster({
+      message: "OSM Notes",
+      position: 'north',
+      type: 'info',
+      timeout: 2000
+    });
+
+    function boundsString(map) {
+      var sw = map.getBounds().getSouthWest(),
+        ne = map.getBounds().getNorthEast();
+      return [sw.lng, sw.lat, ne.lng, ne.lat];
+    }
+
+    fetch(osm_api_allnotes + '?bbox=' + boundsString(map))
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        kaiosToaster({
+          message: "OSM Notes",
+          position: 'north',
+          type: 'info',
+          timeout: 2000
+        });
+
+        L.geoJSON(data, {
+          // Marker Icon
+
+
+          pointToLayer: function (p, latlng) {
+            let t = L.marker(latlng, {
+              icon: L.divIcon({
+                html: { closed: '<i class="eq-marker" style="color: green"></i>', open: '<i class="eq-marker" style="color: red"></i>' }[p.properties.status],
+                iconSize: [10, 10],
+                className: "earthquake-marker",
+              }),
+            });
+
+    
+            t.note_data = p.properties
+            console.log(p.properties)
+            t.addTo(markers_group_osmnotes);
+            map.addLayer(markers_group_osmnotes);
+
+            windowOpen = "map";
+          },
+
+          // Popup
+          onEachFeature: function (feature, layer) {
+            console.log(feature);
+          },
+        }).addTo(map);
+      });
+  };
+
+
+
+
+
   let running = false;
   let k;
   let weather_layer,
@@ -851,7 +946,7 @@ const maps = (() => {
 
               top_bar(
                 "",
-                moment.unix(data[data.length - 5]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 5], null)+")",
+                moment.unix(data[data.length - 5]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 5], null) + ")",
                 ""
               );
             }
@@ -867,7 +962,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 4]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 4], null)+")",
+                moment.unix(data[data.length - 4]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 4], null) + ")",
                 ""
               );
             }
@@ -883,7 +978,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 3]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 3], null)+")",
+                moment.unix(data[data.length - 3]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 3], null) + ")",
                 ""
               );
             }
@@ -898,7 +993,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 2]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 2], null)+")",
+                moment.unix(data[data.length - 2]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 2], null) + ")",
                 ""
               );
             }
@@ -913,7 +1008,7 @@ const maps = (() => {
             if (windowOpen == "map") {
               top_bar(
                 "",
-                moment.unix(data[data.length - 1]).format("DD/MM/YYYY HH:MM") + " ("+ utility.getRelativeTime(data[data.length - 1], null)+")",
+                moment.unix(data[data.length - 1]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 1], null) + ")",
                 ""
               );
             }
@@ -930,8 +1025,10 @@ const maps = (() => {
           type: 'error',
           timeout: 3000
         });
-        });
+      });
   }
+
+
   return {
     opencycle_map,
     strava_heatmap,
@@ -951,5 +1048,6 @@ const maps = (() => {
     railway_layer,
     caching_tiles,
     delete_cache,
+    osm_notes
   };
 })();

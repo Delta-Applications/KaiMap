@@ -413,7 +413,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			"afterend",
 			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
-
+		document
+		.querySelector("div#layers")
+		.insertAdjacentHTML(
+			"afterend",
+			'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+		);
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
@@ -1407,7 +1412,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gstreet") {
 
-				map.removeLayer(tilesLayer);
 				maps.google_map();
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
@@ -1415,7 +1419,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 			}
 			if (item_value == "ocm") {
-				map.removeLayer(tilesLayer);
 				maps.opencycle_map();
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
@@ -1430,8 +1433,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 
 			}
+			if (item_value == "osmnotes") {
+				maps.osm_notes(document.activeElement);
+				document.querySelector("div#finder").style.display = "none";
+				top_bar("", "", "");
+				windowOpen = "map";
+
+			}
 			if (item_value == "clarity") {
-				map.removeLayer(tilesLayer);
 				maps.clarity();
 
 				document.querySelector("div#finder").style.display = "none";
@@ -1439,7 +1448,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 			}
 			if (item_value == "satellite") {
-				map.removeLayer(tilesLayer);
 				maps.satellite_map();
 
 				document.querySelector("div#finder").style.display = "none";
@@ -1447,7 +1455,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 			}
 			if (item_value == "toner") {
-				map.removeLayer(tilesLayer);
 				maps.toner_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
@@ -1456,7 +1463,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (item_value == "osm") {
-				map.removeLayer(tilesLayer);
 				maps.osm_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
@@ -1465,7 +1471,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (item_value == "moon") {
-				map.removeLayer(tilesLayer);
 				maps.moon_map();
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
@@ -1475,7 +1480,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (item_value == "otm") {
-				map.removeLayer(tilesLayer);
 				top_bar("", "", "");
 
 				maps.opentopo_map();
