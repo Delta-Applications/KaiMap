@@ -12,6 +12,9 @@ function getToken(callback) {
       "https://delta-applications.github.io/KaiMap/oauth.html"
     );
     urlencoded.append("client_id", "D5agvdYlQRR7Ej7w7W8tX1-jR-wN0WuLORcY6Oj5X58");
+    urlencoded.append("client_secret", "SijDY_eTxQ1Go8KlQfBZFmxhWTO2j2elQb1TGQIDrDk");
+
+    
     //read_prefs+write_notes+read_gpx+write_gpx
     var requestOptions = {
       method: "POST",
