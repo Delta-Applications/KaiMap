@@ -149,9 +149,10 @@ const informationHandler = (() => {
                 box.remove();
             });
             let p = marker.note_data
+            p.comments.reverse()
             for (var i = 0; i < p.comments.length; i++) {
-                let author = (p.comments[i].user ? p.comments[i].user : 'Anonymous') + moment(p.comments[i].date_created).calendar();
-                let text = p.comments[i].html
+                let author = (p.comments[i].user ? p.comments[i].user : 'Anonymous');
+                let text = moment(p.comments[i].date_created).calendar()+"<br></br>"+p.comments[i].html
                 appendcomment(author, text)
             }
             nooverpass = true
