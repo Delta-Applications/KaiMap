@@ -12,7 +12,7 @@ function getToken(callback) {
       "https://strukturart.github.io/o.map/oauth.html"
     );
     urlencoded.append("client_id", "D5agvdYlQRR7Ej7w7W8tX1-jR-wN0WuLORcY6Oj5X58");
-      //read_prefs+write_notes+read_gpx+write_gpx
+    //read_prefs+write_notes+read_gpx+write_gpx
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
