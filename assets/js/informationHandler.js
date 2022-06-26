@@ -126,20 +126,40 @@ const informationHandler = (() => {
         existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
     }
 
-    let PreciseMarkerUpdate = function (marker,nooverpass) {
-        if (map.hasLayer(markers_group_osmnotes)) {
-            
-            
-        
-            return
-        } //bypass all code below and display note info
+    let PreciseMarkerUpdate = function (marker, nooverpass) {
+
         let marker_stats = marker
 
         document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5) + ", " + marker_stats._latlng.lng.toFixed(5);
         document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
+        if (map.hasLayer(markers_group_osmnotes)) {
+            document.querySelector("#marker-overpass").innerText = "Comments"
 
+            function appendcomment(author, text) {
+                let el = document.createElement('div');
+                el.className = "item list-item focusable comment"
+                el.setAttribute("tabindex", 0)
+                el.innerHTML = '<p class="list-item__text">' + author + '</p><p class="list-item__subtext">' + text + '</p>'
+                insertAfter(el, document.querySelector("#marker-overpass"))
+            }
+            let comments = document.querySelectorAll('.comment');
+
+            comments.forEach(box => {
+                box.remove();
+            });
+            let p = marker.note_data
+            for (var i = 0; i < p.comments.length; i++) {
+                let author = (p.comments[i].user ? p.comments[i].user : 'Anonymous') + moment(p.comments[i].date_created).calendar();
+                let text = p.comments[i].html
+                appendcomment(author, text)
+            }
+            nooverpass = true
+
+        } //bypass all code below and display note info
         if (nooverpass) return;
+        document.querySelector("#marker-overpass").innerText = "Overpass Data"
+
         kwargs = {
             lat: marker_stats._latlng.lat,
             lng: marker_stats._latlng.lng,
@@ -148,7 +168,7 @@ const informationHandler = (() => {
         var query = L.Util.template('[out:json];' + 'node(around:{radius},{lat},{lng})[name];' + 'way(around:{radius},{lat},{lng})[name];' + 'out body qt 1;', kwargs);
         url = 'http://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
 
-        function appendoverpassdata(tag,value){
+        function appendoverpassdata(tag, value) {
             let el = document.createElement('div');
             el.className = "item list-item focusable overpassdata"
             el.setAttribute("tabindex", 0)
@@ -161,7 +181,7 @@ const informationHandler = (() => {
             box.remove();
         });
 
-        if (!navigator.onLine) return appendoverpassdata("Data unavailable","Device is offline")
+        if (!navigator.onLine) return appendoverpassdata("Data unavailable", "Device is offline")
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
@@ -177,27 +197,27 @@ const informationHandler = (() => {
                 }
                 console.log(data)
                 // do stuff with data
-               
-             
+
+
 
                 if (!data || !data.elements[0]) {
-                    appendoverpassdata("No data","or empty response")
+                    appendoverpassdata("No data", "or empty response")
                 } else {
 
-               
+
                     if (Object.keys(data.elements).length > 1) {
-                        appendoverpassdata("Other hidden elements",Object.keys(data.elements).length - 1)
+                        appendoverpassdata("Other hidden elements", Object.keys(data.elements).length - 1)
                     }
-                
+
                     for (var tag in data.elements[0].tags) {
                         if (tag == "name") continue;
                         let value = data.elements[0].tags[tag]
-                        appendoverpassdata(tag,value)
+                        appendoverpassdata(tag, value)
                     }
 
-                    appendoverpassdata("Id",data.elements[0].id)
-                    appendoverpassdata(data.elements[0].type+" Name",data.elements[0].tags.name)
-                    
+                    appendoverpassdata("Id", data.elements[0].id)
+                    appendoverpassdata(data.elements[0].type + " Name", data.elements[0].tags.name)
+
 
                 }
                 tabIndex = 0;

@@ -41,6 +41,10 @@ img#about {
   display: none !important;
 }
 
+.comment {
+  height: auto !important;
+}
+
 :focus {
   outline: 0px;
 }
