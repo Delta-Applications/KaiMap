@@ -9,7 +9,7 @@ function getToken(callback) {
     urlencoded.append("grant_type", "authorization_code");
     urlencoded.append(
       "redirect_uri",
-      "https://strukturart.github.io/o.map/oauth.html"
+      "https://delta-applications.github.io/KaiMap/oauth.html"
     );
     urlencoded.append("client_id", "D5agvdYlQRR7Ej7w7W8tX1-jR-wN0WuLORcY6Oj5X58");
     //read_prefs+write_notes+read_gpx+write_gpx

@@ -693,7 +693,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		);
 		url.searchParams.append(
 			"redirect_uri",
-			"https://strukturart.github.io/o.map/oauth.html"
+			"https://delta-applications.github.io/KaiMap/oauth.html"
 		);
 		url.searchParams.append("scope", "read_prefs write_notes read_gpx write_gpx");
 
