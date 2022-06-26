@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	};
 
-
+	window.isLoggedIn = false
 	let osm_server_list_gpx = function () {
 		console.log("load osm");
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
@@ -559,9 +559,18 @@ document.addEventListener("DOMContentLoaded", function () {
 					Authorization: n,
 				},
 			})
-			.then(function (response) {
-				console.log(response.json());
-			})
+			.then((response) => response.text())
+			.then(function (data) {
+				console.log(data);
+				const parser = new DOMParser();
+				const xml = parser.parseFromString(data, "application/xml");
+				let s = xml.getElementsByTagName("user");
+				
+				let username = s[0].getAttribute("display_name");
+				document
+					.querySelector("#osm-oauth").innerText = username
+				window.isLoggedIn = true
+			});
 
 		const myHeaders = new Headers({
 			Authorization: n,
@@ -684,6 +693,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	let OAuth_osm = function () {
+		if (window.isLoggedIn) {
+			if (confirm("Are you sure you want to logout from OpenStreetMap?")) {
+				localStorage.setItem("openstreetmap_token",'');
+				window.isLoggedIn = false;
+			}
+			return 
+		}
 		let n = window.location.href;
 		const url = new URL("https://www.openstreetmap.org/oauth2/authorize");
 		url.searchParams.append("response_type", "code");
@@ -736,6 +752,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	let show_markers_options = function () {
+		top_bar("", "", "");
+
 		document.querySelector("div#markers-option").style.display = "block";
 		document.querySelector("#remove_marker").style.display = "block"
 

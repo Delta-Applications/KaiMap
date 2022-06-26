@@ -152,7 +152,7 @@ const informationHandler = (() => {
             p.comments.reverse()
             for (var i = 0; i < p.comments.length; i++) {
                 let author = (p.comments[i].user ? p.comments[i].user : 'Anonymous');
-                let text = moment(p.comments[i].date_created).calendar()+"<br></br>"+p.comments[i].html
+                let text = moment(p.comments[i].date_created).calendar()+"<br>"+p.comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "");
                 appendcomment(author, text)
             }
             nooverpass = true
