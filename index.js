@@ -553,6 +553,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log("load osm");
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
 
+		// get osm account username
+		fetch("https://www.openstreetmap.org/api/0.6/user/details", {
+				headers: {
+					Authorization: n,
+				},
+			})
+			.then(function (response) {
+				console.log(response.json());
+			})
+
 		const myHeaders = new Headers({
 			Authorization: n,
 		});
@@ -679,13 +689,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		url.searchParams.append("response_type", "code");
 		url.searchParams.append(
 			"client_id",
-			"KEcqDV16BjfRr-kYuOyRGmiQcx6YCyRz8T21UjtQWy4"
+			"D5agvdYlQRR7Ej7w7W8tX1-jR-wN0WuLORcY6Oj5X58"
 		);
 		url.searchParams.append(
 			"redirect_uri",
 			"https://strukturart.github.io/o.map/oauth.html"
 		);
-		url.searchParams.append("scope", "write_gpx read_gpx");
+		url.searchParams.append("scope", "read_prefs write_notes read_gpx write_gpx");
 
 		const windowRef = window.open(url.toString());
 
@@ -2238,6 +2248,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "9":
 				if (windowOpen == "map")
+					if (map.hasLayer(markers_group_osmnotes)) return maps.create_osm_note(map.getCenter());
 					L.marker(map.getCenter()).addTo(markers_group);
 				break;
 

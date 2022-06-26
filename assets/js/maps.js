@@ -771,7 +771,6 @@ const maps = (() => {
   window.markers_group_osmnotes = new L.FeatureGroup();
 
   let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
-  //let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json?lat=0&lon=0&text=Lorem+ipsum'
 
   let osm_notes = function (ame) {
     if (map.hasLayer(markers_group_osmnotes)) {
@@ -820,13 +819,16 @@ const maps = (() => {
           pointToLayer: function (p, latlng) {
             let t = L.marker(latlng, {
               icon: L.divIcon({
-                html: { closed: '<i class="eq-marker" style="color: green"></i>', open: '<i class="eq-marker" style="color: red"></i>' }[p.properties.status],
+                html: {
+                  closed: '<i class="eq-marker" style="color: green"></i>',
+                  open: '<i class="eq-marker" style="color: red"></i>'
+                } [p.properties.status],
                 iconSize: [10, 10],
                 className: "earthquake-marker",
               }),
             });
 
-    
+
             t.note_data = p.properties
             console.log(p.properties)
             t.addTo(markers_group_osmnotes);
@@ -842,7 +844,34 @@ const maps = (() => {
         }).addTo(map);
       });
   };
+  let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json?lat=0&lon=0&text=Lorem+ipsum'
 
+  let create_osm_note = function (pos) {
+    // create an osm note by sending a post request to the api
+
+    let lat = pos.lat
+    let lon = pos.lon
+    let text = prompt("Create OSM Note")
+    let data = {
+      lat: lat,
+      lon: lon,
+      text: text,
+      status: "open",
+    }
+    fetch(osm_api_createnote, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        return response.json();
+      })
+
+
+  }
 
 
 
@@ -1048,6 +1077,7 @@ const maps = (() => {
     railway_layer,
     caching_tiles,
     delete_cache,
-    osm_notes
+    osm_notes,
+    create_osm_note
   };
 })();

@@ -11,8 +11,8 @@ function getToken(callback) {
       "redirect_uri",
       "https://strukturart.github.io/o.map/oauth.html"
     );
-    urlencoded.append("client_id", "KEcqDV16BjfRr-kYuOyRGmiQcx6YCyRz8T21UjtQWy4");
-  
+    urlencoded.append("client_id", "D5agvdYlQRR7Ej7w7W8tX1-jR-wN0WuLORcY6Oj5X58");
+      //read_prefs+write_notes+read_gpx+write_gpx
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
