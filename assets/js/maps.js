@@ -877,6 +877,7 @@ const maps = (() => {
   let create_osm_note = function (pos) {
    
     let text = prompt("Create OSM Note"+(localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+    if (!text) return;
  
     fetch(osm_api_createnote+"?lat="+pos.lat+"&lon="+pos.lng+"&text="+encodeURIComponent(text)+encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
         method: 'POST',
