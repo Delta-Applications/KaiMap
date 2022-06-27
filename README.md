@@ -19,6 +19,8 @@ This is still a beta, a direct fork of o.map, uploaded by me on github after vie
 - Hardware Information (Connection, Battery, GPS)
 - Maps (OpenTopoMap, OpenStreetMap, Satellite)
 - Layers (OpenWeatherMap Precipitation, Temperature, etc.), All Layers are cached and weather layers usually display a date pointing out the time the data was acquired
+- GPX, KML, GeoJSON Tracks + Cloud OpenStreetMap GPX Compatibility
+- OSM Notes Functionality
 
 ## Screenshots
 
