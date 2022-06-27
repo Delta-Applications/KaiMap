@@ -777,6 +777,7 @@ const maps = (() => {
       ame.childNodes[2].checked = 0
 
       map.removeLayer(markers_group_osmnotes);
+      markers_group_osmnotes.clearLayers();
       kaiosToaster({
         message: "Removed Layer",
         position: 'north',
@@ -859,23 +860,17 @@ const maps = (() => {
     });
 
   };
-  let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json?lat=0&lon=0&text=Lorem+ipsum'
+  let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json'
 
   let create_osm_note = function (pos) {
     // create an osm note by sending a post request to the api
-
-    let lat = pos.lat
-    let lon = pos.lon
+    console.assert(pos)
+   
     let text = prompt("Create OSM Note")
-    let data = {
-      lat: lat,
-      lon: lon,
-      text: text,
-      status: "open",
-    }
-    fetch(osm_api_createnote, {
+ 
+    fetch(osm_api_createnote+"?lat="+pos.lat+"&lon="+pos.lng+"&text="+encodeURIComponent(text)+encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify({}),
         headers: {
           'Content-Type': 'application/json'
         }
