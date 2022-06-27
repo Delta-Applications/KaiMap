@@ -785,6 +785,12 @@ const maps = (() => {
       });
       return false;
     }
+    if (zoom_level < 12) return kaiosToaster({
+      message: "Zoom in to use this layer",
+      position: 'north',
+      type: 'error',
+      timeout: 1000
+    });
     ame.childNodes[2].checked = 1
 
     kaiosToaster({

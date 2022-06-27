@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 			case "*":
 				if (windowOpen == "map") {
-					if (selected_marker) selected_marker.off('move',selected_marker_onmove);
+					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
@@ -414,11 +414,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
 		document
-		.querySelector("div#layers")
-		.insertAdjacentHTML(
-			"afterend",
-			'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
-		);
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+			);
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
@@ -565,7 +565,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("user");
-				
+
 				let username = s[0].getAttribute("display_name");
 				document
 					.querySelector("#osm-oauth").innerText = username
@@ -695,10 +695,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	let OAuth_osm = function () {
 		if (window.isLoggedIn) {
 			if (confirm("Are you sure you want to logout from OpenStreetMap?")) {
-				localStorage.setItem("openstreetmap_token",'');
+				localStorage.setItem("openstreetmap_token", '');
 				window.isLoggedIn = false;
 			}
-			return 
+			return
 		}
 		let n = window.location.href;
 		const url = new URL("https://www.openstreetmap.org/oauth2/authorize");
@@ -746,13 +746,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_navigation("start");
 		windowOpen = "finder";
 	};
-	
-	let selected_marker_onmove = function(oldLatLng,newLatLng){
-		informationHandler.PreciseMarkerUpdate(selected_marker,true)
+
+	let selected_marker_onmove = function (oldLatLng, newLatLng) {
+		informationHandler.PreciseMarkerUpdate(selected_marker, true)
 	}
 
 	let show_markers_options = function () {
-		top_bar("", "", "");
+		if (map.hasLayer(markers_group_osmnotes)) top_bar("", "", "");
 
 		document.querySelector("div#markers-option").style.display = "block";
 		document.querySelector("#remove_marker").style.display = "block"
@@ -766,8 +766,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#markers-option").children[0].focus();
 		windowOpen = "markers_option";
 		bottom_bar("", "", "")
-		
-		if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+
+		if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 
 		informationHandler.PreciseMarkerUpdate(selected_marker)
 	};
@@ -1352,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 				selecting_marker = false;
 				document.querySelector("div#markers-option").style.display = "none";
-				if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				save_mode = "geojson-single";
 				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
@@ -1364,16 +1364,19 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 				selecting_marker = false;
 				document.querySelector("div#markers-option").style.display = "none";
-				if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				mozactivity.share_marker_position(selected_marker._latlng, document.querySelector("#marker-pluscode").innerText)
 				bottom_bar("", "", "")
 			}
 
 
 
+
+
+
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {
-					if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 
 					map.removeLayer(selected_marker);
 
@@ -1963,7 +1966,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
-					if (selected_marker) selected_marker.on('move',selected_marker_onmove);
+					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 					document.querySelector("div#markers-option").style.display = "none";
 					windowOpen = "map";
 
@@ -2007,11 +2010,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 
-
 				if (selecting_marker == true) {
+					if (map.hasLayer(markers_group_osmnotes)) top_bar("", "", "");
 					bottom_bar("", "", "");
-					selected_marker.off('move',selected_marker_onmove)
-					if (isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
+					selected_marker.off('move', selected_marker_onmove)
+					if (isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
 					selected_marker = "";
 					selecting_marker = false;
 					break;
@@ -2161,6 +2164,11 @@ document.addEventListener("DOMContentLoaded", function () {
 					show_markers_options()
 					break;
 				}
+				
+				// check if document.activeElement has .comment class
+				if (document.activeElement.className == "item list-item focusable comment") {
+					if (map.hasLayer(markers_group_osmnotes)) window.open(document.activeElement.childNodes[1].getElementsByTagName('a')[0].href);
+				}
 
 				if (windowOpen == "markers_option" && selected_marker != "") {
 					markers_action();
@@ -2267,7 +2275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "9":
 				if (windowOpen == "map")
 					if (map.hasLayer(markers_group_osmnotes)) return maps.create_osm_note(map.getCenter());
-					L.marker(map.getCenter()).addTo(markers_group);
+				L.marker(map.getCenter()).addTo(markers_group);
 				break;
 
 			case "0":
@@ -2276,7 +2284,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "*":
 				if (windowOpen == "map") {
-					if (selected_marker) selected_marker.off('move',selected_marker_onmove);
+					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
