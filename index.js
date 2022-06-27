@@ -67,7 +67,58 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
+// leaflet marker virtualization
 
+let virtualizedMarkers = true //Hide off-screen markers to reduce lag, will make this setting toggleable at some point
+
+L.Marker.addInitHook(function() {
+	if (virtualizedMarkers) {
+	  // setup virtualization after marker was added
+	  this.on('add', function() {
+  
+		this._updateIconVisibility = function() {
+		  var map = this._map,
+			isVisible = map.getBounds().contains(this.getLatLng()),
+			wasVisible = this._wasVisible,
+			icon = this._icon,
+			iconParent = this._iconParent,
+			shadow = this._shadow,
+			shadowParent = this._shadowParent;
+  
+		  // remember parent of icon 
+		  if (!iconParent) {
+			iconParent = this._iconParent = icon.parentNode;
+		  }
+		  if (shadow && !shadowParent) {
+			shadowParent = this._shadowParent = shadow.parentNode;
+		  }
+  
+		  // add/remove from DOM on change
+		  if (isVisible != wasVisible) {
+			if (isVisible) {
+			  iconParent.appendChild(icon);
+			  if (shadow) {
+				shadowParent.appendChild(shadow);
+			  }
+			} else {
+			  iconParent.removeChild(icon);
+			  if (shadow) {
+				shadowParent.removeChild(shadow);
+			  }
+			}
+  
+			this._wasVisible = isVisible;
+  
+		  }
+		};
+  
+		// on map size change, remove/add icon from/to DOM
+		this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
+		this._updateIconVisibility();
+  
+	  }, this);
+	}
+  });
 
 //leaflet add basic map
 let map = L.map("map-container", {
@@ -97,7 +148,6 @@ let setting = {
 	openweather_api: localStorage.getItem("owm-key"),
 	last_weather: localStorage.getItem("last_weather"),
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-	virtualizedMarkers: true, //Hide off-screen markers to reduce lag, will make this setting toggleable at some point
 };
 
 console.log(JSON.stringify(setting));
@@ -1378,8 +1428,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {
 					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
-
-					map.removeLayer(selected_marker);
+					if (!map.hasLayer(markers_group_osmnotes)) { markers_group.removeLayer(selected_marker) } else { markers_group_osmnotes.removeLayer(selected_marker) };
+					
 
 					kaiosToaster({
 						message: "Marker removed",
@@ -2423,55 +2473,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		windowOpen = "map";
 	}, 4000);
-
-	L.Marker.addInitHook(function() {
-		if (setting.virtualizedMarkers) {
-		  // setup virtualization after marker was added
-		  this.on('add', function() {
-	  
-			this._updateIconVisibility = function() {
-			  var map = this._map,
-				isVisible = map.getBounds().contains(this.getLatLng()),
-				wasVisible = this._wasVisible,
-				icon = this._icon,
-				iconParent = this._iconParent,
-				shadow = this._shadow,
-				shadowParent = this._shadowParent;
-	  
-			  // remember parent of icon 
-			  if (!iconParent) {
-				iconParent = this._iconParent = icon.parentNode;
-			  }
-			  if (shadow && !shadowParent) {
-				shadowParent = this._shadowParent = shadow.parentNode;
-			  }
-	  
-			  // add/remove from DOM on change
-			  if (isVisible != wasVisible) {
-				if (isVisible) {
-				  iconParent.appendChild(icon);
-				  if (shadow) {
-					shadowParent.appendChild(shadow);
-				  }
-				} else {
-				  iconParent.removeChild(icon);
-				  if (shadow) {
-					shadowParent.removeChild(shadow);
-				  }
-				}
-	  
-				this._wasVisible = isVisible;
-	  
-			  }
-			};
-	  
-			// on map size change, remove/add icon from/to DOM
-			this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
-			this._updateIconVisibility();
-	  
-		  }, this);
-		}
-	  });
 
 	map.addLayer(markers_group);
 	map.addLayer(measure_group);
