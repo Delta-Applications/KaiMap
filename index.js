@@ -71,54 +71,65 @@ if (!navigator.geolocation) {
 
 let virtualizedMarkers = true //Hide off-screen markers to reduce lag, will make this setting toggleable at some point
 
-L.Marker.addInitHook(function() {
-	if (virtualizedMarkers) {
-	  // setup virtualization after marker was added
-	  this.on('add', function() {
-  
-		this._updateIconVisibility = function() {
-		  var map = this._map,
-			isVisible = map.getBounds().contains(this.getLatLng()),
-			wasVisible = this._wasVisible,
-			icon = this._icon,
-			iconParent = this._iconParent,
-			shadow = this._shadow,
-			shadowParent = this._shadowParent;
-  
-		  // remember parent of icon 
-		  if (!iconParent) {
-			iconParent = this._iconParent = icon.parentNode;
-		  }
-		  if (shadow && !shadowParent) {
-			shadowParent = this._shadowParent = shadow.parentNode;
-		  }
-  
-		  // add/remove from DOM on change
-		  if (isVisible != wasVisible) {
-			if (isVisible) {
-			  iconParent.appendChild(icon);
-			  if (shadow) {
-				shadowParent.appendChild(shadow);
-			  }
-			} else {
-			  iconParent.removeChild(icon);
-			  if (shadow) {
-				shadowParent.removeChild(shadow);
-			  }
-			}
-  
-			this._wasVisible = isVisible;
-  
-		  }
-		};
-  
-		// on map size change, remove/add icon from/to DOM
-		this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
-		this._updateIconVisibility();
-  
-	  }, this);
-	}
-  });
+let setting = {
+	export_path: localStorage.getItem("export-path"),
+	owm_key: localStorage.getItem("owm-key"),
+	cache_time: localStorage.getItem("cache-time"),
+	cache_zoom: localStorage.getItem("cache-zoom"),
+	last_location: JSON.parse(localStorage.getItem("last_location")),
+	openweather_api: localStorage.getItem("owm-key"),
+	last_weather: localStorage.getItem("last_weather"),
+	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
+	virtualizedMarkers: localStorage.getItem("virtualizedMarkers"),
+};
+
+L.Marker.addInitHook(function () {
+		// setup virtualization after marker was added
+		this.on('add', function () {
+
+			this._updateIconVisibility = function () {
+				if (!setting.virtualizedMarkers) return;
+				var map = this._map,
+					isVisible = map.getBounds().contains(this.getLatLng()),
+					wasVisible = this._wasVisible,
+					icon = this._icon,
+					iconParent = this._iconParent,
+					shadow = this._shadow,
+					shadowParent = this._shadowParent;
+
+				// remember parent of icon 
+				if (!iconParent) {
+					iconParent = this._iconParent = icon.parentNode;
+				}
+				if (shadow && !shadowParent) {
+					shadowParent = this._shadowParent = shadow.parentNode;
+				}
+
+				// add/remove from DOM on change
+				if (isVisible != wasVisible) {
+					if (isVisible) {
+						iconParent.appendChild(icon);
+						if (shadow) {
+							shadowParent.appendChild(shadow);
+						}
+					} else {
+						iconParent.removeChild(icon);
+						if (shadow) {
+							shadowParent.removeChild(shadow);
+						}
+					}
+
+					this._wasVisible = isVisible;
+
+				}
+			};
+
+			// on map size change, remove/add icon from/to DOM
+			this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
+			this._updateIconVisibility();
+
+		}, this);
+});
 
 //leaflet add basic map
 let map = L.map("map-container", {
@@ -137,18 +148,7 @@ window.ScaleControl = L.control
 	})
 	.addTo(map);
 
-let settings_data = settings.load_settings();
-
-let setting = {
-	export_path: localStorage.getItem("export-path"),
-	owm_key: localStorage.getItem("owm-key"),
-	cache_time: localStorage.getItem("cache-time"),
-	cache_zoom: localStorage.getItem("cache-zoom"),
-	last_location: JSON.parse(localStorage.getItem("last_location")),
-	openweather_api: localStorage.getItem("owm-key"),
-	last_weather: localStorage.getItem("last_weather"),
-	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-};
+	let settings_data = settings.load_settings();
 
 console.log(JSON.stringify(setting));
 
@@ -654,9 +654,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 					} else {
-						for (let n = 0; n < s[i].childNodes.length; n++) {
-							if (s[i].childNodes[n].tagName == "tag") {
-								if (s[i].childNodes[n].textContent == setting.osm_tag) {
+						for (let n = 0; n < s[i].children.length; n++) {
+							if (s[i].children[n].tagName == "tag") {
+								if (s[i].children[n].textContent == setting.osm_tag) {
 									let m = {
 										name: s[i].getAttribute("name"),
 										id: s[i].getAttribute("id"),
@@ -1428,8 +1428,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {
 					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
-					if (!map.hasLayer(markers_group_osmnotes)) { markers_group.removeLayer(selected_marker) } else { markers_group_osmnotes.removeLayer(selected_marker) };
-					
+					if (!map.hasLayer(markers_group_osmnotes)) {
+						markers_group.removeLayer(selected_marker)
+					} else {
+						markers_group_osmnotes.removeLayer(selected_marker)
+					};
+
 
 					kaiosToaster({
 						message: "Marker removed",
@@ -1476,6 +1480,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "gpx-osm") {
 				console.assert(item_Value)
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
+			}
+
+			if (item_value == "marker-virtualization") {
+				setting.markerVirtualization = !setting.markerVirtualization
+				document.activeElement.children[2].checked = setting.markerVirtualization ? 1 : 0
 			}
 
 			if (item_value == "strava-heatmap") {
@@ -2197,6 +2206,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				) {
 					if (confirm("Are you sure you want to save settings?")) {
 						settings.save_settings();
+						windowOpen = "map";
 						break;
 					}
 
@@ -2218,7 +2228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				// check if document.activeElement has .comment class
 				if (document.activeElement.className == "item list-item focusable comment") {
-					if (map.hasLayer(markers_group_osmnotes)) window.open(document.activeElement.childNodes[1].getElementsByTagName('a')[0].href);
+					if (map.hasLayer(markers_group_osmnotes)) window.open(document.activeElement.children[1].getElementsByTagName('a')[0].href);
 				}
 
 				if (windowOpen == "markers_option" && selected_marker != "") {

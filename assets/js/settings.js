@@ -17,6 +17,9 @@ const settings = ((_) => {
       "zoomposition",
       document.getElementById("zoomposition").value
     );
+    localStorageWriteRead(
+      "marker-virtualization",
+      document.getElementById("marker-virtualization").value)
     localStorageWriteRead("theme", document.getElementById("theme").value);
     toaster("Settings Saved", 2000);
     load_settings()
@@ -27,7 +30,7 @@ const settings = ((_) => {
     document.getElementById("cache-time").value = localStorage.getItem("cache-time");
     document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom");
     document.getElementById("export-path").value = localStorage.getItem("export-path");
-
+    document.getElementById("marker-virtualization").value = localStorage.getItem("marker-virtualization");
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") | ScaleControl.getPosition();
     document.getElementById("theme").value = localStorage.getItem("theme");
     document
@@ -43,6 +46,7 @@ const settings = ((_) => {
       localStorage.getItem("cache-zoom"),
       localStorage.getItem("zoomposition"),
       localStorage.getItem("theme"),
+      localStorage.getItem("marker-virtualization"),
     ];
     return settings_arr;
   };
