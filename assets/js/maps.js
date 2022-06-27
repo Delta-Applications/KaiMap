@@ -772,7 +772,7 @@ const maps = (() => {
 
   let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
   let loaded_ids = {}
-  function addOSMNote(data,panToNote){
+  function addOSMNote(data,selectNote){
     L.geoJSON(data, {
       // Marker Icon
 
@@ -797,7 +797,13 @@ const maps = (() => {
         t.addTo(markers_group_osmnotes);
         map.addLayer(markers_group_osmnotes);
 
-        if (panToNote) map.panTo(t._latlng, map.getZoom());
+        if (selectNote) {
+          if (selected_marker) selected_marker.off('move', selected_marker_onmove);
+					selecting_marker = true;
+          map.panTo(t._latlng, map.getZoom())
+          selected_marker = t;
+					bottom_bar("Cancel", "SELECT", "");
+        };
          
 
         windowOpen = "map";
