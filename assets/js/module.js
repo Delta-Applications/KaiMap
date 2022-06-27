@@ -44,6 +44,7 @@ const module = (() => {
     if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
 
     let l = group.getLayers();
+    // TO:DO Ignore all markers that are not in the map bounds (somehow?)
     index = index + 1;
 
     if (index > l.length - 1) index = 0;

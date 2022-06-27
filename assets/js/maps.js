@@ -875,15 +875,16 @@ const maps = (() => {
   let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json'
 
   let create_osm_note = function (pos) {
-    // create an osm note by sending a post request to the api
-    console.assert(pos)
    
-    let text = prompt("Create OSM Note")
+    let text = prompt("Create OSM Note"+(localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
  
     fetch(osm_api_createnote+"?lat="+pos.lat+"&lon="+pos.lng+"&text="+encodeURIComponent(text)+encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
         method: 'POST',
         body: JSON.stringify({}),
-        headers: {
+        headers: localStorage.getItem("openstreetmap_token") ? {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem("openstreetmap_token")
+        } : {
           'Content-Type': 'application/json'
         }
       })
