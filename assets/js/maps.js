@@ -772,6 +772,43 @@ const maps = (() => {
 
   let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
   let loaded_ids = {}
+  function addOSMNote(data,panToNote){
+    L.geoJSON(data, {
+      // Marker Icon
+
+
+      pointToLayer: function (p, latlng) {
+        if (loaded_ids[p.properties.id]) return;
+        loaded_ids[p.properties.id] = true;
+        let t = L.marker(latlng, {
+          icon: L.divIcon({
+            html: {
+              closed: '<i class="eq-marker" style="color: green"></i>',
+              open: '<i class="eq-marker" style="color: red"></i>'
+            } [p.properties.status],
+            iconSize: [10, 10],
+            className: "earthquake-marker",
+          }),
+        });
+
+
+        t.note_data = p.properties
+        console.log(p.properties)
+        t.addTo(markers_group_osmnotes);
+        map.addLayer(markers_group_osmnotes);
+
+        if (panToNote) map.panTo(t._latlng, map.getZoom());
+         
+
+        windowOpen = "map";
+      },
+
+      // Popup
+      onEachFeature: function (feature, layer) {
+        console.log(feature);
+      },
+    }).addTo(map);
+  }
   let osm_notes = function (ame) {
     if (map.hasLayer(markers_group_osmnotes)) {
       ame.childNodes[2].checked = 0
@@ -801,6 +838,8 @@ const maps = (() => {
         ne = map.getBounds().getNorthEast();
       return [sw.lng, sw.lat, ne.lng, ne.lat];
     }
+
+   
     
     function fetchNotes(){
       if (zoom_level < 13) return kaiosToaster({
@@ -815,40 +854,7 @@ const maps = (() => {
         return response.json();
       })
       .then(function (data) {
-     
-
-        L.geoJSON(data, {
-          // Marker Icon
-
-
-          pointToLayer: function (p, latlng) {
-            if (loaded_ids[p.properties.id]) return;
-            loaded_ids[p.properties.id] = true;
-            let t = L.marker(latlng, {
-              icon: L.divIcon({
-                html: {
-                  closed: '<i class="eq-marker" style="color: green"></i>',
-                  open: '<i class="eq-marker" style="color: red"></i>'
-                } [p.properties.status],
-                iconSize: [10, 10],
-                className: "earthquake-marker",
-              }),
-            });
-
-
-            t.note_data = p.properties
-            console.log(p.properties)
-            t.addTo(markers_group_osmnotes);
-            map.addLayer(markers_group_osmnotes);
-
-            windowOpen = "map";
-          },
-
-          // Popup
-          onEachFeature: function (feature, layer) {
-            console.log(feature);
-          },
-        }).addTo(map);
+        addOSMNote(data)
       });
 
     }
@@ -876,8 +882,7 @@ const maps = (() => {
         }
       })
       .then(function (response) {
-        console.log(response);
-        return response.json();
+        addOSMNote(response.json(),true)
       })
 
 

@@ -252,6 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (selecting_marker) {
 				selecting_marker = false;
+				if (map.hasLayer(markers_group_osmnotes)) top_bar("", "", "");
 				bottom_bar("", "", "");
 			}
 
