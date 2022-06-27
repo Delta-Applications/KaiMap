@@ -771,7 +771,7 @@ const maps = (() => {
   window.markers_group_osmnotes = new L.FeatureGroup();
 
   let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
-
+  let loaded_ids = {}
   let osm_notes = function (ame) {
     if (map.hasLayer(markers_group_osmnotes)) {
       ame.childNodes[2].checked = 0
@@ -785,12 +785,7 @@ const maps = (() => {
       });
       return false;
     }
-    if (zoom_level < 12) return kaiosToaster({
-      message: "Zoom in to use this layer",
-      position: 'north',
-      type: 'error',
-      timeout: 1000
-    });
+  
     ame.childNodes[2].checked = 1
 
     kaiosToaster({
@@ -805,24 +800,29 @@ const maps = (() => {
         ne = map.getBounds().getNorthEast();
       return [sw.lng, sw.lat, ne.lng, ne.lat];
     }
+    
+    function fetchNotes(){
+      if (zoom_level < 13) return kaiosToaster({
+        message: "Zoom in to use this layer",
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
 
-    fetch(osm_api_allnotes + '?bbox=' + boundsString(map))
+      fetch(osm_api_allnotes + '?bbox=' + boundsString(map))
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        kaiosToaster({
-          message: "OSM Notes",
-          position: 'north',
-          type: 'info',
-          timeout: 2000
-        });
+     
 
         L.geoJSON(data, {
           // Marker Icon
 
 
           pointToLayer: function (p, latlng) {
+            if (loaded_ids[p.properties.id]) return;
+            loaded_ids[p.properties.id] = true;
             let t = L.marker(latlng, {
               icon: L.divIcon({
                 html: {
@@ -849,6 +849,15 @@ const maps = (() => {
           },
         }).addTo(map);
       });
+
+    }
+
+    fetchNotes()
+
+    map.on("moveend", function () {
+      fetchNotes()
+    });
+
   };
   let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json?lat=0&lon=0&text=Lorem+ipsum'
 
