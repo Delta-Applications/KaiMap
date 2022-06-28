@@ -705,7 +705,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						map.fitBounds(e.target.getBounds());
 					})
 					.addTo(map);
-
+				top_bar("", "", "");
+				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			})
 
