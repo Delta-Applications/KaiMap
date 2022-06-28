@@ -88,7 +88,7 @@ L.Marker.addInitHook(function () {
 		this.on('add', function () {
 
 			this._updateIconVisibility = function () {
-				if (!setting.virtualizedMarkers) return;
+				if (!localStorage.getItem("virtualizedMarkers")) return;
 				var map = this._map,
 					isVisible = map.getBounds().contains(this.getLatLng()),
 					wasVisible = this._wasVisible,
@@ -140,9 +140,12 @@ let map = L.map("map-container", {
 	bearing: 0,
 }).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
 
+setting.zoomposition = localStorage.getItem("zoomposition")
+
+
 window.ScaleControl = L.control
 	.scale({
-		position: localStorage.getItem("zoomposition") || "topright",
+		position: "topright",
 		metric: true,
 		imperial: false,
 	})

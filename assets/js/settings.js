@@ -31,7 +31,29 @@ const settings = ((_) => {
     document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom");
     document.getElementById("export-path").value = localStorage.getItem("export-path");
     document.getElementById("marker-virtualization").value = localStorage.getItem("marker-virtualization");
-    document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") | ScaleControl.getPosition();
+    document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") | "tr";
+
+    if (localStorage.getItem("zoomposition")) {
+      switch (localStorage.getItem("zoomposition")) {
+        case "tl":
+          window.ScaleControl.setPosition("topleft");
+          break;
+        case "tr":
+          window.ScaleControl.setPosition("topright");
+          break;
+        case "bl":
+          window.ScaleControl.setPosition("bottomleft");
+          break;
+        case "br":
+          window.ScaleControl.setPosition("bottomright");
+          break;
+        default:
+          window.ScaleControl.setPosition("topright");
+          break;
+      }
+    }
+   
+
     document.getElementById("theme").value = localStorage.getItem("theme");
     document
       .getElementById("current_theme")

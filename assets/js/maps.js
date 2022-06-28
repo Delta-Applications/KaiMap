@@ -772,7 +772,8 @@ const maps = (() => {
 
   let osm_api_allnotes = 'https://api.openstreetmap.org/api/0.6/notes.json'
   let loaded_ids = {}
-  function addOSMNote(data,selectNote){
+
+  function addOSMNote(data, selectNote) {
     L.geoJSON(data, {
       // Marker Icon
 
@@ -799,12 +800,12 @@ const maps = (() => {
 
         if (selectNote) {
           if (selected_marker) selected_marker.off('move', selected_marker_onmove);
-					selecting_marker = true;
+          selecting_marker = true;
           map.panTo(t._latlng, map.getZoom())
           selected_marker = t;
-					bottom_bar("Cancel", "SELECT", "");
+          bottom_bar("Cancel", "SELECT", "");
         };
-         
+
 
         windowOpen = "map";
       },
@@ -815,9 +816,30 @@ const maps = (() => {
       },
     }).addTo(map);
   }
+
+  function fetchNotes() {
+    if (zoom_level < 13) return kaiosToaster({
+      message: "Zoom in to use this layer",
+      position: 'north',
+      type: 'error',
+      timeout: 1000
+    });
+
+    fetch(osm_api_allnotes + '?bbox=' + boundsString(map))
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        addOSMNote(data)
+      });
+
+  }
+
+
   let osm_notes = function (ame) {
     if (map.hasLayer(markers_group_osmnotes)) {
       ame.children[2].checked = 0
+      map.off("moveend", fetchNotes);
 
       map.removeLayer(markers_group_osmnotes);
       markers_group_osmnotes.clearLayers();
@@ -829,7 +851,7 @@ const maps = (() => {
       });
       return false;
     }
-  
+
     ame.children[2].checked = 1
 
     kaiosToaster({
@@ -845,41 +867,22 @@ const maps = (() => {
       return [sw.lng, sw.lat, ne.lng, ne.lat];
     }
 
-   
-    
-    function fetchNotes(){
-      if (zoom_level < 13) return kaiosToaster({
-        message: "Zoom in to use this layer",
-        position: 'north',
-        type: 'error',
-        timeout: 1000
-      });
 
-      fetch(osm_api_allnotes + '?bbox=' + boundsString(map))
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        addOSMNote(data)
-      });
 
-    }
 
     fetchNotes()
 
-    map.on("moveend", function () {
-      fetchNotes()
-    });
+    map.on("moveend", fetchNotes);
 
   };
   let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json'
 
   let create_osm_note = function (pos) {
-   
-    let text = prompt("Create OSM Note"+(localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+
+    let text = prompt("Create OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
     if (!text) return;
- 
-    fetch(osm_api_createnote+"?lat="+pos.lat+"&lon="+pos.lng+"&text="+encodeURIComponent(text)+encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
+
+    fetch(osm_api_createnote + "?lat=" + pos.lat + "&lon=" + pos.lng + "&text=" + encodeURIComponent(text) + encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
         method: 'POST',
         body: JSON.stringify({}),
         headers: localStorage.getItem("openstreetmap_token") ? {
@@ -890,7 +893,7 @@ const maps = (() => {
         }
       })
       .then(function (response) {
-        addOSMNote(response.json(),true)
+        addOSMNote(response.json(), true)
       })
 
 
