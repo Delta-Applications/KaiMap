@@ -816,6 +816,12 @@ const maps = (() => {
       },
     }).addTo(map);
   }
+  
+  function boundsString(map) {
+    var sw = map.getBounds().getSouthWest(),
+      ne = map.getBounds().getNorthEast();
+    return [sw.lng, sw.lat, ne.lng, ne.lat];
+  }
 
   function fetchNotes() {
     if (zoom_level < 13) return kaiosToaster({
@@ -861,11 +867,7 @@ const maps = (() => {
       timeout: 2000
     });
 
-    function boundsString(map) {
-      var sw = map.getBounds().getSouthWest(),
-        ne = map.getBounds().getNorthEast();
-      return [sw.lng, sw.lat, ne.lng, ne.lat];
-    }
+ 
 
 
 
