@@ -2209,7 +2209,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				) {
 					if (confirm("Are you sure you want to save settings?")) {
 						settings.save_settings();
+						document.querySelector("div#finder").style.display = "none";
 						windowOpen = "map";
+						top_bar("", "", "")
 						break;
 					}
 
