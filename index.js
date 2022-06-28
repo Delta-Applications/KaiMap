@@ -703,13 +703,13 @@ document.addEventListener("DOMContentLoaded", function () {
 					})
 					.on("loaded", function (e) {
 						map.fitBounds(e.target.getBounds());
+						zoom_speed();
 					})
 					.addTo(map);
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 			})
-
 			.catch((error) => {
 				helper.side_toaster(error, 2000);
 			});
@@ -1024,7 +1024,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Adjust map to show the kml
 				const bounds = track.getBounds();
 				map.fitBounds(bounds);
-
+				zoom_speed();
 				document.querySelector("div#finder").style.display = "none";
 				windowOpen = "map";
 				top_bar("", "", "")
@@ -1071,6 +1071,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					})
 					.on("loaded", function (e) {
 						map.fitBounds(e.target.getBounds());
+						zoom_speed();
 					})
 					.addTo(map);
 
