@@ -727,7 +727,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 		let formData = new FormData();
-		formData.append("description", "uploaded from o.map");
+		formData.append("description", "Uploaded using KaiMap for KaiOS");
 		formData.append("visibility", "private");
 		formData.append("file", blob, filename);
 

@@ -19,9 +19,14 @@ const settings = ((_) => {
     );
     localStorageWriteRead(
       "marker-virtualization",
-      document.getElementById("marker-virtualization").value)
+      document.getElementById("marker-virtualization").checked)
     localStorageWriteRead("theme", document.getElementById("theme").value);
-    toaster("Settings Saved", 2000);
+    kaiosToaster({
+      message: "Saved settings",
+      position: 'north',
+      type: 'info',
+      timeout: 2000
+    });
     load_settings()
   };
 
@@ -30,7 +35,7 @@ const settings = ((_) => {
     document.getElementById("cache-time").value = localStorage.getItem("cache-time");
     document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom");
     document.getElementById("export-path").value = localStorage.getItem("export-path");
-    document.getElementById("marker-virtualization").value = localStorage.getItem("marker-virtualization");
+    document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization");
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") | "tr";
 
     if (localStorage.getItem("zoomposition")) {
