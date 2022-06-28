@@ -67,9 +67,6 @@ if (!navigator.geolocation) {
 		timeout: 2000
 	});
 }
-// leaflet marker virtualization
-
-let virtualizedMarkers = true //Hide off-screen markers to reduce lag, will make this setting toggleable at some point
 
 let setting = {
 	export_path: localStorage.getItem("export-path"),
@@ -80,15 +77,16 @@ let setting = {
 	openweather_api: localStorage.getItem("owm-key"),
 	last_weather: localStorage.getItem("last_weather"),
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-	virtualizedMarkers: localStorage.getItem("virtualizedMarkers"),
+	virtualizedMarkers: localStorage.getItem("marker-virtualization"),
 };
 
+//Hide off-screen markers to reduce lag
 L.Marker.addInitHook(function () {
 		// setup virtualization after marker was added
 		this.on('add', function () {
 
 			this._updateIconVisibility = function () {
-				if (!localStorage.getItem("virtualizedMarkers")) return;
+				if (!localStorage.getItem("marker-virtualization")) return;
 				var map = this._map,
 					isVisible = map.getBounds().contains(this.getLatLng()),
 					wasVisible = this._wasVisible,
