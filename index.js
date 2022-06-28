@@ -1479,7 +1479,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//add gpx data from osm
 			if (item_value == "gpx-osm") {
-				console.assert(item_Value)
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
 			}
 
@@ -1660,6 +1659,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "search") {
 				windowOpen = "map";
 				document.querySelector("div#finder").style.display = "none";
+				top_bar("", "", "")
 				showSearch();
 			}
 
