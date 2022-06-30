@@ -86,7 +86,7 @@ L.Marker.addInitHook(function () {
 		this.on('add', function () {
 
 			this._updateIconVisibility = function () {
-				if (!localStorage.getItem("marker-virtualization")) return;
+				if (!localStorage.getItem("marker-virtualization") || !this._map) return;
 				var map = this._map,
 					isVisible = map.getBounds().contains(this.getLatLng()),
 					wasVisible = this._wasVisible,

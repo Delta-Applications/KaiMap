@@ -783,12 +783,12 @@ const maps = (() => {
         loaded_ids[p.properties.id] = true;
         let t = L.marker(latlng, {
           icon: L.divIcon({
-            html: {
-              closed: '<i class="eq-marker" style="color: green"></i>',
-              open: '<i class="eq-marker" style="color: red"></i>'
-            } [p.properties.status],
+            html: '<i class="eq-marker" style="color: red"></i>',
             iconSize: [10, 10],
-            className: "earthquake-marker",
+            className: {
+              closed: 'osmnote_closed-marker',
+              open: 'osmnote_open-marker'
+            } [p.properties.status],
           }),
         });
 

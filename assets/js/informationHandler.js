@@ -168,7 +168,7 @@ const informationHandler = (() => {
             lng: marker_stats._latlng.lng,
             radius: 100 - (5 * map.getZoom())
         };
-        var query = L.Util.template('[out:json];' + 'node(around:{radius},{lat},{lng})[name];' + 'way(around:{radius},{lat},{lng})[name];' + 'out body qt 1;', kwargs);
+        var query = L.Util.template('[out:json];' + 'nwr(around:{radius},{lat},{lng})[name];' + 'out body qt 1;', kwargs);
         url = 'http://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
 
         function appendoverpassdata(tag, value) {
@@ -188,7 +188,7 @@ const informationHandler = (() => {
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
-
+        xhr.setRequestHeader("Cache-Control", "max-age=604800");
         xhr.onload = function (e) {
             L.DomUtil.removeClass(map._container, "loading");
             if (this.status == 200) {
