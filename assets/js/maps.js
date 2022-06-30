@@ -42,6 +42,9 @@ const maps = (() => {
     let neLng = map.getBounds()._northEast.lng;
 
     var bbox = L.latLngBounds(L.latLng(swLat, swLng), L.latLng(neLat, neLng));
+
+    zoom_depth = localStorage.getItem("cache-zoom") || 12
+
     tilesLayer.seed(bbox, 0, zoom_depth);
     if (windowOpen == "map") {
       top_bar("", "Downloading", "");

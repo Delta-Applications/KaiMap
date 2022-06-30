@@ -32,8 +32,8 @@ const settings = ((_) => {
 
   let load_settings = function () {
     document.getElementById("owm-key").value = document.getElementById("owm-key").value || "218d9d905d231fb8afc17678b43c2c14";
-    document.getElementById("cache-time").value = localStorage.getItem("cache-time");
-    document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom");
+    document.getElementById("cache-time").value = localStorage.getItem("cache-time") || 7;
+    document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom") || 12;
     document.getElementById("export-path").value = localStorage.getItem("export-path");
     document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization");
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") || "tr";
