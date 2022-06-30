@@ -801,9 +801,9 @@ const maps = (() => {
         if (selectNote) {
           if (selected_marker) selected_marker.off('move', selected_marker_onmove);
           selecting_marker = true;
-          map.panTo(t._latlng, map.getZoom())
           selected_marker = t;
           bottom_bar("Cancel", "SELECT", "");
+          map.panTo(t._latlng, map.getZoom())
         };
 
 

@@ -36,7 +36,7 @@ const settings = ((_) => {
     document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom");
     document.getElementById("export-path").value = localStorage.getItem("export-path");
     document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization");
-    document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") | "tr";
+    document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") || "tr";
 
     if (localStorage.getItem("zoomposition")) {
       switch (localStorage.getItem("zoomposition")) {
