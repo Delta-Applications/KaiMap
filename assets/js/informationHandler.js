@@ -182,7 +182,7 @@ const informationHandler = (() => {
                 } else if (p.comments[i].action == "closed") {
                     action = "Closed by "
                 }
-                let author = action +(p.comments[i].user ? p.comments[i].user : 'Anonymous');
+                let author = action + (p.comments[i].user ? p.comments[i].user : 'Anonymous');
                 // do not insert <br> if text message is empty
                 let date = moment(p.comments[i].date_created).calendar()
                 let text = p.comments[i].text ? date + "<br></br>" + p.comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
@@ -195,7 +195,7 @@ const informationHandler = (() => {
                 el.className = "item button-container__button focusable note_action"
                 el.setAttribute("tabindex", 0)
                 el.setAttribute("note_id", p.id)
-                el.setAttribute("data-action","reopen_note")
+                el.setAttribute("data-action", "reopen_note")
                 el.innerHTML = 'Reopen Note'
                 insertAfter(el, Array.from(document.querySelectorAll('.comment')).pop())
             }
@@ -204,15 +204,15 @@ const informationHandler = (() => {
                 el.className = "item button-container__button focusable note_action"
                 el.setAttribute("tabindex", 0)
                 el.setAttribute("note_id", p.id)
-                el.setAttribute("data-action","comment_note")
+                el.setAttribute("data-action", "comment_note")
                 el.innerHTML = 'Comment Note'
                 insertAfter(el, Array.from(document.querySelectorAll('.comment')).pop())
-                
+
                 let el2 = document.createElement('button');
                 el2.className = "item button-container__button focusable note_action"
                 el2.setAttribute("tabindex", 0)
                 el2.setAttribute("note_id", p.id)
-                el2.setAttribute("data-action","close_note")
+                el2.setAttribute("data-action", "close_note")
                 el2.innerHTML = 'Close Note'
                 insertAfter(el2, Array.from(document.querySelectorAll('.comment')).pop())
             }

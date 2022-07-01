@@ -82,51 +82,51 @@ let setting = {
 
 //Hide off-screen markers to reduce lag
 L.Marker.addInitHook(function () {
-		// setup virtualization after marker was added
-		this.on('add', function () {
+	// setup virtualization after marker was added
+	this.on('add', function () {
 
-			this._updateIconVisibility = function () {
-				if (!localStorage.getItem("marker-virtualization") || !this._map) return;
-				var map = this._map,
-					isVisible = map.getBounds().contains(this.getLatLng()),
-					wasVisible = this._wasVisible,
-					icon = this._icon,
-					iconParent = this._iconParent,
-					shadow = this._shadow,
-					shadowParent = this._shadowParent;
+		this._updateIconVisibility = function () {
+			if (!localStorage.getItem("marker-virtualization") || !this._map) return;
+			var map = this._map,
+				isVisible = map.getBounds().contains(this.getLatLng()),
+				wasVisible = this._wasVisible,
+				icon = this._icon,
+				iconParent = this._iconParent,
+				shadow = this._shadow,
+				shadowParent = this._shadowParent;
 
-				// remember parent of icon 
-				if (!iconParent) {
-					iconParent = this._iconParent = icon.parentNode;
-				}
-				if (shadow && !shadowParent) {
-					shadowParent = this._shadowParent = shadow.parentNode;
-				}
+			// remember parent of icon 
+			if (!iconParent) {
+				iconParent = this._iconParent = icon.parentNode;
+			}
+			if (shadow && !shadowParent) {
+				shadowParent = this._shadowParent = shadow.parentNode;
+			}
 
-				// add/remove from DOM on change
-				if (isVisible != wasVisible) {
-					if (isVisible) {
-						iconParent.appendChild(icon);
-						if (shadow) {
-							shadowParent.appendChild(shadow);
-						}
-					} else {
-						iconParent.removeChild(icon);
-						if (shadow) {
-							shadowParent.removeChild(shadow);
-						}
+			// add/remove from DOM on change
+			if (isVisible != wasVisible) {
+				if (isVisible) {
+					iconParent.appendChild(icon);
+					if (shadow) {
+						shadowParent.appendChild(shadow);
 					}
-
-					this._wasVisible = isVisible;
-
+				} else {
+					iconParent.removeChild(icon);
+					if (shadow) {
+						shadowParent.removeChild(shadow);
+					}
 				}
-			};
 
-			// on map size change, remove/add icon from/to DOM
-			this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
-			this._updateIconVisibility();
+				this._wasVisible = isVisible;
 
-		}, this);
+			}
+		};
+
+		// on map size change, remove/add icon from/to DOM
+		this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
+		this._updateIconVisibility();
+
+	}, this);
 });
 
 //leaflet add basic map
@@ -149,7 +149,7 @@ window.ScaleControl = L.control
 	})
 	.addTo(map);
 
-	let settings_data = settings.load_settings();
+let settings_data = settings.load_settings();
 
 console.log(JSON.stringify(setting));
 
@@ -1410,10 +1410,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				save_mode = "geojson-single";
 				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
-
-
 			}
-
+			
 			if (item_value == "share_marker") {
 				windowOpen = "map";
 				selecting_marker = false;
@@ -1425,15 +1423,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "reopen_note") {
 				let note_id = document.activeElement.getAttribute("note_id");
-				if (note_id) {maps.reopen_osm_note(note_id);}
+				if (note_id) {
+					maps.reopen_osm_note(note_id);
+				}
 			}
 			if (item_value == "close_note") {
 				let note_id = document.activeElement.getAttribute("note_id");
-				if (note_id) {maps.close_osm_note(note_id);}
+				if (note_id) {
+					maps.close_osm_note(note_id);
+				}
 			}
 			if (item_value == "comment_note") {
 				let note_id = document.activeElement.getAttribute("note_id");
-				if (note_id) {maps.comment_osm_note(note_id);}
+				if (note_id) {
+					maps.comment_osm_note(note_id);
+				}
 			}
 
 
