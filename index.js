@@ -1398,7 +1398,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////MENU///////////////
 	////////////////////////
 	function markers_action() {
-		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "markers_option") {
+		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" || document.activeElement.className == "item button-container__button focusable note_action" && windowOpen == "markers_option") {
 			let item_value = document.activeElement.getAttribute("data-action");
 
 			if (item_value == "save_marker") {
@@ -1423,6 +1423,18 @@ document.addEventListener("DOMContentLoaded", function () {
 				bottom_bar("", "", "")
 			}
 
+			if (item_value == "reopen_note") {
+				let note_id = document.activeElement.getAttribute("note_id");
+				if (note_id) {maps.reopen_osm_note(note_id);}
+			}
+			if (item_value == "close_note") {
+				let note_id = document.activeElement.getAttribute("note_id");
+				if (note_id) {maps.close_osm_note(note_id);}
+			}
+			if (item_value == "comment_note") {
+				let note_id = document.activeElement.getAttribute("note_id");
+				if (note_id) {maps.comment_osm_note(note_id);}
+			}
 
 
 

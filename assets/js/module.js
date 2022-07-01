@@ -100,6 +100,48 @@ const module = (() => {
     tracking_group
   );
 
+  function getGpxStringFromDatabase(session, tracking_points, way_points) {
+    let gpxString = '';
+
+    gpxString += '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
+    gpxString += '<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="MapSource 6.16.3" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">\n';
+
+    // Metadata
+    gpxString += '<metadata>\n' +
+        '    <link href="http://www.nubilion.com">\n' +
+        '    <text>Nubilion</text>\n' +
+        '    <name>' + session.name + '</name>\n' +
+        '    </link>\n' +
+        '    <time>' + session.date.toISOString() + '</time>\n' +
+        '  </metadata>\n';
+
+    // Waypoints
+    for (let i = 0; i < way_points.length; i++) {
+        let way_point = way_points[i];
+        gpxString += '<wpt lat="' + way_point.latitude + '" lon="' + way_point.longitude + '">\n' +
+            '    <name>' + way_point.name + '</name>\n' +
+            '    <time>' + way_point.date.toISOString() + '</time>\n' +
+            '  </wpt>\n';
+    }
+    // Track points
+    gpxString += '<trk>\n' +
+        '    <name>' + session.name + '</name>\n' +
+        '    <trkseg>\n';
+
+    for (let i = 0; i < tracking_points.length; i++) {
+        let track_point = tracking_points[i];
+        gpxString += '<trkpt lat="' + track_point.latitude + '" lon="' + track_point.longitude + '">\n' +
+            '        <ele>' + track_point.altitude + '</ele>\n' +
+            '        <time>' + track_point.date.toISOString() + '</time>\n' +
+            '      </trkpt>\n';
+    }
+    gpxString += '    </trkseg>\n' +
+        '  </trk>\n';
+
+    gpxString += '</gpx>';
+    return gpxString;
+}
+
   const measure_distance = function (action) {
     if (action == "destroy") {
       status.path_selection = false;

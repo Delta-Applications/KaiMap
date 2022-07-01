@@ -613,6 +613,16 @@ const maps = (() => {
       });
       return false;
     }
+
+    if (navigator.onLine == false) {
+      return kaiosToaster({
+        message: "No Internet Connection",
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
+    }
+
     ame.children[2].checked = 1
 
     kaiosToaster({
@@ -819,7 +829,7 @@ const maps = (() => {
       },
     }).addTo(map);
   }
-  
+
   function boundsString(map) {
     var sw = map.getBounds().getSouthWest(),
       ne = map.getBounds().getNorthEast();
@@ -860,6 +870,14 @@ const maps = (() => {
       });
       return false;
     }
+    if (navigator.onLine == false) {
+      return kaiosToaster({
+        message: "No Internet Connection",
+        position: 'north',
+        type: 'error',
+        timeout: 1000
+      });
+    }
 
     ame.children[2].checked = 1
 
@@ -870,7 +888,7 @@ const maps = (() => {
       timeout: 2000
     });
 
- 
+
 
 
 
@@ -898,217 +916,346 @@ const maps = (() => {
         }
       })
       .then(function (response) {
+        console.log(response.json())
+
         addOSMNote(response.json(), true)
       })
 
 
   }
 
+  let close_osm_note = function (id) {
+    let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
+    if (!note) return;
+    if (!localStorage.getItem("openstreetmap_token")) return kaiosToaster({
+      message: "You need to be logged in to comment",
+      position: 'north',
+      type: 'error',
+      timeout: 1000
+    });
+    let text = encodeURIComponent(prompt("Close OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : "")) || "");
+
+    if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+
+  let close_url = text ? (note.note_data.close_url + "?text=" + text) : note.note_data.close_url;
+
+  fetch(close_url, {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: localStorage.getItem("openstreetmap_token") ? {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("openstreetmap_token")
+      } : {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(function (data) {
+      console.log(data)
+      // set closed icon and update informationHandler
+      note.setIcon(L.divIcon({
+        html: '<i class="eq-marker" style="color: red"></i>',
+        iconSize: [10, 10],
+        className: {
+          closed: 'osmnote_closed-marker',
+          open: 'osmnote_open-marker'
+        } [data.properties.status],
+      }));
+      note.note_data = data.properties;
+      informationHandler.PreciseMarkerUpdate(note)
+    })
 
 
+}
 
-  let running = false;
-  let k;
-  let weather_layer,
-    weather_layer0,
-    weather_layer1,
-    weather_layer2,
-    weather_layer3;
+let comment_osm_note = function (id) {
+  let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
+  if (!note) return;
+  let comment_url = note.note_data.comment_url
+  // error if user is not logged in
+  if (!localStorage.getItem("openstreetmap_token")) return kaiosToaster({
+    message: "You need to be logged in to comment",
+    position: 'north',
+    type: 'error',
+    timeout: 1000
+  });
 
-  function weather_map(ame) {
-    kaiads.DisplayFullScreenAd();
+  let text = prompt("Comment on OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+  if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
 
-    let weather_url;
-    if (running == true) {
-      top_bar("", "", "");
-      map.removeLayer(weather_layer);
-      map.removeLayer(weather_layer0);
-      map.removeLayer(weather_layer1);
-      map.removeLayer(weather_layer2);
-      map.removeLayer(weather_layer3);
-      ame.children[2].checked = 0
+  if (!text) return;
 
-      kaiosToaster({
-        message: "Removed Layer",
-        position: 'north',
-        type: 'error',
-        timeout: 1000
-      });
-      clearInterval(k);
-      running = false;
-      return false;
-    }
+  fetch(comment_url+"?text="+text, {
+      method: 'POST',
+      body: JSON.stringify({
+        text: text
+      }),
+      headers: localStorage.getItem("openstreetmap_token") ? {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("openstreetmap_token")
+      } : {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(function (data) {
+      console.log(data)
+      // add comment to note.note_data.comments
+      note.note_data = data.properties;
+
+      informationHandler.PreciseMarkerUpdate(note)
+    })
+}
+
+let reopen_osm_note = function (id) {
+  let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
+  if (!note) return;
+  if (!localStorage.getItem("openstreetmap_token")) return kaiosToaster({
+    message: "You need to be logged in to reopen",
+    position: 'north',
+    type: 'error',
+    timeout: 1000
+  });
+
+  let text = prompt("Reopen OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+  if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+
+  let reopen_url = text ? (note.note_data.reopen_url + "?text=" + text) : note.note_data.reopen_url;
+
+  fetch(reopen_url, {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: localStorage.getItem("openstreetmap_token") ? {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("openstreetmap_token")
+      } : {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(function (data) {
+      console.log(data)
+
+        // set closed icon and update informationHandler
+        note.setIcon(L.divIcon({
+          html: '<i class="eq-marker" style="color: red"></i>',
+          iconSize: [10, 10],
+          className: {
+            closed: 'osmnote_closed-marker',
+            open: 'osmnote_open-marker'
+          } [data.properties.status],
+        }));
+        note.note_data = data.properties;
+        informationHandler.PreciseMarkerUpdate(note)
+    })
+}
 
 
+let running = false;
+let k;
+let weather_layer,
+  weather_layer0,
+  weather_layer1,
+  weather_layer2,
+  weather_layer3;
 
-    fetch("https://api.rainviewer.com/public/maps.json")
-      .then(function (response) {
-        running = true;
-        ame.children[2].checked = 1
+function weather_map(ame) {
+  kaiads.DisplayFullScreenAd();
 
-        kaiosToaster({
-          message: "Rainviewer",
-          position: 'north',
-          type: 'info',
-          timeout: 2000
-        });
+  let weather_url;
+  if (running == true) {
+    top_bar("", "", "");
+    map.removeLayer(weather_layer);
+    map.removeLayer(weather_layer0);
+    map.removeLayer(weather_layer1);
+    map.removeLayer(weather_layer2);
+    map.removeLayer(weather_layer3);
+    ame.children[2].checked = 0
 
-
-        return response.json();
-      })
-      .then(function (data) {
-        weather_url =
-          "https://tilecache.rainviewer.com/v2/radar/" +
-          data[data.length - 5] +
-          "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer = L.tileLayer(weather_url);
-
-        weather_url0 =
-          "https://tilecache.rainviewer.com/v2/radar/" +
-          data[data.length - 4] +
-          "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer0 = L.tileLayer(weather_url0);
-
-        weather_url1 =
-          "https://tilecache.rainviewer.com/v2/radar/" +
-          data[data.length - 3] +
-          "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer1 = L.tileLayer(weather_url1);
-
-        weather_url2 =
-          "https://tilecache.rainviewer.com/v2/radar/" +
-          data[data.length - 2] +
-          "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer2 = L.tileLayer(weather_url2);
-
-        weather_url3 =
-          "https://tilecache.rainviewer.com/v2/radar/" +
-          data[data.length - 1] +
-          "/256/{z}/{x}/{y}/2/1_1.png";
-        weather_layer3 = L.tileLayer(weather_url3);
-
-        map.addLayer(weather_layer);
-        map.addLayer(weather_layer0);
-        map.addLayer(weather_layer1);
-        map.addLayer(weather_layer2);
-        map.addLayer(weather_layer3);
-        let i = -1;
-        k = setInterval(() => {
-          i++;
-
-          if (i == 0) {
-            map.addLayer(weather_layer);
-            map.removeLayer(weather_layer0);
-            map.removeLayer(weather_layer1);
-            map.removeLayer(weather_layer2);
-            map.removeLayer(weather_layer3);
-            if (windowOpen == "map") {
-
-              top_bar(
-                "",
-                moment.unix(data[data.length - 5]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 5], null) + ")",
-                ""
-              );
-            }
-            //top_bar("", "a", "");
-          }
-
-          if (i == 1) {
-            map.removeLayer(weather_layer);
-            map.addLayer(weather_layer0);
-            map.removeLayer(weather_layer1);
-            map.removeLayer(weather_layer2);
-            map.removeLayer(weather_layer3);
-            if (windowOpen == "map") {
-              top_bar(
-                "",
-                moment.unix(data[data.length - 4]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 4], null) + ")",
-                ""
-              );
-            }
-            //top_bar("", "a", "");
-          }
-
-          if (i == 2) {
-            map.removeLayer(weather_layer);
-            map.removeLayer(weather_layer0);
-            map.addLayer(weather_layer1);
-            map.removeLayer(weather_layer2);
-            map.removeLayer(weather_layer3);
-            if (windowOpen == "map") {
-              top_bar(
-                "",
-                moment.unix(data[data.length - 3]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 3], null) + ")",
-                ""
-              );
-            }
-          }
-
-          if (i == 3) {
-            map.removeLayer(weather_layer);
-            map.removeLayer(weather_layer0);
-            map.removeLayer(weather_layer1);
-            map.addLayer(weather_layer2);
-            map.removeLayer(weather_layer3);
-            if (windowOpen == "map") {
-              top_bar(
-                "",
-                moment.unix(data[data.length - 2]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 2], null) + ")",
-                ""
-              );
-            }
-          }
-
-          if (i == 4) {
-            map.removeLayer(weather_layer);
-            map.removeLayer(weather_layer0);
-            map.removeLayer(weather_layer1);
-            map.removeLayer(weather_layer2);
-            map.addLayer(weather_layer3);
-            if (windowOpen == "map") {
-              top_bar(
-                "",
-                moment.unix(data[data.length - 1]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 1], null) + ")",
-                ""
-              );
-            }
-          }
-          if (i == 5) {
-            i = 0;
-          }
-        }, 2000);
-      })
-      .catch(function (err) {
-        kaiosToaster({
-          message: "Failed to load Rainviewer data",
-          position: 'north',
-          type: 'error',
-          timeout: 3000
-        });
-      });
+    kaiosToaster({
+      message: "Removed Layer",
+      position: 'north',
+      type: 'error',
+      timeout: 1000
+    });
+    clearInterval(k);
+    running = false;
+    return false;
   }
 
 
-  return {
-    opencycle_map,
-    strava_heatmap,
-    moon_map,
-    addMap,
-    earthquake_layer,
-    satellite_map,
-    clarity,
-    toner_map,
-    google_map,
-    opentopo_map,
-    owm_precipit_layer,
-    owm_wind_layer,
-    owm_temp_layer,
-    osm_map,
-    weather_map,
-    railway_layer,
-    caching_tiles,
-    delete_cache,
-    osm_notes,
-    create_osm_note
-  };
+
+  fetch("https://api.rainviewer.com/public/maps.json")
+    .then(function (response) {
+      running = true;
+      ame.children[2].checked = 1
+
+      kaiosToaster({
+        message: "Rainviewer",
+        position: 'north',
+        type: 'info',
+        timeout: 2000
+      });
+
+
+      return response.json();
+    })
+    .then(function (data) {
+      weather_url =
+        "https://tilecache.rainviewer.com/v2/radar/" +
+        data[data.length - 5] +
+        "/256/{z}/{x}/{y}/2/1_1.png";
+      weather_layer = L.tileLayer(weather_url);
+
+      weather_url0 =
+        "https://tilecache.rainviewer.com/v2/radar/" +
+        data[data.length - 4] +
+        "/256/{z}/{x}/{y}/2/1_1.png";
+      weather_layer0 = L.tileLayer(weather_url0);
+
+      weather_url1 =
+        "https://tilecache.rainviewer.com/v2/radar/" +
+        data[data.length - 3] +
+        "/256/{z}/{x}/{y}/2/1_1.png";
+      weather_layer1 = L.tileLayer(weather_url1);
+
+      weather_url2 =
+        "https://tilecache.rainviewer.com/v2/radar/" +
+        data[data.length - 2] +
+        "/256/{z}/{x}/{y}/2/1_1.png";
+      weather_layer2 = L.tileLayer(weather_url2);
+
+      weather_url3 =
+        "https://tilecache.rainviewer.com/v2/radar/" +
+        data[data.length - 1] +
+        "/256/{z}/{x}/{y}/2/1_1.png";
+      weather_layer3 = L.tileLayer(weather_url3);
+
+      map.addLayer(weather_layer);
+      map.addLayer(weather_layer0);
+      map.addLayer(weather_layer1);
+      map.addLayer(weather_layer2);
+      map.addLayer(weather_layer3);
+      let i = -1;
+      k = setInterval(() => {
+        i++;
+
+        if (i == 0) {
+          map.addLayer(weather_layer);
+          map.removeLayer(weather_layer0);
+          map.removeLayer(weather_layer1);
+          map.removeLayer(weather_layer2);
+          map.removeLayer(weather_layer3);
+          if (windowOpen == "map") {
+
+            top_bar(
+              "",
+              moment.unix(data[data.length - 5]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 5], null) + ")",
+              ""
+            );
+          }
+          //top_bar("", "a", "");
+        }
+
+        if (i == 1) {
+          map.removeLayer(weather_layer);
+          map.addLayer(weather_layer0);
+          map.removeLayer(weather_layer1);
+          map.removeLayer(weather_layer2);
+          map.removeLayer(weather_layer3);
+          if (windowOpen == "map") {
+            top_bar(
+              "",
+              moment.unix(data[data.length - 4]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 4], null) + ")",
+              ""
+            );
+          }
+          //top_bar("", "a", "");
+        }
+
+        if (i == 2) {
+          map.removeLayer(weather_layer);
+          map.removeLayer(weather_layer0);
+          map.addLayer(weather_layer1);
+          map.removeLayer(weather_layer2);
+          map.removeLayer(weather_layer3);
+          if (windowOpen == "map") {
+            top_bar(
+              "",
+              moment.unix(data[data.length - 3]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 3], null) + ")",
+              ""
+            );
+          }
+        }
+
+        if (i == 3) {
+          map.removeLayer(weather_layer);
+          map.removeLayer(weather_layer0);
+          map.removeLayer(weather_layer1);
+          map.addLayer(weather_layer2);
+          map.removeLayer(weather_layer3);
+          if (windowOpen == "map") {
+            top_bar(
+              "",
+              moment.unix(data[data.length - 2]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 2], null) + ")",
+              ""
+            );
+          }
+        }
+
+        if (i == 4) {
+          map.removeLayer(weather_layer);
+          map.removeLayer(weather_layer0);
+          map.removeLayer(weather_layer1);
+          map.removeLayer(weather_layer2);
+          map.addLayer(weather_layer3);
+          if (windowOpen == "map") {
+            top_bar(
+              "",
+              moment.unix(data[data.length - 1]).format("DD/MM/YYYY HH:MM") + " (" + utility.getRelativeTime(data[data.length - 1], null) + ")",
+              ""
+            );
+          }
+        }
+        if (i == 5) {
+          i = 0;
+        }
+      }, 2000);
+    })
+    .catch(function (err) {
+      kaiosToaster({
+        message: "Failed to load Rainviewer data",
+        position: 'north',
+        type: 'error',
+        timeout: 3000
+      });
+    });
+}
+
+
+return {
+  opencycle_map,
+  strava_heatmap,
+  moon_map,
+  addMap,
+  earthquake_layer,
+  satellite_map,
+  clarity,
+  toner_map,
+  google_map,
+  opentopo_map,
+  owm_precipit_layer,
+  owm_wind_layer,
+  owm_temp_layer,
+  osm_map,
+  weather_map,
+  railway_layer,
+  caching_tiles,
+  delete_cache,
+  osm_notes,
+  create_osm_note,
+  close_osm_note,
+  reopen_osm_note,
+  comment_osm_note,
+};
 })();

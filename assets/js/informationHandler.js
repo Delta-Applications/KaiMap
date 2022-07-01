@@ -126,6 +126,10 @@ const informationHandler = (() => {
         existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
     }
 
+    function insertBefore(newNode, existingNode) {
+        existingNode.parentNode.insertBefore(newNode, existingNode);
+    }
+
     let PreciseMarkerUpdate = function (marker, nooverpass) {
 
         let marker_stats = marker
@@ -133,6 +137,27 @@ const informationHandler = (() => {
         document.querySelector("#marker-position").innerText = marker_stats._latlng.lat.toFixed(5) + ", " + marker_stats._latlng.lng.toFixed(5);
         document.querySelector("#marker-distance").innerText = module.calc_distance(current_lat, current_lng, marker_stats._latlng.lat, marker_stats._latlng.lng) + " km"
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
+
+        //Delete all comments and overpass data from menu
+
+        let comments = document.querySelectorAll('.comment');
+
+        comments.forEach(box => {
+            box.remove();
+        });
+
+        const boxes = document.querySelectorAll('.overpassdata');
+
+        boxes.forEach(box => {
+            box.remove();
+        });
+
+        const buttons = document.querySelectorAll('.note_action');
+
+        buttons.forEach(box => {
+            box.remove();
+        });
+
         if (map.hasLayer(markers_group_osmnotes)) {
             document.querySelector("#marker-overpass").innerText = "Comments"
 
@@ -143,12 +168,10 @@ const informationHandler = (() => {
                 el.innerHTML = '<p class="list-item__text">' + author + '</p><p class="list-item__subtext">' + text + '</p>'
                 insertAfter(el, document.querySelector("#marker-overpass"))
             }
-            let comments = document.querySelectorAll('.comment');
 
-            comments.forEach(box => {
-                box.remove();
-            });
+
             let p = marker.note_data
+            // Order comments from least recent to most recent
             p.comments.reverse()
             for (var i = 0; i < p.comments.length; i++) {
                 let action = "";
@@ -159,10 +182,41 @@ const informationHandler = (() => {
                 } else if (p.comments[i].action == "closed") {
                     action = "Closed by "
                 }
-                let author = (p.comments[i].user ? p.comments[i].user : 'Anonymous');
-                let text = moment(p.comments[i].date_created).calendar()+"<br></br>"+p.comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "");
+                let author = action +(p.comments[i].user ? p.comments[i].user : 'Anonymous');
+                // do not insert <br> if text message is empty
+                let date = moment(p.comments[i].date_created).calendar()
+                let text = p.comments[i].text ? date + "<br></br>" + p.comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
                 appendcomment(author, text)
             }
+
+            // if note is closed, append a reopen button, if it is open, append a close button and a comment button
+            if (p.status == "closed") {
+                let el = document.createElement('button');
+                el.className = "item button-container__button focusable note_action"
+                el.setAttribute("tabindex", 0)
+                el.setAttribute("note_id", p.id)
+                el.setAttribute("data-action","reopen_note")
+                el.innerHTML = 'Reopen Note'
+                insertAfter(el, Array.from(document.querySelectorAll('.comment')).pop())
+            }
+            if (p.status == "open") {
+                let el = document.createElement('button');
+                el.className = "item button-container__button focusable note_action"
+                el.setAttribute("tabindex", 0)
+                el.setAttribute("note_id", p.id)
+                el.setAttribute("data-action","comment_note")
+                el.innerHTML = 'Comment Note'
+                insertAfter(el, Array.from(document.querySelectorAll('.comment')).pop())
+                
+                let el2 = document.createElement('button');
+                el2.className = "item button-container__button focusable note_action"
+                el2.setAttribute("tabindex", 0)
+                el2.setAttribute("note_id", p.id)
+                el2.setAttribute("data-action","close_note")
+                el2.innerHTML = 'Close Note'
+                insertAfter(el2, Array.from(document.querySelectorAll('.comment')).pop())
+            }
+
             tabIndex = 0;
             finder_tabindex();
             nooverpass = true
@@ -186,11 +240,7 @@ const informationHandler = (() => {
             el.innerHTML = '<p class="list-item__text">' + tag + '</p><p class="list-item__subtext">' + value + '</p>'
             insertAfter(el, document.querySelector("#marker-overpass"))
         }
-        const boxes = document.querySelectorAll('.overpassdata');
 
-        boxes.forEach(box => {
-            box.remove();
-        });
 
         if (!navigator.onLine) return appendoverpassdata("Data unavailable", "Device is offline")
 
