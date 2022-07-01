@@ -953,6 +953,8 @@ const maps = (() => {
     .then(function (data) {
       console.log(data)
       // set closed icon and update informationHandler
+     
+      note.note_data = data.properties;
       note.setIcon(L.divIcon({
         html: '<i class="eq-marker" style="color: red"></i>',
         iconSize: [10, 10],
@@ -961,7 +963,6 @@ const maps = (() => {
           open: 'osmnote_open-marker'
         } [data.properties.status],
       }));
-      note.note_data = data.properties;
       informationHandler.PreciseMarkerUpdate(note)
     })
 
@@ -1037,6 +1038,8 @@ let reopen_osm_note = function (id) {
       console.log(data)
 
         // set closed icon and update informationHandler
+     
+        note.note_data = data.properties;
         note.setIcon(L.divIcon({
           html: '<i class="eq-marker" style="color: red"></i>',
           iconSize: [10, 10],
@@ -1045,7 +1048,6 @@ let reopen_osm_note = function (id) {
             open: 'osmnote_open-marker'
           } [data.properties.status],
         }));
-        note.note_data = data.properties;
         informationHandler.PreciseMarkerUpdate(note)
     })
 }
