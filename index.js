@@ -309,34 +309,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			current_lat = n.lat;
 			current_lng = n.lng;
+			zoom_speed();
 
 			if (direction == "left") {
-				zoom_speed();
 
 				current_lng = n.lng - step;
 				map.panTo(new L.LatLng(current_lat, current_lng));
 			}
 
 			if (direction == "right") {
-				zoom_speed();
 
 				current_lng = n.lng + step;
 				map.panTo(new L.LatLng(current_lat, current_lng));
 			}
 
 			if (direction == "up") {
-				zoom_speed();
 
 				current_lat = n.lat + step;
 				map.panTo(new L.LatLng(current_lat, current_lng));
 			}
 
 			if (direction == "down") {
-				zoom_speed();
 
 				current_lat = n.lat - step;
 				map.panTo(new L.LatLng(current_lat, current_lng));
 			}
+
 		}
 	}
 
@@ -1439,10 +1437,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					maps.comment_osm_note(note_id);
 				}
 			}
-
-
-
-
 
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {

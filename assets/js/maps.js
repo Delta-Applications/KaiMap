@@ -917,12 +917,19 @@ const maps = (() => {
       })
       .then(function (response) {
         console.log(response.json())
+        //notify user of success
+        kaiosToaster({
+          message: "OSM Note Created",
+          position: 'north',
+          type: 'info',
+          timeout: 2000
+        });
 
         addOSMNote(response.json(), true)
       })
 
-
   }
+
 
   let close_osm_note = function (id) {
     let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
@@ -952,8 +959,13 @@ const maps = (() => {
       .then(response => response.json())
       .then(function (data) {
         console.log(data)
-        // set closed icon and update informationHandler
-
+        //notify user of success
+        kaiosToaster({
+          message: "OSM Note Closed",
+          position: 'north',
+          type: 'success',
+          timeout: 1000
+        });
         note.note_data = data.properties;
         note.setIcon(L.divIcon({
           html: '<i class="eq-marker" style="color: red"></i>',
@@ -999,7 +1011,14 @@ const maps = (() => {
       .then(response => response.json())
       .then(function (data) {
         console.log(data)
-        // add comment to note.note_data.comments
+        // notify user of success
+        kaiosToaster({
+          message: "Comment added",
+          position: 'north',
+          type: 'success',
+          timeout: 1000
+        });
+        
         note.note_data = data.properties;
 
         informationHandler.PreciseMarkerUpdate(note)
@@ -1035,8 +1054,13 @@ const maps = (() => {
       .then(function (data) {
         console.log(data)
 
-        // set closed icon and update informationHandler
-
+        // notify user of success
+        kaiosToaster({
+          message: "Note reopened",
+          position: 'north',
+          type: 'success',
+          timeout: 1000
+        });
         note.note_data = data.properties;
         note.setIcon(L.divIcon({
           html: '<i class="eq-marker" style="color: red"></i>',
