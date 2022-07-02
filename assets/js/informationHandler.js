@@ -185,7 +185,7 @@ const informationHandler = (() => {
                 }
                 let author = action + (comments[i].user ? comments[i].user : 'Anonymous');
                 // do not insert <br> if text message is empty
-                let date = moment.utc(comments[i].date.slice(0, -4).slice(0, -4)).local().calendar()
+                let date = moment.utc(comments[i].date.slice(0, -4)).local().calendar()
                 let text = comments[i].text ? date + "<br></br>" + comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
                 appendcomment(author, text)
             }
