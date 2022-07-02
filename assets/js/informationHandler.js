@@ -171,21 +171,22 @@ const informationHandler = (() => {
 
 
             let p = marker.note_data
+            let comments = p.comments.map((x) => x);
             // Order comments from least recent to most recent
-            p.comments.reverse()
-            for (var i = 0; i < p.comments.length; i++) {
+            comments.reverse()
+            for (var i = 0; i < comments.length; i++) {
                 let action = "";
-                if (p.comments[i].action == "opened") {
+                if (comments[i].action == "opened") {
                     action = "Opened by "
-                } else if (p.comments[i].action == "reopened") {
+                } else if (comments[i].action == "reopened") {
                     action = "Reopened by "
-                } else if (p.comments[i].action == "closed") {
+                } else if (comments[i].action == "closed") {
                     action = "Closed by "
                 }
-                let author = action + (p.comments[i].user ? p.comments[i].user : 'Anonymous');
+                let author = action + (comments[i].user ? comments[i].user : 'Anonymous');
                 // do not insert <br> if text message is empty
-                let date = moment(p.comments[i].date_created).calendar()
-                let text = p.comments[i].text ? date + "<br></br>" + p.comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
+                let date = moment.utc(comments[i].date.slice(0, -4).slice(0, -4)).local().calendar()
+                let text = comments[i].text ? date + "<br></br>" + comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
                 appendcomment(author, text)
             }
 
