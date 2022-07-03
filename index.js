@@ -1328,7 +1328,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (compassMarker) map.removeLayer(compassMarker);
 					if (compassMarker) compassMarker = null;
 
-					myMarker.setRotationAngle(0);
 				}
 				//store location as fallout
 				let b = [crd.latitude, crd.longitude];
@@ -1388,7 +1387,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (state_geoloc == true) {
 			geoLoc.clearWatch(watchID);
 			state_geoloc = false;
-			myMarker.setRotationAngle(0);
 			myMarker.setIcon(default_icon);
 			return true;
 		}
