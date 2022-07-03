@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function ZoomMap(in_out) {
 		let current_zoom_level = map.getZoom();
-		let zoomstep = 1 * (localStorage.getItem("zoom-speed") || 1)
+		let zoomstep = 1 * ((localStorage.getItem("zoom-speed")/10)*6 || 1)
 		if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
 			if (in_out == "in") {
 				current_zoom_level = current_zoom_level + zoomstep;
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (zoom_level > 16) {
 			step = 0.0005;
 		}
-		step = step*(localStorage.getItem("pan-speed") || 1);
+		step = step*((localStorage.getItem("pan-speed")/10)*6 || 1);
 		return step
 	}
 
