@@ -20,6 +20,14 @@ const settings = ((_) => {
     localStorageWriteRead(
       "marker-virtualization",
       document.getElementById("marker-virtualization").checked)
+    // pan-speed
+    localStorageWriteRead(
+      "pan-speed",
+      document.getElementById("pan-speed").value);
+    // zoom-speed
+    localStorageWriteRead(
+      "zoom-speed",
+      document.getElementById("zoom-speed").value);
     localStorageWriteRead("theme", document.getElementById("theme").value);
     kaiosToaster({
       message: "Saved settings",
@@ -37,6 +45,11 @@ const settings = ((_) => {
     document.getElementById("export-path").value = localStorage.getItem("export-path");
     document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization");
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") || "tr";
+    
+    // pan-speed
+    document.getElementById("pan-speed").value = localStorage.getItem("pan-speed") || "1";
+    // zoom-speed
+    document.getElementById("zoom-speed").value = localStorage.getItem("zoom-speed") || "1";
 
     if (localStorage.getItem("zoomposition")) {
       switch (localStorage.getItem("zoomposition")) {
@@ -57,7 +70,7 @@ const settings = ((_) => {
           break;
       }
     }
-   
+
 
     document.getElementById("theme").value = localStorage.getItem("theme");
     document

@@ -367,12 +367,44 @@
         />
         <div class="checkbox-container__checkbox"></div>
       </div>
+      
+      <!-- Map Zooming Speed -->
+      <div class="item list-item focusable input-container" tabindex="4">
+        <label class="input-container__label">Map Zoom Speed</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="zoom-speed" tabindex="4"
+          type="tel">
+      </div>
 
+      <!-- Map Panning Speed -->
+      <div class="item list-item focusable input-container" tabindex="5">
+        <label class="input-container__label">Map Panning Speed</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="pan-speed" tabindex="5"
+          type="tel">
+      </div>
      
 
       <button id="clear-cache" tabindex="4" class="item button-container__button focusable">
         Clear map cache
       </button>
+      <div class="separator">Tracking</div>
+      <!-- Min distance from last position -->
+      <div class="item list-item focusable input-container" tabindex="5">
+        <label class="input-container__label">Minimum distance</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-distance" tabindex="5"
+          type="tel">
+      </div>
+      <!-- Min time between positions -->
+      <div class="item list-item focusable input-container" tabindex="6">
+        <label class="input-container__label">Minimum time</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-time" tabindex="6" type="tel">
+      </div>
+      <!-- Min accuracy-->
+      <div class="item list-item focusable input-container" tabindex="7">
+        <label class="input-container__label">Minimum accuracy</label>
+        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-accuracy" tabindex="7"
+          type="tel">
+      </div>
+
       <div class="separator">OpenStreetMap</div>
       <button id="osm-oauth" tabindex="4" class="item button-container__button focusable">
         Connect

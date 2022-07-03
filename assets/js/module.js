@@ -91,7 +91,7 @@ const module = (() => {
   let latlngs = [];
   let tracking_latlngs = [];
   let tracking_interval;
-  let tracking_cache = [];
+  let tracking_session = [];
 
   let tracking_distance;
 
@@ -157,33 +157,33 @@ const module = (() => {
         tracking_group
       );
       tracking_path = false;
-      localStorage.removeItem("tracking_cache");
+      localStorage.removeItem("tracking_session");
       return true;
     }
 
     if (action == "tracking") {
-      if (localStorage.getItem("tracking_cache") != null) {
+      if (localStorage.getItem("tracking_session") != null) {
         if (
           window.confirm(
             "Looks like tracking has been interrupted before, would you like to continue?"
           )
         ) {
-          let d = localStorage.getItem("tracking_cache");
+          let d = localStorage.getItem("tracking_session");
 
           d = JSON.parse(d);
 
-          tracking_cache = d;
+          tracking_session = d;
           //restore path
-          for (let i = 0; i < tracking_cache.length; i++) {
-            console.log(tracking_cache[i].lat);
+          for (let i = 0; i < tracking_session.length; i++) {
+            console.log(tracking_session[i].lat);
             polyline_tracking.addLatLng([
-              tracking_cache[i].lat,
-              tracking_cache[i].lng,
+              tracking_session[i].lat,
+              tracking_session[i].lng,
             ]);
           }
         } else {
-          localStorage.removeItem("tracking_cache");
-          tracking_cache = [];
+          localStorage.removeItem("tracking_session");
+          tracking_session = [];
         }
       } else {}
       if (setting.tracking_screenlock) screenWakeLock("lock", "screen");
@@ -193,7 +193,7 @@ const module = (() => {
       let passed_time = 0;
 
       tracking_interval = setInterval(function () {
-        console.log(tracking_cache)
+        console.log(tracking_session)
         passed_time += 1
         polyline_tracking.addLatLng([
           device_lat,
@@ -208,7 +208,7 @@ const module = (() => {
         }
 
 
-        tracking_cache.push({
+        tracking_session.push({
           lat: device_lat, //Latitude
           lng: device_lng, //Longitude
           alt: device_alt, //Altitude
@@ -218,17 +218,17 @@ const module = (() => {
           time: new Date().getTime()//passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
         });
 
-        if (tracking_cache.length > 2) {
+        if (tracking_session.length > 2) {
           var fe = polyline_tracking.getLatLngs(), tot = 0
 
           for (var i = 0; i < fe.length - 1; i++) {
             tot += L.latLng([fe[i].lat, fe[i].lng]).distanceTo([fe[i + 1].lat, fe[i + 1].lng])
           }
           tracking_distance = calc_distance(
-            parseFloat(tracking_cache[tracking_cache.length - 1].lat),
-            parseFloat(tracking_cache[tracking_cache.length - 1].lng),
-            parseFloat(tracking_cache[tracking_cache.length - 2].lat),
-            parseFloat(tracking_cache[tracking_cache.length - 2].lng)
+            parseFloat(tracking_session[tracking_session.length - 1].lat),
+            parseFloat(tracking_session[tracking_session.length - 1].lng),
+            parseFloat(tracking_session[tracking_session.length - 2].lat),
+            parseFloat(tracking_session[tracking_session.length - 2].lng)
           );
           calc += tracking_distance
 
@@ -238,9 +238,9 @@ const module = (() => {
           document.querySelector("#distance").innerText = parseFloat(calc).toFixed(2) + " km";
 
           //check if old tracking
-          let k = JSON.stringify(tracking_cache);
+          let k = JSON.stringify(tracking_session);
 
-          localStorage.setItem("tracking_cache", k);
+          localStorage.setItem("tracking_session", k);
         }
         if (tracking_path == false) {
           clearInterval(tracking_interval);

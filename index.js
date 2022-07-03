@@ -205,13 +205,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function ZoomMap(in_out) {
 		let current_zoom_level = map.getZoom();
+		let zoomstep = 1 * (localStorage.getItem("zoom-speed") || 1)
 		if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
 			if (in_out == "in") {
-				current_zoom_level = current_zoom_level + 1;
+				current_zoom_level = current_zoom_level + zoomstep;
 				map.setZoom(current_zoom_level);
 			}
 			if (in_out == "out") {
-				current_zoom_level = current_zoom_level - 1;
+				current_zoom_level = current_zoom_level - zoomstep;
 				map.setZoom(current_zoom_level);
 			}
 			zoom_level = current_zoom_level;
@@ -288,7 +289,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (zoom_level > 16) {
 			step = 0.0005;
 		}
-		return step;
+		step = step*(localStorage.getItem("pan-speed") || 1);
+		return step
 	}
 
 	/////////////////////
