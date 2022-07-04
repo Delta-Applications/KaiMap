@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (zoom_level > 16) {
 			step = 0.0005;
 		}
-		step = step*(localStorage.getItem("pan-speed") || 1);
+		step = step * (localStorage.getItem("pan-speed") || 1);
 		return step
 	}
 
@@ -465,18 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"afterend",
 			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
 		);
-		document
-			.querySelector("div#layers")
-			.insertAdjacentHTML(
-				"afterend",
-				'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
-			);
-		document
-			.querySelector("div#layers")
-			.insertAdjacentHTML(
-				"afterend",
-				'<div class="item checkbox-container" data-map="weather"><p class="checkbox-container__text">Rainviewer</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
-			);
+
 		document
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
@@ -518,6 +507,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			.insertAdjacentHTML(
 				"afterend",
 				'<div class="item checkbox-container" data-map="owm-temp"><p class="checkbox-container__text">Temperature</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+			);
+
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item checkbox-container" data-map="weather"><p class="checkbox-container__text">Rainviewer</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+			);
+		document
+			.querySelector("div#layers")
+			.insertAdjacentHTML(
+				"afterend",
+				'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 		find_gpx();
 		find_geojson();
@@ -1409,7 +1411,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
 			}
-			
+
 			if (item_value == "share_marker") {
 				windowOpen = "map";
 				selecting_marker = false;
