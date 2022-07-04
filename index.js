@@ -289,6 +289,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (zoom_level > 16) {
 			step = 0.0005;
 		}
+		if (zoom_level > 18) {
+			step = 0.0001;
+		}
 		step = step * (localStorage.getItem("pan-speed") || 1);
 		return step
 	}

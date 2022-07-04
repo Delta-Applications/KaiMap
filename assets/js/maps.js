@@ -296,7 +296,7 @@ const maps = (() => {
       cacheMaxAge: caching_time,
       useOnlyCache: false,
       maxNativeZoom: 18,
-      maxZoom: 22,
+      maxZoom: 20,
       attribution: "Esri World Clarity",
     });
 
