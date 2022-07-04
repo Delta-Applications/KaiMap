@@ -306,6 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (center_to_Screen == true) return;
 			let n = map.getCenter();
 
+			if (isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
 			if (selecting_marker) {
 				selecting_marker = false;
 				jump_index = 0;
@@ -418,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "*":
 				if (windowOpen == "map") {
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
-					selected_marker = module.jump_to_closest_marker();
+					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
 				}
@@ -1413,7 +1414,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				jump_index = 0;
 				jump_closest_index = map.getCenter()
 				document.querySelector("div#markers-option").style.display = "none";
-				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
+				if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 				save_mode = "geojson-single";
 				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
@@ -1425,7 +1426,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				jump_closest_index = map.getCenter()
 				jump_index = 0;
 				document.querySelector("div#markers-option").style.display = "none";
-				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
+				if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 				mozactivity.share_marker_position(selected_marker._latlng, document.querySelector("#marker-pluscode").innerText)
 				bottom_bar("", "", "")
 			}
@@ -2374,7 +2375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "*":
 				if (windowOpen == "map") {
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
-					selected_marker = module.jump_to_closest_marker();
+					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
 				}

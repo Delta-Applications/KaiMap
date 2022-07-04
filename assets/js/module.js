@@ -39,6 +39,22 @@ const module = (() => {
   window.marker_jumpto_onmove = function () {
     map.panTo(current_marker._latlng);
   }
+  let select_marker = function (marker) {
+    let group = markers_group
+    if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
+
+    if (current_marker && isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
+    map.panTo(marker._latlng, map.getZoom());
+    if (group == markers_group_osmnotes) {
+      top_bar("", marker.note_data.comments[0].text, "");
+    }
+    current_marker = marker
+    isjumpingtomarkeronmove = true
+    if (current_marker) current_marker.on('move', marker_jumpto_onmove);
+  }
+
+  let only_inbounds = false
+
   let jump_to_layer = function () {
     let group = markers_group
     if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
@@ -46,65 +62,104 @@ const module = (() => {
     let l = group.getLayers();
     let n = map.getCenter();
 
+    // Ignore all markers that are not in the map bounds
+    l = only_inbounds ? l.filter((m) => {
+      return map.getBounds().contains(m._latlng);
+    }) : l;
 
-    // sort markers by distance to map center
-    l.sort((a, b) => {
-      return map.distance(a._latlng, n) - map.distance(b._latlng, n);
-    });
 
-    // TO:DO Ignore all markers that are not in the map bounds (somehow?)
     jump_index = jump_index + 1;
 
     if (jump_index > l.length - 1) jump_index = 0;
+    select_marker(l[jump_index]);
 
-    if (current_marker && isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
-    map.panTo(l[jump_index]._latlng, map.getZoom());
-    if (group == markers_group_osmnotes) {
-      top_bar("", l[jump_index].note_data.comments[0].text, "");
-    }
-    current_marker = l[jump_index]
-    isjumpingtomarkeronmove = true
-    if (current_marker) current_marker.on('move', marker_jumpto_onmove);
-
- 
     return l[jump_index];
   };
+ 
+  
+
   window.jump_closest_index = map.getCenter()
   let jump_to_closest_marker = function () {
     let group = markers_group
     if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
 
     let l = group.getLayers();
+    let n = map.getCenter();
 
-    // sort markers by closest to jump_closest_index
-    l.sort((a, b) => {
-      return map.distance(a._latlng, jump_closest_index) - map.distance(b._latlng, jump_closest_index);
-    });
+    // Ignore all markers that are not in the map bounds
+    let l_in_bounds = only_inbounds ? l.filter((m) => {
+      return map.getBounds().contains(m._latlng);
+    }) : l;
 
+    // Find the closest marker
+    let closest = l_in_bounds[0];
+    let closest_distance = map.distance(closest._latlng, n);
 
-    let closest = l[0];
-    let closest_distance = jump_closest_index.distanceTo(l[0]._latlng);
-    for (let i = 1; i < l.length; i++) {
-      let d = jump_closest_index.distanceTo(l[i]._latlng);
-      console.log(i, d < closest_distance, map.getBounds().contains(l[i]._latlng), l[i]._latlng !== jump_closest_index)
-      console.log(map.getBounds().contains(l[i]._latlng) && l[i] !== closest)
-      if (i, map.getBounds().contains(l[i]._latlng) && l[i] !== closest) {
-        // set jump_closest_index to previous closest marker
-        jump_closest_index = closest._latlng;
-        closest = l[i];
-        closest_distance = d;
-      }
+    // Sort by the closest markers to the map center that are not the current marker
+    let closest_markers = l_in_bounds.sort((a, b) => {
+      let a_distance = map.distance(a._latlng, n);
+      let b_distance = map.distance(b._latlng, n);
+      if (a_distance < b_distance) return -1;
+      if (a_distance > b_distance) return 1;
+      return 0;
+    }
+    ).filter((m) => {
+      return m._leaflet_id != closest._leaflet_id;
+    }
+    );
+    
+
+    // If there are no other markers, jump to the closest marker
+    if (closest_markers.length == 0) {
+      select_marker(closest);
+      return closest;
+    } 
+
+    // If there is only one closest marker, use it
+    if (closest_markers.length === 1) {
+      console.log(1)
+      closest = closest_markers[0];
+    }
+    // If there are no closest markers, use the first marker
+    else if (closest_markers.length === 0 || l_in_bounds.length === 0) {
+      console.log(2)
+      closest = l[0];
+    }
+    // If there are multiple closest markers, use the first one first and jump through each of them individually
+    else {
+      console.log(3)
+
+      closest = closest_markers[jump_index];
+
+      // Jump to the next closest marker next time
+      jump_index = l.indexOf(closest);
+      if (jump_index > l.length - 1) jump_index = 0;
+      if (jump_index < 0) jump_index = l.length - 1;
+    
     }
 
-    map.panTo(closest._latlng, map.getZoom());
-    if (group == markers_group_osmnotes) {
-      top_bar("", closest.note_data.comments[0].text, "");
-    }
-    current_marker = closest
-    isjumpingtomarkeronmove = true
-    if (current_marker) current_marker.on('move', marker_jumpto_onmove);
+    select_marker(closest);
 
-    return closest;
+    /*let closest_not_current = l_in_bounds.filter((m) => {
+      return m._leaflet_id != current_marker._leaflet_id;
+    }
+    ).sort((a, b) => {
+      return map.distance(a._latlng, n) - map.distance(b._latlng, n);
+    }
+    )[0];
+    
+    let closest_not_current_distance = map.distance(closest_not_current._latlng, n);
+
+    if (current_marker != closest) {
+      select_marker(closest);
+
+    }
+    else {
+      current_marker = closest_not_current;
+      select_marker(closest_not_current);
+
+    }*/
+    return current_marker;
   }
 
 
