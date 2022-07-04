@@ -32,11 +32,11 @@ const module = (() => {
     }
   };
 
-  let index = 0;
+  window.jump_index = 0;
   //move from window. to module. asap
   window.current_marker = ""
   window.isjumpingtomarkeronmove = false
-  window.marker_jumpto_onmove = function(){
+  window.marker_jumpto_onmove = function () {
     map.panTo(current_marker._latlng);
   }
   let jump_to_layer = function () {
@@ -44,24 +44,70 @@ const module = (() => {
     if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
 
     let l = group.getLayers();
+    let n = map.getCenter();
+
+
+    // sort markers by distance to map center
+    l.sort((a, b) => {
+      return map.distance(a._latlng, n) - map.distance(b._latlng, n);
+    });
+
     // TO:DO Ignore all markers that are not in the map bounds (somehow?)
-    index = index + 1;
+    jump_index = jump_index + 1;
 
-    if (index > l.length - 1) index = 0;
+    if (jump_index > l.length - 1) jump_index = 0;
 
-    if (current_marker && isjumpingtomarkeronmove) current_marker.off('move',marker_jumpto_onmove);
-    map.panTo(l[index]._latlng, map.getZoom());
-    if(group == markers_group_osmnotes) {
-      top_bar("", l[index].note_data.comments[0].text, "");
+    if (current_marker && isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
+    map.panTo(l[jump_index]._latlng, map.getZoom());
+    if (group == markers_group_osmnotes) {
+      top_bar("", l[jump_index].note_data.comments[0].text, "");
     }
-    current_marker = l[index]
+    current_marker = l[jump_index]
     isjumpingtomarkeronmove = true
-    if (current_marker) current_marker.on('move',marker_jumpto_onmove);
+    if (current_marker) current_marker.on('move', marker_jumpto_onmove);
 
-    //console.log(l[index]._leaflet_id);
-    let p = l[index]._leaflet_id;
-    return l[index];
+ 
+    return l[jump_index];
   };
+  window.jump_closest_index = map.getCenter()
+  let jump_to_closest_marker = function () {
+    let group = markers_group
+    if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
+
+    let l = group.getLayers();
+
+    // sort markers by closest to jump_closest_index
+    l.sort((a, b) => {
+      return map.distance(a._latlng, jump_closest_index) - map.distance(b._latlng, jump_closest_index);
+    });
+
+
+    let closest = l[0];
+    let closest_distance = jump_closest_index.distanceTo(l[0]._latlng);
+    for (let i = 1; i < l.length; i++) {
+      let d = jump_closest_index.distanceTo(l[i]._latlng);
+      console.log(i, d < closest_distance, map.getBounds().contains(l[i]._latlng), l[i]._latlng !== jump_closest_index)
+      console.log(map.getBounds().contains(l[i]._latlng) && l[i] !== closest)
+      if (i, map.getBounds().contains(l[i]._latlng) && l[i] !== closest) {
+        // set jump_closest_index to previous closest marker
+        jump_closest_index = closest._latlng;
+        closest = l[i];
+        closest_distance = d;
+      }
+    }
+
+    map.panTo(closest._latlng, map.getZoom());
+    if (group == markers_group_osmnotes) {
+      top_bar("", closest.note_data.comments[0].text, "");
+    }
+    current_marker = closest
+    isjumpingtomarkeronmove = true
+    if (current_marker) current_marker.on('move', marker_jumpto_onmove);
+
+    return closest;
+  }
+
+
 
   let calc_distance = function (from_lat, from_lng, to_lat, to_lng) {
     distance = map.distance([from_lat, from_lng], [to_lat, to_lng]) / 1000;
@@ -108,39 +154,39 @@ const module = (() => {
 
     // Metadata
     gpxString += '<metadata>\n' +
-        '    <link href="http://www.nubilion.com">\n' +
-        '    <text>Nubilion</text>\n' +
-        '    <name>' + session.name + '</name>\n' +
-        '    </link>\n' +
-        '    <time>' + session.date.toISOString() + '</time>\n' +
-        '  </metadata>\n';
+      '    <link href="http://www.nubilion.com">\n' +
+      '    <text>Nubilion</text>\n' +
+      '    <name>' + session.name + '</name>\n' +
+      '    </link>\n' +
+      '    <time>' + session.date.toISOString() + '</time>\n' +
+      '  </metadata>\n';
 
     // Waypoints
     for (let i = 0; i < way_points.length; i++) {
-        let way_point = way_points[i];
-        gpxString += '<wpt lat="' + way_point.latitude + '" lon="' + way_point.longitude + '">\n' +
-            '    <name>' + way_point.name + '</name>\n' +
-            '    <time>' + way_point.date.toISOString() + '</time>\n' +
-            '  </wpt>\n';
+      let way_point = way_points[i];
+      gpxString += '<wpt lat="' + way_point.latitude + '" lon="' + way_point.longitude + '">\n' +
+        '    <name>' + way_point.name + '</name>\n' +
+        '    <time>' + way_point.date.toISOString() + '</time>\n' +
+        '  </wpt>\n';
     }
     // Track points
     gpxString += '<trk>\n' +
-        '    <name>' + session.name + '</name>\n' +
-        '    <trkseg>\n';
+      '    <name>' + session.name + '</name>\n' +
+      '    <trkseg>\n';
 
     for (let i = 0; i < tracking_points.length; i++) {
-        let track_point = tracking_points[i];
-        gpxString += '<trkpt lat="' + track_point.latitude + '" lon="' + track_point.longitude + '">\n' +
-            '        <ele>' + track_point.altitude + '</ele>\n' +
-            '        <time>' + track_point.date.toISOString() + '</time>\n' +
-            '      </trkpt>\n';
+      let track_point = tracking_points[i];
+      gpxString += '<trkpt lat="' + track_point.latitude + '" lon="' + track_point.longitude + '">\n' +
+        '        <ele>' + track_point.altitude + '</ele>\n' +
+        '        <time>' + track_point.date.toISOString() + '</time>\n' +
+        '      </trkpt>\n';
     }
     gpxString += '    </trkseg>\n' +
-        '  </trk>\n';
+      '  </trk>\n';
 
     gpxString += '</gpx>';
     return gpxString;
-}
+  }
 
   const measure_distance = function (action) {
     if (action == "destroy") {
@@ -213,13 +259,14 @@ const module = (() => {
           lng: device_lng, //Longitude
           alt: device_alt, //Altitude
           sats: GPSif, //Satellites
-          speed: device_speed,//Speed
-          heading: device_heading,//Heading
-          time: new Date().getTime()//passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
+          speed: device_speed, //Speed
+          heading: device_heading, //Heading
+          time: new Date().getTime() //passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
         });
 
         if (tracking_session.length > 2) {
-          var fe = polyline_tracking.getLatLngs(), tot = 0
+          var fe = polyline_tracking.getLatLngs(),
+            tot = 0
 
           for (var i = 0; i < fe.length - 1; i++) {
             tot += L.latLng([fe[i].lat, fe[i].lng]).distanceTo([fe[i + 1].lat, fe[i + 1].lng])
@@ -318,6 +365,7 @@ const module = (() => {
     measure_distance,
     ruler_toggle,
     jump_to_layer,
+    jump_to_closest_marker,
     calc_distance,
     loadGPX_data
   };

@@ -308,6 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (selecting_marker) {
 				selecting_marker = false;
+				jump_index = 0;
+				jump_closest_index = map.getCenter()
 				if (map.hasLayer(markers_group_osmnotes)) top_bar("", "", "");
 				bottom_bar("", "", "");
 			}
@@ -416,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "*":
 				if (windowOpen == "map") {
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
-					selected_marker = module.jump_to_layer();
+					selected_marker = module.jump_to_closest_marker();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
 				}
@@ -450,10 +452,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p><p class="list-item__subtext">Map</p></div>'
 		);
 
-		el.insertAdjacentHTML(
+		/*el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p><p class="list-item__subtext">Satellite</p></div>'
-		);
+		);*/
 
 		el.insertAdjacentHTML(
 			"afterend",
@@ -1408,6 +1410,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				bottom_bar("", "", "")
 				windowOpen = "map";
 				selecting_marker = false;
+				jump_index = 0;
+				jump_closest_index = map.getCenter()
 				document.querySelector("div#markers-option").style.display = "none";
 				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				save_mode = "geojson-single";
@@ -1418,6 +1422,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "share_marker") {
 				windowOpen = "map";
 				selecting_marker = false;
+				jump_closest_index = map.getCenter()
+				jump_index = 0;
 				document.querySelector("div#markers-option").style.display = "none";
 				if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				mozactivity.share_marker_position(selected_marker._latlng, document.querySelector("#marker-pluscode").innerText)
@@ -1555,13 +1561,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				top_bar("", "", "");
 				windowOpen = "map";
 			}
-			if (item_value == "satellite") {
+			/*if (item_value == "satellite") {
 				maps.satellite_map();
 
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
 				windowOpen = "map";
-			}
+			}*/
 			if (item_value == "toner") {
 				maps.toner_map();
 				document.querySelector("div#finder").style.display = "none";
@@ -2095,6 +2101,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (isjumpingtomarkeronmove) current_marker.off('move', marker_jumpto_onmove);
 					selected_marker = "";
 					selecting_marker = false;
+					jump_index = 0;
+					jump_closest_index = map.getCenter()
 					break;
 				}
 
@@ -2366,7 +2374,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "*":
 				if (windowOpen == "map") {
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
-					selected_marker = module.jump_to_layer();
+					selected_marker = module.jump_to_closest_marker();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
 				}
