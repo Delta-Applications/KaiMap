@@ -78,6 +78,7 @@ let setting = {
 	last_weather: localStorage.getItem("last_weather"),
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
 	virtualizedMarkers: localStorage.getItem("marker-virtualization"),
+	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
 };
 
 //Hide off-screen markers to reduce lag
@@ -1510,6 +1511,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				setting.markerVirtualization = !setting.markerVirtualization
 				document.activeElement.children[2].checked = setting.markerVirtualization ? 1 : 0
 			}
+			if (item_value == "select-offscreen-markers") {
+				setting.selectOffscreenMarkers = !setting.selectOffscreenMarkers
+				document.activeElement.children[2].checked = setting.selectOffscreenMarkers ? 1 : 0
+		    }
 
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");
@@ -2257,7 +2262,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				// check if document.activeElement has .comment class
 				if (document.activeElement.className == "item list-item focusable comment") {
-					if (map.hasLayer(markers_group_osmnotes)) window.open(document.activeElement.children[1].getElementsByTagName('a')[0].href);
+					if (map.hasLayer(markers_group_osmnotes)) {
+						// open first <a> or <img> link if it exists
+						if (document.activeElement.children[1].getElementsByTagName('a')[0]) {
+							window.open(document.activeElement.children[1].getElementsByTagName('a')[0].href)
+						} else if (document.activeElement.children[1].getElementsByTagName('img')[0]) {
+							window.open(document.activeElement.children[1].getElementsByTagName('img')[0].src)
+						}
+					};
 				}
 
 				if (windowOpen == "markers_option" && selected_marker != "") {

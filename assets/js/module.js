@@ -53,7 +53,7 @@ const module = (() => {
     if (current_marker) current_marker.on('move', marker_jumpto_onmove);
   }
 
-  let only_inbounds = false
+  let only_inbounds = !localStorage.getItem("select-offscreen-markers")
 
   let jump_to_layer = function () {
     let group = markers_group

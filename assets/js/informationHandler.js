@@ -169,7 +169,6 @@ const informationHandler = (() => {
                 insertAfter(el, document.querySelector("#marker-overpass"))
             }
 
-
             let p = marker.note_data
             let comments = p.comments.map((x) => x);
             // Order comments from least recent to most recent
@@ -186,7 +185,15 @@ const informationHandler = (() => {
                 let author = action + (comments[i].user ? comments[i].user : 'Anonymous');
                 // do not insert <br> if text message is empty
                 let date = moment.utc(comments[i].date.slice(0, -4)).local().calendar()
-                let text = comments[i].text ? date + "<br></br>" + comments[i].html.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") : date;
+                let text = comments[i].text ? 
+                            date + "<br></br>" + comments[i].html
+                            .replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") // remove all <p> tags
+                            //replace all <a> tags containing an image link with an image tag
+                            .replace(/<a[^>]+?href="([^"]+?\.(jpe?g|png|gif|bmp|svg|webp))"[^>]*?>([^<]*?)<\/a>/img, '<img style="max-width:100%;overflow:hidden;" src="$1" alt="$3">')
+                            //.replace(/(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/ig, "<br><img style='max-width:100%;overflow:hidden;' src='$1'>") // replace image links with image
+                            //.replace(/(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim, '<a href="$1" target="_blank">$1</a>') // replace links with <a> tag
+                            .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>') // replace email addresses with mailto: tag
+                             : date;
                 appendcomment(author, text)
             }
 

@@ -683,7 +683,60 @@ const maps = (() => {
       });
   };
 
+   //display osm contributors of map bounds in attribution control
+  /*map.on("moveend", function () {
+    if (zoom_level < 16) return;
+    var bounds = map.getBounds();
+    var southWest = bounds.getSouthWest();
+    var northEast = bounds.getNorthEast();
+    var bounds = [southWest.lng, southWest.lat, northEast.lng, northEast.lat];
+    var url =
+      "https://api.openstreetmap.org/api/0.6/map?bbox=" +
+      bounds.join(",") 
+    fetch(url)
+    .then(function (data) {
+      return data.text();
+    })
+    .then(function (data) {
+      console.log(data);
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data, "application/xml");
+      return xml
+    })
+      .then(function (data) {
 
+        // list all contributors 
+        var contributors = [];
+        var contributors_list = data.querySelectorAll('[user]');
+        for (var i = 0; i < contributors_list.length; i++) {
+          contributors.push(contributors_list[i].getAttribute("user"));
+        }
+        // remove duplicates
+        contributors = contributors.filter(function (item, pos) {
+          return contributors.indexOf(item) == pos;
+        });
+        // display contributors
+        var contributors_string = "";
+        for (var i = 0; i < contributors.length; i++) {
+         
+          contributors_string += contributors[i] + ", ";
+          if (contributors.length > 3 && i == 2) {
+            contributors_string = contributors_string.slice(0, -2);
+            contributors_string = contributors_string + " and " + (contributors.length - 3) + " more";
+            break;
+          }
+        }
+        console.log(contributors_string);
+        var attribution =
+          '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+          contributors_string;
+        map.attributionControl.setPrefix(attribution);
+     
+
+      
+      });
+  }
+  );*/
   let overlayers = {};
 
   let addMap = function (name, url, attribution, max_zoom, type, activeEl) {
@@ -1035,10 +1088,10 @@ const maps = (() => {
       timeout: 1000
     });
 
-    let text = prompt("Reopen OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
-    if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+    //let text = prompt("Reopen OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+    //if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
 
-    let reopen_url = text ? (note.note_data.reopen_url + "?text=" + text) : note.note_data.reopen_url;
+    let reopen_url = note.note_data.reopen_url //text ? (note.note_data.reopen_url + "?text=" + text) : note.note_data.reopen_url;
 
     fetch(reopen_url, {
         method: 'POST',
@@ -1073,7 +1126,6 @@ const maps = (() => {
         informationHandler.PreciseMarkerUpdate(note)
       })
   }
-
 
   let running = false;
   let k;
