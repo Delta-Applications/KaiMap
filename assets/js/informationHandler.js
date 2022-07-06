@@ -479,7 +479,7 @@ const informationHandler = (() => {
             document.querySelector("#olcode").innerText = data.olc
             document.querySelector("#satnum").innerText = data.GPSif
 
-            document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block":" none");
+            document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");
 
         } catch (error) {
             console.error(error.message)

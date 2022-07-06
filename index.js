@@ -421,10 +421,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 			case "*":
 				if (windowOpen == "map") {
-					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
+					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				}
 				break;
 
@@ -530,11 +530,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				"afterend",
 				'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
+		load_maps();
 		find_gpx();
+		osm_server_list_gpx();
 		find_geojson();
 		find_kml();
-		load_maps();
-		osm_server_list_gpx();
 		finder_tabindex()
 
 	};
@@ -1456,7 +1456,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "remove_marker") {
 				if (confirm("Are you sure you want to remove this marker?") == true) {
-					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
+					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					if (!map.hasLayer(markers_group_osmnotes)) {
 						markers_group.removeLayer(selected_marker)
 					} else {
@@ -1822,6 +1822,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#finder").style.display = "none";
 		document.querySelector("div#gpxtrack-info").style.display = "block";
 		bottom_bar("", "", "")
+		top_bar("", "", "")
 		document.querySelector("div#gpxtrack-info").children[0].focus();
 		windowOpen = "gpxtrack-info";
 		tabIndex = 0;
@@ -2126,12 +2127,20 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "Backspace":
-				if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info") && !$("input").is(":focus")) {
+				if (windowOpen == "gpxtrack-info"  && !$("input").is(":focus")) {
+					document.querySelector("div#gpxtrack-info").style.display = "none";
+					finder_tabindex();
+					document.querySelector("div#finder").style.display = "block";
+					finder_navigation("start");
+					windowOpen = "finder";
+					return
+				}
+				if ((windowOpen == "finder" || windowOpen == "markers_option") && !$("input").is(":focus")) {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
-					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
+					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					document.querySelector("div#markers-option").style.display = "none";
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					windowOpen = "map";
@@ -2474,10 +2483,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "*":
 				if (windowOpen == "map") {
-					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 					selected_marker = module.jump_to_layer();
 					selecting_marker = true;
 					bottom_bar("Cancel", "SELECT", "");
+					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 				}
 
 				break;

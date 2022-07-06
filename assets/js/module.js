@@ -282,6 +282,7 @@ const module = (() => {
         tracking_group
       );
       tracking_path = false;
+      current_gpx = "";
       localStorage.removeItem("tracking_session");
       return true;
     }
@@ -348,7 +349,7 @@ const module = (() => {
     ]; */
 
       function decideTime(pos1, pos2){
-        let timeThreshold = 2000//allTimeIntervals[newTrackPointTimeInterval].value;
+        let timeThreshold = 3000//allTimeIntervals[newTrackPointTimeInterval].value;
         if (timeThreshold == 0){
             return true;
         }else{
