@@ -5,6 +5,7 @@
   /* <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> */
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 0;
 }
 
 .leaflet-ruler:hover {
@@ -23,6 +24,7 @@
 
 .leaflet-bar {
   background-color: #ffffff;
+  opacity: 0;
 }
 
 .leaflet-control {
@@ -32,7 +34,7 @@
 .result-tooltip {
   background-color: white;
   border-width: medium;
-  border-color: #de0000;
+  border-color: var(--accent-color);
   font-size: smaller;
 }
 
@@ -41,7 +43,7 @@
   background-clip: padding-box;
   opacity: 0.5;
   border: dotted;
-  border-color: red;
+  border-color: var(--accent-color);
   font-size: smaller;
 }
 

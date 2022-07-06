@@ -2129,6 +2129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "Backspace":
 				if (windowOpen == "gpxtrack-info"  && !$("input").is(":focus")) {
 					document.querySelector("div#gpxtrack-info").style.display = "none";
+					document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");
 					finder_tabindex();
 					document.querySelector("div#finder").style.display = "block";
 					finder_navigation("start");
@@ -2324,6 +2325,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 				}
 				if (document.activeElement == document.querySelector('[data-map="view-gpxinfo"]')){
+					document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");
 
 					view_gpxinfo()
 					
@@ -2457,8 +2459,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "map") coordinations("show");
 				break;
 
-			case "7":
-				if (windowOpen == "map" && confirm("Toggle ruler? (You will need to restart the app after using it)")) module.ruler_toggle();
+			case "7": //&& confirm("Toggle ruler? (You will need to restart the app after using it)")
+				if (windowOpen == "map" ) module.ruler_toggle();
 				break;
 
 			case "8":

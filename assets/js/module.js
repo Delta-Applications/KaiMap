@@ -3,16 +3,18 @@ const module = (() => {
   ////RULER///////////
   ///////////////////
   var ruler_activ = false;
+  let ruler = null;
   let ruler_toggle = function () {
     if (ruler_activ) {
-      $(".leaflet-interactive").remove();
-      $("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
-      $(
-        "div.leaflet-tooltip.result-tooltip.leaflet-zoom-animated.leaflet-tooltip-left"
-      ).remove();
-      $("div.leaflet-ruler").remove();
-      $(".result-tooltip").remove();
-      $(".moving-tooltip").remove();
+      //$(".leaflet-interactive").remove();
+      //$("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
+      // $(
+      //  "div.leaflet-tooltip.result-tooltip.leaflet-zoom-animated.leaflet-tooltip-left"
+      //).remove();
+      //$("div.leaflet-ruler").remove();
+      //$(".result-tooltip").remove();
+      // $(".moving-tooltip").remove();
+      top_bar("", "", "")
 
       L.control.ruler().remove();
 
@@ -23,7 +25,7 @@ const module = (() => {
     }
     if (!ruler_activ) {
       L.control.ruler().addTo(map);
-      $("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
+      //$("div.leaflet-ruler").addClass("leaflet-ruler-clicked");
 
       navigator.spatialNavigationEnabled = true;
       ruler_activ = true;
@@ -247,7 +249,7 @@ const module = (() => {
       '    <time>' + date.toISOString() + '</time>\n' +
       '  </metadata>\n';
 
-  
+
     // Track points
     gpxString += '<trk>\n' +
       '    <name>' + name + '</name>\n' +
@@ -348,34 +350,34 @@ const module = (() => {
         {value: 50, text: "100 m (328.08 ft)"}
     ]; */
 
-      function decideTime(pos1, pos2){
-        let timeThreshold = 3000//allTimeIntervals[newTrackPointTimeInterval].value;
-        if (timeThreshold == 0){
+      function decideTime(pos1, pos2) {
+        let timeThreshold = 3000 //allTimeIntervals[newTrackPointTimeInterval].value;
+        if (timeThreshold == 0) {
+          return true;
+        } else {
+          let timePassed = pos2.timestamp - pos1.timestamp;
+          if (timePassed > timeThreshold) {
             return true;
-        }else{
-            let timePassed = pos2.timestamp - pos1.timestamp;
-            if (timePassed > timeThreshold){
-                return true;
-            }else{
-                return false;
-            }
+          } else {
+            return false;
+          }
         }
-    }
-    
-    function decideDistance(pos1, pos2){
-        let distanceThreshold = 0//allDistances[newTrackPointDistance].value;
-        if (distanceThreshold == 0){
+      }
+
+      function decideDistance(pos1, pos2) {
+        let distanceThreshold = 0 //allDistances[newTrackPointDistance].value;
+        if (distanceThreshold == 0) {
+          return true;
+        } else {
+          let distance = Math.abs(calc_distance(pos1.lat, pos1.lng, pos2.lat, pos2.lng));
+          if (distance > distanceThreshold) {
             return true;
-        }else{
-            let distance = Math.abs(calc_distance(pos1.lat, pos1.lng, pos2.lat, pos2.lng));
-            if (distance > distanceThreshold){
-                return true;
-            }else{
-                return false;
-            }
+          } else {
+            return false;
+          }
         }
-    }
-    
+      }
+
 
       function decideSaveOrNot(pos) {
         if (previousPosition == null) {
@@ -401,7 +403,7 @@ const module = (() => {
         } catch (error) {
           data.GPSif = "Unavailable"
         }
-        
+
         let point_data = {
           lat: device_lat, //Latitude
           lng: device_lng, //Longitude
@@ -421,7 +423,7 @@ const module = (() => {
           point_data.lng,
         ]);
 
-      
+
 
         tracking_session.push(point_data);
 
@@ -450,11 +452,11 @@ const module = (() => {
 
           localStorage.setItem("tracking_session", k);
 
-          
+
           // set path as current gpx track
           current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
-						async: true,
-					})            
+            async: true,
+          })
 
         }
         if (tracking_path == false) {

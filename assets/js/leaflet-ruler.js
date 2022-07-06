@@ -14,11 +14,13 @@
     options: {
       position: "topright",
       circleMarker: {
-        color: "red",
+        color: "#3388ff",
         radius: 2,
       },
       lineStyle: {
-        color: "red",
+        color: "#3388ff",
+        weight: 4,
+        opacity: 0.7,
         dashArray: "1,6",
       },
       lengthUnit: {
@@ -43,9 +45,48 @@
       this._choice = false;
       this._defaultCursor = this._map._container.style.cursor;
       this._allLayers = L.layerGroup();
+
+      top_bar("","","")
+
+      this._clickedLatLong = null;
+      this._clickedPoints = [];
+      this._totalLength = 0;
+      
+      this._map.doubleClickZoom.disable();
+      L.DomEvent.on(this._map._container, "keydown", this._escape, this);
+      L.DomEvent.on(this._map._container, "dblclick", this._closePath, this);
+      this._container.classList.add("leaflet-ruler-clicked");
+      this._clickCount = 0;
+      this._tempLine = L.featureGroup().addTo(this._allLayers);
+      this._tempPoint = L.featureGroup().addTo(this._allLayers);
+      this._pointLayer = L.featureGroup().addTo(this._allLayers);
+      this._polylineLayer = L.featureGroup().addTo(this._allLayers);
+      this._allLayers.addTo(this._map);
+      this._map._container.style.cursor = "crosshair";
+      this._map.on("click", this._clicked, this);
+      this._map.on("mousemove", this._moving, this);
       return this._container;
     },
     onRemove: function () {
+      this._map.doubleClickZoom.enable();
+      L.DomEvent.off(this._map._container, "keydown", this._escape, this);
+      L.DomEvent.off(this._map._container, "dblclick", this._closePath, this);
+      this._container.classList.remove("leaflet-ruler-clicked");
+      this._map.removeLayer(this._tempLine);
+      this._map.removeLayer(this._tempPoint);
+      if (this._clickCount <= 1) this._map.removeLayer(this._pointLayer);
+      this._map.removeLayer(this._allLayers);
+      this._allLayers = L.layerGroup();
+      this._clickedLatLong = null;
+      this._clickedPoints = [];
+      this._totalLength = 0;
+      this._clickCount = 0;
+
+      top_bar("","","")
+
+      this._map._container.style.cursor = this._defaultCursor;
+      this._map.off("click", this._clicked, this);
+      this._map.off("mousemove", this._moving, this);
       L.DomEvent.off(this._container, "click", this._toggleMeasure, this);
     },
     _toggleMeasure: function () {
@@ -154,45 +195,29 @@
           this.options.lineStyle
         ).addTo(this._tempLine);
         if (this._clickCount > 1) {
-          text =
-            "<b>" +
-            this.options.angleUnit.label +
-            "</b>&nbsp;" +
-            this._result.Bearing.toFixed(this.options.angleUnit.decimal) +
-            "&nbsp;" +
-            this.options.angleUnit.display +
-            "<br><b>" +
-            this.options.lengthUnit.label +
-            "</b>&nbsp;" +
-            this._addedLength.toFixed(this.options.lengthUnit.decimal) +
-            "&nbsp;" +
-            this.options.lengthUnit.display +
-            '<br><div class="plus-length">(+' +
-            this._result.Distance.toFixed(this.options.lengthUnit.decimal) +
-            ")</div>";
+          top_bar(
+          this._clickCount,utility.degToCompass(this._result.Bearing.toFixed(this.options.angleUnit.decimal))  + " " + this._result.Bearing.toFixed(this.options.angleUnit.decimal)+"°  "+
+          this._addedLength.toFixed(this.options.lengthUnit.decimal) + " " + this.options.lengthUnit.display
+          +" (+"+this._result.Distance.toFixed(this.options.lengthUnit.decimal)+")","")
+
+         
         } else {
-          text =
-            "<b>" +
-            this.options.angleUnit.label +
-            "</b>&nbsp;" +
-            this._result.Bearing.toFixed(this.options.angleUnit.decimal) +
-            "&nbsp;" +
-            this.options.angleUnit.display +
-            "<br><b>" +
-            this.options.lengthUnit.label +
-            "</b>&nbsp;" +
-            this._result.Distance.toFixed(this.options.lengthUnit.decimal) +
-            "&nbsp;" +
-            this.options.lengthUnit.display;
+
+          top_bar(
+            this._clickCount,utility.degToCompass(this._result.Bearing.toFixed(this.options.angleUnit.decimal))  + " " + this._result.Bearing.toFixed(this.options.angleUnit.decimal)+"°  "
+            +this._result.Distance.toFixed(this.options.lengthUnit.decimal)+" "+this.options.lengthUnit.display,"")
+
+        
+
         }
         L.circleMarker(this._movingLatLong, this.options.circleMarker)
-          .bindTooltip(text, {
+          /*.bindTooltip(text, {
             sticky: true,
             offset: L.point(0, -40),
             className: "moving-tooltip",
-          })
+          })*/
           .addTo(this._tempPoint)
-          .openTooltip();
+          /*.openTooltip();*/
       }
     },
     _escape: function (e) {
