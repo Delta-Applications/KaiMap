@@ -40,7 +40,10 @@ img#about {
   background-color: transparent !important;
   display: none !important;
 }
-
+.graph {
+  height: auto !important;
+  background: rgb(19, 19, 19) !important;
+}
 .comment {
   height: auto !important;
 }
@@ -463,6 +466,14 @@ div#top-bar div#button-left {
   width: 30%;
 }
 
+div#gpxtrack-info {
+  background: var(--app-background);
+  position: fixed;
+  z-index: 5;
+  display: none;
+  overflow: hidden !important;
+  max-height: 99vh !important;
+}
 
 div#markers-option {
   background: var(--app-background);
@@ -622,6 +633,13 @@ div#finder div#close {
 }
 
 div#finder .item:focus {
+  background: var(--accent-color);
+  border-color: var(--item-focused-text-color);
+  color: var(--item-focused-text-color);
+}
+
+
+div#gpxtrack-info .item:focus {
   background: var(--accent-color);
   border-color: var(--item-focused-text-color);
   color: var(--item-focused-text-color);

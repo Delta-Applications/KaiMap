@@ -129,7 +129,107 @@ const informationHandler = (() => {
     function insertBefore(newNode, existingNode) {
         existingNode.parentNode.insertBefore(newNode, existingNode);
     }
+    let PreciseGpxTrackUpdate = function (track) {
+        /////////////////////////
+	/// GPX TRACK INFO  /////
+	/////////////////////////
 
+	function showGraph(elementId, dataIn, title) {
+		let ctx = document.getElementById(elementId).getContext('2d');
+		let data = [];
+		let labels = [];
+		let factor = Math.floor(dataIn.length / 320);
+		if (factor == 0){
+			factor = 1;
+		}
+		console.log(factor);
+		for (let i = 0; i < dataIn.length; i = i + factor) {
+			data.push({x: (dataIn[i][0]).toFixed(3), y: dataIn[i][1]});
+			labels.push((dataIn[i][0]).toFixed(3));
+		}
+	
+		let myChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: title,
+					data: data,
+					borderColor: 'rgb(31, 96, 237)',
+					borderWidth: 1,
+					fill: true,
+				}]
+			},
+			options: {
+				responsive: true,
+				elements: {
+					point: {
+						radius: 0
+					}
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'km' //(allUnits[units].value == 'm') ? 'km' : 'miles'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'm'//(allUnits[units].value == 'm') ? 'm' : 'ft'
+						}
+					}]
+				}
+			}
+		});
+		console.log(myChart);
+	}
+
+	//((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
+		// ((allUnits[units].value == 'm') ? 'Elevation [m]' : 'Elevation [ft]'))
+		showGraph("elevation-graph", track.get_elevation_data(), 'Elevation [m]');
+		/*   <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Elevation Gain, Loss</p>
+      <p class="list-item__subtext" id="elev-ga-lo">#</p>
+    </div>
+
+    <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Elevation Max, Min</p>
+      <p class="list-item__subtext" id="elev-max-min">#</p>
+    </div>
+    <div class="separator">Data</div>
+
+    <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Name</p>
+      <p class="list-item__subtext" id="name">#</p>
+    </div>
+
+    <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Author</p>
+      <p class="list-item__subtext" id="author">#</p>
+    </div>
+
+    <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Distance covered</p>
+      <p class="list-item__subtext" id="dist-cov">#</p>
+    </div>
+
+    <div class="item list-item focusable" tabindex=0>
+      <p class="list-item__text">Moving Speed, Pace</p>
+      <p class="list-item__subtext" id="moving-sp-pa">#</p> */
+	  document.querySelector("#elev-ga-lo").innerText = track.get_elevation_gain().toFixed(2)+ " m"+", "+track.get_elevation_loss().toFixed(2)+ " m";
+		document.querySelector("#elev-max-min").innerText = track.get_elevation_max().toFixed(2)+ " m"+", "+track.get_elevation_min().toFixed(2)+ " m";
+		document.querySelector("#name").innerText = track.get_name() || "Unknown";
+		document.querySelector("#author").innerText = track.get_author() || "Unknown";
+		document.querySelector("#dist-cov").innerText = (track.get_distance() / 1000).toFixed(3)+ " km";
+		document.querySelector("#moving-sp-pa").innerText = track.get_moving_speed().toFixed(2)+ " km/h"+", "+ (track.get_moving_pace() / 1000).toFixed(0)+ " sec/km";
+
+		
+	
+    }
     let PreciseMarkerUpdate = function (marker, nooverpass) {
 
         let marker_stats = marker
@@ -378,6 +478,9 @@ const informationHandler = (() => {
             data.olc = OLC.encode(data.raw.latitude, data.raw.longitude)
             document.querySelector("#olcode").innerText = data.olc
             document.querySelector("#satnum").innerText = data.GPSif
+
+            document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block":" none");
+
         } catch (error) {
             console.error(error.message)
         }
@@ -569,6 +672,7 @@ const informationHandler = (() => {
         UpdateInfo,
         UpdateWeather,
         PreciseGeoUpdate,
-        PreciseMarkerUpdate
+        PreciseMarkerUpdate,
+        PreciseGpxTrackUpdate
     };
 })();

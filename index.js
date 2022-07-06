@@ -11,6 +11,7 @@ let center_to_Screen;
 let north_rotation = true;
 let selected_marker = "";
 let selecting_marker;
+let current_gpx = "";
 let selecting_path;
 let tracking_path = false;
 
@@ -79,6 +80,7 @@ let setting = {
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
 	virtualizedMarkers: localStorage.getItem("marker-virtualization"),
 	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
+	exportTracksAsGPX: true,
 };
 
 //Hide off-screen markers to reduce lag
@@ -707,7 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.text())
 			.then((data) => {
 				var gpx = data;
-				new L.GPX(gpx, {
+				current_gpx = new L.GPX(gpx, {
 						async: true,
 					})
 					.on("loaded", function (e) {
@@ -819,6 +821,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#markers-option").style.display = "block";
 		document.querySelector("#remove_marker").style.display = "block"
 
+		
 		tabIndex = 0;
 		finder_tabindex();
 
@@ -1075,7 +1078,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			reader.onloadend = function (event) {
 				var gpx = event.target.result; // URL to your GPX file or the GPX itself
 
-				new L.GPX(gpx, {
+				current_gpx = new L.GPX(gpx, {
 						async: true,
 					})
 					.on("loaded", function (e) {
@@ -1756,6 +1759,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	}
 
+	/////////////////////////
+	/// GPX TRACK INFO  /////
+	/////////////////////////
+
+	function showGraph(elementId, dataIn, title) {
+		let ctx = document.getElementById(elementId).getContext('2d');
+		let data = [];
+		let labels = [];
+		let factor = Math.floor(dataIn.length / 320);
+		if (factor == 0){
+			factor = 1;
+		}
+		console.log(factor);
+		for (let i = 0; i < dataIn.length; i = i + factor) {
+			data.push({x: (dataIn[i][0]).toFixed(3), y: dataIn[i][1]});
+			labels.push((dataIn[i][0]).toFixed(3));
+		}
+	
+		let myChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: title,
+					data: data,
+					borderColor: 'rgb(31, 96, 237)',
+					borderWidth: 1,
+					fill: true,
+				}]
+			},
+			options: {
+				responsive: true,
+				elements: {
+					point: {
+						radius: 0
+					}
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'km' //(allUnits[units].value == 'm') ? 'km' : 'miles'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'm'//(allUnits[units].value == 'm') ? 'm' : 'ft'
+						}
+					}]
+				}
+			}
+		});
+		console.log(myChart);
+	}
+
+
+	function view_gpxinfo(){
+		document.querySelector("div#finder").style.display = "none";
+		document.querySelector("div#gpxtrack-info").style.display = "block";
+		bottom_bar("", "", "")
+		document.querySelector("div#gpxtrack-info").children[0].focus();
+		windowOpen = "gpxtrack-info";
+		tabIndex = 0;
+		finder_tabindex(); //((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
+		informationHandler.PreciseGpxTrackUpdate(current_gpx)
+	}
+	
+
+
 	//////////////////////////
 	////SEARCH BOX////////////
 	/////////////////////////
@@ -1840,7 +1915,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	function nav(move) {
-		if ((windowOpen == "finder" || windowOpen == "markers_option")) { //&& !$("input").is(":focus")
+		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info")) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -2042,7 +2117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param.key) {
 
 			case "EndCall":
-				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option") {
+				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info") {
 					if (confirm("Are you sure you want to exit?")) {
 						window.goodbye();
 						windowOpen = "";
@@ -2051,13 +2126,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "Backspace":
-				if ((windowOpen == "finder" || windowOpen == "markers_option") && !$("input").is(":focus")) {
+				if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info") && !$("input").is(":focus")) {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
 					if (selected_marker) selected_marker.on('move', selected_marker_onmove);
 					document.querySelector("div#markers-option").style.display = "none";
+					document.querySelector("div#gpxtrack-info").style.display = "none";
 					windowOpen = "map";
 
 					break;
@@ -2147,7 +2223,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
-					geojson.save_geojson(user_input("return") + ".geojson", "tracking");
+					if (setting.exportTracksAsGPX) {
+						geojson.save_geojson(user_input("return") + ".gpx", "tracking_gpx");
+
+					}else{
+						geojson.save_geojson(user_input("return") + ".geojson", "tracking");
+					}	
+
 					save_mode = "";
 					user_input("close")
 					break;
@@ -2232,7 +2314,13 @@ document.addEventListener("DOMContentLoaded", function () {
 						});
 					}
 				}
+				if (document.activeElement == document.querySelector('[data-map="view-gpxinfo"]')){
 
+					view_gpxinfo()
+					
+					
+					break;
+				}
 				if (
 					document.activeElement == document.getElementById("save-settings")
 				) {
@@ -2290,7 +2378,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 5000
 						});
 						save_mode = "geojson-tracking";
-						user_input("open", now(), "Export tracked path as GeoJSON");
+						user_input("open", now(), (setting.exportTracksAsGPX ? "Export tracked path as GPX"  : "Export tracked path as GeoJSON"));
 						bottom_bar("Continue", "Delete", "Save")
 
 						return true;

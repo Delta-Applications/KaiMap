@@ -25,6 +25,12 @@ const geojson = ((_) => {
       let e = tracking_group.toGeoJSON();
       extData = JSON.stringify(e);
     }
+    
+   
+   
+    if (type == "tracking_gpx") {
+      extData = module.getGpxStringFromDatabase(file_path_name, new Date(tracking_session[0].timestamp), tracking_session)
+    }
 
     if (type == "collection") {
       let collection = markers_group.toGeoJSON();
@@ -48,28 +54,28 @@ const geojson = ((_) => {
     let sdcard = navigator.getDeviceStorage("sdcard");
     if (sdcard.lowDiskSpace) {
       kaiosToaster({
-      message: "SD-Card Disk Space is low",
-      position: 'north',
-      type: 'warning',
-      timeout: 3000
-    });
-  }
+        message: "SD-Card Space is low",
+        position: 'north',
+        type: 'warning',
+        timeout: 3000
+      });
+    }
     let requestAdd = sdcard.addNamed(geojson_file, file_path_name);
 
     requestAdd.onsuccess = function () {
       kaiosToaster({
-        message: "Successfully exported GeoJSON",
+        message: "Successfully exported file",
         position: 'north',
         type: 'success',
         timeout: 3000
       });
-        windowOpen = "map";
+      windowOpen = "map";
     };
 
     requestAdd.onerror = function () {
       console.error(this.error)
       kaiosToaster({
-        message: "Unable to write to file:"+ this.error+" .",
+        message: "Unable to write to file:" + this.error + " .",
         position: 'north',
         type: 'error',
         timeout: 3000

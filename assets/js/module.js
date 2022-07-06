@@ -75,10 +75,43 @@ const module = (() => {
 
     return l[jump_index];
   };
- 
-  
+
+
 
   window.jump_closest_index = map.getCenter()
+  // Intended behavior: User clicks *, closest marker is selected, and marker navigation continues on from that marker's index 
+  let jump_closest = function () {
+    let group = markers_group
+    if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
+
+    let l = group.getLayers();
+    let n = map.getCenter();
+
+    // Ignore all markers that are not in the map bounds
+    l = only_inbounds ? l.filter((m) => {
+
+      return map.getBounds().contains(m._latlng);
+    }) : l;
+
+    let closest = l.reduce((prev, curr) => {
+      let d = L.latLng(n).distanceTo(curr._latlng);
+      if (d < prev.distance) {
+        return {
+          distance: d,
+          marker: curr
+        };
+      }
+      return prev;
+    }, {
+      distance: Infinity,
+      marker: null
+    });
+
+    jump_index = l.indexOf(closest.marker);
+    select_marker(closest.marker);
+
+    return closest.marker;
+  }
   let jump_to_closest_marker = function () {
     let group = markers_group
     if (map.hasLayer(markers_group_osmnotes)) group = markers_group_osmnotes;
@@ -102,18 +135,16 @@ const module = (() => {
       if (a_distance < b_distance) return -1;
       if (a_distance > b_distance) return 1;
       return 0;
-    }
-    ).filter((m) => {
+    }).filter((m) => {
       return m._leaflet_id != closest._leaflet_id;
-    }
-    );
-    
+    });
+
 
     // If there are no other markers, jump to the closest marker
     if (closest_markers.length == 0) {
       select_marker(closest);
       return closest;
-    } 
+    }
 
     // If there is only one closest marker, use it
     if (closest_markers.length === 1) {
@@ -135,7 +166,7 @@ const module = (() => {
       jump_index = l.indexOf(closest);
       if (jump_index > l.length - 1) jump_index = 0;
       if (jump_index < 0) jump_index = l.length - 1;
-    
+
     }
 
     select_marker(closest);
@@ -192,7 +223,7 @@ const module = (() => {
   let latlngs = [];
   let tracking_latlngs = [];
   let tracking_interval;
-  let tracking_session = [];
+  window.tracking_session = [];
 
   let tracking_distance;
 
@@ -201,7 +232,7 @@ const module = (() => {
     tracking_group
   );
 
-  function getGpxStringFromDatabase(session, tracking_points, way_points) {
+  function getGpxStringFromDatabase(name, date, tracking_points) {
     let gpxString = '';
 
     gpxString += '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
@@ -209,31 +240,24 @@ const module = (() => {
 
     // Metadata
     gpxString += '<metadata>\n' +
-      '    <link href="http://www.nubilion.com">\n' +
-      '    <text>Nubilion</text>\n' +
-      '    <name>' + session.name + '</name>\n' +
+      '    <link href="https://github.com/Delta-Applications/KaiMap">\n' +
+      '    <text>KaiMap for KaiOS</text>\n' +
+      '    <name>' + name + '</name>\n' +
       '    </link>\n' +
-      '    <time>' + session.date.toISOString() + '</time>\n' +
+      '    <time>' + date.toISOString() + '</time>\n' +
       '  </metadata>\n';
 
-    // Waypoints
-    for (let i = 0; i < way_points.length; i++) {
-      let way_point = way_points[i];
-      gpxString += '<wpt lat="' + way_point.latitude + '" lon="' + way_point.longitude + '">\n' +
-        '    <name>' + way_point.name + '</name>\n' +
-        '    <time>' + way_point.date.toISOString() + '</time>\n' +
-        '  </wpt>\n';
-    }
+  
     // Track points
     gpxString += '<trk>\n' +
-      '    <name>' + session.name + '</name>\n' +
+      '    <name>' + name + '</name>\n' +
       '    <trkseg>\n';
 
     for (let i = 0; i < tracking_points.length; i++) {
       let track_point = tracking_points[i];
-      gpxString += '<trkpt lat="' + track_point.latitude + '" lon="' + track_point.longitude + '">\n' +
-        '        <ele>' + track_point.altitude + '</ele>\n' +
-        '        <time>' + track_point.date.toISOString() + '</time>\n' +
+      gpxString += '<trkpt lat="' + track_point.lat + '" lon="' + track_point.lng + '">\n' +
+        '        <ele>' + track_point.alt + '</ele>\n' +
+        '        <time>' + new Date(track_point.timestamp).toISOString() + '</time>\n' +
         '      </trkpt>\n';
     }
     gpxString += '    </trkseg>\n' +
@@ -266,7 +290,7 @@ const module = (() => {
       if (localStorage.getItem("tracking_session") != null) {
         if (
           window.confirm(
-            "Looks like tracking has been interrupted before, would you like to continue?"
+            "Looks like tracking has been interrupted before, would you like to restore the previous track?"
           )
         ) {
           let d = localStorage.getItem("tracking_session");
@@ -293,31 +317,112 @@ const module = (() => {
       let calc = 0;
       let passed_time = 0;
 
-      tracking_interval = setInterval(function () {
-        console.log(tracking_session)
-        passed_time += 1
-        polyline_tracking.addLatLng([
-          device_lat,
-          device_lng,
-        ]);
+      // save point or not
+      var previousForDistance = null;
+      var previousPosition = null;
+      /*  allTimeIntervals = [
+        {value: 0, text: getTranslation('text_all_time')},
+        {value: 1000, text: "1 s"},
+        {value: 2000, text: "2 s"},
+        {value: 5000, text: "5 s"},
+        {value: 10000, text: "10 s"},
+        {value: 15000, text: "15 s"},
+        {value: 20000, text: "20 s"},
+        {value: 30000, text: "30 s"},
+        {value: 45000, text: "45 s"},
+        {value: 60000, text: "60 s"},
+        {value: 90000, text: "90 s"},
+        {value: 120000, text: "2 min"},
+        {value: 300000, text: "5 min"}
+    ];
 
+    allDistances = [
+        {value: 0, text: getTranslation('text_all_points')},
+        {value: 1, text: "1 m (3.28 ft)"},
+        {value: 2, text: "2 m (6.56 ft)"},
+        {value: 5, text: "5 m (16.40 ft)"},
+        {value: 10, text: "10 m (32.8 ft)"},
+        {value: 20, text: "20 m (65.62 ft)"},
+        {value: 50, text: "50 m (164.04 ft)"},
+        {value: 50, text: "100 m (328.08 ft)"}
+    ]; */
+
+      function decideTime(pos1, pos2){
+        let timeThreshold = 2000//allTimeIntervals[newTrackPointTimeInterval].value;
+        if (timeThreshold == 0){
+            return true;
+        }else{
+            let timePassed = pos2.timestamp - pos1.timestamp;
+            if (timePassed > timeThreshold){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    
+    function decideDistance(pos1, pos2){
+        let distanceThreshold = 0//allDistances[newTrackPointDistance].value;
+        if (distanceThreshold == 0){
+            return true;
+        }else{
+            let distance = Math.abs(calc_distance(pos1.lat, pos1.lng, pos2.lat, pos2.lng));
+            if (distance > distanceThreshold){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    
+
+      function decideSaveOrNot(pos) {
+        if (previousPosition == null) {
+          previousForDistance = previousPosition;
+          previousPosition = pos;
+          return true;
+        } else {
+          if (decideDistance(previousPosition, pos) && decideTime(previousPosition, pos)) {
+            previousForDistance = previousPosition;
+            previousPosition = pos;
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+      //
+
+      tracking_interval = setInterval(function () {
         GPSif = 0;
         try {
           GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num;
         } catch (error) {
           data.GPSif = "Unavailable"
         }
-
-
-        tracking_session.push({
+        
+        let point_data = {
           lat: device_lat, //Latitude
           lng: device_lng, //Longitude
           alt: device_alt, //Altitude
           sats: GPSif, //Satellites
           speed: device_speed, //Speed
           heading: device_heading, //Heading
-          time: new Date().getTime() //passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
-        });
+          timestamp: new Date().getTime() //passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
+        }
+        console.log(tracking_session)
+        if (!decideSaveOrNot(point_data)) {
+          return;
+        }
+        passed_time += 1
+        polyline_tracking.addLatLng([
+          point_data.lat,
+          point_data.lng,
+        ]);
+
+      
+
+        tracking_session.push(point_data);
 
         if (tracking_session.length > 2) {
           var fe = polyline_tracking.getLatLngs(),
@@ -343,6 +448,13 @@ const module = (() => {
           let k = JSON.stringify(tracking_session);
 
           localStorage.setItem("tracking_session", k);
+
+          
+          // set path as current gpx track
+          current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
+						async: true,
+					})            
+
         }
         if (tracking_path == false) {
           clearInterval(tracking_interval);
@@ -422,6 +534,7 @@ const module = (() => {
     jump_to_layer,
     jump_to_closest_marker,
     calc_distance,
-    loadGPX_data
+    loadGPX_data,
+    getGpxStringFromDatabase,
   };
 })();
