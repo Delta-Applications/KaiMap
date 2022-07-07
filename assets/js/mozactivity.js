@@ -11,18 +11,13 @@ const mozactivity = (() => {
       alert("Failure when trying to pick");
     };
   };
-
   let share_position = function () {
+    let l = setting.shareUsingShortLinks ?
+      "https://osm.org/go/" + OSMShortCode.encode(current_lat, current_lng, map.getZoom()) :
+      "https://www.openstreetmap.org/?mlat=" + current_lat + "&mlon=" + current_lng + "#map=13/" + current_lat + "/" + current_lng + "&layers=T";
+
     let a =
-      "Check out my position: https://www.openstreetmap.org/?mlat=" +
-      current_lat +
-      "&mlon=" +
-      current_lng +
-      "#map=13/" +
-      current_lat +
-      "/" +
-      current_lng +
-      "&layers=T";
+      "Check out my position: " + l + "\n Sent using KaiMap for KaiOS"
 
     let activity = new MozActivity({
       name: "share",
@@ -41,17 +36,13 @@ const mozactivity = (() => {
     };
   };
 
-  let share_marker_position = function(lat_lng,pluscode) {
+  let share_marker_position = function (lat_lng, pluscode) {
+    let l = setting.shareUsingShortLinks ?
+      "https://osm.org/go/" + OSMShortCode.encode(lat_lng.lat, lat_lng.lng, map.getZoom()) :
+      "https://www.openstreetmap.org/?mlat=" + lat_lng.lat + "&mlon=" + lat_lng.lng + "#map=13/" + lat_lng.lat + "/" + lat_lng.lng + "&layers=T and Plus Code (OLC): " + pluscode;;
+
     let a =
-      "Check out this marker position: https://www.openstreetmap.org/?mlat=" +
-      lat_lng.lat +
-      "&mlon=" +
-      lat_lng.lng +
-      "#map=13/" +
-      lat_lng.lat +
-      "/" +
-      lat_lng.lng +
-      "&layers=T and Plus Code (OLC): "+pluscode;
+      "Check out this marker position: " + l + "\n Sent using KaiMap for KaiOS"
 
     let activity = new MozActivity({
       name: "share",
@@ -71,7 +62,7 @@ const mozactivity = (() => {
   };
 
 
-  
+
   const photo = function () {
     let activity = new MozActivity({
       name: "record",

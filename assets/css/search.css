@@ -6,15 +6,15 @@ div#olc {
     top: 30px;
     height: 20px;
     padding: 5px;
-    background: white;
-    color: black;
+    background: var(--item-background);
+    color: var(--item-text-color);
     z-index: 5;
     width: 100%;
     display: none;
 }
 
 div#search-box {
-    background: #cccccc;
+    background: var(--item-background);
     width: 100%;
     overflow: hidden;
     padding: 5px;
@@ -33,26 +33,33 @@ div#search-box input {
 
 .autocomplete-suggestions {
     border: 0px solid #999;
-    background: white;
+    background: var(--item-background);
     border-radius: 3px;
     overflow: auto;
     margin: 0px 0 0 0;
+    color: var(--item-text-color);
 }
 
 div.autocomplete-suggestion {
     padding: 0px 0px;
     margin: 0 0 0px 0;
     border-radius: 3px;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     overflow: hidden;
-    background: white;
+    background: var(--item-background);
+    color: var(--item-text-color);
+
 }
 
 .autocomplete-selected {
-    background: silver !Important;
+    background: var(--item-focused-background) !important;
+    color: var(--item-focused-text-color) !important;
 }
-
-.autocomplete-suggestions strong {
+.autocomplete-selected strong {
+    font-weight: normal;
+    color: var(--item-focused-text-color) !important;
+}
+.autocomplete-suggestion strong {
     font-weight: normal;
     color: var(--accent-color);
 }

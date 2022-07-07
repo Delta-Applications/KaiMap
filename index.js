@@ -81,6 +81,7 @@ let setting = {
 	virtualizedMarkers: localStorage.getItem("marker-virtualization"),
 	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
 	exportTracksAsGPX: true,
+	shareUsingShortLinks: true,
 };
 
 //Hide off-screen markers to reduce lag
@@ -1420,7 +1421,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#markers-option").style.display = "none";
 				if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 				save_mode = "geojson-single";
-				user_input("open", document.querySelector("#marker-pluscode").innerText + "_" + now(), "Export marker in GeoJSON format");
+				user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH:mm:ss") , "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
 			}
 
@@ -2389,7 +2390,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 5000
 						});
 						save_mode = "geojson-tracking";
-						user_input("open", now(), (setting.exportTracksAsGPX ? "Export tracked path as GPX"  : "Export tracked path as GeoJSON"));
+						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH:mm:ss"), (setting.exportTracksAsGPX ? "Export tracked path as GPX"  : "Export tracked path as GeoJSON"));
 						bottom_bar("Continue", "Delete", "Save")
 
 						return true;
@@ -2449,7 +2450,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "5":
 				if (windowOpen == "map") {
 					save_mode = "geojson-single";
-					user_input("open", now(), "Save this Marker as a GeoJson file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH:mm:ss"), "Save this Marker as a GeoJson file");
 					bottom_bar("Cancel", "", "Save");
 					break;
 				}
@@ -2466,7 +2467,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "8":
 				if (windowOpen == "map") {
 					save_mode = "geojson-collection";
-					user_input("open", now(), "Export all Markers as a GeoJSON file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Markers]_YYYY-MM-DD_HH:mm:ss"), "Export all Markers as a GeoJSON file");
 					bottom_bar("Cancel", "", "Save");
 
 				}

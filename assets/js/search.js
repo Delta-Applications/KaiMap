@@ -13,12 +13,32 @@ $(document).ready(function () {
     deferRequestBy: 2000,
     transformResult: function (response) {
       var obj = $.parseJSON(response);
+     // order suggestions by closeness to device_lat and device_lng
+      obj.sort(function (a, b) {
+        let a_lat = a.lat;
+        let a_lng = a.lon;
+        let b_lat = b.lat;
+        let b_lng = b.lon;
+
+        let a_dist = Math.sqrt(Math.pow(a_lat - device_lat, 2) + Math.pow(a_lng - device_lng, 2));
+        let b_dist = Math.sqrt(Math.pow(b_lat - device_lat, 2) + Math.pow(b_lng - device_lng, 2));
+
+        return a_dist - b_dist;
+      });
+     
+    
+
       return {
         suggestions: $.map(obj, function (dataItem) {
           return {
             value: dataItem.display_name,
             data_lat: dataItem.lat,
             data_lon: dataItem.lon,
+            //bounding box
+            data_bbox_lat_min: dataItem.boundingbox[0],
+            data_bbox_lat_max: dataItem.boundingbox[2],
+            data_bbox_lon_min: dataItem.boundingbox[1],
+            data_bbox_lon_max: dataItem.boundingbox[3],
           };
         }),
       };
@@ -30,19 +50,27 @@ $(document).ready(function () {
     onSelect: function (suggestion) {
       let lat_lon = [suggestion.data_lat, suggestion.data_lon];
       localStorage.setItem("last_location", JSON.stringify(lat_lon));
-
-      addMarker(lat_lon[0], lat_lon[1]);
+      // add bounding bo to arguments array
+      let bbox = [suggestion.data_bbox_lat_min, suggestion.data_bbox_lon_min, suggestion.data_bbox_lat_max, suggestion.data_bbox_lon_max];
+      
+      addMarker(lat_lon[0], lat_lon[1], bbox);
     },
   });
 
   //add marker
-  function addMarker(lat, lng) {
-    map.setView([lat, lng], 13);
+  function addMarker(lat, lng, bbox) {
+    
     hideSearch();
     current_lat = Number(lat);
     current_lng = Number(lng);
 
     L.marker([current_lat, current_lng]).addTo(markers_group);
+    //set map bounding box
+    //map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]]);
+    
+    //set map center
+    map.setView([current_lat, current_lng], 14);
+    
     toaster("Press 5 to save the search result as marker");
   }
 
