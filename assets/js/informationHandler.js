@@ -227,10 +227,10 @@ const informationHandler = (() => {
 		document.querySelector("#dist-cov").innerText = (track.get_distance() / 1000).toFixed(3)+ " km";
 		document.querySelector("#moving-sp-pa").innerText = track.get_moving_speed().toFixed(2)+ " km/h"+", "+ (track.get_moving_pace() / 1000).toFixed(0)+ " sec/km";
 
-        document.querySelector("#endtime").innerText = moment(track.get_start_time()).local().calendar()  || "Unknown";
-		document.querySelector("#starttime").innerText = moment(track.get_end_time()).local().calendar() || "Unknown";
+        document.querySelector("#endtime").innerText = moment(track.get_end_time()).local().calendar()  || "Unknown";
+		document.querySelector("#starttime").innerText = moment(track.get_start_time()).local().calendar() || "Unknown";
 
-        document.querySelector("#tottime").innerText = track.get_duration_string(track.get_titak_time(), true) || "Unknown";
+        document.querySelector("#tottime").innerText = track.get_duration_string(track.get_total_time(), true) || "Unknown";
 		document.querySelector("#movtime").innerText =  track.get_duration_string(track.get_moving_time(), true) || "Unknown";
 
 
