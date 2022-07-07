@@ -271,7 +271,7 @@ const module = (() => {
 
   const measure_distance = function (action) {
     if (action == "destroy") {
-      status.path_selection = false;
+      path_selection = false;
       measure_group_path.clearLayers();
       measure_group.clearLayers();
       polyline = L.polyline(latlngs, path_option).addTo(measure_group_path);
@@ -468,7 +468,7 @@ const module = (() => {
     }
 
     if (action == "addMarker") {
-      status.path_selection = true;
+      path_selection = true;
       L.marker([current_lat, current_lng])
         .addTo(measure_group)
         .setIcon(maps.select_icon);

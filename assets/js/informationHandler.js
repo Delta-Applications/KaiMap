@@ -296,9 +296,10 @@ const informationHandler = (() => {
                             .replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") // remove all <p> tags
                             //replace all <a> tags containing an image link with an image tag
                             .replace(/<a[^>]+?href="([^"]+?\.(jpe?g|png|gif|bmp|svg|webp))"[^>]*?>([^<]*?)<\/a>/img, '<img style="max-width:100%;overflow:hidden;" src="$1" alt="$3">')
-                            //.replace(/(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/ig, "<br><img style='max-width:100%;overflow:hidden;' src='$1'>") // replace image links with image
-                            //.replace(/(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim, '<a href="$1" target="_blank">$1</a>') // replace links with <a> tag
-                            .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>') // replace email addresses with mailto: tag
+                            // replace links with <a> tag
+                            .replace(/(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim, '<a href="$1" target="_blank">$1</a>') 
+                            // replace email addresses with mailto: tag
+                            .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>') 
                              : date;
                 appendcomment(author, text)
             }
