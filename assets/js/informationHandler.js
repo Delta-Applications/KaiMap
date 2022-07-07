@@ -230,8 +230,8 @@ const informationHandler = (() => {
         document.querySelector("#endtime").innerText = moment(track.get_end_time()).local().calendar()  || "Unknown";
 		document.querySelector("#starttime").innerText = moment(track.get_start_time()).local().calendar() || "Unknown";
 
-        document.querySelector("#tottime").innerText = track.get_duration_string(track.get_total_time(), true) || "Unknown";
-		document.querySelector("#movtime").innerText =  track.get_duration_string(track.get_moving_time(), true) || "Unknown";
+        document.querySelector("#tottime").innerText = track.get_duration_string(track.get_total_time(), false) || "Unknown";
+		document.querySelector("#movtime").innerText =  track.get_duration_string(track.get_moving_time(), false) || "Unknown";
 
 
 	
