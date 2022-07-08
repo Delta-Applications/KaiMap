@@ -724,7 +724,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				windowOpen = "map";
 			})
 			.catch((error) => {
-				helper.side_toaster(error, 2000);
+				kaiosToaster({
+					message: "Failed to fetch GPX: "+ error,
+					position: 'north',
+					type: 'error',
+					timeout: 4000
+				});
+				console.log(error);
+			
 			});
 	};
 
@@ -750,11 +757,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			})
 			.then((response) => response.text())
 			.then((data) => {
-				helper.side_toaster("file uploaded", 4000);
+				kaiosToaster({
+					message: "Successfully uploaded GPX",
+					position: 'north',
+					type: 'success',
+					timeout: 3000
+				  });
 			})
 
 			.catch((error) => {
-				helper.side_toaster(error, 4000);
+					kaiosToaster({
+					message: "Failed to upload GPX: "+error,
+					position: 'north',
+					type: 'error',
+					timeout: 4000
+				});y
 			});
 	};
 
@@ -2394,7 +2411,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						});
 						save_mode = "geojson-tracking";
 						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH:mm:ss"), (setting.exportTracksAsGPX ? "Export tracked path as GPX"  : "Export tracked path as GeoJSON"));
-						bottom_bar("Continue", "Delete", "Save")
+						bottom_bar("Continue", "Discard", "Save")
 
 						return true;
 					} else {

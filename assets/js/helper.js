@@ -105,9 +105,12 @@ function deleteFile(storage, path, notification) {
 
   requestDel.onsuccess = function () {
     if (notification == "notification") {
-      toaster(
-        'File "' + name + '" successfully deleted frome the sdcard storage area'
-      );
+      kaiosToaster({
+        message: "Deleted file",
+        position: 'north',
+        type: 'success',
+        timeout: 1000
+      });
     }
   };
 
@@ -187,7 +190,7 @@ let add_file = function () {
 
   request.onsuccess = function () {
     var name = this.result;
-    toaster("Please repeat the last action again.", 2000);
+    //toaster("Please repeat the last action again.", 2000);
   };
 
   // An error typically occur if a file with the same name already exist
