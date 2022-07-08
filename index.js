@@ -81,6 +81,7 @@ let setting = {
 	exportTracksAsGPX: true,
 	shareUsingShortLinks: true,
 	invertmaptiles: localStorage.getItem("invertmaptiles") == "true" || false,
+	fitBoundsWhileTracking: true,
 
 	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
@@ -631,9 +632,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("user");
 
-				let username = s[0].getAttribute("display_name");
+				window.osm_username = s[0].getAttribute("display_name");
 				document
-					.querySelector("#osm-oauth").innerText = username
+					.querySelector("#osm-oauth").innerText = osm_username
 				window.isLoggedIn = true
 			});
 
@@ -2192,7 +2193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					save_mode = "";
 					user_input("close")
 					kaiosToaster({
-						message: "Tracking continued",
+						message: "Tracking resumed",
 						position: 'north',
 						type: 'info',
 						timeout: 5000
@@ -2410,8 +2411,10 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 5000
 						});
 						save_mode = "geojson-tracking";
-						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH:mm:ss"), (setting.exportTracksAsGPX ? "Export tracked path as GPX"  : "Export tracked path as GeoJSON"));
-						bottom_bar("Continue", "Discard", "Save")
+						//map fitbounds of tracking group
+						map.fitBounds(tracking_group.getBounds());
+						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH:mm:ss"), (setting.exportTracksAsGPX ? "Export track as GPX"  : "Export track as GeoJSON"));
+						bottom_bar("Resume", "Discard", "Save")
 
 						return true;
 					} else {
@@ -2495,9 +2498,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "9":
-				if (windowOpen == "map")
+				if (windowOpen == "map") {
+					// If OSM Notes are open, create a note
 					if (map.hasLayer(markers_group_osmnotes)) return maps.create_osm_note(map.getCenter());
-				L.marker(map.getCenter()).addTo(markers_group);
+					// If isTracking, create a track waypoint
+					if (tracking_path) module.measure_distance("tracking_waypoint", (prompt("Track Waypoint Name")|| tracking_waypoints.length+1));
+					// Otherwise create a marker to the map
+					L.marker(map.getCenter()).addTo(markers_group);
+				}
+					
 				break;
 
 			case "0":

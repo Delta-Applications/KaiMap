@@ -29,7 +29,7 @@ const geojson = ((_) => {
    
    
     if (type == "tracking_gpx") {
-      extData = module.getGpxStringFromDatabase(file_path_name, new Date(tracking_session[0].timestamp), tracking_session)
+      extData = module.getGpxStringFromDatabase(file_path_name, new Date(tracking_session[0].timestamp), tracking_session, tracking_waypoints)
     }
 
     if (type == "collection") {

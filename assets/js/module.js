@@ -250,15 +250,16 @@ const module = (() => {
   let tracking_latlngs = [];
   let tracking_interval;
   window.tracking_session = [];
+  window.tracking_waypoints = [];
 
   let tracking_distance;
 
   let polyline = L.polyline(latlngs, path_option).addTo(measure_group_path);
-  let polyline_tracking = L.polyline(tracking_latlngs, path_option).addTo(
+  window.polyline_tracking = L.polyline(tracking_latlngs, path_option).addTo(
     tracking_group
   );
 
-  function getGpxStringFromDatabase(name, date, tracking_points) {
+  function getGpxStringFromDatabase(name, date, tracking_points, way_points) {
     let gpxString = '';
 
     gpxString += '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
@@ -271,8 +272,13 @@ const module = (() => {
       '    <name>' + name + '</name>\n' +
       '    </link>\n' +
       '    <time>' + date.toISOString() + '</time>\n' +
+       (window.isLoggedIn ? '  <author>\n' +
+       '    <name>' + window.osm_username + '</name>\n' +
+       '  </author>\n' : '')+ 
+      
       '  </metadata>\n';
-
+      //if window.isLoggedIn add author
+  
 
     // Track points
     gpxString += '<trk>\n' +
@@ -289,11 +295,26 @@ const module = (() => {
     gpxString += '    </trkseg>\n' +
       '  </trk>\n';
 
+      // way_points
+      if (way_points) {
+        gpxString += '<wpts>\n';
+        for (let i = 0; i < way_points.length; i++) {
+          let way_point = way_points[i];
+          gpxString += '<wpt lat="' + way_point.lat + '" lon="' + way_point.lng + '">\n' +
+            '        <name>' + way_point.name + '</name>\n' +
+            '        <ele>' + way_point.alt + '</ele>\n' +
+            '        <time>' + new Date(way_point.timestamp).toISOString() + '</time>\n' +
+            '      </wpt>\n';
+        }
+        gpxString += '</wpts>\n';
+      }
+  
+
     gpxString += '</gpx>';
     return gpxString;
   }
 
-  const measure_distance = function (action) {
+  const measure_distance = function (action, arg) {
     if (action == "destroy") {
       path_selection = false;
       measure_group_path.clearLayers();
@@ -310,9 +331,23 @@ const module = (() => {
       tracking_path = false;
       current_gpx = "";
       localStorage.removeItem("tracking_session");
+      localStorage.removeItem("tracking_waypoints")
+
       return true;
     }
+    if (action == "tracking_waypoint") {
+      let way_point = {
+        lat: map.getCenter().lat,
+        lng: map.getCenter().lng,
+        alt: device_alt,
+        name: arg,
+        timestamp: new Date().getTime(),
+      };
+      window.tracking_waypoints.push(way_point);
+      localStorage.setItem("tracking_waypoints", tracking_waypoints)
 
+      return true;
+    }
     if (action == "tracking") {
       if (localStorage.getItem("tracking_session") != null) {
         if (
@@ -321,7 +356,7 @@ const module = (() => {
           )
         ) {
           let d = localStorage.getItem("tracking_session");
-
+          window.tracking_waypoints = JSON.parse(localStorage.getItem("tracking_waypoints")) || tracking_waypoints;
           d = JSON.parse(d);
 
           tracking_session = d;
@@ -335,7 +370,9 @@ const module = (() => {
           }
         } else {
           localStorage.removeItem("tracking_session");
+          localStorage.removeItem("tracking_waypoints")
           tracking_session = [];
+          tracking_waypoints = [];
         }
       } else {}
       if (setting.tracking_screenlock) screenWakeLock("lock", "screen");
@@ -476,7 +513,7 @@ const module = (() => {
 
           localStorage.setItem("tracking_session", k);
 
-
+          if(setting.fitBoundsWhileTracking) map.fitBounds(tracking_group.getBounds());
           // set path as current gpx track
           current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
             async: true,
