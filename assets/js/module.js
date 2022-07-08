@@ -55,7 +55,7 @@ const module = (() => {
     if (current_marker) current_marker.on('move', marker_jumpto_onmove);
   }
 
-  let only_inbounds = !localStorage.getItem("select-offscreen-markers")
+  let jmpt_0 = false
 
   let jump_to_layer = function () {
     let group = markers_group
@@ -63,16 +63,38 @@ const module = (() => {
 
     let l = group.getLayers();
     let n = map.getCenter();
+    let only_inbounds = !localStorage.getItem("select-offscreen-markers")
+
 
     // Ignore all markers that are not in the map bounds
     l = only_inbounds ? l.filter((m) => {
       return map.getBounds().contains(m._latlng);
     }) : l;
 
+    // Find the closest marker
+    let closest = l.reduce((prev, curr) => {
+      let d = n.distanceTo(curr._latlng);
+      if (d < prev.d) return { d, m: curr };
+      return prev;
+    }, { d: Infinity, m: null });
 
-    jump_index = jump_index + 1;
+    // If the jump_index is 0, set it to the closest marker's index
+    if (closest.m && window.jump_index == 0) {
+      // if already jumped to 0, jump to closest marker index + 1
+      if (window.jump_index == l.indexOf(closest.m) && jmpt_0) {
+        window.jump_index = (l.indexOf(closest.m) + 1) % l.length;
+        jmpt_0 = false
+      } else {
+        window.jump_index = l.indexOf(closest.m);
+        jmpt_0 = window.jump_index == l.indexOf(closest.m)
+      }
+    }
+    else
+      window.jump_index = (window.jump_index + 1) % l.length;
+    
+   // jump_index = jump_index + 1;
 
-    if (jump_index > l.length - 1) jump_index = 0;
+    //if (jump_index > l.length - 1) jump_index = 0;
     select_marker(l[jump_index]);
 
     return l[jump_index];
@@ -88,6 +110,8 @@ const module = (() => {
 
     let l = group.getLayers();
     let n = map.getCenter();
+    let only_inbounds = !localStorage.getItem("select-offscreen-markers")
+
 
     // Ignore all markers that are not in the map bounds
     l = only_inbounds ? l.filter((m) => {
