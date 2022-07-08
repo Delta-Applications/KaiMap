@@ -2511,7 +2511,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							timeout: 2000
 						  });
 						name = name || tracking_waypoints.length+1
-						module.measure_distance("tracking_waypoint", );
+						module.measure_distance("tracking_waypoint", name);
 					}
 					// Otherwise create a marker to the map
 					L.marker(map.getCenter()).addTo(markers_group);

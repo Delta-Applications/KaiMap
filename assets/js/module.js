@@ -337,10 +337,10 @@ const module = (() => {
     }
     if (action == "tracking_waypoint") {
       let way_point = {
-        lat: map.getCenter().lat,
-        lng: map.getCenter().lng,
+        lat: device_lat,
+        lng: device_lng,
         alt: device_alt,
-        name: arg,
+        name: arg||"Not set",
         timestamp: new Date().getTime(),
       };
       window.tracking_waypoints.push(way_point);
