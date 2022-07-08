@@ -83,6 +83,8 @@ let setting = {
 	exportTracksAsGPX: true,
 	shareUsingShortLinks: true,
 	invertmaptiles: localStorage.getItem("invertmaptiles") || false,
+
+	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
 
 //Hide off-screen markers to reduce lag

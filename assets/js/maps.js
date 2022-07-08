@@ -959,7 +959,7 @@ const maps = (() => {
     let text = prompt("Create OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
     if (!text) return;
 
-    fetch(osm_api_createnote + "?lat=" + pos.lat + "&lon=" + pos.lng + "&text=" + encodeURIComponent(text) + encodeURIComponent("\nSent using KaiMaps for KaiOS"), {
+    fetch(osm_api_createnote + "?lat=" + pos.lat + "&lon=" + pos.lng + "&text=" + encodeURIComponent(text) + encodeURIComponent(setting.messageSignature), {
         method: 'POST',
         body: JSON.stringify({}),
         headers: localStorage.getItem("openstreetmap_token") ? {
@@ -996,7 +996,7 @@ const maps = (() => {
     });
     let text = encodeURIComponent(prompt("Close OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : "")) || "");
 
-    if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+    if (text) text += encodeURIComponent(setting.messageSignature);
 
     let close_url = text ? (note.note_data.close_url + "?text=" + text) : note.note_data.close_url;
 
@@ -1046,7 +1046,7 @@ const maps = (() => {
     });
 
     let text = prompt("Comment on OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
-    if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+    if (text) text += encodeURIComponent(setting.messageSignature);
 
     if (!text) return;
 
@@ -1091,7 +1091,7 @@ const maps = (() => {
     });
 
     //let text = prompt("Reopen OSM Note (Can be left empty)" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
-    //if (text) text += encodeURIComponent("\nSent using KaiMaps for KaiOS");
+    //if (text) text += encodeURIComponent(setting.messageSignature);
 
     let reopen_url = note.note_data.reopen_url //text ? (note.note_data.reopen_url + "?text=" + text) : note.note_data.reopen_url;
 

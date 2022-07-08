@@ -17,7 +17,7 @@ const mozactivity = (() => {
       "https://www.openstreetmap.org/?mlat=" + current_lat + "&mlon=" + current_lng + "#map=13/" + current_lat + "/" + current_lng + "&layers=T";
 
     let a =
-      "Check out my position: " + l + "\n Sent using KaiMap for KaiOS"
+      "Check out my position: " + l + "\nSent using KaiMap for KaiOS"
 
     let activity = new MozActivity({
       name: "share",
@@ -42,7 +42,7 @@ const mozactivity = (() => {
       "https://www.openstreetmap.org/?mlat=" + lat_lng.lat + "&mlon=" + lat_lng.lng + "#map=13/" + lat_lng.lat + "/" + lat_lng.lng + "&layers=T and Plus Code (OLC): " + pluscode;;
 
     let a =
-      "Check out this marker position: " + l + "\n Sent using KaiMap for KaiOS"
+      "Check out this marker position: " + l + setting.messageSignature
 
     let activity = new MozActivity({
       name: "share",
