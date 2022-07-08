@@ -51,18 +51,18 @@ const settings = ((_) => {
     document.getElementById("cache-time").value = localStorage.getItem("cache-time") || 7;
     document.getElementById("cache-zoom").value = localStorage.getItem("cache-zoom") || 12;
     document.getElementById("export-path").value = localStorage.getItem("export-path");
-    document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization") || true;
+    document.getElementById("marker-virtualization").checked = localStorage.getItem("marker-virtualization") == "true" || true;
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") || "tr";
     
     // select-offscreen-markers
-    document.getElementById("select-offscreen-markers").checked = localStorage.getItem("select-offscreen-markers") || true;
+    document.getElementById("select-offscreen-markers").checked = localStorage.getItem("select-offscreen-markers") == "true" || true;
     //invertmaptiles
 
-    document.getElementById("invertmaptiles").checked = localStorage.getItem("invertmaptiles") || false;
+    document.getElementById("invertmaptiles").checked = localStorage.getItem("invertmaptiles") == "true";
     function invertMapTiles(bool) {
       document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
     }
-    invertMapTiles(localStorage.getItem("invertmaptiles") || false);
+    invertMapTiles(localStorage.getItem("invertmaptiles") == "true" || false);
 
     // pan-speed
     document.getElementById("pan-speed").value = localStorage.getItem("pan-speed") || "1";

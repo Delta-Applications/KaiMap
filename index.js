@@ -82,7 +82,7 @@ let setting = {
 	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
 	exportTracksAsGPX: true,
 	shareUsingShortLinks: true,
-	nvertmaptiles: localStorage.getItem("invertmaptiles") || false,
+	invertmaptiles: localStorage.getItem("invertmaptiles") || false,
 };
 
 //Hide off-screen markers to reduce lag
