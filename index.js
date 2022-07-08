@@ -78,11 +78,9 @@ let setting = {
 	openweather_api: localStorage.getItem("owm-key"),
 	last_weather: localStorage.getItem("last_weather"),
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-	virtualizedMarkers: localStorage.getItem("marker-virtualization"),
-	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
 	exportTracksAsGPX: true,
 	shareUsingShortLinks: true,
-	invertmaptiles: localStorage.getItem("invertmaptiles") || false,
+	invertmaptiles: localStorage.getItem("invertmaptiles") == "true" || false,
 
 	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
@@ -1515,17 +1513,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (item_value == "marker-virtualization") {
-				setting.markerVirtualization = !setting.markerVirtualization
-				document.activeElement.children[2].checked = setting.markerVirtualization ? 1 : 0
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 			}
 			if (item_value == "select-offscreen-markers") {
-				setting.selectOffscreenMarkers = !setting.selectOffscreenMarkers
-				document.activeElement.children[2].checked = setting.selectOffscreenMarkers ? 1 : 0
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 		    }
 			//     //invertmaptiles
 			if (item_value == "invertmaptiles") {
-				setting.invertmaptiles = !setting.invertmaptiles
-				document.activeElement.children[2].checked = setting.invertmaptiles ? 1 : 0
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 			}
 
 			if (item_value == "strava-heatmap") {

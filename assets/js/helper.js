@@ -88,7 +88,6 @@ function user_input(param, file_name, desc) {
 function localStorageWriteRead(item, value) {
   if (
     item != "" &&
-    value != "" &&
     value != "undefined" &&
     item != "undefined"
   ) {
