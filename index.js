@@ -82,6 +82,7 @@ let setting = {
 	selectOffscreenMarkers: localStorage.getItem("select-offscreen-markers") || true,
 	exportTracksAsGPX: true,
 	shareUsingShortLinks: true,
+	nvertmaptiles: localStorage.getItem("invertmaptiles") || false,
 };
 
 //Hide off-screen markers to reduce lag
@@ -480,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item checkbox-container" data-map="strava-heatmap"><p class="checkbox-container__text">Strava Heatmap</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+				'<div class="item checkbox-container" data-map="strava-heatmap"><p class="checkbox-container__text">OSM GPS Tracks</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 
 		document
@@ -1519,6 +1520,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				setting.selectOffscreenMarkers = !setting.selectOffscreenMarkers
 				document.activeElement.children[2].checked = setting.selectOffscreenMarkers ? 1 : 0
 		    }
+			//     //invertmaptiles
+			if (item_value == "invertmaptiles") {
+				setting.invertmaptiles = !setting.invertmaptiles
+				document.activeElement.children[2].checked = setting.invertmaptiles ? 1 : 0
+			}
 
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");

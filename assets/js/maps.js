@@ -348,7 +348,7 @@ const maps = (() => {
     ame.children[2].checked = 1
 
     kaiosToaster({
-      message: "STRAVA Heatmap",
+      message: "OSM GPS Tracks",
       position: 'north',
       type: 'info',
       timeout: 2000
@@ -362,7 +362,7 @@ const maps = (() => {
     // "https://heatmap-external-{s}.strava.com/tiles/all/hot/{z}/{x}/{y}.png"
 
     tilesUrl =
-      "https://heatmap-external-{s}.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?Key-Pair-Id=APKAIDPUN4QMG7VUQPSA&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYyODgxNzQxOH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjI3NTkzNDE4fX19XX0_&Signature=cwyko1CyKIckjwGGCUme-5mdyGXdksFIc7YfUI7LuILtFOGu-bpif1szTJ7xFtVEcT05LhQ39HaDXG9x7YnQvC02~phY6ddQw9pRxHzzNrHSupOkgXRoKATgtlWXyQd5stOxe4uBaMVsuiQYWnxWYMplxct7Ogjvkar~7N87kGkl7Tp4wxBq9ZDnwUm2E8mXTUTJdyVo59w-kDeXfGpPrszfTrQ3VUF~9cx6rvTNcYwEWFiJJ1dbj3~GLs7WmfN07gcQg5jx0R5XPi4C2avRiOEnH9dUg0dvoos3FtFwFv6N6tTVyvYh7V-bp4oB1u-nnLJY3T8~RwTrFzQFYIMaQA__"
+      "https://gps.tile.openstreetmap.org/lines/{z}/{x}/{y}.png"
     stravaLayer = L.tileLayer(tilesUrl, {
       /*useCache: true,
       saveToCache: false,
@@ -372,9 +372,9 @@ const maps = (() => {
       // Comment out from useCache to useOnlyCache when using High-Res
       cacheMaxAge: caching_time,
       useOnlyCache: false,*/
-      attribution: 'STRAVA Heatmap',
-      maxNativeZoom: 15,
-      maxZoom: 16,
+      attribution: 'OpenStreetMap contributors',
+      maxNativeZoom: 18,
+      maxZoom: 18,
       //Set maxNativeZoom to 11 if using Low-Res
     });
 
@@ -737,7 +737,7 @@ const maps = (() => {
       });
   }
   );*/
-  let overlayers = {};
+  window.overlayers = {};
 
   let addMap = function (name, url, attribution, max_zoom, type, activeEl) {
     console.log(name, url, attribution, max_zoom, type, activeEl)
@@ -820,6 +820,7 @@ const maps = (() => {
 
 
   map.on("layeradd", function (event) {
+
     Object.entries(overlayers).map(item => {
       if (map.hasLayer(item.layer)) {
         item.layer.bringToFront();
@@ -1077,6 +1078,7 @@ const maps = (() => {
         informationHandler.PreciseMarkerUpdate(note)
       })
   }
+ 
 
   let reopen_osm_note = function (id) {
     let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
@@ -1308,6 +1310,7 @@ const maps = (() => {
       });
   }
 
+ 
 
   return {
     opencycle_map,

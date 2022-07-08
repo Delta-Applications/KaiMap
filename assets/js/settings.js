@@ -32,7 +32,10 @@ const settings = ((_) => {
     localStorageWriteRead(
       "select-offscreen-markers",
       document.getElementById("select-offscreen-markers").checked);
-
+      //invertmaptiles
+    localStorageWriteRead(
+      "invertmaptiles",
+      document.getElementById("invertmaptiles").checked);
     localStorageWriteRead("theme", document.getElementById("theme").value);
     kaiosToaster({
       message: "Saved settings",
@@ -53,6 +56,14 @@ const settings = ((_) => {
     
     // select-offscreen-markers
     document.getElementById("select-offscreen-markers").checked = localStorage.getItem("select-offscreen-markers") || true;
+    //invertmaptiles
+
+    document.getElementById("invertmaptiles").checked = localStorage.getItem("invertmaptiles") || false;
+    function invertMapTiles(bool) {
+      document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
+    }
+    invertMapTiles(localStorage.getItem("invertmaptiles") || false);
+
     // pan-speed
     document.getElementById("pan-speed").value = localStorage.getItem("pan-speed") || "1";
     // zoom-speed
