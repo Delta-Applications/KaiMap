@@ -957,7 +957,12 @@ const maps = (() => {
   let create_osm_note = function (pos) {
 
     let text = prompt("Create OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
-    if (!text) return;
+    if (!text) return kaiosToaster({
+      message: "Creation Cancelled",
+      position: 'north',
+      type: 'error',
+      timeout: 2000
+    });
 
     fetch(osm_api_createnote + "?lat=" + pos.lat + "&lon=" + pos.lng + "&text=" + encodeURIComponent(text) + encodeURIComponent(setting.messageSignature), {
         method: 'POST',

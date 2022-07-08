@@ -1440,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#markers-option").style.display = "none";
 				if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 				save_mode = "geojson-single";
-				user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH:mm:ss") , "Export marker in GeoJSON format");
+				user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss") , "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
 			}
 
@@ -2413,7 +2413,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						save_mode = "geojson-tracking";
 						//map fitbounds of tracking group
 						map.fitBounds(tracking_group.getBounds());
-						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH:mm:ss"), (setting.exportTracksAsGPX ? "Export track as GPX"  : "Export track as GeoJSON"));
+						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), (setting.exportTracksAsGPX ? "Export track as GPX"  : "Export track as GeoJSON"));
 						bottom_bar("Resume", "Discard", "Save")
 
 						return true;
@@ -2473,7 +2473,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "5":
 				if (windowOpen == "map") {
 					save_mode = "geojson-single";
-					user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH:mm:ss"), "Save this Marker as a GeoJson file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss"), "Save this Marker as a GeoJson file");
 					bottom_bar("Cancel", "", "Save");
 					break;
 				}
@@ -2490,7 +2490,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "8":
 				if (windowOpen == "map") {
 					save_mode = "geojson-collection";
-					user_input("open", moment(new Date()).format("[KaiMaps_Markers]_YYYY-MM-DD_HH:mm:ss"), "Export all Markers as a GeoJSON file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Markers]_YYYY-MM-DD_HH.mm.ss"), "Export all Markers as a GeoJSON file");
 					bottom_bar("Cancel", "", "Save");
 
 				}
@@ -2502,7 +2502,17 @@ document.addEventListener("DOMContentLoaded", function () {
 					// If OSM Notes are open, create a note
 					if (map.hasLayer(markers_group_osmnotes)) return maps.create_osm_note(map.getCenter());
 					// If isTracking, create a track waypoint
-					if (tracking_path) module.measure_distance("tracking_waypoint", (prompt("Track Waypoint Name")|| tracking_waypoints.length+1));
+					if (tracking_path) {
+						let name = prompt("Track Waypoint Name")
+						if (name == null) return kaiosToaster({
+							message: "Creation Cancelled",
+							position: 'north',
+							type: 'error',
+							timeout: 2000
+						  });
+						name = name || tracking_waypoints.length+1
+						module.measure_distance("tracking_waypoint", );
+					}
 					// Otherwise create a marker to the map
 					L.marker(map.getCenter()).addTo(markers_group);
 				}
