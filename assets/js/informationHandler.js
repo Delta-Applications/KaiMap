@@ -595,10 +595,14 @@ const informationHandler = (() => {
             }
             document.getElementById("icon").className = "list-item-indicator__indicator owf owf-" + some.list[0].weather[0].id + "-" + daynight + " owf-3x";
             document.getElementById("sunset").innerText =
-                formattedTime + " (" + utility.getRelativeTime(some.city.sunset, null) + ")";
+                formattedTime + " (" + utility.getRelativeTime(some.city.sunset) + ")";
             document.getElementById("sunrise").innerText =
-                formattedTimer + " (" + utility.getRelativeTime(some.city.sunrise, null) + ")";
-            var grabtime = utility.getRelativeTime(some.list[0].dt, null)
+                formattedTimer + " (" + utility.getRelativeTime(some.city.sunrise) + ")";
+            // convert unix utc timestamp to local unix timestamp
+
+            
+            
+            var grabtime = utility.getRelativeTime(some.list[0].dt + (new Date().getTimezoneOffset() * 60))
             grabtime = grabtime.charAt(0).toUpperCase() + grabtime.slice(1);
             document.getElementById("grabtime").innerText =
                 grabtime
