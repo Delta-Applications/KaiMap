@@ -333,7 +333,9 @@
                           view: window 
                         })
                       );
-                      delay(5000).then(() => URL.revokeObjectURL(link.href));
+                      setTimeout(5000, () => {
+                        URL.revokeObjectURL(link.href);
+                        });
 
                     //window.open(link.href);
                 });
