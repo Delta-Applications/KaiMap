@@ -59,6 +59,10 @@ Polyfill > Promises
 Ajax Autocomplete for jQuery
 Google's Open Source Plus Codes
 
+Check out our cousin map apps for KaiOS: 
+- https://github.com/strukturart/o.map
+- https://github.com/canyouswim/Caching-on-Kai-with-API/
+
 ## Import & Export
 
 Support for GPX, GeoJson, and more is being reviewed. In the meantime you can save all the markers you create using 9 or using 5.
