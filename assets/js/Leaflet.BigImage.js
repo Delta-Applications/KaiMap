@@ -324,7 +324,7 @@
             }).then(() => {
                 self.canvas.toBlob(function (blob) {
                     let link = document.createElement('a');
-                    link.download = "bigImage.png";
+                    link.download = moment(new Date()).format("[KaiMaps_MapImage]_YYYY-MM-DD_HH.mm.ss")+".png";
                     link.href = URL.createObjectURL(blob);
                     link.dispatchEvent(
                         new MouseEvent('click', { 
@@ -333,6 +333,8 @@
                           view: window 
                         })
                       );
+                      delay(5000).then(() => URL.revokeObjectURL(link.href));
+
                     //window.open(link.href);
                 });
             });

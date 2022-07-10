@@ -23,15 +23,14 @@ const maps = (() => {
 
   let caching_events = function () {
     // Listen to cache hits and misses and spam the console
-    tilesLayer.on("tilecachehit", function (ev) {
-      //console.log("Cache hit: ", ev.url);
-    });
-    tilesLayer.on("tilecachemiss", function (ev) {
-      console.warn("[CACHE CONTROL] Cache miss: ", ev.url);
-    });
-    tilesLayer.on("tilecacheerror", function (ev) {
+    tilesLayer.on('tilecacheerror', function (ev) {
+      kaiosToaster({
+        message: "Cache Error @ " + ev.tile + ": " + ev.error,
+        position: 'north',
+        type: 'error',
+        timeout: 2000
+      });
       console.error("[CACHE CONTROL] Cache error: ", ev.tile, ev.error);
-      //console.log("Cache error: ", ev.tile, ev.error);
     });
   };
 
@@ -85,6 +84,7 @@ const maps = (() => {
         type: 'error',
         timeout: 2000
       });
+      console.error("[CACHE CONTROL] Cache error: ", ev.tile, ev.error);
     });
 
     /*tilesLayer.on('tilecachemiss',function(ev){
@@ -140,6 +140,7 @@ const maps = (() => {
       useOnlyCache: false,
       maxZoom: 17,
       attribution: "OpenCycleMap",
+      cacheURLMask: "apikey=[^&]*",
     });
     map.addLayer(tilesLayer);
     caching_events();

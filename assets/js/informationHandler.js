@@ -252,11 +252,13 @@ const informationHandler = (() => {
             box.remove();
         });
 
+        if (!nooverpass) {
         const boxes = document.querySelectorAll('.overpassdata');
 
         boxes.forEach(box => {
             box.remove();
         });
+    }
 
         const buttons = document.querySelectorAll('.note_action');
 
