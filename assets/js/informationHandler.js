@@ -191,35 +191,7 @@ const informationHandler = (() => {
 	//((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
 		// ((allUnits[units].value == 'm') ? 'Elevation [m]' : 'Elevation [ft]'))
 		showGraph("elevation-graph", track.get_elevation_data(), 'Elevation [m]');
-		/*   <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Elevation Gain, Loss</p>
-      <p class="list-item__subtext" id="elev-ga-lo">#</p>
-    </div>
-
-    <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Elevation Max, Min</p>
-      <p class="list-item__subtext" id="elev-max-min">#</p>
-    </div>
-    <div class="separator">Data</div>
-
-    <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Name</p>
-      <p class="list-item__subtext" id="name">#</p>
-    </div>
-
-    <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Author</p>
-      <p class="list-item__subtext" id="author">#</p>
-    </div>
-
-    <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Distance covered</p>
-      <p class="list-item__subtext" id="dist-cov">#</p>
-    </div>
-
-    <div class="item list-item focusable" tabindex=0>
-      <p class="list-item__text">Moving Speed, Pace</p>
-      <p class="list-item__subtext" id="moving-sp-pa">#</p> */
+    
 	  document.querySelector("#elev-ga-lo").innerText = track.get_elevation_gain().toFixed(2)+ " m"+", "+track.get_elevation_loss().toFixed(2)+ " m";
 		document.querySelector("#elev-max-min").innerText = track.get_elevation_max().toFixed(2)+ " m"+", "+track.get_elevation_min().toFixed(2)+ " m";
 		document.querySelector("#name").innerText = track.get_name() || "Unknown";

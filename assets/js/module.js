@@ -272,9 +272,7 @@ const module = (() => {
       '    <name>' + name + '</name>\n' +
       '    </link>\n' +
       '    <time>' + date.toISOString() + '</time>\n' +
-       (window.isLoggedIn ? '    <author>\n' +
-       '    <name>' + window.osm_username + '</name>\n' +
-       '    </author>\n' : '')+ 
+       (window.isLoggedIn ? '    <author>' + window.osm_username  +'</author>\n' : '')+ 
       
       '  </metadata>\n';
       //if window.isLoggedIn add author
@@ -290,6 +288,8 @@ const module = (() => {
       gpxString += '<trkpt lat="' + track_point.lat + '" lon="' + track_point.lng + '">\n' +
         '        <ele>' + track_point.alt + '</ele>\n' +
         '        <time>' + new Date(track_point.timestamp).toISOString() + '</time>\n' +
+        //sat
+        '        <sat>' + track_point.sats + '</sat>\n' +
         '      </trkpt>\n';
     }
     gpxString += '    </trkseg>\n' +
@@ -304,6 +304,7 @@ const module = (() => {
             '        <name>' + way_point.name + '</name>\n' +
             '        <ele>' + way_point.alt + '</ele>\n' +
             '        <time>' + new Date(way_point.timestamp).toISOString() + '</time>\n' +
+            
             '      </wpt>\n';
         }
         gpxString += '</wpts>\n';
