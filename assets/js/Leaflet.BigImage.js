@@ -10,16 +10,12 @@
         define(['leaflet'], factory);
 
         // define a Common JS module that relies on 'leaflet'
-    } else if (typeof exports === 'object') {
-        module.exports = factory(require('leaflet'));
     }
 
     // attach your plugin to the global 'L' variable
     if (typeof window !== 'undefined' && window.L) {
-        window.L.YourPlugin = factory(L);
+        window.L.BigImage = factory(L);
     }
-
-    // interesting functions: _print, _changeScale
 }(function (L) {
 
     L.Control.BigImage = L.Control.extend({
@@ -45,76 +41,30 @@
 
             if (label.indexOf('&') != -1) classes.push(this.options._unicodeClass);
 
-            return //this._createControl(label, title, classes, this._click, this);
+            return this._createControl(label, title, classes, this._click, this);
         },
 
         _click: function (e) {
-            this._container.classList.add('leaflet-control-layers-expanded');
-            this._containerParams.style.display = '';
-            this._controlPanel.classList.add('bigimage-unicode-icon-disable');
+
         },
 
-       /* _createControl: function (label, title, classesToAdd, fn, context) {
+        _createControl: function (label, title, classesToAdd, fn, context) {
 
             this._container = document.createElement('div');
             this._container.id = 'print-container';
-            this._container.classList.add('leaflet-bar');
 
-            this._containerParams = document.createElement('div');
-            this._containerParams.id = 'print-params';
-            this._containerParams.style.display = 'none';
-
-            /*let containerTitle = document.createElement('h6');
-            containerTitle.style.width = '100%';
-            containerTitle.innerHTML = this.options.inputTitle;
-            this._containerParams.appendChild(containerTitle);
-
-            this._createScaleInput();
-            this._createDownloadButton();
-            this._container.appendChild(this._containerParams);
-
-            this._createControlPanel(classesToAdd, context, label, title, fn);
 
             L.DomEvent.disableScrollPropagation(this._container);
             L.DomEvent.disableClickPropagation(this._container);
 
             return this._container;
-        }, */
-
-        /*_createDownloadButton: function () {
-            this._downloadBtn = document.createElement('div');
-            this._downloadBtn.classList.add('download-button');
-
-            this._downloadBtn = document.createElement('div');
-            this._downloadBtn.classList.add('download-button');
-            this._downloadBtn.innerHTML = this.options.downloadTitle;
-
-            this._downloadBtn.addEventListener('click', () => {
-                let scale_value = this._scaleInput.value;
-                if (!scale_value || scale_value < this.options.minScale || scale_value > this.options.maxScale) {
-                    this._scaleInput.value = this.options.minScale;
-                    return;
-                }
-
-                this._containerParams.classList.add('print-disabled');
-                this._loader.style.display = 'block';
-                this._print();
-            });
-            this._containerParams.appendChild(this._downloadBtn);
         },
 
-        _createScaleInput: function () {
-            this._scaleInput = document.createElement('input');
-            this._scaleInput.style.width = '100%';
-            this._scaleInput.type = 'number';
-            this._scaleInput.value = this.options.minScale;
-            this._scaleInput.min = this.options.minScale;
-            this._scaleInput.max = this.options.maxScale;
-            this._scaleInput.id = 'scale';
-            this._containerParams.appendChild(this._scaleInput);
+      
 
-        },*/
+      
 
+      
 
         _getLayers: function (resolve) {
             let self = this;
@@ -329,7 +279,7 @@
             }
         },
 
-        _print: function () {
+        _print: function (scale) {
             let self = this;
 
             self.tilesImgs = {};
@@ -347,7 +297,7 @@
             self.canvas.height = dimensions.y;
             self.ctx = self.canvas.getContext('2d');
 
-            this._changeScale(document.getElementById('scale').value);
+            this._changeScale(scale);
 
             let promise = new Promise(function (resolve, reject) {
                 self._getLayers(resolve);
@@ -355,18 +305,18 @@
 
             promise.then(() => {
                 return new Promise(((resolve, reject) => {
-                    for (const [key, layer] of Object.entries(self.tilesImgs)) {
-                        for (const [key, value] of Object.entries(layer)) {
+                    for (let [key, layer] of Object.entries(self.tilesImgs)) {
+                        for (let [key, value] of Object.entries(layer)) {
                             self.ctx.drawImage(value.img, value.x, value.y, self.tileSize, self.tileSize);
                         }
                     }
-                    for (const [key, value] of Object.entries(self.path)) {
+                    for (let [key, value] of Object.entries(self.path)) {
                         self._drawPath(value);
                     }
-                    for (const [key, value] of Object.entries(self.markers)) {
+                    for (let [key, value] of Object.entries(self.markers)) {
                         self.ctx.drawImage(value.img, value.x, value.y);
                     }
-                    for (const [key, value] of Object.entries(self.circles)) {
+                    for (let [key, value] of Object.entries(self.circles)) {
                         self._drawCircle(value);
                     }
                     resolve();
@@ -376,10 +326,15 @@
                     let link = document.createElement('a');
                     link.download = "bigImage.png";
                     link.href = URL.createObjectURL(blob);
-                    link.click();
+                    link.dispatchEvent(
+                        new MouseEvent('click', { 
+                          bubbles: true, 
+                          cancelable: true, 
+                          view: window 
+                        })
+                      );
+                    //window.open(link.href);
                 });
-                self._containerParams.classList.remove('print-disabled');
-                self._loader.style.display = 'none';
             });
         }
     });

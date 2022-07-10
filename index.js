@@ -155,6 +155,7 @@ window.ScaleControl = L.control
 	})
 	.addTo(map);
 
+
 let settings_data = settings.load_settings();
 
 console.log(JSON.stringify(setting));
@@ -1527,6 +1528,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
 			}
 
+			if(item_value == "download-map") {
+				PrintControl._print(Number(prompt("Image Scale:", "1")) || 1);
+			}
+
 			if (item_value == "marker-virtualization") {
 				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 			}
@@ -2670,6 +2675,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 			maps.opencycle_map();
 			getLocation("init");
+			//detect osm short link regex
+				
+			// /^https?:\/\/(www\.)?osm\.org\/go\/\w+/
+			// \t^https:\\/\\/[a-z.]{0,4}openstreetmap.org\\/#map=(\\d){2}(\\/)[+-]?([0-9]*[.])?[0-9]+(\\/)[+-]?([0-9]*[.])?[0-9]+
 
 
 
@@ -2689,4 +2698,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	map.addLayer(measure_group_path);
 	map.addLayer(tracking_group);
 	map.addLayer(unselectable_markers_group);
+
+	window.PrintControl = new L.Control.BigImage().addTo(map)
+
 });
