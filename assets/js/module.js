@@ -272,9 +272,9 @@ const module = (() => {
       '    <name>' + name + '</name>\n' +
       '    </link>\n' +
       '    <time>' + date.toISOString() + '</time>\n' +
-       (window.isLoggedIn ? '  <author>\n' +
+       (window.isLoggedIn ? '    <author>\n' +
        '    <name>' + window.osm_username + '</name>\n' +
-       '  </author>\n' : '')+ 
+       '    </author>\n' : '')+ 
       
       '  </metadata>\n';
       //if window.isLoggedIn add author
@@ -362,7 +362,6 @@ const module = (() => {
           tracking_session = d;
           //restore path
           for (let i = 0; i < tracking_session.length; i++) {
-            console.log(tracking_session[i].lat);
             polyline_tracking.addLatLng([
               tracking_session[i].lat,
               tracking_session[i].lng,
@@ -456,8 +455,11 @@ const module = (() => {
         }
       }
       //
-
-      tracking_interval = setInterval(function () {
+      window.tracking_ispaused = false
+      window.tracking_interval = setInterval(function () {
+        if (window.tracking_ispaused) {
+          return;
+        }
         GPSif = 0;
         try {
           GPSif = JSON.parse(navigator.engmodeExtension.fileReadLE('GPSif')).num;
@@ -474,7 +476,6 @@ const module = (() => {
           heading: device_heading, //Heading
           timestamp: new Date().getTime() //passed_time //Passed intervals since the start (multiply by 2150 to get milliseconds since start)//
         }
-        console.log(tracking_session)
         if (!decideSaveOrNot(point_data)) {
           return;
         }
@@ -513,7 +514,7 @@ const module = (() => {
 
           localStorage.setItem("tracking_session", k);
 
-          if(setting.fitBoundsWhileTracking) map.fitBounds(tracking_group.getBounds());
+          if(JSON.parse(localStorage.getItem("fitBoundsWhileTracking")) && !center_to_Screen) map.fitBounds(tracking_group.getBounds());
           // set path as current gpx track
           current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
             async: true,

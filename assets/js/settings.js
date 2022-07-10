@@ -33,9 +33,21 @@ const settings = ((_) => {
       "select-offscreen-markers",
       document.getElementById("select-offscreen-markers").checked);
       //invertmaptiles
+
     localStorageWriteRead(
       "invertmaptiles",
       document.getElementById("invertmaptiles").checked);
+
+      //fitBoundsWhileTracking
+    localStorageWriteRead(
+      "fitBoundsWhileTracking",
+      document.getElementById("fitBoundsWhileTracking").checked);
+
+      //exportTracksAsGPX
+    localStorageWriteRead(
+      "exportTracksAsGPX",
+      document.getElementById("exportTracksAsGPX").checked);
+      
     localStorageWriteRead("theme", document.getElementById("theme").value);
     kaiosToaster({
       message: "Saved settings",
@@ -63,6 +75,12 @@ const settings = ((_) => {
       document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
     }
     invertMapTiles(document.getElementById("invertmaptiles").checked);
+
+    // fitBoundsWhileTracking
+    document.getElementById("fitBoundsWhileTracking").checked = JSON.parse(localStorage.getItem("fitBoundsWhileTracking"));
+
+    // export-gpx
+    document.getElementById("exportTracksAsGPX").checked = JSON.parse(localStorage.getItem("exportTracksAsGPX"));
 
     // pan-speed
     document.getElementById("pan-speed").value = localStorage.getItem("pan-speed") || "1";

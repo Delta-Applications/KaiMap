@@ -78,10 +78,10 @@ let setting = {
 	openweather_api: localStorage.getItem("owm-key"),
 	last_weather: localStorage.getItem("last_weather"),
 	tracking_screenlock: JSON.parse(localStorage.getItem("tracking_screenlock")),
-	exportTracksAsGPX: true,
+	exportTracksAsGPX: JSON.parse(localStorage.getItem("exportTracksAsGPX")),
 	shareUsingShortLinks: true,
 	invertmaptiles: localStorage.getItem("invertmaptiles") == "true" || false,
-	fitBoundsWhileTracking: true,
+	fitBoundsWhileTracking: JSON.parse(localStorage.getItem("fitBoundsWhileTracking")) || true,
 
 	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
@@ -627,7 +627,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			})
 			.then((response) => response.text())
 			.then(function (data) {
-				console.log(data);
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("user");
@@ -648,7 +647,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			})
 			.then((response) => response.text())
 			.then((data) => {
-				console.log(data);
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("gpx_file");
@@ -697,7 +695,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	let osm_server_load_gpx = function (id) {
-		console.log("token: " + localStorage.getItem("openstreetmap_token"));
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
 
 		const myHeaders = new Headers({
@@ -1541,6 +1538,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 			}
 
+			if (item_value == "fitBoundsWhileTracking") {
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
+			}
+
+			// exportTracksAsGPX
+			if (item_value == "exportTracksAsGPX") {
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
+			}
+
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");
 				maps.strava_heatmap(document.activeElement);
@@ -1719,6 +1725,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "coordinations") {
 				coordinations("show");
+			
 			}
 
 			if (item_value == "savelocation") {
@@ -1778,6 +1785,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function coordinations() {
 		flashlight.trigger()
+		kaiosToaster({
+			message: "Toggled Camera Flash",
+			position: 'north',
+			type: 'info',
+			timeout: 1000
+		});
 
 	}
 
@@ -1836,7 +1849,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			}
 		});
-		console.log(myChart);
 	}
 
 
@@ -2043,6 +2055,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					let FlashLightManager = navigator.getFlashlightManager().then(function (Flashlight) {
 						console.log(Flashlight)
 						Flashlight.flashlightEnabled = !Flashlight.flashlightEnabled
+						kaiosToaster({
+							message: "Toggled Flashlight",
+							position: 'north',
+							type: 'info',
+							timeout: 1000
+						});
 					})
 				} else {
 					kaiosToaster({
@@ -2192,6 +2210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
 					save_mode = "";
 					user_input("close")
+					tracking_ispaused = false;
 					kaiosToaster({
 						message: "Tracking resumed",
 						position: 'north',
@@ -2255,7 +2274,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
-					if (setting.exportTracksAsGPX) {
+					if ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true)) {
 						geojson.save_geojson(user_input("return") + ".gpx", "tracking_gpx");
 
 					}else{
@@ -2413,7 +2432,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						save_mode = "geojson-tracking";
 						//map fitbounds of tracking group
 						map.fitBounds(tracking_group.getBounds());
-						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), (setting.exportTracksAsGPX ? "Export track as GPX"  : "Export track as GeoJSON"));
+						tracking_ispaused = true;
+						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX"  : "Export track as GeoJSON"));
 						bottom_bar("Resume", "Discard", "Save")
 
 						return true;

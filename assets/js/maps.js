@@ -683,7 +683,7 @@ const maps = (() => {
       });
   };
 
-   //display osm contributors of map bounds in attribution control
+  //display osm contributors of map bounds in attribution control
   /*map.on("moveend", function () {
     if (zoom_level < 16) return;
     var bounds = map.getBounds();
@@ -766,12 +766,22 @@ const maps = (() => {
       localStorage.setItem("last_map", url);
 
       if (navigator.onLine == true) {
-        tilesLayer.on("tileerror", function (error, tile) {
+        tilesLayer.on("tileerror", function (data) {
           url = url.replace("{z}", "1");
           url = url.replace("{y}", "1");
           url = url.replace("{x}", "1");
-
-          helper.allow_unsecure(url);
+          console.log(data)
+          let tile = data.tile
+          let isLoaded = tile.complete && tile.naturalHeight !== 0
+          console.log(isLoaded)
+          if (!isLoaded) {
+            // remove tile.crossOrigin attribute
+            
+            tile.crossOrigin = null;
+            //tilesLayer.setUrl(url);
+          }
+      
+          //helper.allow_unsecure(url);
         });
       }
     }
@@ -957,12 +967,14 @@ const maps = (() => {
   let create_osm_note = function (pos) {
 
     let text = prompt("Create OSM Note" + (localStorage.getItem("openstreetmap_token") ? " (You are logged in)" : ""));
+
     if (!text) return kaiosToaster({
       message: "Creation Cancelled",
       position: 'north',
       type: 'error',
       timeout: 2000
     });
+
 
     fetch(osm_api_createnote + "?lat=" + pos.lat + "&lon=" + pos.lng + "&text=" + encodeURIComponent(text) + encodeURIComponent(setting.messageSignature), {
         method: 'POST',
@@ -1077,13 +1089,13 @@ const maps = (() => {
           type: 'success',
           timeout: 1000
         });
-        
+
         note.note_data = data.properties;
 
         informationHandler.PreciseMarkerUpdate(note)
       })
   }
- 
+
 
   let reopen_osm_note = function (id) {
     let note = markers_group_osmnotes.getLayers().find(item => item.note_data.id == id)
@@ -1315,7 +1327,7 @@ const maps = (() => {
       });
   }
 
- 
+
 
   return {
     opencycle_map,

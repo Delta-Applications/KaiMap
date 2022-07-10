@@ -131,6 +131,8 @@ L.TileLayer.include({
 						// If the tile is too old but couldn't be fetched from the network,
 						//   serve the one still in cache.
 						this.src = url;
+						console.log("tile error", ev)
+						console.log(tile.complete && tile.naturalHeight !== 0)
 					};
 				} else {
 					// Serve tile from cached data
