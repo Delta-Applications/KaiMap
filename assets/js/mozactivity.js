@@ -38,7 +38,7 @@ const mozactivity = (() => {
 
   let share_marker_position = function (lat_lng, pluscode) {
     let l = setting.shareUsingShortLinks ?
-      "https://osm.org/go/" + OSMShortCode.encode(lat_lng.lat, lat_lng.lng, map.getZoom()) :
+      "https://osm.org/go/" + OSMShortCode.encode(lat_lng.lat, lat_lng.lng, map.getZoom()) +"?m" :
       "https://www.openstreetmap.org/?mlat=" + lat_lng.lat + "&mlon=" + lat_lng.lng + "#map=13/" + lat_lng.lat + "/" + lat_lng.lng + "&layers=T and Plus Code (OLC): " + pluscode;;
 
     let a =

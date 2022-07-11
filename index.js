@@ -2027,13 +2027,16 @@ document.addEventListener("DOMContentLoaded", function () {
 				maps.opencycle_map();
 				//if url matches /^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+/
 				if (option.data.url.match(/^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+)/)) {
-					const shortcode = option.data.url.split("/")[4];
+					//ignore all url params
+					let url = option.data.url.split("?")[0];
+					const shortcode = url.split("/")[4];
+					let addMarkerToMap = option.data.url.includes("&m") || option.data.url.includes("?m")
 					let yxz = OSMShortCode.decode(shortcode);
 					current_lat = yxz[0];
 					current_lng = yxz[1];
 					zoom_level = yxz[2];
-					
-					myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
+
+					if(addMarkerToMap) myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
 					map.setView([current_lat, current_lng], zoom_level);
 
 				} else {
