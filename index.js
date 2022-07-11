@@ -725,13 +725,13 @@ document.addEventListener("DOMContentLoaded", function () {
 			})
 			.catch((error) => {
 				kaiosToaster({
-					message: "Failed to fetch GPX: "+ error,
+					message: "Failed to fetch GPX: " + error,
 					position: 'north',
 					type: 'error',
 					timeout: 4000
 				});
 				console.log(error);
-			
+
 			});
 	};
 
@@ -762,16 +762,17 @@ document.addEventListener("DOMContentLoaded", function () {
 					position: 'north',
 					type: 'success',
 					timeout: 3000
-				  });
+				});
 			})
 
 			.catch((error) => {
-					kaiosToaster({
-					message: "Failed to upload GPX: "+error,
+				kaiosToaster({
+					message: "Failed to upload GPX: " + error,
 					position: 'north',
 					type: 'error',
 					timeout: 4000
-				});y
+				});
+				y
 			});
 	};
 
@@ -840,7 +841,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelector("div#markers-option").style.display = "block";
 		document.querySelector("#remove_marker").style.display = "block"
 
-		
+
 		tabIndex = 0;
 		finder_tabindex();
 
@@ -1439,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#markers-option").style.display = "none";
 				if (selected_marker) selected_marker.off('move', selected_marker_onmove);
 				save_mode = "geojson-single";
-				user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss") , "Export marker in GeoJSON format");
+				user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss"), "Export marker in GeoJSON format");
 				bottom_bar("Cancel", "", "Save");
 			}
 
@@ -1529,7 +1530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
 			}
 
-			if(item_value == "download-map") {
+			if (item_value == "download-map") {
 				PrintControl._print(Number(prompt("Image Scale:", "1")) || 1);
 			}
 
@@ -1538,7 +1539,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "select-offscreen-markers") {
 				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
-		    }
+			}
 			//     //invertmaptiles
 			if (item_value == "invertmaptiles") {
 				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
@@ -1736,7 +1737,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (item_value == "coordinations") {
 				coordinations("show");
-			
+
 			}
 
 			if (item_value == "savelocation") {
@@ -1814,15 +1815,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		let data = [];
 		let labels = [];
 		let factor = Math.floor(dataIn.length / 320);
-		if (factor == 0){
+		if (factor == 0) {
 			factor = 1;
 		}
 		console.log(factor);
 		for (let i = 0; i < dataIn.length; i = i + factor) {
-			data.push({x: (dataIn[i][0]).toFixed(3), y: dataIn[i][1]});
+			data.push({
+				x: (dataIn[i][0]).toFixed(3),
+				y: dataIn[i][1]
+			});
 			labels.push((dataIn[i][0]).toFixed(3));
 		}
-	
+
 		let myChart = new Chart(ctx, {
 			type: 'line',
 			data: {
@@ -1854,7 +1858,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'm'//(allUnits[units].value == 'm') ? 'm' : 'ft'
+							labelString: 'm' //(allUnits[units].value == 'm') ? 'm' : 'ft'
 						}
 					}]
 				}
@@ -1863,7 +1867,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 
-	function view_gpxinfo(){
+	function view_gpxinfo() {
 		document.querySelector("div#finder").style.display = "none";
 		document.querySelector("div#gpxtrack-info").style.display = "block";
 		bottom_bar("", "", "")
@@ -1874,7 +1878,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_tabindex(); //((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
 		informationHandler.PreciseGpxTrackUpdate(current_gpx)
 	}
-	
+
 
 
 	//////////////////////////
@@ -2022,27 +2026,34 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#get-position").style.display = "none";
 				maps.opencycle_map();
 				//if url matches /^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+/
-				if (option.data.url.match(/^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+)/))  {
+				if (option.data.url.match(/^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+)/)) {
 					const shortcode = option.data.url.split("/")[4];
 					let yxz = OSMShortCode.decode(shortcode);
+					current_lat = yxz[0];
+					current_lng = yxz[1];
+					zoom_level = yxz[2];
 					
-					
-				}else{
+					myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
+					map.setView([current_lat, current_lng], zoom_level);
+
+				} else {
 					const url_split = option.data.url.split("/");
 					current_lat = url_split[url_split.length - 2];
 					current_lng = url_split[url_split.length - 1];
+
+					//remove !numbers
+					current_lat = current_lat.replace(/[A-Za-z?=&]+/gi, "");
+					current_lng = current_lng.replace(/[A-Za-z?=&]+/gi, "");
+					current_lat = Number(current_lat);
+					current_lng = Number(current_lng);
+
+					myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
+					map.setView([current_lat, current_lng], 13);
 				}
 
-			
 
-				//remove !numbers
-				current_lat = current_lat.replace(/[A-Za-z?=&]+/gi, "");
-				current_lng = current_lng.replace(/[A-Za-z?=&]+/gi, "");
-				current_lat = Number(current_lat);
-				current_lng = Number(current_lng);
 
-				myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
-				map.setView([current_lat, current_lng], 13);
+
 				zoom_speed();
 				kaiosToaster({
 					message: "Updating location. Use * to go back to this marker",
@@ -2187,7 +2198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "Backspace":
-				if (windowOpen == "gpxtrack-info"  && !$("input").is(":focus")) {
+				if (windowOpen == "gpxtrack-info" && !$("input").is(":focus")) {
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");
 					finder_tabindex();
@@ -2297,9 +2308,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					if ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true)) {
 						geojson.save_geojson(user_input("return") + ".gpx", "tracking_gpx");
 
-					}else{
+					} else {
 						geojson.save_geojson(user_input("return") + ".geojson", "tracking");
-					}	
+					}
 
 					save_mode = "";
 					user_input("close")
@@ -2385,12 +2396,12 @@ document.addEventListener("DOMContentLoaded", function () {
 						});
 					}
 				}
-				if (document.activeElement == document.querySelector('[data-map="view-gpxinfo"]')){
+				if (document.activeElement == document.querySelector('[data-map="view-gpxinfo"]')) {
 					document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");
 
 					view_gpxinfo()
-					
-					
+
+
 					break;
 				}
 				if (
@@ -2453,7 +2464,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						//map fitbounds of tracking group
 						map.fitBounds(tracking_group.getBounds());
 						tracking_ispaused = true;
-						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX"  : "Export track as GeoJSON"));
+						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX" : "Export track as GeoJSON"));
 						bottom_bar("Resume", "Discard", "Save")
 
 						return true;
@@ -2524,7 +2535,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			case "7": //&& confirm("Toggle ruler? (You will need to restart the app after using it)")
-				if (windowOpen == "map" ) module.ruler_toggle();
+				if (windowOpen == "map") module.ruler_toggle();
 				break;
 
 			case "8":
@@ -2549,14 +2560,14 @@ document.addEventListener("DOMContentLoaded", function () {
 							position: 'north',
 							type: 'error',
 							timeout: 2000
-						  });
-						name = name || tracking_waypoints.length+1
+						});
+						name = name || tracking_waypoints.length + 1
 						module.measure_distance("tracking_waypoint", name);
 					}
 					// Otherwise create a marker to the map
 					L.marker(map.getCenter()).addTo(markers_group);
 				}
-					
+
 				break;
 
 			case "0":
@@ -2691,7 +2702,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			maps.opencycle_map();
 			getLocation("init");
 			//detect osm short link regex
-				
+
 			// /^https?:\/\/(www\.)?osm\.org\/go\/\w+/
 			// \t^https:\\/\\/[a-z.]{0,4}openstreetmap.org\\/#map=(\\d){2}(\\/)[+-]?([0-9]*[.])?[0-9]+(\\/)[+-]?([0-9]*[.])?[0-9]+
 

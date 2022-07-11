@@ -369,14 +369,11 @@ div#map-container {
 }
 
 div#cross {
-  width: 20px;
-  height: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  opacity: 0;
 }
 
 /*crosshair*/
@@ -387,7 +384,7 @@ div#cross div#cross-inner {
 
 div#cross div {
   min-width: 20px;
-  height: 3px;
+  height: 2px;
   background: black;
   opacity: 0.8;
   position: absolute;
@@ -405,14 +402,14 @@ div#cross div:nth-child(2) {
 
 div#cross div:nth-child(3) {
   min-width: 20px;
-  outline: 2px solid var(--accent-color);
-  box-shadow: 0 0 3pt 2pt var(--accent-color);
+  /*outline: 2px solid var(--accent-color);
+  box-shadow: 0 0 3pt 2pt var(--accent-color);*/
   opacity: 1;
 }
 
 div#cross div:nth-child(4) {
-  outline: 2px solid var(--accent-color);
-  box-shadow: 0 0 3pt 2pt var(--accent-color);
+  /*outline: 2px solid var(--accent-color);
+  box-shadow: 0 0 3pt 2pt var(--accent-color);*/
   opacity: 1;
   transform: rotate(90deg);
 }

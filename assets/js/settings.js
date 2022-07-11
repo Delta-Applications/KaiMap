@@ -47,6 +47,11 @@ const settings = ((_) => {
     localStorageWriteRead(
       "exportTracksAsGPX",
       document.getElementById("exportTracksAsGPX").checked);
+
+      //mapCrosshair
+    localStorageWriteRead(
+      "mapCrosshair",
+      document.getElementById("mapCrosshair").checked);
       
     localStorageWriteRead("theme", document.getElementById("theme").value);
     kaiosToaster({
@@ -81,7 +86,9 @@ const settings = ((_) => {
 
     // export-gpx
     document.getElementById("exportTracksAsGPX").checked = JSON.parse(localStorage.getItem("exportTracksAsGPX"));
-
+    // mapCrosshair
+    document.getElementById("mapCrosshair").checked = JSON.parse(localStorage.getItem("mapCrosshair"));
+    document.getElementById("cross").style.opacity = JSON.parse(localStorage.getItem("mapCrosshair")) ? "1" : "0";
     // pan-speed
     document.getElementById("pan-speed").value = localStorage.getItem("pan-speed") || "1";
     // zoom-speed

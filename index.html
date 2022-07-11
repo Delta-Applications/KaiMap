@@ -422,10 +422,26 @@
           type="tel">
       </div>
 
+     
       <div class="item list-item focusable input-container" tabindex="3">
         <label class="input-container__label">Map Scale Position (tl, tr, bl, br)</label>
         <input class="input-container__input focusable" id="zoomposition" tabindex="3" type="text">
       </div>
+
+      <!-- mapCrosshair -->
+
+      <div data-map="mapCrosshair" class="item checkbox-container">
+        <p class="checkbox-container__text">Map Crosshair</p>
+        <p class="checkbox-container__subtext">Center Map Indicator</p>
+        <input
+          type="checkbox"
+          tabindex="0"
+          id="mapCrosshair"
+          class="checkbox-container__input"
+        />
+        <div class="checkbox-container__checkbox"></div>
+      </div>
+
 
       <div data-map="invertmaptiles" class="item checkbox-container">
         <p class="checkbox-container__text">Invert Map Tiles</p>
