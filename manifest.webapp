@@ -43,13 +43,20 @@
       "href": "/index.html"
     },
     "view": {
-      "filters": {
+      "filters": [{
         "type": "url",
         "url": {
           "required": true,
-          "regexp": "\t^https:\\/\\/[a-z.]{0,4}openstreetmap.org\\/#map=(\\d){2}(\\/)[+-]?([0-9]*[.])?[0-9]+(\\/)[+-]?([0-9]*[.])?[0-9]+"
+          "regexp": "^https:\\/\\/[a-z.]{0,4}openstreetmap.org\\/#map=(\\d){2}(\\/)[+-]?([0-9]*[.])?[0-9]+(\\/)[+-]?([0-9]*[.])?[0-9]+"
         }
       },
+      {
+        "type": "url",
+        "url": {
+          "required": true,
+          "regexp": "^https?:\\/\\/(www\\.)?osm\\.org\\/go\\/([a-zA-Z0-9_\\-~]+)"
+        }
+      }],
       "disposition": "inline",
       "returnValue": true,
       "href": "/index.html"

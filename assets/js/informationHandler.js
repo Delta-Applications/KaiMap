@@ -587,12 +587,8 @@ const informationHandler = (() => {
 
 
             var day = some.list[0].weather[0].icon.includes("d")
-            var daynight = "d"
-            if (day == true) {
-                daynight = "d"
-            } else {
-                daynight = "n"
-            }
+            var daynight = (day ? "d" : "n")
+           
             document.getElementById("icon").className = "list-item-indicator__indicator owf owf-" + some.list[0].weather[0].id + "-" + daynight + " owf-3x";
             document.getElementById("sunset").innerText =
                 formattedTime + " (" + utility.getRelativeTime(some.city.sunset) + ")";

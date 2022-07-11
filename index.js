@@ -82,7 +82,7 @@ let setting = {
 	shareUsingShortLinks: true,
 	invertmaptiles: localStorage.getItem("invertmaptiles") == "true" || false,
 	fitBoundsWhileTracking: JSON.parse(localStorage.getItem("fitBoundsWhileTracking")) || true,
-
+	mapCrosshair: JSON.parse(localStorage.getItem("mapCrosshair")) || false,
 	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
 
@@ -154,6 +154,7 @@ window.ScaleControl = L.control
 		imperial: false,
 	})
 	.addTo(map);
+
 
 
 let settings_data = settings.load_settings();
@@ -1552,6 +1553,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
 			}
 
+			//mapCrosshair
+			if (item_value == "mapCrosshair") {
+				document.activeElement.children[2].checked = !document.activeElement.children[2].checked
+			}
+
 			if (item_value == "strava-heatmap") {
 				top_bar("", "", "");
 				maps.strava_heatmap(document.activeElement);
@@ -2015,10 +2021,19 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#message").style.display = "none";
 				document.querySelector("div#get-position").style.display = "none";
 				maps.opencycle_map();
+				//if url matches /^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+/
+				if (option.data.url.match(/^https?:\/\/(www\.)?osm\.org\/go\/([a-zA-Z0-9_\-~]+)/))  {
+					const shortcode = option.data.url.split("/")[4];
+					let yxz = OSMShortCode.decode(shortcode);
+					
+					
+				}else{
+					const url_split = option.data.url.split("/");
+					current_lat = url_split[url_split.length - 2];
+					current_lng = url_split[url_split.length - 1];
+				}
 
-				const url_split = option.data.url.split("/");
-				current_lat = url_split[url_split.length - 2];
-				current_lng = url_split[url_split.length - 1];
+			
 
 				//remove !numbers
 				current_lat = current_lat.replace(/[A-Za-z?=&]+/gi, "");

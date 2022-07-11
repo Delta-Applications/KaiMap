@@ -143,6 +143,7 @@ const maps = (() => {
       cacheURLMask: "apikey=[^&]*",
     });
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
 
   }
@@ -161,8 +162,8 @@ const maps = (() => {
       minZoom: 2,
       attribution: 'Moon Map',
     });
-
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
 
@@ -187,6 +188,7 @@ const maps = (() => {
     });
 
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
 
@@ -262,6 +264,7 @@ const maps = (() => {
 
 
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
 
@@ -276,6 +279,7 @@ const maps = (() => {
     kaiads.DisplayFullScreenAd();
     tilesLayer = new L.TileLayer.Bing('AplJXxD16sIAeNH3ZGeiYehGslopIApKbc6BwKFD8TJrOkvdEjUQ1nUQv178Gazx');
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
   //			//https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
@@ -302,6 +306,7 @@ const maps = (() => {
     });
 
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
 
   }
@@ -329,6 +334,7 @@ const maps = (() => {
     });
 
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
 
@@ -541,6 +547,7 @@ const maps = (() => {
     });
 
     map.addLayer(tilesLayer);
+    zoom_level = map.getZoom() 
     caching_events();
   }
 
@@ -763,6 +770,7 @@ const maps = (() => {
         attribution: attribution,
       });
       map.addLayer(tilesLayer);
+      zoom_level = map.getZoom() 
       caching_events();
       localStorage.setItem("last_map", url);
 
