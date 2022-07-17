@@ -64,6 +64,7 @@ const module = (() => {
     let l = group.getLayers();
     let n = map.getCenter();
     let only_inbounds = !localStorage.getItem("select-offscreen-markers")
+    let select_closest = localStorage.getItem("select-closest-markers")
 
 
     // Ignore all markers that are not in the map bounds
@@ -71,6 +72,7 @@ const module = (() => {
       return map.getBounds().contains(m._latlng);
     }) : l;
 
+    if (select_closest) {
     // Find the closest marker
     let closest = l.reduce((prev, curr) => {
       let d = n.distanceTo(curr._latlng);
@@ -91,7 +93,9 @@ const module = (() => {
     }
     else
       window.jump_index = (window.jump_index + 1) % l.length;
-    
+  } else {
+    window.jump_index = (window.jump_index + 1) % l.length;
+  }
    // jump_index = jump_index + 1;
 
     //if (jump_index > l.length - 1) jump_index = 0;

@@ -30,8 +30,8 @@ const settings = ((_) => {
       document.getElementById("zoom-speed").value);
       // select-offscreen-markers
     localStorageWriteRead(
-      "select-offscreen-markers",
-      document.getElementById("select-offscreen-markers").checked);
+      "select-closest-markers",
+      document.getElementById("select-closest-markers").checked);
       //invertmaptiles
 
     localStorageWriteRead(
@@ -72,7 +72,7 @@ const settings = ((_) => {
     document.getElementById("zoomposition").value = localStorage.getItem("zoomposition") || "tr";
     
     // select-offscreen-markers
-    document.getElementById("select-offscreen-markers").checked =  JSON.parse(localStorage.getItem("select-offscreen-markers"));
+    document.getElementById("select-closest-markers").checked =  JSON.parse(localStorage.getItem("select-closest-markers"));
     //invertmaptiles
 
     document.getElementById("invertmaptiles").checked = JSON.parse(localStorage.getItem("invertmaptiles"));
