@@ -845,10 +845,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		tabIndex = 0;
 		finder_tabindex();
 
-		if (selected_marker == myMarker) {
-			document.querySelector("#remove_marker").style.display = "none"
-		} // Delete remove marker option if marker is myMarker
-		document.querySelector("div#markers-option").children[0].focus();
+		
 		windowOpen = "markers_option";
 		bottom_bar("", "", "")
 
@@ -1126,7 +1123,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	////MARKER SET AND UPDATE/////////
 	/////////////////////////
 
-	let myMarker;
 	let LastPosMarker;
 	var follow_icon = L.divIcon({
 		iconSize: [0, 0],
@@ -2025,7 +2021,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			}
 
-			if (document.activeElement.tagName == "INPUT") {
+			if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 				document.activeElement.parentNode.focus()
 			}
 
@@ -2282,7 +2278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (document.activeElement.tagName == "INPUT") {
+				if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 					document.activeElement.parentNode.focus()
 				}
 
@@ -2429,7 +2425,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (document.activeElement.tagName == "INPUT") {
+				if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 					document.activeElement.parentNode.focus()
 				}
 
@@ -2439,7 +2435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (document.activeElement.classList.contains("input-container")) {
+				if (document.activeElement.classList.contains("input-container") || document.activeElement.classList.contains("textarea-container")) {
 					document.activeElement.children[1].focus()
 					//evventually add check for checkboxes
 					if (document.activeElement == document.querySelector("input#owm-key")) {

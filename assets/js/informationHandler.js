@@ -217,6 +217,21 @@ const informationHandler = (() => {
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
 
         //Delete all comments and overpass data from menu
+     // Delete remove marker option if marker is myMarker
+
+        if (marker == myMarker) {
+			document.querySelector("#remove_marker").style.display = "none"
+			document.querySelector("#marker-name").parentNode.style.display = "none";
+            document.querySelector("#marker-desc").parentNode.style.display = "none";
+			document.querySelector("#marker-info-separator").innerText = "My Location"
+        } else {
+            document.querySelector("#remove_marker").style.display = "block"
+            document.querySelector("#marker-name").parentNode.style.display = "flex";
+            document.querySelector("#marker-desc").parentNode.style.display = "flex";
+            document.querySelector("#marker-info-separator").innerText = "Info"
+        }
+
+        document.querySelector("div#markers-option").children[0].focus();
 
         let comments = document.querySelectorAll('.comment');
 
@@ -239,6 +254,8 @@ const informationHandler = (() => {
         });
 
         if (map.hasLayer(markers_group_osmnotes)) {
+            document.querySelector("#marker-name").parentNode.style.display = "none";
+            document.querySelector("#marker-desc").parentNode.style.display = "none";
             document.querySelector("#marker-overpass").innerText = "Comments"
 
             function appendcomment(author, text) {

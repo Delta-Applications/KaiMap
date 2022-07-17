@@ -545,10 +545,13 @@ body {
 
 /* Input */
 
-.input-container,
-.textarea-container {
+.input-container {
   padding: 1rem;
   height: 5rem !important;
+}
+.textarea-container {
+  padding: 1rem;
+  height: auto !important;
 }
 
 .input-container__input,

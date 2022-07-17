@@ -163,17 +163,25 @@
   </div>
 
   <div id="markers-option" class="flex justify-content-center align-item-center width-100 height-100">
-    <div class="separator">Info</div>
+    <div class="separator" id="marker-info-separator">Info</div>
 
-    <div class="item list-item focusable" tabindex=0>
+    <div tabindex="0" class="item list-item focusable input-container">
+      <label class="input-container__label">Name</label>
+      <input tabindex="0" class="input-container__input focusable" id="marker-name" type="text">
+    </div>
+    <div tabindex="1" class="item list-item focusable textarea-container">
+      <label class="textarea-container__label">Description</label>
+      <textarea tabindex="0" class="textarea-container__textarea focusable" id="marker-desc"></textarea>
+    </div>
+    <div class="item list-item focusable" tabindex=2>
       <p class="list-item__text">Plus Code</p>
       <p class="list-item__subtext" id="marker-pluscode">#</p>
     </div>
-    <div class="item list-item focusable" tabindex=0>
+    <div class="item list-item focusable" tabindex=3>
       <p class="list-item__text">Position</p>
       <p class="list-item__subtext" id="marker-position">#</p>
     </div>
-    <div class="item list-item focusable" tabindex=0>
+    <div class="item list-item focusable" tabindex=4>
       <p class="list-item__text">Distance from Device</p>
       <p class="list-item__subtext" id="marker-distance">#</p>
     </div>
@@ -355,9 +363,8 @@
 +  border-color: var(--item-focused-subtext-color);
 +}
           -->
-          <i id="icon" class="owf owf-200-d owf" 
-          style="border-width: 0 .2rem .2rem 0 !important; right: 0 !important; border: 0 !important; top: 10% !important; left: 82% !important;"
-          ></i>
+          <i id="icon" class="owf owf-200-d owf"
+            style="border-width: 0 .2rem .2rem 0 !important; right: 0 !important; border: 0 !important; top: 10% !important; left: 82% !important;"></i>
         </div>
         <div class="item list-item focusable">
           <p class="list-item__text">Temperature</p>
