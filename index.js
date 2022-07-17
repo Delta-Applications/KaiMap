@@ -1427,7 +1427,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////MENU///////////////
 	////////////////////////
 	function markers_action() {
-		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item button-container__button focusable" || document.activeElement.className == "item button-container__button focusable note_action" && windowOpen == "markers_option") {
+		if (document.activeElement.className == "item list-item focusable" ||
+		 document.activeElement.className == "item button-container__button focusable" ||
+		 document.activeElement.className == "item button-container__button focusable note_action" ||
+		 document.activeElement.className == "item list-item-indicator focusable" 
+		   && windowOpen == "markers_option") {
 			let item_value = document.activeElement.getAttribute("data-action");
 
 			if (item_value == "save_marker") {
