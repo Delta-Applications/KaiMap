@@ -490,8 +490,10 @@ div#bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 2rem;
+  height: 30px;
+  border-top: 3px #cbcbcb solid;
   z-index: 200000;
+  line-height: 25px;
   background: var(--app-background);
   display: none
 }
@@ -675,7 +677,6 @@ div#finder div#question div#question-text {
 
 div.panel {
   display: none;
-  margin: 20px 0px 0px 0px;
   padding: 0px;
   height: 90vh;
   color: var(--item-subtext-color);

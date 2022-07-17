@@ -3,7 +3,8 @@
 
 <head>
   <title>KaiMap</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
   <meta charset="utf-8" />
   <link rel="manifest" href="manifest.webapp" type="application/x-web-app-manifest+json" />
   <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1" />
@@ -90,7 +91,7 @@
 
   </div>
 
-  
+
 
   <div id="gpxtrack-info" class="flex justify-content-center align-item-center width-100 height-100">
     <div class="separator">Elevation Chart</div>
@@ -98,11 +99,11 @@
     <div class="item list-item focusable graph" tabindex="0">
       <div id="elevation-graph-wrapper">
         <canvas id="elevation-graph" width="150" height="150">
-  
+
         </canvas>
       </div>
-    
-  </div>
+
+    </div>
     <div class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Elevation Gain, Loss</p>
       <p class="list-item__subtext" id="elev-ga-lo">#</p>
@@ -143,7 +144,7 @@
       <p class="list-item__text">Total Time</p>
       <p class="list-item__subtext" id="tottime">#</p>
     </div>
-    
+
 
     <div class="item list-item focusable" tabindex=0>
       <p class="list-item__text">Distance covered</p>
@@ -155,8 +156,8 @@
       <p class="list-item__subtext" id="moving-sp-pa">#</p>
     </div>
 
-    
-   
+
+
 
 
   </div>
@@ -244,429 +245,423 @@
 
 
   <div id="finder" class="flex justify-content-center align-item-center width-100 height-100">
-    <div class="panel" id="Imagery">
-      <div class="separator">Maps</div>
-      <div id="maps"></div>
-
-      <div class="separator">Layers</div>
-      <div id="layers"></div>
-
-      <div class="separator">Tracks & Markers</div>
-      <div id="tracksmarkers"></div>
-
+    <div id="kai-tabs" class="kai-tabs">
+      <div class="kai-tab-active">
+        <div class="kai-tab-active-label">Imagery</div>
+      </div>
+      <div class="kai-tab-inactive">
+        <div class="kai-tab-inactive-label">Information</div>
+      </div>
+      <div class="kai-tab-inactive">
+        <div class="kai-tab-inactive-label">Settings</div>
+      </div>
+      <div class="kai-tab-inactive">
+        <div class="kai-tab-inactive-label">Shortcuts</div>
+      </div>
+      <div class="kai-tab-inactive">
+        <div class="kai-tab-inactive-label">Impressum</div>
+      </div>
     </div>
-    <div class="panel" id="Information">
-      <div class="separator">Geolocation</div>
-      <!--<h2>Geolocation</h2><-->
+    <div id="panels">
 
-      <div class="item list-item focusable" tabindex=0>
-        <p class="list-item__text">Plus Code</p>
-        <p class="list-item__subtext" id="olcode">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Position</p>
-        <p class="list-item__subtext" id="pos">#</p>
-      </div>
-      <div class="item list-item focusable" id="altitude-main">
-        <p class="list-item__text">Altitude</p>
-        <p class="list-item__subtext" id="altitude">#</p>
-      </div>
-      <div class="item list-item focusable" id="heading-main">
-        <p class="list-item__text">Heading</p>
-        <p class="list-item__subtext" id="heading">#</p>
-      </div>
-      <div class="item list-item focusable" id="speed-main">
-        <p class="list-item__text">Speed</p>
-        <p class="list-item__subtext" id="speed">#</p>
-      </div>
-      <div class="item list-item focusable" id="distance-main">
-        <p class="list-item__text" id="distance-title">Distance</p>
-        <p class="list-item__subtext" id="distance">#</p>
-      </div>
-      <div class="item list-item focusable" id="accuracy-main">
-        <p class="list-item__text">Accuracy</p>
-        <p class="list-item__subtext" id="acc">#</p>
-      </div>
-      <div class="item list-item focusable" id="sat-main">
-        <p class="list-item__text">Satellites</p>
-        <p class="list-item__subtext" id="satnum">#</p>
-      </div>
-      <button data-map="view-gpxinfo" class="item button-container__button focusable">View Current Track Info</button>
+      <div class="panel" id="Imagery">
+        <div class="separator">Maps</div>
+        <div id="maps"></div>
 
-      <div id="time"></div>
-      <div class="separator">Weather</div>
+        <div class="separator">Layers</div>
+        <div id="layers"></div>
 
+        <div class="separator">Tracks & Markers</div>
+        <div id="tracksmarkers"></div>
 
+      </div>
+      <div class="panel" id="Information">
+        <div class="separator">Geolocation</div>
+        <!--<h2>Geolocation</h2><-->
 
-      <div class="item list-item focusable">
-        <p class="list-item__text">Location</p>
-        <p class="list-item__subtext" id="locationame">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Data Time</p>
-        <p class="list-item__subtext" id="grabtime">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Status</p>
-        <p class="list-item__subtext" id="desc">#</p>
-        <i id="icon" class="owf owf-200-d owf"></i>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Temperature</p>
-        <p class="list-item__subtext" id="temp">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Humidity</p>
-        <p class="list-item__subtext" id="hum">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Pressure</p>
-        <p class="list-item__subtext" id="pres">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Wind</p>
-        <p class="list-item__subtext" id="wind">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Visibility</p>
-        <p class="list-item__subtext" id="visibility">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Sunset</p>
-        <p class="list-item__subtext" id="sunset">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Sunrise</p>
-        <p class="list-item__subtext" id="sunrise">#</p>
-      </div>
-      <button data-map="update-weather" class="item button-container__button focusable">Update OWM Data</button>
+        <div class="item list-item focusable" tabindex=0>
+          <p class="list-item__text">Plus Code</p>
+          <p class="list-item__subtext" id="olcode">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Position</p>
+          <p class="list-item__subtext" id="pos">#</p>
+        </div>
+        <div class="item list-item focusable" id="altitude-main">
+          <p class="list-item__text">Altitude</p>
+          <p class="list-item__subtext" id="altitude">#</p>
+        </div>
+        <div class="item list-item focusable" id="heading-main">
+          <p class="list-item__text">Heading</p>
+          <p class="list-item__subtext" id="heading">#</p>
+        </div>
+        <div class="item list-item focusable" id="speed-main">
+          <p class="list-item__text">Speed</p>
+          <p class="list-item__subtext" id="speed">#</p>
+        </div>
+        <div class="item list-item focusable" id="distance-main">
+          <p class="list-item__text" id="distance-title">Distance</p>
+          <p class="list-item__subtext" id="distance">#</p>
+        </div>
+        <div class="item list-item focusable" id="accuracy-main">
+          <p class="list-item__text">Accuracy</p>
+          <p class="list-item__subtext" id="acc">#</p>
+        </div>
+        <div class="item list-item focusable" id="sat-main">
+          <p class="list-item__text">Satellites</p>
+          <p class="list-item__subtext" id="satnum">#</p>
+        </div>
+        <button data-map="view-gpxinfo" class="item button-container__button focusable">View Current Track Info</button>
 
-
-      <div class="separator">Battery</div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Charge</p>
-        <p class="list-item__subtext" id="batteryCharge">#</p>
-      </div>
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">Temperature</p>
-        <p class="list-item__subtext" id="batteryTemp">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Health</p>
-        <p class="list-item__subtext" id="batteryHealth">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text" id="batteryTimeType">Charging Time</p>
-        <p class="list-item__subtext" id="batteryTime">#</p>
-      </div>
-
-      <div class="separator">Connectivity</div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Status</p>
-        <p class="list-item__subtext" id="wifiStatus">#</p>
-      </div>
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">Connection Type</p>
-        <p class="list-item__subtext" id="conntype">#</p>
-      </div>
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">Wifi Network</p>
-        <p class="list-item__subtext" id="wifiNetwork">#</p>
-      </div>
-
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">MAC Address</p>
-        <p class="list-item__subtext" id="wifiMac">#</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">IP Address</p>
-        <p class="list-item__subtext" id="wifiIP">#</p>
-      </div>
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">Download</p>
-        <p class="list-item__subtext" id="dataRX">#</p>
-      </div>
-
-      <div class="item list-item focusable">
-        <p class="list-item__text">Upload</p>
-        <p class="list-item__subtext" id="dataTX">#</p>
-      </div>
+        <div id="time"></div>
+        <div class="separator">Weather</div>
 
 
 
+        <div class="item list-item focusable">
+          <p class="list-item__text">Location</p>
+          <p class="list-item__subtext" id="locationame">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Data Time</p>
+          <p class="list-item__subtext" id="grabtime">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Status</p>
+          <p class="list-item__subtext" id="desc">#</p>
+          <i id="icon" class="owf owf-200-d owf"></i>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Temperature</p>
+          <p class="list-item__subtext" id="temp">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Humidity</p>
+          <p class="list-item__subtext" id="hum">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Pressure</p>
+          <p class="list-item__subtext" id="pres">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Wind</p>
+          <p class="list-item__subtext" id="wind">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Visibility</p>
+          <p class="list-item__subtext" id="visibility">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Sunset</p>
+          <p class="list-item__subtext" id="sunset">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Sunrise</p>
+          <p class="list-item__subtext" id="sunrise">#</p>
+        </div>
+        <button data-map="update-weather" class="item button-container__button focusable">Update OWM Data</button>
 
 
-    </div>
+        <div class="separator">Battery</div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Charge</p>
+          <p class="list-item__subtext" id="batteryCharge">#</p>
+        </div>
 
-    <div class="panel" id="Settings">
-      <div class="separator">OpenWeatherMap</div>
-      <div class="item list-item focusable input-container" tabindex="0">
-        <label class="input-container__label">OWM Api Key</label>
-        <input class="input-container__input focusable" id="owm-key" tabindex="0" type="tel">
-      </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Temperature</p>
+          <p class="list-item__subtext" id="batteryTemp">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Health</p>
+          <p class="list-item__subtext" id="batteryHealth">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text" id="batteryTimeType">Charging Time</p>
+          <p class="list-item__subtext" id="batteryTime">#</p>
+        </div>
 
-      <div class="separator">Imagery</div>
-      <div class="item list-item focusable input-container" tabindex="1">
-        <label class="input-container__label">Re-download maps after N days</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" id="cache-time" tabindex="1" type="tel">
-      </div>
+        <div class="separator">Connectivity</div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Status</p>
+          <p class="list-item__subtext" id="wifiStatus">#</p>
+        </div>
 
-      <div class="item list-item focusable input-container" tabindex="2">
-        <label class="input-container__label">Save maps up to N zoom level</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom" tabindex="2"
-          type="tel">
-      </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Connection Type</p>
+          <p class="list-item__subtext" id="conntype">#</p>
+        </div>
 
-     
-      <div class="item list-item focusable input-container" tabindex="3">
-        <label class="input-container__label">Map Scale Position (tl, tr, bl, br)</label>
-        <input class="input-container__input focusable" id="zoomposition" tabindex="3" type="text">
-      </div>
-
-      <!-- mapCrosshair -->
-
-      <div data-map="mapCrosshair" class="item checkbox-container">
-        <p class="checkbox-container__text">Map Crosshair</p>
-        <p class="checkbox-container__subtext">Center Map Indicator</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="mapCrosshair"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Wifi Network</p>
+          <p class="list-item__subtext" id="wifiNetwork">#</p>
+        </div>
 
 
-      <div data-map="invertmaptiles" class="item checkbox-container">
-        <p class="checkbox-container__text">Invert Map Tiles</p>
-        <p class="checkbox-container__subtext">Invert tile colors of map</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="invertmaptiles"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
-      <div data-map="marker-virtualization" class="item checkbox-container">
-        <p class="checkbox-container__text">Marker Virtualization</p>
-        <p class="checkbox-container__subtext">Hide off-screen markers</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="marker-virtualization"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
-      <div data-map="select-offscreen-markers" class="item checkbox-container">
-        <p class="checkbox-container__text">Select offscreen markers</p>
-        <p class="checkbox-container__subtext">when using *</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="select-offscreen-markers"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
-      
-      <!-- Map Zooming Speed -->
-      <div class="item list-item focusable input-container" tabindex="4">
-        <label class="input-container__label">Map Zoom Speed</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="zoom-speed" tabindex="4"
-          type="tel">
-      </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">MAC Address</p>
+          <p class="list-item__subtext" id="wifiMac">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">IP Address</p>
+          <p class="list-item__subtext" id="wifiIP">#</p>
+        </div>
 
-      <!-- Map Panning Speed -->
-      <div class="item list-item focusable input-container" tabindex="5">
-        <label class="input-container__label">Map Panning Speed</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="pan-speed" tabindex="5"
-          type="tel">
-      </div>
-     
+        <div class="item list-item focusable">
+          <p class="list-item__text">Download</p>
+          <p class="list-item__subtext" id="dataRX">#</p>
+        </div>
 
-      <button id="clear-cache" tabindex="4" class="item button-container__button focusable">
-        Clear map cache
-      </button>
-      <div class="separator">Tracking</div>
-      <!-- fitBoundsWhileTracking -->
-      <div data-map="fitBoundsWhileTracking" class="item checkbox-container">
-        <p class="checkbox-container__text">Fit Bounds While Tracking</p>
-        <p class="checkbox-container__subtext">Zoom to track while tracking</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="fitBoundsWhileTracking"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
-      <!-- Min distance from last position -->
-      <div class="item list-item focusable input-container" tabindex="5">
-        <label class="input-container__label">Minimum distance</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-distance" tabindex="5"
-          type="tel">
-      </div>
-      <!-- Min time between positions -->
-      <div class="item list-item focusable input-container" tabindex="6">
-        <label class="input-container__label">Minimum time</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-time" tabindex="6" type="tel">
-      </div>
-      <!-- Min accuracy-->
-      <div class="item list-item focusable input-container" tabindex="7">
-        <label class="input-container__label">Minimum accuracy</label>
-        <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-accuracy" tabindex="7"
-          type="tel">
-      </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Upload</p>
+          <p class="list-item__subtext" id="dataTX">#</p>
+        </div>
 
-      <div class="separator">OpenStreetMap</div>
-      <button id="osm-oauth" tabindex="4" class="item button-container__button focusable">
-        Connect
-      </button>
 
-      <div class="separator">Export</div>
-      <!-- export tracks as gpx -->
-      <div data-map="exportTracksAsGPX" class="item checkbox-container">
-        <p class="checkbox-container__text">Export tracks as gpx</p>
-        <p class="checkbox-container__subtext">Use GPX instead of GeoJSON</p>
-        <input
-          type="checkbox"
-          tabindex="0"
-          id="exportTracksAsGPX"
-          class="checkbox-container__input"
-        />
-        <div class="checkbox-container__checkbox"></div>
-      </div>
-      <div class="item list-item focusable input-container" tabindex="4">
-        <label class="input-container__label">File Export Path</label>
-        <input class="input-container__input focusable" id="export-path" tabindex="4" type="text">
-      </div>
 
-      <div class="separator">General</div>
 
-      <div class="item list-item focusable input-container" tabindex="5">
-        <label class="input-container__label">Theme (eg. light.css)</label>
-        <input class="input-container__input focusable" id="theme" tabindex="5" type="text">
-      </div>
-     
-      <button tabindex="6" class="item button-container__button focusable" id="save-settings">Save & Load Settings</button>
-    </div>
-    <div class="panel" id="Impressum">
-
-      <div tabindex="0" class="item">
-        <p>
-          Ads are dictated based on tracking by KaiAds, a service ran by KaiOS. Ads can be disabled in the source code
-          for expert users.
-        </p>
-        <p>
-          Various software and map data are used in this app, please note the licenses.
-        </p>
-        <ul>
-          <li>o.map UNLICENSE</li>
-          <li>Leaflet - BSD-2-Clause License</li>
-          <li>Ajax AutoComplete - MIT License</li>
-          <li>leaflet.tilelayer.pouchdbcached MIT license</li>
-          <li>leaflet ruler MIT License</li>
-          <li>OpenStreetMap</li>
-          <li>OpenTopoMap</li>
-          <li>Thunderforest</li>
-          <li>earthquake.usgs.gov</li>
-          <li>OpenRailwayMap</li>
-          <li>OpenWeatherMap</li>
-          <li>OpenStreetMap Contributors (I am one myself)</li>
-          <li>KaiAds (Not Opensource)</li>
-
-        </ul>
-
-        <p>I thank the people who provide this data
-          and take care of their maintenance.</p>
-
-        <p>It took me many hours to develop the app, please donate an amount if you use the app regularly. </p>
 
       </div>
 
-      <a tabindex="1" target="blank" class="item" href="https://paypal.me/strukturart">
-        <button class="paypal-button">paypal donation</button>
-      </a>
-      </button>
-    </div>
+      <div class="panel" id="Settings">
+        <div class="separator">OpenWeatherMap</div>
+        <div class="item list-item focusable input-container" tabindex="0">
+          <label class="input-container__label">OWM Api Key</label>
+          <input class="input-container__input focusable" id="owm-key" tabindex="0" type="tel">
+        </div>
 
-    <div class="panel" id="Shortcuts">
-      <div class="item list-item focusable" tabindex="0" data-map="update-position">
-        <p class="list-item__text">Toggle Location Update</p>
-        <p class="list-item__subtext">Short Press 1</p>
+        <div class="separator">Imagery</div>
+        <div class="item list-item focusable input-container" tabindex="1">
+          <label class="input-container__label">Re-download maps after N days</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" id="cache-time" tabindex="1" type="tel">
+        </div>
+
+        <div class="item list-item focusable input-container" tabindex="2">
+          <label class="input-container__label">Save maps up to N zoom level</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="18" id="cache-zoom"
+            tabindex="2" type="tel">
+        </div>
+
+
+        <div class="item list-item focusable input-container" tabindex="3">
+          <label class="input-container__label">Map Scale Position (tl, tr, bl, br)</label>
+          <input class="input-container__input focusable" id="zoomposition" tabindex="3" type="text">
+        </div>
+
+        <!-- mapCrosshair -->
+
+        <div data-map="mapCrosshair" class="item checkbox-container">
+          <p class="checkbox-container__text">Map Crosshair</p>
+          <p class="checkbox-container__subtext">Center Map Indicator</p>
+          <input type="checkbox" tabindex="0" id="mapCrosshair" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+
+
+        <div data-map="invertmaptiles" class="item checkbox-container">
+          <p class="checkbox-container__text">Invert Map Tiles</p>
+          <p class="checkbox-container__subtext">Invert tile colors of map</p>
+          <input type="checkbox" tabindex="0" id="invertmaptiles" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+        <div data-map="marker-virtualization" class="item checkbox-container">
+          <p class="checkbox-container__text">Marker Virtualization</p>
+          <p class="checkbox-container__subtext">Hide off-screen markers</p>
+          <input type="checkbox" tabindex="0" id="marker-virtualization" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+        <div data-map="select-offscreen-markers" class="item checkbox-container">
+          <p class="checkbox-container__text">Select offscreen markers</p>
+          <p class="checkbox-container__subtext">when using *</p>
+          <input type="checkbox" tabindex="0" id="select-offscreen-markers" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+
+        <!-- Map Zooming Speed -->
+        <div class="item list-item focusable input-container" tabindex="4">
+          <label class="input-container__label">Map Zoom Speed</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="zoom-speed"
+            tabindex="4" type="tel">
+        </div>
+
+        <!-- Map Panning Speed -->
+        <div class="item list-item focusable input-container" tabindex="5">
+          <label class="input-container__label">Map Panning Speed</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" max="10" id="pan-speed"
+            tabindex="5" type="tel">
+        </div>
+
+
+        <button id="clear-cache" tabindex="4" class="item button-container__button focusable">
+          Clear map cache
+        </button>
+        <div class="separator">Tracking</div>
+        <!-- fitBoundsWhileTracking -->
+        <div data-map="fitBoundsWhileTracking" class="item checkbox-container">
+          <p class="checkbox-container__text">Fit Bounds While Tracking</p>
+          <p class="checkbox-container__subtext">Zoom to track while tracking</p>
+          <input type="checkbox" tabindex="0" id="fitBoundsWhileTracking" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+        <!-- Min distance from last position -->
+        <div class="item list-item focusable input-container" tabindex="5">
+          <label class="input-container__label">Minimum distance</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-distance" tabindex="5"
+            type="tel">
+        </div>
+        <!-- Min time between positions -->
+        <div class="item list-item focusable input-container" tabindex="6">
+          <label class="input-container__label">Minimum time</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-time" tabindex="6"
+            type="tel">
+        </div>
+        <!-- Min accuracy-->
+        <div class="item list-item focusable input-container" tabindex="7">
+          <label class="input-container__label">Minimum accuracy</label>
+          <input class="input-container__input focusable" pattern="^[0-9]*$" min="0" id="min-accuracy" tabindex="7"
+            type="tel">
+        </div>
+
+        <div class="separator">OpenStreetMap</div>
+        <button id="osm-oauth" tabindex="4" class="item button-container__button focusable">
+          Connect
+        </button>
+
+        <div class="separator">Export</div>
+        <!-- export tracks as gpx -->
+        <div data-map="exportTracksAsGPX" class="item checkbox-container">
+          <p class="checkbox-container__text">Export tracks as gpx</p>
+          <p class="checkbox-container__subtext">Use GPX instead of GeoJSON</p>
+          <input type="checkbox" tabindex="0" id="exportTracksAsGPX" class="checkbox-container__input" />
+          <div class="checkbox-container__checkbox"></div>
+        </div>
+        <div class="item list-item focusable input-container" tabindex="4">
+          <label class="input-container__label">File Export Path</label>
+          <input class="input-container__input focusable" id="export-path" tabindex="4" type="text">
+        </div>
+
+        <div class="separator">General</div>
+
+        <div class="item list-item focusable input-container" tabindex="5">
+          <label class="input-container__label">Theme (eg. light.css)</label>
+          <input class="input-container__input focusable" id="theme" tabindex="5" type="text">
+        </div>
+
+        <button tabindex="6" class="item button-container__button focusable" id="save-settings">Save & Load
+          Settings</button>
       </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Rotate screen</p>
-        <p class="list-item__subtext">Long Press 3</p>
+      <div class="panel" id="Impressum">
+
+        <div tabindex="0" class="item">
+          <p>
+            Ads are dictated based on tracking by KaiAds, a service ran by KaiOS. Ads can be disabled in the source code
+            for expert users.
+          </p>
+          <p>
+            Various software and map data are used in this app, please note the licenses.
+          </p>
+          <ul>
+            <li>o.map UNLICENSE</li>
+            <li>Leaflet - BSD-2-Clause License</li>
+            <li>Ajax AutoComplete - MIT License</li>
+            <li>leaflet.tilelayer.pouchdbcached MIT license</li>
+            <li>leaflet ruler MIT License</li>
+            <li>OpenStreetMap</li>
+            <li>OpenTopoMap</li>
+            <li>Thunderforest</li>
+            <li>earthquake.usgs.gov</li>
+            <li>OpenRailwayMap</li>
+            <li>OpenWeatherMap</li>
+            <li>OpenStreetMap Contributors (I am one myself)</li>
+            <li>KaiAds (Not Opensource)</li>
+
+          </ul>
+
+          <p>I thank the people who provide this data
+            and take care of their maintenance.</p>
+
+          <p>It took me many hours to develop the app, please donate an amount if you use the app regularly. </p>
+
+        </div>
+
+        <a tabindex="1" target="blank" class="item" href="https://paypal.me/strukturart">
+          <button class="paypal-button">paypal donation</button>
+        </a>
+        </button>
       </div>
-      <div class="item list-item focusable" data-map="search">
-        <p class="list-item__text">Search</p>
-        <p class="list-item__subtext">Short Press 2</p>
-      </div>
-      <div class="item list-item focusable" data-map="autoupdate-geolocation">
-        <p class="list-item__text">Center Position</p>
-        <p class="list-item__subtext">Short Press 4</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Toggle orientation</p>
-        <p class="list-item__subtext">Long Press 4</p>
-      </div>
-      <div class="item list-item focusable" data-map="savelocation">
-        <p class="list-item__text">Save position as Marker</p>
-        <p class="list-item__subtext">Short Press 5</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Camera Flashlight</p>
-        <p class="list-item__subtext">Short Press 6</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Front Torch</p>
-        <p class="list-item__subtext">Long Press 6</p>
-      </div>
-      <div class="item list-item focusable" data-map="ruler">
-        <p class="list-item__text">Measure Distance</p>
-        <p class="list-item__subtext">Short Press 7</p>
-      </div>
-      <div class="item list-item focusable" data-map="export">
-        <p class="list-item__text">Export Markers</p>
-        <p class="list-item__subtext">Short Press 8</p>
-      </div>
-      <div class="item list-item focusable" data-map="add-marker-icon">
-        <p class="list-item__text">Add Marker</p>
-        <p class="list-item__subtext">Short Press 9</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Select Markers</p>
-        <p class="list-item__subtext">Short Press *</p>
-      </div>
-      <div class="item list-item focusable" data-map="cache-map">
-        <p class="list-item__text">Download Near Map Tiles</p>
-        <p class="list-item__subtext">Long Press #</p>
-      </div>
-      <div class="item list-item focusable" data-map="share">
-        <p class="list-item__text">Share Position</p>
-        <p class="list-item__subtext">Short Press 0</p>
-      </div>
-      <div class="item list-item focusable">
-        <p class="list-item__text">Rainviewer</p>
-        <p class="list-item__subtext">Long Press 0</p>
-      </div>
-      <div class="item list-item focusable" data-map="photo">
-        <p class="list-item__text">Take a photo</p>
-        <p class="list-item__subtext">Press here</p>
-      </div>
-      <!-- download map -->
-      <div class="item list-item focusable" data-map="download-map">
-        <p class="list-item__text">Download Map as Image</p>
-        <p class="list-item__subtext">Press here</p>
+
+      <div class="panel" id="Shortcuts">
+        <div class="item list-item focusable" tabindex="0" data-map="update-position">
+          <p class="list-item__text">Toggle Location Update</p>
+          <p class="list-item__subtext">Short Press 1</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Rotate screen</p>
+          <p class="list-item__subtext">Long Press 3</p>
+        </div>
+        <div class="item list-item focusable" data-map="search">
+          <p class="list-item__text">Search</p>
+          <p class="list-item__subtext">Short Press 2</p>
+        </div>
+        <div class="item list-item focusable" data-map="autoupdate-geolocation">
+          <p class="list-item__text">Center Position</p>
+          <p class="list-item__subtext">Short Press 4</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Toggle orientation</p>
+          <p class="list-item__subtext">Long Press 4</p>
+        </div>
+        <div class="item list-item focusable" data-map="savelocation">
+          <p class="list-item__text">Save position as Marker</p>
+          <p class="list-item__subtext">Short Press 5</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Camera Flashlight</p>
+          <p class="list-item__subtext">Short Press 6</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Front Torch</p>
+          <p class="list-item__subtext">Long Press 6</p>
+        </div>
+        <div class="item list-item focusable" data-map="ruler">
+          <p class="list-item__text">Measure Distance</p>
+          <p class="list-item__subtext">Short Press 7</p>
+        </div>
+        <div class="item list-item focusable" data-map="export">
+          <p class="list-item__text">Export Markers</p>
+          <p class="list-item__subtext">Short Press 8</p>
+        </div>
+        <div class="item list-item focusable" data-map="add-marker-icon">
+          <p class="list-item__text">Add Marker</p>
+          <p class="list-item__subtext">Short Press 9</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Select Markers</p>
+          <p class="list-item__subtext">Short Press *</p>
+        </div>
+        <div class="item list-item focusable" data-map="cache-map">
+          <p class="list-item__text">Download Near Map Tiles</p>
+          <p class="list-item__subtext">Long Press #</p>
+        </div>
+        <div class="item list-item focusable" data-map="share">
+          <p class="list-item__text">Share Position</p>
+          <p class="list-item__subtext">Short Press 0</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Rainviewer</p>
+          <p class="list-item__subtext">Long Press 0</p>
+        </div>
+        <div class="item list-item focusable" data-map="photo">
+          <p class="list-item__text">Take a photo</p>
+          <p class="list-item__subtext">Press here</p>
+        </div>
+        <!-- download map -->
+        <div class="item list-item focusable" data-map="download-map">
+          <p class="list-item__text">Download Map as Image</p>
+          <p class="list-item__subtext">Press here</p>
+        </div>
+
+
       </div>
 
 

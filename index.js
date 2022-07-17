@@ -1918,6 +1918,68 @@ document.addEventListener("DOMContentLoaded", function () {
 	let finder_panels = ["Imagery", "Information", "Settings", "Shortcuts", "Impressum"];
 	let count = 0;
 
+	function _updateIndicator(index) {
+        var isRtl = document.documentElement.dir === 'rtl';
+        var offset = 0;
+        var tabs = document.querySelector(".kai-tabs").children// Array.prototype.slice.call(document.querySelector(".kai-tabs").children, 0, -1);
+        var tabsWidth = document.querySelector(".kai-tabs").offsetWidth;
+        var currTabLeft = tabs[index].offsetLeft;
+        var currTabWidth = tabs[index].offsetWidth;
+        var currTabRight = tabsWidth - (currTabLeft + currTabWidth);
+        var lastTabLeft = tabs[tabs.length - 1].offsetLeft;
+        var lastTabWidth = tabs[tabs.length - 1].offsetWidth;
+        var lastTabRight = tabsWidth - (lastTabLeft + lastTabWidth);
+        if (index == 0) {
+            offset = 0;
+        } else if (index == (tabs.length - 1)) {
+            if (!isRtl) {
+                if (lastTabRight > 0) {
+					console.log("lastTabRight > 0");
+                    offset = 0;
+                } else {
+					console.log("lastTabRight");
+                    offset = lastTabRight;
+                }
+            } else {
+				console.log("lastTabLeft");
+                offset = Math.abs(lastTabLeft);
+            }
+        } else {
+            var targetTabLeft = (currTabLeft + currTabRight) / 2;
+            var targetOffset = targetTabLeft - currTabLeft;
+            if (!isRtl) {
+                if (targetOffset > 0 || lastTabRight > 0) {
+					console.log("targetOffset > 0 || lastTabRight > 0");
+                    offset = 0;
+                } else if (targetOffset < 0 && targetOffset > lastTabRight) {
+					console.log("targetOffset < 0 && targetOffset > lastTabRight");
+                    offset = targetOffset;
+                } else if (targetOffset < 0 && targetOffset < lastTabRight) {
+					console.log("targetOffset < 0 && targetOffset < lastTabRight");
+                    offset = lastTabRight;
+                }
+            } else {
+                var currAmount = currTabRight + currTabWidth;
+                if (currAmount > tabsWidth) {
+					console.log("currAmount > tabsWidth");
+                    if (currAmount < lastTabRight) {
+						console.log("currAmount < lastTabRight");
+                        targetOffset = Math.abs(targetTabLeft) - currTabLeft;
+                        offset = Math.abs(targetOffset);
+                    } else {
+						console.log("currAmount < lastTabRight");
+                        offset = Math.abs(lastTabLeft);
+                    }
+                }
+            }
+        }
+        document.querySelector(".kai-tabs").style.transform = 'translateX(' + offset + 'px)';
+		//log all starting vars
+		console.log(index, offset, (index == (tabs.length - 1)), index == 0)
+
+		return offset
+    };
+
 	let finder_navigation = function (dir) {
 		if (!$("input").is(":focus")) {
 
@@ -1949,9 +2011,52 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 
+			[...document.querySelectorAll(".kai-tab-inactive")].concat([...document.querySelectorAll(".kai-tab-active")]).forEach((a) => {
+				/*a.onclick = function({target}) {
+				  if (target.matches("[class^='kai-tab-inactive']")) {
+					let tabEl = target;
+					if (target.className.includes("-label")) {
+					  tabEl = target.parentNode;
+					}
+					this.querySelectorAll("[class^='kai-tab-active']").forEach(
+					  (a) => (a.className = a.className.replace("active", "inactive"))
+					);
+					[tabEl, tabEl.firstElementChild].forEach((a) => (a.className = a.className.replace("inactive", "active")));
+					tabEl.scrollIntoView({
+					  behavior: 'smooth',
+					  block: 'start',
+					  //inline: 'center',
+					});
+				  }
+				};*/
+				// if tab text matches finder_panels[count], make it active
+				if (a.innerText == finder_panels[count]) {
+					let tabEl = a;
+					if (a.className.includes("-label")) {
+					  tabEl = a.parentNode;
+					}
+					//make all other active tabs inactive
+					document.querySelectorAll("[class^='kai-tab-active']").forEach(
+						(a) => (a.className = a.className.replace("active", "inactive"))
+					);
+					//make this tab active
+					[tabEl, tabEl.firstElementChild].forEach((a) => (a.className = a.className.replace("inactive", "active")));
+					//view selected tab
+					//_updateIndicator(count)
+						
+					
+					tabEl.scrollIntoView({
+						behavior: 'smooth',
+						block: 'start',
+						//inline: 'center',
+					});
 
+					
+				}
+				
+			  });
 
-			top_bar("◀", finder_panels[count], "▶");
+			//top_bar("◀", finder_panels[count], "▶");
 
 
 			if (finder_panels[count] == "Information") {
@@ -2527,7 +2632,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "5":
 				if (windowOpen == "map") {
 					save_mode = "geojson-single";
-					user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss"), "Save this Marker as a GeoJson file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Marker]_YYYY-MM-DD_HH.mm.ss"), "Save this Marker as GeoJson");
 					bottom_bar("Cancel", "", "Save");
 					break;
 				}
@@ -2544,7 +2649,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "8":
 				if (windowOpen == "map") {
 					save_mode = "geojson-collection";
-					user_input("open", moment(new Date()).format("[KaiMaps_Markers]_YYYY-MM-DD_HH.mm.ss"), "Export all Markers as a GeoJSON file");
+					user_input("open", moment(new Date()).format("[KaiMaps_Markers]_YYYY-MM-DD_HH.mm.ss"), "Export all Markers as GeoJSON");
 					bottom_bar("Cancel", "", "Save");
 
 				}
