@@ -1299,7 +1299,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 			state_geoloc = true;
-			document.getElementById("cross").style.opacity = 0;
 
 			function showLocation(position) {
 
