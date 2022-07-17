@@ -331,7 +331,7 @@ USER INPUT////////////////*/
 
 div#user-input {
   position: fixed;
-  height: 70px;
+  height: 80px;
   bottom: 0px;
   background: var(--app-background);
   color: var(--item-text-color);
@@ -493,7 +493,7 @@ div#bottom-bar {
   height: 30px;
   border-top: 3px #cbcbcb solid;
   z-index: 200000;
-  line-height: 25px;
+  line-height: 23px;
   background: var(--app-background);
   display: none
 }

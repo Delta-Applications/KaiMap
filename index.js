@@ -1501,7 +1501,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-	function addMapLayers(param) {
+	function addMapLayers() {
 		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item checkbox-container" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
 			//switch online maps
 
@@ -1919,66 +1919,66 @@ document.addEventListener("DOMContentLoaded", function () {
 	let count = 0;
 
 	function _updateIndicator(index) {
-        var isRtl = document.documentElement.dir === 'rtl';
-        var offset = 0;
-        var tabs = document.querySelector(".kai-tabs").children// Array.prototype.slice.call(document.querySelector(".kai-tabs").children, 0, -1);
-        var tabsWidth = document.querySelector(".kai-tabs").offsetWidth;
-        var currTabLeft = tabs[index].offsetLeft;
-        var currTabWidth = tabs[index].offsetWidth;
-        var currTabRight = tabsWidth - (currTabLeft + currTabWidth);
-        var lastTabLeft = tabs[tabs.length - 1].offsetLeft;
-        var lastTabWidth = tabs[tabs.length - 1].offsetWidth;
-        var lastTabRight = tabsWidth - (lastTabLeft + lastTabWidth);
-        if (index == 0) {
-            offset = 0;
-        } else if (index == (tabs.length - 1)) {
-            if (!isRtl) {
-                if (lastTabRight > 0) {
+		var isRtl = document.documentElement.dir === 'rtl';
+		var offset = 0;
+		var tabs = document.querySelector(".kai-tabs").children // Array.prototype.slice.call(document.querySelector(".kai-tabs").children, 0, -1);
+		var tabsWidth = document.querySelector(".kai-tabs").offsetWidth;
+		var currTabLeft = tabs[index].offsetLeft;
+		var currTabWidth = tabs[index].offsetWidth;
+		var currTabRight = tabsWidth - (currTabLeft + currTabWidth);
+		var lastTabLeft = tabs[tabs.length - 1].offsetLeft;
+		var lastTabWidth = tabs[tabs.length - 1].offsetWidth;
+		var lastTabRight = tabsWidth - (lastTabLeft + lastTabWidth);
+		if (index == 0) {
+			offset = 0;
+		} else if (index == (tabs.length - 1)) {
+			if (!isRtl) {
+				if (lastTabRight > 0) {
 					console.log("lastTabRight > 0");
-                    offset = 0;
-                } else {
+					offset = 0;
+				} else {
 					console.log("lastTabRight");
-                    offset = lastTabRight;
-                }
-            } else {
+					offset = lastTabRight;
+				}
+			} else {
 				console.log("lastTabLeft");
-                offset = Math.abs(lastTabLeft);
-            }
-        } else {
-            var targetTabLeft = (currTabLeft + currTabRight) / 2;
-            var targetOffset = targetTabLeft - currTabLeft;
-            if (!isRtl) {
-                if (targetOffset > 0 || lastTabRight > 0) {
+				offset = Math.abs(lastTabLeft);
+			}
+		} else {
+			var targetTabLeft = (currTabLeft + currTabRight) / 2;
+			var targetOffset = targetTabLeft - currTabLeft;
+			if (!isRtl) {
+				if (targetOffset > 0 || lastTabRight > 0) {
 					console.log("targetOffset > 0 || lastTabRight > 0");
-                    offset = 0;
-                } else if (targetOffset < 0 && targetOffset > lastTabRight) {
+					offset = 0;
+				} else if (targetOffset < 0 && targetOffset > lastTabRight) {
 					console.log("targetOffset < 0 && targetOffset > lastTabRight");
-                    offset = targetOffset;
-                } else if (targetOffset < 0 && targetOffset < lastTabRight) {
+					offset = targetOffset;
+				} else if (targetOffset < 0 && targetOffset < lastTabRight) {
 					console.log("targetOffset < 0 && targetOffset < lastTabRight");
-                    offset = lastTabRight;
-                }
-            } else {
-                var currAmount = currTabRight + currTabWidth;
-                if (currAmount > tabsWidth) {
+					offset = lastTabRight;
+				}
+			} else {
+				var currAmount = currTabRight + currTabWidth;
+				if (currAmount > tabsWidth) {
 					console.log("currAmount > tabsWidth");
-                    if (currAmount < lastTabRight) {
+					if (currAmount < lastTabRight) {
 						console.log("currAmount < lastTabRight");
-                        targetOffset = Math.abs(targetTabLeft) - currTabLeft;
-                        offset = Math.abs(targetOffset);
-                    } else {
+						targetOffset = Math.abs(targetTabLeft) - currTabLeft;
+						offset = Math.abs(targetOffset);
+					} else {
 						console.log("currAmount < lastTabRight");
-                        offset = Math.abs(lastTabLeft);
-                    }
-                }
-            }
-        }
-        document.querySelector(".kai-tabs").style.transform = 'translateX(' + offset + 'px)';
+						offset = Math.abs(lastTabLeft);
+					}
+				}
+			}
+		}
+		document.querySelector(".kai-tabs").style.transform = 'translateX(' + offset + 'px)';
 		//log all starting vars
 		console.log(index, offset, (index == (tabs.length - 1)), index == 0)
 
 		return offset
-    };
+	};
 
 	let finder_navigation = function (dir) {
 		if (!$("input").is(":focus")) {
@@ -2033,7 +2033,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (a.innerText == finder_panels[count]) {
 					let tabEl = a;
 					if (a.className.includes("-label")) {
-					  tabEl = a.parentNode;
+						tabEl = a.parentNode;
 					}
 					//make all other active tabs inactive
 					document.querySelectorAll("[class^='kai-tab-active']").forEach(
@@ -2043,18 +2043,18 @@ document.addEventListener("DOMContentLoaded", function () {
 					[tabEl, tabEl.firstElementChild].forEach((a) => (a.className = a.className.replace("inactive", "active")));
 					//view selected tab
 					//_updateIndicator(count)
-						
-					
+
+
 					tabEl.scrollIntoView({
 						behavior: 'smooth',
 						block: 'start',
 						//inline: 'center',
 					});
 
-					
+
 				}
-				
-			  });
+
+			});
 
 			//top_bar("◀", finder_panels[count], "▶");
 
@@ -2141,7 +2141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					current_lng = yxz[1];
 					zoom_level = yxz[2];
 
-					if(addMarkerToMap) myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
+					if (addMarkerToMap) myMarker = L.marker([current_lat, current_lng]).addTo(markers_group);
 					map.setView([current_lat, current_lng], zoom_level);
 
 				} else {
@@ -2485,6 +2485,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					break;
 				}
+
+				if (document.activeElement.tagName == "INPUT") {
+					document.activeElement.parentNode.focus()
+				}
+
 				if (document.activeElement == document.getElementById("osm-oauth")) {
 					OAuth_osm();
 
@@ -2512,24 +2517,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					break;
 				}
-				if (
-					document.activeElement == document.getElementById("save-settings")
-				) {
-					if (confirm("Are you sure you want to save settings?")) {
-						settings.save_settings();
-						document.querySelector("div#finder").style.display = "none";
-						windowOpen = "map";
-						top_bar("", "", "")
-						break;
-					}
 
-
-					break;
-				}
 
 
 				if (windowOpen == "finder") {
-					addMapLayers("add-marker");
+					if (document.activeElement == document.getElementById("save-settings")) {
+						if (confirm("Are you sure you want to save settings?")) {
+							settings.save_settings();
+							document.querySelector("div#finder").style.display = "none";
+							windowOpen = "map";
+							top_bar("", "", "")
+							break;
+						}
+
+
+						break;
+					}
+					addMapLayers();
 
 					break;
 				}
