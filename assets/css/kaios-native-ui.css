@@ -138,7 +138,7 @@ body {
   position: relative;
   box-sizing: border-box;
   padding: 1rem;
-  height: 5rem;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -172,7 +172,7 @@ body {
   position: relative;
   box-sizing: border-box;
   padding: 1rem 3rem 1rem 1rem;
-  height: 5rem;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -222,7 +222,7 @@ body {
   position: relative;
   box-sizing: border-box;
   padding: 1rem;
-  height: 5rem;
+  height: auto;
   display: flex;
   align-items: center;
 }
@@ -282,7 +282,7 @@ body {
   position: relative;
   box-sizing: border-box;
   padding: 1rem 3rem 1rem 1rem;
-  height: 5rem;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -345,7 +345,7 @@ body {
   position: relative;
   box-sizing: border-box;
   padding: 1rem;
-  height: 5rem;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -398,7 +398,7 @@ body {
 .progress-container {
   box-sizing: border-box;
   padding: 1rem;
-  height: 5rem;
+  height: auto;
 }
 
 .progress-container__label {
@@ -445,7 +445,7 @@ body {
 .slider-container {
   box-sizing: border-box;
   padding: 1rem;
-  height: 5rem;
+  height: auto;
   display: grid;
   grid-template-areas:
     "text text subtext"
@@ -548,6 +548,7 @@ body {
 .input-container,
 .textarea-container {
   padding: 1rem;
+  height: 5rem !important;
 }
 
 .input-container__input,

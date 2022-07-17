@@ -23,6 +23,7 @@ const geojson = ((_) => {
 
     if (type == "tracking") {
       let e = tracking_group.toGeoJSON();
+      e.features[0].properties.software = "KaiMap";
       extData = JSON.stringify(e);
     }
     

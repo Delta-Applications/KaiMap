@@ -245,7 +245,7 @@
 
 
   <div id="finder" class="flex justify-content-center align-item-center width-100 height-100">
-    <div id="kai-tabs" class="kai-tabs">
+    <div id="kai-tabs-finder" class="kai-tabs">
       <div class="kai-tab-active">
         <div class="kai-tab-active-label">Imagery</div>
       </div>
@@ -332,7 +332,32 @@
         <div class="item list-item focusable">
           <p class="list-item__text">Status</p>
           <p class="list-item__subtext" id="desc">#</p>
-          <i id="icon" class="owf owf-200-d owf"></i>
+          <!-- 
+  .list-item-indicator__indicator {
+  height: 1rem;
+  width: 1rem;
+  position: absolute;
+  - border-width: 0 .2rem .2rem 0;
+  + right: 1.5rem;
+  + border: solid var(--item-subtext-color);
+  + border-width: 0 0.2rem 0.2rem 0;
+  display: inline-block;
+  - border-color: var(--item-subtext-color);
+  transform: rotate(-45deg) translateY(-50%);
+  - top: 10%;
+  - left: 82%;
+  + top: 50%;
+}
+
+-.list-item-indicator:focus>.list-item-indicator__indicator {
+-  color: var(--item-focused-subtext-color);
++.list-item-indicator:focus > .list-item-indicator__indicator {
++  border-color: var(--item-focused-subtext-color);
++}
+          -->
+          <i id="icon" class="owf owf-200-d owf" 
+          style="border-width: 0 .2rem .2rem 0 !important; right: 0 !important; border: 0 !important; top: 10% !important; left: 82% !important;"
+          ></i>
         </div>
         <div class="item list-item focusable">
           <p class="list-item__text">Temperature</p>
@@ -594,6 +619,12 @@
       </div>
 
       <div class="panel" id="Shortcuts">
+        <button tabindex="0" class="button-container__button focusable" data-map="photo">
+          Take a photo
+        </button>
+        <button tabindex="0" class="button-container__button focusable" data-map="download-map">
+          Download Map
+        </button>
         <div class="item list-item focusable" tabindex="0" data-map="update-position">
           <p class="list-item__text">Toggle Location Update</p>
           <p class="list-item__subtext">Short Press 1</p>
@@ -643,7 +674,7 @@
           <p class="list-item__subtext">Short Press *</p>
         </div>
         <div class="item list-item focusable" data-map="cache-map">
-          <p class="list-item__text">Download Near Map Tiles</p>
+          <p class="list-item__text">Cache Visible Map Tiles</p>
           <p class="list-item__subtext">Long Press #</p>
         </div>
         <div class="item list-item focusable" data-map="share">
@@ -654,17 +685,6 @@
           <p class="list-item__text">Rainviewer</p>
           <p class="list-item__subtext">Long Press 0</p>
         </div>
-        <div class="item list-item focusable" data-map="photo">
-          <p class="list-item__text">Take a photo</p>
-          <p class="list-item__subtext">Press here</p>
-        </div>
-        <!-- download map -->
-        <div class="item list-item focusable" data-map="download-map">
-          <p class="list-item__text">Download Map as Image</p>
-          <p class="list-item__subtext">Press here</p>
-        </div>
-
-
       </div>
 
 
