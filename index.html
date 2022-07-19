@@ -333,10 +333,7 @@
           <p class="list-item__text">Location</p>
           <p class="list-item__subtext" id="locationame">#</p>
         </div>
-        <div class="item list-item focusable">
-          <p class="list-item__text">Data Time</p>
-          <p class="list-item__subtext" id="grabtime">#</p>
-        </div>
+       
         <div class="item list-item focusable">
           <p class="list-item__text">Status</p>
           <p class="list-item__subtext" id="desc">#</p>
@@ -393,6 +390,10 @@
         <div class="item list-item focusable">
           <p class="list-item__text">Sunrise</p>
           <p class="list-item__subtext" id="sunrise">#</p>
+        </div>
+        <div class="item list-item focusable">
+          <p class="list-item__text">Data Time</p>
+          <p class="list-item__subtext" id="grabtime">#</p>
         </div>
         <button data-map="update-weather" class="item button-container__button focusable">Update OWM Data</button>
 
@@ -533,7 +534,7 @@
         <div class="separator">Tracking</div>
         <!-- fitBoundsWhileTracking -->
         <div data-map="fitBoundsWhileTracking" class="item checkbox-container">
-          <p class="checkbox-container__text">Fit Bounds While Tracking</p>
+          <p class="checkbox-container__text">Fit Track</p>
           <p class="checkbox-container__subtext">Zoom to track while tracking</p>
           <input type="checkbox" tabindex="0" id="fitBoundsWhileTracking" class="checkbox-container__input" />
           <div class="checkbox-container__checkbox"></div>
@@ -626,10 +627,10 @@
       </div>
 
       <div class="panel" id="Shortcuts">
-        <button tabindex="0" class="button-container__button focusable" data-map="photo">
+        <button tabindex="0" class="item button-container__button focusable" data-map="photo">
           Take a photo
         </button>
-        <button tabindex="0" class="button-container__button focusable" data-map="download-map">
+        <button tabindex="0" class="item button-container__button focusable" data-map="download-map">
           Download Map
         </button>
         <div class="item list-item focusable" tabindex="0" data-map="update-position">

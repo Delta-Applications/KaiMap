@@ -131,83 +131,89 @@ const informationHandler = (() => {
     }
     let PreciseGpxTrackUpdate = function (track) {
         /////////////////////////
-	/// GPX TRACK INFO  /////
-	/////////////////////////
+        /// GPX TRACK INFO  /////
+        /////////////////////////
 
-	function showGraph(elementId, dataIn, title) {
-		let ctx = document.getElementById(elementId).getContext('2d');
-		let data = [];
-		let labels = [];
-		let factor = Math.floor(dataIn.length / 320);
-		if (factor == 0){
-			factor = 1;
-		}
-		console.log(factor);
-		for (let i = 0; i < dataIn.length; i = i + factor) {
-			data.push({x: (dataIn[i][0]).toFixed(3), y: dataIn[i][1]});
-			labels.push((dataIn[i][0]).toFixed(3));
-		}
-	
-		let myChart = new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels: labels,
-				datasets: [{
-					label: title,
-					data: data,
-					borderColor: 'rgb(31, 96, 237)',
-					borderWidth: 1,
-					fill: true,
-				}]
-			},
-			options: {
-				responsive: true,
-				elements: {
-					point: {
-						radius: 0
-					}
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'km' //(allUnits[units].value == 'm') ? 'km' : 'miles'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'm'//(allUnits[units].value == 'm') ? 'm' : 'ft'
-						}
-					}]
-				}
-			}
-		});
-		console.log(myChart);
-	}
+        function showGraph(elementId, dataIn, title) {
+            let ctx = document.getElementById(elementId).getContext('2d');
+            let data = [];
+            let labels = [];
+            let factor = Math.floor(dataIn.length / 320);
+            if (factor == 0) {
+                factor = 1;
+            }
+            console.log(factor);
+            for (let i = 0; i < dataIn.length; i = i + factor) {
+                data.push({
+                    x: (dataIn[i][0]).toFixed(3),
+                    y: dataIn[i][1]
+                });
+                labels.push((dataIn[i][0]).toFixed(3));
+            }
 
-	//((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
-		// ((allUnits[units].value == 'm') ? 'Elevation [m]' : 'Elevation [ft]'))
-		showGraph("elevation-graph", track.get_elevation_data(), 'Elevation [m]');
-    
-	  document.querySelector("#elev-ga-lo").innerText = track.get_elevation_gain().toFixed(2)+ " m"+", "+track.get_elevation_loss().toFixed(2)+ " m";
-		document.querySelector("#elev-max-min").innerText = track.get_elevation_max().toFixed(2)+ " m"+", "+track.get_elevation_min().toFixed(2)+ " m";
-		document.querySelector("#name").innerText = track.get_name() || "Unknown";
-		document.querySelector("#author").innerText = track.get_author() || "Unknown";
-		document.querySelector("#dist-cov").innerText = (track.get_distance() / 1000).toFixed(3)+ " km";
-		document.querySelector("#moving-sp-pa").innerText = track.get_moving_speed().toFixed(2)+ " km/h"+", "+ (track.get_moving_pace() / 1000).toFixed(0)+ " sec/km";
+            let myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        borderColor: 'rgb(31, 96, 237)',
+                        borderWidth: 1,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'km' //(allUnits[units].value == 'm') ? 'km' : 'miles'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'm' //(allUnits[units].value == 'm') ? 'm' : 'ft'
+                            }
+                        }]
+                    }
+                }
+            });
+            console.log(myChart);
+        }
 
-        document.querySelector("#endtime").innerText = moment(track.get_end_time()).local().calendar()  || "Unknown";
-		document.querySelector("#starttime").innerText = moment(track.get_start_time()).local().calendar() || "Unknown";
+        //((allUnits[units].value == 'm') ? target.get_elevation_data() : target.get_elevation_data_imp())
+        // ((allUnits[units].value == 'm') ? 'Elevation [m]' : 'Elevation [ft]'))
+        showGraph("elevation-graph", track.get_elevation_data(), 'Elevation [m]');
+
+        document.querySelector("#elev-ga-lo").innerText = track.get_elevation_gain().toFixed(2) + " m" + ", " + track.get_elevation_loss().toFixed(2) + " m";
+        document.querySelector("#elev-max-min").innerText = track.get_elevation_max().toFixed(2) + " m" + ", " + track.get_elevation_min().toFixed(2) + " m";
+        document.querySelector("#name").innerText = track.get_name() || "Unknown";
+        document.querySelector("#author").innerText = track.get_author() || "Unknown";
+        document.querySelector("#dist-cov").innerText = (track.get_distance() / 1000).toFixed(3) + " km";
+        document.querySelector("#moving-sp-pa").innerText = track.get_moving_speed().toFixed(2) + " km/h" + ", " + (track.get_moving_pace() / 1000).toFixed(0) + " sec/km";
+
+        document.querySelector("#endtime").innerText = moment(track.get_end_time()).local().calendar() || "Unknown";
+        document.querySelector("#starttime").innerText = moment(track.get_start_time()).local().calendar() || "Unknown";
 
         document.querySelector("#tottime").innerText = track.get_duration_string(track.get_total_time(), false) || "Unknown";
-		document.querySelector("#movtime").innerText =  track.get_duration_string(track.get_moving_time(), false) || "Unknown";
+        document.querySelector("#movtime").innerText = track.get_duration_string(track.get_moving_time(), false) || "Unknown";
 
 
-	
+
     }
+
+    let updateMarkerInfo;
+
     let PreciseMarkerUpdate = function (marker, nooverpass) {
 
         let marker_stats = marker
@@ -217,21 +223,35 @@ const informationHandler = (() => {
         document.querySelector("#marker-pluscode").innerText = OLC.encode(marker_stats._latlng.lat, marker_stats._latlng.lng)
 
         //Delete all comments and overpass data from menu
-     // Delete remove marker option if marker is myMarker
-
+        // Delete remove marker option if marker is myMarker
+        if (updateMarkerInfo) jQuery('#marker-name').off('input', updateMarkerInfo);
+        if (updateMarkerInfo) jQuery('#marker-desc').off('input', updateMarkerInfo);
         if (marker == myMarker) {
-			document.querySelector("#remove_marker").style.display = "none"
-			document.querySelector("#marker-name").parentNode.style.display = "none";
+            if (!nooverpass) document.querySelector("div#markers-option").children[3].focus()
+            document.querySelector("#remove_marker").style.display = "none"
+            document.querySelector("#marker-name").parentNode.style.display = "none";
             document.querySelector("#marker-desc").parentNode.style.display = "none";
-			document.querySelector("#marker-info-separator").innerText = "My Location"
+            document.querySelector("#marker-info-separator").innerText = "My Location"
         } else {
+            if (!nooverpass) document.querySelector("div#markers-option").children[1].focus();
             document.querySelector("#remove_marker").style.display = "block"
             document.querySelector("#marker-name").parentNode.style.display = "flex";
             document.querySelector("#marker-desc").parentNode.style.display = "flex";
             document.querySelector("#marker-info-separator").innerText = "Info"
+            if (marker.feature && marker.feature.properties) {
+                if (marker.feature.properties.name) document.querySelector("#marker-name").value = marker.feature.properties.name || "";
+                if (marker.feature.properties.description) document.querySelector("#marker-desc").value = marker.feature.properties.description || "";
+            }
+            updateMarkerInfo = function () {
+                marker.feature = marker.feature || {}; // Initialize feature
+                marker.feature.type = marker.feature.type || "Feature"; // Initialize feature.type
+                marker.feature.properties = marker.feature.properties || {}; // Initialize feature.properties
+                marker.feature.properties.name = document.querySelector("#marker-name").value || ""; // Set feature.properties.name
+                marker.feature.properties.description = document.querySelector("#marker-desc").value || ""; // Set feature.properties.description
+            }
+            jQuery('#marker-name').on('input', updateMarkerInfo);
+            jQuery('#marker-desc').on('input', updateMarkerInfo);
         }
-
-        document.querySelector("div#markers-option").children[0].focus();
 
         let comments = document.querySelectorAll('.comment');
 
@@ -240,12 +260,12 @@ const informationHandler = (() => {
         });
 
         if (!nooverpass) {
-        const boxes = document.querySelectorAll('.overpassdata');
+            const boxes = document.querySelectorAll('.overpassdata');
 
-        boxes.forEach(box => {
-            box.remove();
-        });
-    }
+            boxes.forEach(box => {
+                box.remove();
+            });
+        }
 
         const buttons = document.querySelectorAll('.note_action');
 
@@ -282,16 +302,18 @@ const informationHandler = (() => {
                 let author = action + (comments[i].user ? comments[i].user : 'Anonymous');
                 // do not insert <br> if text message is empty
                 let date = moment.utc(comments[i].date.slice(0, -4)).local().calendar()
-                let text = comments[i].text ? 
-                            date + "<br></br>" + comments[i].html
-                            .replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") // remove all <p> tags
-                            //replace all <a> tags containing an image link with an image tag
-                            .replace(/<a[^>]+?href="([^"]+?\.(jpe?g|png|gif|bmp|svg|webp))"[^>]*?>([^<]*?)<\/a>/img, '<img style="max-width:100%;overflow:hidden;" src="$1" alt="$3">')
-                            // replace links with <a> tag
-                            .replace(/(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim, '<a href="$1" target="_blank">$1</a>') 
-                            // replace email addresses with mailto: tag
-                            .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>') 
-                             : date;
+                let text = comments[i].text ?
+                    date + "<br></br>" + comments[i].html
+                    .replace(/(<p[^>]+?>|<p>|<\/p>)/img, "") // remove all <p> tags
+                    //replace all <a> tags containing an image link with an image tag
+                    .replace(/<a[^>]+?href="([^"]+?\.(jpe?g|png|gif|bmp|svg|webp))"[^>]*?>([^<]*?)<\/a>/img, '<img style="max-width:100%;overflow:hidden;" src="$1" alt="$3">')
+                    /*// replace links with <a> tag
+                    .replace(/(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim, '<a href="$1" target="_blank">$1</a>') */
+                    // replace email addresses with mailto: tag
+                    .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>')
+                    // replace telephone numbers with tel: tag
+                    .replace(/((\+?[0-9\s\-\(\)]{5,}))/gim, '<a href="tel:$1">$1</a>') :
+                    date;
                 appendcomment(author, text)
             }
 
@@ -605,7 +627,7 @@ const informationHandler = (() => {
 
             var day = some.list[0].weather[0].icon.includes("d")
             var daynight = (day ? "d" : "n")
-           
+
             document.getElementById("icon").className = "list-item-indicator__indicator owf owf-" + some.list[0].weather[0].id + "-" + daynight + " owf-3x";
             document.getElementById("sunset").innerText =
                 formattedTime + " (" + utility.getRelativeTime(some.city.sunset) + ")";
@@ -613,8 +635,8 @@ const informationHandler = (() => {
                 formattedTimer + " (" + utility.getRelativeTime(some.city.sunrise) + ")";
             // convert unix utc timestamp to local unix timestamp
 
-            
-            
+
+
             var grabtime = utility.getRelativeTime(some.list[0].dt + (new Date().getTimezoneOffset() * 60))
             grabtime = grabtime.charAt(0).toUpperCase() + grabtime.slice(1);
             document.getElementById("grabtime").innerText =

@@ -363,7 +363,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	let timeout;
 
 	function repeat_action(param) {
-		console.log("repeat", param)
 		switch (param.key) {
 			case 'ArrowUp':
 				if (screen.orientation.type == 'portrait-primary') nav("-1") & MovemMap("up");
@@ -1482,7 +1481,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						markers_group_osmnotes.removeLayer(selected_marker)
 					};
 
-
+					selecting_marker = false;
+					
 					kaiosToaster({
 						message: "Marker removed",
 						position: 'north',
@@ -2260,6 +2260,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					document.querySelector("div#finder").style.display = "none";
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
+					selecting_marker = false;
 					document.querySelector("div#markers-option").style.display = "none";
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					windowOpen = "map";
@@ -2709,7 +2710,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	////////////////////////////////
 
 	function handleKeyDown(evt) {
+		console.log("keydown", evt)
+
 		if (evt.key == "EndCall") evt.preventDefault();
+		if (evt.key === 'MicrophoneToggle') evt.preventDefault();
 		if (evt.key == "Backspace" && (!$("input").is(":focus") && windowOpen != "map")) evt.preventDefault();
 		// For some reasons empty inputs don't focus so it allows the app to be minimized also in empty inputs
 		if (!evt.repeat) {
