@@ -1606,7 +1606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gj-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GeoJson Files</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GeoJSON Files</div><div id="tracksmarkers"></div>';
 				find_geojson()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
