@@ -139,7 +139,7 @@ body {
   box-sizing: border-box;
   padding: 1rem;
   height: auto;
-min-height: 5rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -174,7 +174,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem 3rem 1rem 1rem;
   height: auto;
-min-height: 5rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -225,7 +225,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem;
   height: auto;
-min-height: 5rem;
+
   display: flex;
   align-items: center;
 }
@@ -286,7 +286,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem 3rem 1rem 1rem;
   height: auto;
-min-height: 5rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -350,7 +350,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem;
   height: auto;
-min-height: 5rem;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -404,7 +404,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem;
   height: auto;
-min-height: 5rem;
+
 }
 
 .progress-container__label {
@@ -452,7 +452,7 @@ min-height: 5rem;
   box-sizing: border-box;
   padding: 1rem;
   height: auto;
-min-height: 5rem;
+
   display: grid;
   grid-template-areas:
     "text text subtext"

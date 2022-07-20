@@ -463,15 +463,9 @@ div#top-bar div#button-left {
   width: 30%;
 }
 
-div#gpxtrack-info {
-  background: var(--app-background);
-  position: fixed;
-  z-index: 5;
-  display: none;
-  overflow: hidden !important;
-  max-height: 99vh !important;
-}
 
+div#gpxtrack-info,
+div#tracks,
 div#markers-option {
   background: var(--app-background);
   position: fixed;
@@ -631,19 +625,9 @@ div#finder div#close {
   min-width: 100vw;
 }
 
-div#finder .item:focus {
-  background: var(--accent-color);
-  border-color: var(--item-focused-text-color);
-  color: var(--item-focused-text-color);
-}
-
-
-div#gpxtrack-info .item:focus {
-  background: var(--accent-color);
-  border-color: var(--item-focused-text-color);
-  color: var(--item-focused-text-color);
-}
-
+div#finder .item:focus,
+div#gpxtrack-info .item:focus,
+div#tracks .item:focus,
 div#markers-option .item:focus {
   background: var(--accent-color);
   border-color: var(--item-focused-text-color);

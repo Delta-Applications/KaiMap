@@ -155,11 +155,6 @@
       <p class="list-item__text">Moving Speed, Pace</p>
       <p class="list-item__subtext" id="moving-sp-pa">#</p>
     </div>
-
-
-
-
-
   </div>
 
   <div id="markers-option" class="flex justify-content-center align-item-center width-100 height-100">
@@ -251,6 +246,14 @@
 /////////////////////
 -->
 
+<div id="tracks" class="flex justify-content-center align-item-center width-100 height-100">
+  <div class="separator" id="tracks-name">### Files/Tracks</div>
+  <div id="tracksmarkers"></div>
+
+
+
+</div>
+
 
   <div id="finder" class="flex justify-content-center align-item-center width-100 height-100">
     <div id="kai-tabs-finder" class="kai-tabs">
@@ -280,7 +283,28 @@
         <div id="layers"></div>
 
         <div class="separator">Tracks & Markers</div>
-        <div id="tracksmarkers"></div>
+        <div data-map="osm-tracks" class="item list-item-indicator focusable">
+          <p class="list-item-indicator__text">OSM Tracks</p>
+          <p class="list-item-indicator__subtext">2 tracks</p>
+          <span class="list-item-indicator__indicator"></span>
+        </div>
+        <div data-map="gpx-tracks" class="item list-item-indicator focusable">
+          <p class="list-item-indicator__text">GPX Tracks</p>
+          <p class="list-item-indicator__subtext">9 files</p>
+          <span class="list-item-indicator__indicator"></span>
+        </div>
+        <div data-map="gj-tracks" class="item list-item-indicator focusable">
+          <p class="list-item-indicator__text">GeoJson Files</p>
+          <p class="list-item-indicator__subtext">28 files</p>
+          <span class="list-item-indicator__indicator"></span>
+        </div>
+        <!-- KML & KMZ Files -->
+        <div data-map="kml-tracks" class="item list-item-indicator focusable">
+          <p class="list-item-indicator__text">KML Files</p>
+          <p class="list-item-indicator__subtext">3 files</p>
+          <span class="list-item-indicator__indicator"></span>
+        </div>
+
 
       </div>
       <div class="panel" id="Information">

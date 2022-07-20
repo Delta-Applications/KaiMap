@@ -535,10 +535,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				'<div class="item checkbox-container" data-map="osmnotes"><p class="checkbox-container__text">OSM Notes</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 		load_maps();
-		find_gpx();
-		osm_server_list_gpx();
-		find_geojson();
-		find_kml();
+		find_gpx(true);
+		osm_server_list_gpx(true);
+		find_geojson(true);
+		find_kml(true);
 		finder_tabindex()
 
 	};
@@ -546,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//////////////////////////////////
 	//READ KML////////////////////////
 	/////////////////////////////////
-	let find_kml = function () {
+	let find_kml = function (onlycount) {
 		//search kml
 		let finder_kml = new Applait.Finder({
 			type: "sdcard",
@@ -554,7 +554,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 		finder_kml.search(".kml");
-		finder_kml.on("searchComplete", function (needle, filematchcount) {});
+		finder_kml.on("searchComplete", function (needle, filematchcount) {
+			document.querySelector('[data-map="kml-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
+				if (!onlycount){
+				tabIndex = 0;
+				finder_tabindex();
+			}
+		});
+		if (onlycount) return;
 
 		finder_kml.on("fileFound", function (file, fileinfo, storageName) {
 			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
@@ -570,7 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//////////////////////////////////
 	//READ GPX////////////////////////
 	/////////////////////////////////
-	let find_gpx = function () {
+	let find_gpx = function (onlycount) {
 		//search gpx
 		let finder_gpx = new Applait.Finder({
 			type: "sdcard",
@@ -578,7 +585,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 		finder_gpx.search(".gpx");
-		finder_gpx.on("searchComplete", function (needle, filematchcount) {});
+		finder_gpx.on("searchComplete", function (needle, filematchcount) {
+			document.querySelector('[data-map="gpx-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
+			if (!onlycount){
+				tabIndex = 0;
+				finder_tabindex();
+			}
+		});
+		if (onlycount) return;
 
 		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
 			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
@@ -595,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//READ GEOJSON////////////////////////
 	/////////////////////////////////
 
-	let find_geojson = function () {
+	let find_geojson = function (onlycount) {
 		//search geojson
 		let finder = new Applait.Finder({
 			type: "sdcard",
@@ -603,7 +617,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		finder.search(".geojson");
 
-		finder.on("searchComplete", function (needle, filematchcount) {});
+		finder.on("searchComplete", function (needle, filematchcount) {
+			document.querySelector('[data-map="gj-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
+			if (!onlycount){
+				tabIndex = 0;
+				finder_tabindex();
+			}
+		});
+		if (onlycount) return;
 		finder.on("fileFound", function (file, fileinfo, storageName) {
 			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 			document
@@ -616,7 +637,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	window.isLoggedIn = false
-	let osm_server_list_gpx = function () {
+	let osm_server_list_gpx = function (onlycount) {
 		console.log("load osm");
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
 
@@ -651,6 +672,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("gpx_file");
+
+				document.querySelector('[data-map="osm-tracks"]').childNodes[3].innerText = (s.length == 1 ? s.length + ' file' : s.length + ' files')
+				if (onlycount) return;
+
 				//filter by tag
 				for (let i = 0; i < s.length; i++) {
 					if (setting.osm_tag == null || setting.osm_tag == "") {
@@ -687,7 +712,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						}
 					}
 				}
-				finder_tabindex()
+				tabIndex = 0;
+				finder_tabindex();
 			})
 
 			.catch((error) => {
@@ -697,6 +723,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	let osm_server_load_gpx = function (id) {
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
+		console.log("load gpx osm")
 
 		const myHeaders = new Headers({
 			Authorization: n,
@@ -720,6 +747,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					.addTo(map);
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
+				document.querySelector("div#tracks").style.display = "none";
 				windowOpen = "map";
 			})
 			.catch((error) => {
@@ -998,6 +1026,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					},
 				}).addTo(map);
 				document.querySelector("div#finder").style.display = "none";
+				document.querySelector("div#tracks").style.display = "none";
 				top_bar("", "", "")
 				windowOpen = "map";
 			};
@@ -1054,6 +1083,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				map.fitBounds(bounds);
 				zoom_speed();
 				document.querySelector("div#finder").style.display = "none";
+				document.querySelector("div#tracks").style.display = "none";
 				windowOpen = "map";
 				top_bar("", "", "")
 			};
@@ -1104,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					.addTo(map);
 
 				document.querySelector("div#finder").style.display = "none";
+				document.querySelector("div#tracks").style.display = "none";
 				windowOpen = "map";
 				top_bar("", "", "")
 			};
@@ -1482,7 +1513,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					};
 
 					selecting_marker = false;
-					
+
 					kaiosToaster({
 						message: "Marker removed",
 						position: 'north',
@@ -1501,7 +1532,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	function addMapLayers() {
-		if (document.activeElement.className == "item list-item focusable" || document.activeElement.className == "item checkbox-container" || document.activeElement.className == "item button-container__button focusable" && windowOpen == "finder") {
+		if (document.activeElement.className == "item list-item focusable" ||
+		 document.activeElement.className == "item checkbox-container" ||
+		 document.activeElement.className == "item list-item-indicator focusable" ||
+		  document.activeElement.className == "item button-container__button focusable" 
+		  && (windowOpen == "finder" || windowOpen == "tracks")) {
 			//switch online maps
 
 			//custom maps and layers from json file
@@ -1527,6 +1562,39 @@ document.addEventListener("DOMContentLoaded", function () {
 			//add gpx data from osm
 			if (item_value == "gpx-osm") {
 				osm_server_load_gpx(document.activeElement.getAttribute("data-id"));
+			}
+			//<div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
+			if (item_value == "gpx-tracks") {
+				windowOpen = "tracks"
+				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">GPX Tracks</div><div id="tracksmarkers"></div>';
+				find_gpx()
+				document.querySelector("div#tracks").style.display = "block";
+				document.querySelector("div#finder").style.display = "none";
+
+			}
+			if (item_value == "kml-tracks") {
+				windowOpen = "tracks"
+				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">KML Files</div><div id="tracksmarkers"></div>';
+				find_kml()
+				document.querySelector("div#tracks").style.display = "block";
+				document.querySelector("div#finder").style.display = "none";
+
+			}
+			if (item_value == "gj-tracks") {
+				windowOpen = "tracks"
+				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">GeoJson Files</div><div id="tracksmarkers"></div>';
+				find_geojson()
+				document.querySelector("div#tracks").style.display = "block";
+				document.querySelector("div#finder").style.display = "none";
+
+			}
+			if (item_value == "osm-tracks") {
+				windowOpen = "tracks"
+				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">OSM Tracks</div><div id="tracksmarkers"></div>';
+				osm_server_list_gpx()
+				document.querySelector("div#tracks").style.display = "block";
+				document.querySelector("div#finder").style.display = "none";
+
 			}
 
 			if (item_value == "download-map") {
@@ -2009,7 +2077,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	function nav(move) {
-		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info")) { //&& !$("input").is(":focus")
+		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks")) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -2168,10 +2236,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 				break;
 			case "0":
-				if (windowOpen == "finder") {
-					addMapLayers("delete-marker");
-					return false;
-				}
 
 				if (windowOpen == "map") {
 					maps.weather_map();
@@ -2236,7 +2300,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param.key) {
 
 			case "EndCall":
-				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info") {
+				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks") {
 					if (confirm("Are you sure you want to exit?")) {
 						window.goodbye();
 						windowOpen = "";
@@ -2252,7 +2316,15 @@ document.addEventListener("DOMContentLoaded", function () {
 					document.querySelector("div#finder").style.display = "block";
 					finder_navigation("start");
 					windowOpen = "finder";
-					return
+					break;
+				}
+				if (windowOpen == "tracks" && !$("input").is(":focus")) {
+					document.querySelector("div#tracks").style.display = "none";
+					finder_tabindex();
+					document.querySelector("div#finder").style.display = "block";
+					finder_navigation("start");
+					windowOpen = "finder";
+					break;
 				}
 				if ((windowOpen == "finder" || windowOpen == "markers_option") && !$("input").is(":focus")) {
 					top_bar("", "", "");
@@ -2458,6 +2530,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
+				if (windowOpen == "finder" || windowOpen == "tracks") {
+					addMapLayers();
+				}
 
 
 				if (windowOpen == "finder") {
@@ -2473,7 +2548,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 						break;
 					}
-					addMapLayers();
+					
 
 					break;
 				}
@@ -2710,7 +2785,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	////////////////////////////////
 
 	function handleKeyDown(evt) {
-		console.log("keydown", evt)
 
 		if (evt.key == "EndCall") evt.preventDefault();
 		if (evt.key === 'MicrophoneToggle') evt.preventDefault();
