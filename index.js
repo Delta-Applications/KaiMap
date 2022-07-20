@@ -1590,7 +1590,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//<div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
 			if (item_value == "gpx-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">GPS Tracks</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GPS Tracks</div><div id="tracksmarkers"></div>';
 				find_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1598,7 +1598,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "kml-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">KML Files</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">KML Files</div><div id="tracksmarkers"></div>';
 				find_kml()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1606,7 +1606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gj-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">GeoJson Files</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GeoJson Files</div><div id="tracksmarkers"></div>';
 				find_geojson()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1614,7 +1614,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "osm-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">OSM Tracks</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">OSM Tracks</div><div id="tracksmarkers"></div>';
 				osm_server_list_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
