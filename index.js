@@ -556,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_kml.search(".kml");
 		finder_kml.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="kml-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
-				if (!onlycount){
+			if (!onlycount) {
 				tabIndex = 0;
 				finder_tabindex();
 			}
@@ -587,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_gpx.search(".gpx");
 		finder_gpx.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="gpx-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
-			if (!onlycount){
+			if (!onlycount) {
 				tabIndex = 0;
 				finder_tabindex();
 			}
@@ -619,7 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		finder.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="gj-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
-			if (!onlycount){
+			if (!onlycount) {
 				tabIndex = 0;
 				finder_tabindex();
 			}
@@ -637,6 +637,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	window.isLoggedIn = false
+	let osm_tags = {}
 	let osm_server_list_gpx = function (onlycount) {
 		console.log("load osm");
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
@@ -678,39 +679,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				//filter by tag
 				for (let i = 0; i < s.length; i++) {
-					if (setting.osm_tag == null || setting.osm_tag == "") {
-						let m = {
-							name: s[i].getAttribute("name"),
-							id: s[i].getAttribute("id"),
-						};
+					//if (setting.osm_tag == null || setting.osm_tag == "") {
+					let m = {
+						name: s[i].getAttribute("name"),
+						id: s[i].getAttribute("id"),
+					};
 
-						document
-							.querySelector("div#tracksmarkers")
-							.insertAdjacentHTML(
+					// if track has a tag, create a separator with that osm tag's name, and append all tracks containing that osm tag to that separator
+
+					let hastag = false;
+
+					for (let n = 0; n < s[i].children.length; n++) {
+						if (s[i].children[n].tagName == "tag") {
+							// s[i].children[n].textContent
+							let tagName = s[i].children[n].textContent;
+							if (!osm_tags[tagName]) {
+								document.querySelector("div#tracksmarkers").insertAdjacentHTML("afterend",'<div class="separator" id="osmtag-' + tagName + '">' + tagName + '</div>')
+								osm_tags[tagName] = document.querySelector("div#osmtag-" + tagName)
+							}
+							if (osm_tags[tagName]) osm_tags[tagName].insertAdjacentHTML(
 								"afterend",
 								'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
 							);
+							hastag = true;
 
-
-					} else {
-						for (let n = 0; n < s[i].children.length; n++) {
-							if (s[i].children[n].tagName == "tag") {
-								if (s[i].children[n].textContent == setting.osm_tag) {
-									let m = {
-										name: s[i].getAttribute("name"),
-										id: s[i].getAttribute("id"),
-									};
-
-									document
-										.querySelector("div#tracksmarkers")
-										.insertAdjacentHTML(
-											"afterend",
-											'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
-										);
-								}
-							}
 						}
 					}
+
+					if (hastag) continue;
+
+					document
+						.querySelector("div#tracksmarkers")
+						.insertAdjacentHTML(
+							"afterend",
+							'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+						);
+
+
+					/*	} else {
+							for (let n = 0; n < s[i].children.length; n++) {
+								if (s[i].children[n].tagName == "tag") {
+									if (s[i].children[n].textContent == setting.osm_tag) {
+										let m = {
+											name: s[i].getAttribute("name"),
+											id: s[i].getAttribute("id"),
+										};
+
+										document
+											.querySelector("div#tracksmarkers")
+											.insertAdjacentHTML(
+												"afterend",
+												'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+											);
+									}
+								}
+							}
+						}*/
 				}
 				tabIndex = 0;
 				finder_tabindex();
@@ -872,7 +896,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		tabIndex = 0;
 		finder_tabindex();
 
-		
+
 		windowOpen = "markers_option";
 		bottom_bar("", "", "")
 
@@ -1331,7 +1355,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (retrying == true) {
 					if (!confirmed && !prompted) {
 						prompted = true;
-						confirmed = true//confirm("The geolocation service is working again, update location?")
+						confirmed = true //confirm("The geolocation service is working again, update location?")
 					}
 					if (!confirmed) {
 						return;
@@ -1454,10 +1478,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	////////////////////////
 	function markers_action() {
 		if (document.activeElement.className == "item list-item focusable" ||
-		 document.activeElement.className == "item button-container__button focusable" ||
-		 document.activeElement.className == "item button-container__button focusable note_action" ||
-		 document.activeElement.className == "item list-item-indicator focusable" 
-		   && windowOpen == "markers_option") {
+			document.activeElement.className == "item button-container__button focusable" ||
+			document.activeElement.className == "item button-container__button focusable note_action" ||
+			document.activeElement.className == "item list-item-indicator focusable" &&
+			windowOpen == "markers_option") {
 			let item_value = document.activeElement.getAttribute("data-action");
 
 			if (item_value == "save_marker") {
@@ -1533,10 +1557,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function addMapLayers() {
 		if (document.activeElement.className == "item list-item focusable" ||
-		 document.activeElement.className == "item checkbox-container" ||
-		 document.activeElement.className == "item list-item-indicator focusable" ||
-		  document.activeElement.className == "item button-container__button focusable" 
-		  && (windowOpen == "finder" || windowOpen == "tracks")) {
+			document.activeElement.className == "item checkbox-container" ||
+			document.activeElement.className == "item list-item-indicator focusable" ||
+			document.activeElement.className == "item button-container__button focusable" &&
+			(windowOpen == "finder" || windowOpen == "tracks")) {
 			//switch online maps
 
 			//custom maps and layers from json file
@@ -1566,7 +1590,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//<div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
 			if (item_value == "gpx-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">GPX Tracks</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">GPS Tracks</div><div id="tracksmarkers"></div>';
 				find_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1574,7 +1598,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "kml-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">KML Files</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">KML Files</div><div id="tracksmarkers"></div>';
 				find_kml()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1582,7 +1606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gj-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">GeoJson Files</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">GeoJson Files</div><div id="tracksmarkers"></div>';
 				find_geojson()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1590,7 +1614,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "osm-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div class="separator" id="tracks-name">OSM Tracks</div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="tracks-name">OSM Tracks</div><div id="tracksmarkers"></div>';
 				osm_server_list_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
@@ -1985,7 +2009,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let finder_panels = ["Imagery", "Information", "Settings", "Shortcuts", "Impressum"];
 	let count = 0;
 
-	
+
 
 	let finder_navigation = function (dir) {
 		if (!$("input").is(":focus")) {
@@ -2016,7 +2040,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById(finder_panels[count]).style.display = "block";
 				finder_tabindex();
 			}
-			
+
 
 			[...document.querySelector("#kai-tabs-finder").children].forEach((a) => {
 				/*a.onclick = function({target}) {
@@ -2548,7 +2572,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 						break;
 					}
-					
+
 
 					break;
 				}
