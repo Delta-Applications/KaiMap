@@ -98,7 +98,7 @@ $(document).ready(function () {
     $("div#search-box").find("input").blur();
     $("div#olc").css("display", "none");
 
-    windowOpen = "map";
+    ShowMap();
   };
 
   //////////////////////////

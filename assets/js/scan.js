@@ -76,6 +76,7 @@ const qr = ((_) => {
     video.srcObject = null;
 
     windowOpen = "finder";
+    HideMap();
   };
 
   return {

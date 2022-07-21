@@ -70,7 +70,7 @@ const geojson = ((_) => {
         type: 'success',
         timeout: 3000
       });
-      windowOpen = "map";
+      ShowMap();
     };
 
     requestAdd.onerror = function () {
@@ -81,7 +81,7 @@ const geojson = ((_) => {
         type: 'error',
         timeout: 3000
       });
-      windowOpen = "map";
+      ShowMap();
     };
   };
 

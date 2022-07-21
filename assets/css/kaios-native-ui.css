@@ -128,7 +128,7 @@ body {
   background: var(--header-background);
   color: var(--header-color);
   font-size: 1.7rem;
-  font-weight: 400;
+  font-weight: 600;
   text-transform: var(--capitalization);
 }
 

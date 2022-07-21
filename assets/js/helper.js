@@ -95,6 +95,7 @@ function user_input(param, file_name, desc) {
     document.querySelector("div#user-input").style.display = "block";
     document.querySelector("div#user-input input").focus();
     document.querySelector("div#user-input input").value = file_name;
+    HideMap();
     windowOpen = "user-input";
   }
   if (param == "close") {
@@ -103,7 +104,7 @@ function user_input(param, file_name, desc) {
     document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
     console.log("close")
-    windowOpen = "map";
+    ShowMap();
   }
 
   if (param == "return") {
