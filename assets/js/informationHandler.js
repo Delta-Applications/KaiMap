@@ -60,7 +60,7 @@ const informationHandler = (() => {
 
 
             // CHARGING & DISCHARGING TIME DISPLAY
-            battery.onchargingtimechange = chargtimechange();
+            Battery.onchargingtimechange = chargtimechange();
 
             function chargtimechange() {
                 if (Battery.charging) {
@@ -74,7 +74,7 @@ const informationHandler = (() => {
                     //       if (Battery.dischargingTime == Infinity) {                        document.getElementById("batteryTime").innerText = "Unavailable" }
                 }
             }
-            battery.ondischargingtimechange = dischargtimechange();
+            Battery.ondischargingtimechange = dischargtimechange();
 
             function dischargtimechange() {
                 if (Battery.charging) {
