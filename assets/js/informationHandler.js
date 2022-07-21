@@ -497,6 +497,7 @@ const informationHandler = (() => {
 
             data.olc = OLC.encode(data.raw.latitude, data.raw.longitude)
             document.querySelector("#olcode").innerText = data.olc
+
             document.querySelector("#satnum").innerText = data.GPSif
 
             document.querySelector('[data-map="view-gpxinfo"]').style.display = (current_gpx ? "block" : "none");

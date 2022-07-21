@@ -1477,10 +1477,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	/////MENU///////////////
 	////////////////////////
 	function markers_action() {
-		if (document.activeElement.className == "item list-item focusable" ||
-			document.activeElement.className == "item button-container__button focusable" ||
-			document.activeElement.className == "item button-container__button focusable note_action" ||
-			document.activeElement.className == "item list-item-indicator focusable" &&
+		if (document.activeElement.classList.contains("item") &&
 			windowOpen == "markers_option") {
 			let item_value = document.activeElement.getAttribute("data-action");
 
@@ -1556,10 +1553,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	function addMapLayers() {
-		if (document.activeElement.className == "item list-item focusable" ||
-			document.activeElement.className == "item checkbox-container" ||
-			document.activeElement.className == "item list-item-indicator focusable" ||
-			document.activeElement.className == "item button-container__button focusable" &&
+		if (document.activeElement.classList.contains("item") &&
 			(windowOpen == "finder" || windowOpen == "tracks")) {
 			//switch online maps
 
@@ -2582,8 +2576,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				// check if document.activeElement has .comment class
-				if (document.activeElement.className == "item list-item focusable comment") {
+				// check if document.activeElement contains .comment class
+				if (document.activeElement.classList.contains("comment")) {
 					if (map.hasLayer(markers_group_osmnotes)) {
 						// open first <a> or <img> link if it exists
 						if (document.activeElement.children[1].getElementsByTagName('a')[0]) {
