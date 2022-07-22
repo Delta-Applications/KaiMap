@@ -588,6 +588,9 @@ body {
   outline: none;
   box-sizing: border-box;
   display: block;
+  background: var(--item-background);
+  color: var(--item-text-color);
+  border: 1px solid var(--item-text-color);
 }
 
 .input-container__input {

@@ -86,7 +86,7 @@ let setting = {
 	messageSignature: "\nSent using KaiMaps for KaiOS"
 };
 
- 
+
 
 //Hide off-screen markers to reduce lag
 L.Marker.addInitHook(function () {
@@ -169,13 +169,28 @@ function ShowMap() {
 	document.documentElement.requestFullscreen()
 }
 
+function hexToRgb(hex) {
+	var result = /^ #?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : null;
+}
+
+
+
 function HideMap() {
+	let theme_fhex = hexToRgb(getComputedStyle(document.body).getPropertyValue('--app-background'))
+
+
+	document.querySelector('[name="theme-color"]').content = 'rgb(' + theme_fhex.r + ', ' + theme_fhex.g + ', ' + theme_fhex.b + ')';
 	document.exitFullscreen()
 }
 
-document.addEventListener("visibilitychange", function(){
+document.addEventListener("visibilitychange", function () {
 	if (document.visibilityState == "visible" && windowOpen == "map") {
-		setTimeout(function(){
+		setTimeout(function () {
 			ShowMap();
 		}, 1000)
 	}
@@ -476,12 +491,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			"map": "gstreet",
 			"desc": "Map"
 		},
-		"clarity": { 
+		"clarity": {
 			"name": "Esri World Clarity (Beta)",
 			"map": "clarity",
 			"desc": "Aerial"
 		},
-		"ocm": { 
+		"ocm": {
 			name: "OpenCycleMap",
 			map: "ocm",
 			desc: "Map"
@@ -504,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			el.classList.add("focusable");
 			el.setAttribute("data-map", map.map);
 			el.innerHTML = `<p class="list-item__text">${map.name}</p><p class="list-item__subtext">${map.desc}</p><input tabindex="0" radio-group="map" class="focusable radio-container__input" type="radio"><div class="radio-container__radio"></div>`;
-			document.querySelector("div#maps").insertAdjacentElement("afterend",el);
+			document.querySelector("div#maps").insertAdjacentElement("afterend", el);
 		}
 
 		/*el.insertAdjacentHTML(
@@ -512,8 +527,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p><p class="list-item__subtext">Satellite</p></div>'
 		);*/
 
-		
-		
+
+
 
 		document
 			.querySelector("div#layers")
@@ -733,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							// s[i].children[n].textContent
 							let tagName = s[i].children[n].textContent;
 							if (!osm_tags[tagName]) {
-								document.querySelector("div#tracksmarkers").insertAdjacentHTML("afterend",'<div class="separator" id="osmtag-' + tagName + '">' + tagName + '</div>')
+								document.querySelector("div#tracksmarkers").insertAdjacentHTML("afterend", '<div class="separator" id="osmtag-' + tagName + '">' + tagName + '</div>')
 								osm_tags[tagName] = document.querySelector("div#osmtag-" + tagName)
 							}
 							if (osm_tags[tagName]) osm_tags[tagName].insertAdjacentHTML(
@@ -2146,6 +2161,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 				document.activeElement.parentNode.focus()
+				return;
 			}
 
 			if (move == "+1") {
@@ -2418,6 +2434,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 					document.activeElement.parentNode.focus()
+					break;
 				}
 
 				break;
@@ -2565,6 +2582,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
 					document.activeElement.parentNode.focus()
+					break;
 				}
 
 				if (document.activeElement == document.getElementById("osm-oauth")) {
@@ -2888,7 +2906,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (open_url === false) {
 			build_menu();
 
-		
+
 			maps.opencycle_map();
 			getLocation("init");
 			//detect osm short link regex
@@ -2905,7 +2923,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//  }, 8000);
 		}
 		///set default map
-		document.querySelector('[name="theme-color"]').content = getComputedStyle(document.body).getPropertyValue('--app-background')
+
 
 		ShowMap();
 
