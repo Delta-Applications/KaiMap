@@ -173,6 +173,14 @@ function HideMap() {
 	document.exitFullscreen()
 }
 
+document.addEventListener("visibilitychange", function(){
+	if (document.visibilityState == "visible" && windowOpen == "map") {
+		setTimeout(function(){
+			ShowMap();
+		}, 1000)
+	}
+});
+
 
 document.addEventListener("DOMContentLoaded", function () {
 	//document.querySelector("div#intro-footer2").innerText = "Fetching location..";
