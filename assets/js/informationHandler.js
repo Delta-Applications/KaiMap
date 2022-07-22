@@ -226,12 +226,12 @@ const informationHandler = (() => {
         // Delete remove marker option if marker is myMarker
         if (updateMarkerInfo) jQuery('#marker-name').off('input', updateMarkerInfo);
         if (updateMarkerInfo) jQuery('#marker-desc').off('input', updateMarkerInfo);
-        if (marker == myMarker) {
+        if (marker == myMarker || map.hasLayer(markers_group_osmnotes)) {
             if (!nooverpass) document.querySelector("div#markers-option").children[3].focus()
-            document.querySelector("#remove_marker").style.display = "none"
+            if (marker == myMarker) document.querySelector("#remove_marker").style.display = "none";
             document.querySelector("#marker-name").parentNode.style.display = "none";
             document.querySelector("#marker-desc").parentNode.style.display = "none";
-            document.querySelector("#marker-info-separator").innerText = "My Location"
+            if (marker == myMarker) document.querySelector("#marker-info-separator").innerText = "My Location";
         } else {
             if (!nooverpass) document.querySelector("div#markers-option").children[1].focus();
             document.querySelector("#remove_marker").style.display = "block"
@@ -312,7 +312,7 @@ const informationHandler = (() => {
                     // replace email addresses with mailto: tag
                     .replace(/(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim, '<a href="mailto:$1">$1</a>')
                     // replace telephone numbers with tel: tag
-                    .replace(/((\+?[0-9\s\-\(\)]{5,}))/gim, '<a href="tel:$1">$1</a>') :
+                    .replace(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im, '<a href="tel:$1">$1</a>') :
                     date;
                 appendcomment(author, text)
             }

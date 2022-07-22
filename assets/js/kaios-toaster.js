@@ -69,7 +69,7 @@
       prevToast.destroy();
     }
 
-    switch (type) {
+    /*switch (type) {
       case 'error':
         navigator.vibrate([500, 60, 500])
         break;
@@ -82,7 +82,7 @@
       case 'info':
       default:
         break;
-    }
+    }*/
     if (type == "info") {}
 
     this.message = message;

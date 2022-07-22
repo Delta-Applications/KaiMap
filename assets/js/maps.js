@@ -949,7 +949,6 @@ const maps = (() => {
       map.off("moveend", fetchNotes);
 
       map.removeLayer(markers_group_osmnotes);
-      markers_group_osmnotes.clearLayers();
       kaiosToaster({
         message: "Removed Layer",
         position: 'north',
@@ -975,11 +974,6 @@ const maps = (() => {
       type: 'info',
       timeout: 2000
     });
-
-
-
-
-
 
     fetchNotes()
 
