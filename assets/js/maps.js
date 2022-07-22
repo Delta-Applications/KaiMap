@@ -122,8 +122,17 @@ const maps = (() => {
       });
   };
 
-  function opencycle_map() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  let select_map = function(el) {
+    if (!el) return;
+    document.querySelectorAll('[radio-group="map"]').forEach(function(el) {
+      el.checked = false;
+    });
+    el.querySelector(".radio-container__input").checked = true
+  }
+
+  function opencycle_map(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "OpenCycleMap",
       position: 'north',
@@ -167,8 +176,9 @@ const maps = (() => {
     caching_events();
   }
 
-  function toner_map() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  function toner_map(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "Toner Map",
       position: 'north',
@@ -240,8 +250,9 @@ const maps = (() => {
     }
   }
 
-  function google_map() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  function google_map(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "Google Street",
       position: 'north',
@@ -268,8 +279,9 @@ const maps = (() => {
     caching_events();
   }
 
-  function satellite_map() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  function satellite_map(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "Bing Aerial",
       position: 'north',
@@ -283,8 +295,9 @@ const maps = (() => {
     caching_events();
   }
   //			//https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
-  function clarity() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  function clarity(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "Esri World Clarity",
       position: 'north',
@@ -310,9 +323,9 @@ const maps = (() => {
     caching_events();
 
   }
-
-  function opentopo_map() {
+  function opentopo_map(el) {
     if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "Here WeGo Hybrid",
       position: 'north',
@@ -524,8 +537,9 @@ const maps = (() => {
 
 
 
-  function osm_map() {
-    if (tilesLayer) map.removeLayer(tilesLayer);
+  function osm_map(el) {
+   if (tilesLayer) map.removeLayer(tilesLayer);
+    select_map(el)
     kaiosToaster({
       message: "OpenStreetMap",
       position: 'north',
@@ -759,6 +773,7 @@ const maps = (() => {
         timeout: 2000
       });
       if (tilesLayer) map.removeLayer(tilesLayer);
+      select_map(activeEl)
 
       tilesLayer = L.tileLayer(url, {
         useCache: true,

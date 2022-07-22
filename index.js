@@ -455,48 +455,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	}
 
+	let default_maps = {
+		"osm": {
+			"name": "OpenStreetMap",
+			"map": "osm",
+			"desc": "Map"
+		},
+		"toner": {
+			"name": "Toner",
+			"map": "toner",
+			"desc": "Map"
+		},
+		"herewego": {
+			"name": "Here WeGo Hybrid",
+			"map": "otm",
+			"desc": "Map"
+		},
+		"gstreet": {
+			"name": "Google Street",
+			"map": "gstreet",
+			"desc": "Map"
+		},
+		"clarity": { 
+			"name": "Esri World Clarity (Beta)",
+			"map": "clarity",
+			"desc": "Aerial"
+		},
+		"ocm": { 
+			name: "OpenCycleMap",
+			map: "ocm",
+			desc: "Map"
+		}
 
+	}
 
 	let build_menu = function () {
 		document.querySelector("div#tracksmarkers").innerHTML = "";
 		document.querySelector("div#maps").innerHTML = "";
 		document.querySelector("div#layers").innerHTML = "";
 
-		let el = document.querySelector("div#maps");
 		/**   <div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p></div> */
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p><p class="list-item__subtext">Map</p></div>'
-		);
-
-
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="otm"><p class="list-item__text">Here WeGo Hybrid</p><p class="list-item__subtext">Map</p></div>'
-		);
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="gstreet"><p class="list-item__text">Google Street</p><p class="list-item__subtext">Map</p></div>'
-		);
+		for (let i in default_maps) {
+			let map = default_maps[i];
+			let el = document.createElement("div");
+			el.classList.add("item");
+			el.classList.add("list-item");
+			el.classList.add("radio-container");
+			el.classList.add("focusable");
+			el.setAttribute("data-map", map.map);
+			el.innerHTML = `<p class="list-item__text">${map.name}</p><p class="list-item__subtext">${map.desc}</p><input tabindex="0" radio-group="map" class="focusable radio-container__input" type="radio"><div class="radio-container__radio"></div>`;
+			document.querySelector("div#maps").insertAdjacentElement("afterend",el);
+		}
 
 		/*el.insertAdjacentHTML(
 			"afterend",
 			'<div class="item list-item focusable" data-map="satellite"><p class="list-item__text">Bing Aerial</p><p class="list-item__subtext">Satellite</p></div>'
 		);*/
 
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="clarity"><p class="list-item__text">Esri World Clarity (Beta)</p><p class="list-item__subtext">Satellite</p></div>'
-		);
-
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="osm"><p class="list-item__text">OpenStreetMap</p><p class="list-item__subtext">Map</p></div>'
-		);
-		el.insertAdjacentHTML(
-			"afterend",
-			'<div class="item list-item focusable" data-map="ocm"><p class="list-item__text">OpenCycleMap</p><p class="list-item__subtext">Map</p></div>'
-		);
+		
+		
 
 		document
 			.querySelector("div#layers")
@@ -968,7 +985,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							.querySelector("div#maps")
 							.insertAdjacentHTML(
 								"afterend", //'<div class="item list-item focusable" data-map="toner"><p class="list-item__text">Toner</p><p class="list-item__subtext">Map</p></div>'
-								'<div class="item list-item focusable" data-map="' +
+								'<div class="item list-item radio-container focusable" data-map="' +
 								key.Type +
 								'"  data-maxzoom="' +
 								key.MaxZoom +
@@ -980,7 +997,7 @@ document.addEventListener("DOMContentLoaded", function () {
 								key.Attribution +
 								'"><p class="list-item__text">' +
 								key.Name +
-								"</p>" + '<p class="list-item__subtext">' + key.Type + "</p></div>"
+								"</p>" + '<p class="list-item__subtext">' + key.Type + '</p><input tabindex="0" class="focusable radio-container__input" radio-group="map" type="radio"><div class="radio-container__radio"></div></div>'
 							);
 					}
 
@@ -1687,14 +1704,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gstreet") {
 
-				maps.google_map();
+				maps.google_map(document.activeElement);
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
 
 				ShowMap();
 			}
 			if (item_value == "ocm") {
-				maps.opencycle_map();
+				maps.opencycle_map(document.activeElement);
 				top_bar("", "", "");
 				document.querySelector("div#finder").style.display = "none";
 
@@ -1716,7 +1733,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			}
 			if (item_value == "clarity") {
-				maps.clarity();
+				maps.clarity(document.activeElement);
 
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
@@ -1730,7 +1747,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				ShowMap();
 			}*/
 			if (item_value == "toner") {
-				maps.toner_map();
+				maps.toner_map(document.activeElement);
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
 
@@ -1738,7 +1755,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (item_value == "osm") {
-				maps.osm_map();
+				maps.osm_map(document.activeElement);
 				document.querySelector("div#finder").style.display = "none";
 				top_bar("", "", "");
 
@@ -1757,7 +1774,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (item_value == "otm") {
 				top_bar("", "", "");
 
-				maps.opentopo_map();
+				maps.opentopo_map(document.activeElement);
 				document.querySelector("div#finder").style.display = "none";
 				ShowMap();
 			}
@@ -2607,7 +2624,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				// check if document.activeElement contains .comment class
-				if (document.activeElement.classList.contains("comment")) {
+				if (document.activeElement.classList.contains("comment") || document.activeElement.classList.contains("text-wall")) {
 					if (map.hasLayer(markers_group_osmnotes)) {
 						// open first <a> or <img> link if it exists
 						if (document.activeElement.children[1].getElementsByTagName('a')[0]) {

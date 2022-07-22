@@ -11,6 +11,11 @@
     --chkbox-off-mask-norm: url("images/checkbox-off-kaios-2.5.3_white.svg");
     --chkbox-on-mask-norm: url("images/checkbox-on-kaios-2.5.3_white.svg");
 
+    --radio-off-mask-selected: url("images/radio-off-kaios-2.5.3_black.svg");
+    --radio-on-mask-selected: url("images/radio-on-kaios-2.5.3_black.svg");
+    --radio-off-mask-norm: url("images/radio-off-kaios-2.5.3_white.svg");
+    --radio-on-mask-norm: url("images/radio-on-kaios-2.5.3_white.svg");
+
     /* change to 'auto', if you want scrolling */
     --content-overflow: hidden;
 

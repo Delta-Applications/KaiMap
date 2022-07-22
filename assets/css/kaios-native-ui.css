@@ -50,20 +50,25 @@
 }
 
 .progress-container:focus>.progress-container__label,
+.slider-container:focus>.slider-container__text,
 .selected>.slider-container__text,
 .list-item-indicator:focus>.list-item-indicator__text,
 .list-item-icon:focus .list-item-icon__text,
 .list-item:focus>.list-item__text,
 .checkbox-container:focus>.checkbox-container__text,
+.radio-container:focus>.radio-container__text,
 .selected>.radio-container__text {
   color: var(--item-focused-text-color);
 }
-
+.slider-container:focus>.slider-container__subtext,
 .selected>.slider-container__subtext,
 .list-item-indicator:focus>.list-item-indicator__subtext,
 .list-item-icon:focus .list-item-icon__subtext,
 .list-item:focus>.list-item__subtext,
 .checkbox-container:focus>.checkbox-container__subtext,
+.radio-container:focus>.radio-container__subtext,
+.input-container:focus>.input-container__label,
+.textarea-container:focus>.textarea-container__label,
 .selected>.radio-container__subtext,
 .selected>.input-container__label,
 .selected>.textarea-container__label {
@@ -332,15 +337,27 @@ body {
   opacity: 0;
 }
 
+
+
 .radio-container__input+.radio-container__radio {
-  background: var(--radio-color);
   /* you can change it to "checkboxes-radios/radio-off-kaios-2.5.svg" */
-  mask-image: url("images/radio-off-kaios-2.5.3.svg");
+  background-image: var(--radio-off-mask-norm);
 }
 
 .radio-container__input:checked+.radio-container__radio {
   /* you can change it to "checkboxes-radios/radio-on-kaios-2.5.svg" */
-  mask-image: url("images/radio-on-kaios-2.5.3.svg");
+  background-image: var(--radio-on-mask-norm);
+
+}
+
+.radio-container:focus>.radio-container__input+.radio-container__radio {
+  /* you can change it to "checkboxes-radios/radio-off-kaios-2.5.svg" */
+  background-image: var(--radio-off-mask-selected) !important;
+}
+
+.radio-container:focus>.radio-container__input:checked+.radio-container__radio {
+  /* you can change it to "checkboxes-radios/radio-on-kaios-2.5.svg" */
+  background-image: var(--radio-on-mask-selected) !important;
 }
 
 /* List item with checkbox */
