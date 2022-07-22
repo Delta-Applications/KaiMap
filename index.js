@@ -1392,7 +1392,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					map.setBearing(current_heading);
 				}
 
-				if (myMarker) myMarker.setIcon(follow_icon);
+				if (myMarker.getIcon().options.html != follow_icon.options.html) myMarker.setIcon(follow_icon);
 
 
 
@@ -1455,6 +1455,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (retrying == true) return;
 
 				if (myMarker) myMarker.setIcon(default_icon);
+				if (myAccuracy) myAccuracy.remove();
 
 				console.error(err.message + " " + err.code)
 				if (err.code == 1) {
