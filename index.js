@@ -251,12 +251,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (windowOpen == "map" && $('div#search-box').css('display') == 'none') {
 			if (in_out == "in") {
 				current_zoom_level = current_zoom_level + zoomstep;
-				map.setZoom(current_zoom_level);
 			}
 			if (in_out == "out") {
 				current_zoom_level = current_zoom_level - zoomstep;
-				map.setZoom(current_zoom_level);
 			}
+			map.setZoom(current_zoom_level);
 			zoom_level = current_zoom_level;
 			zoom_speed();
 		}
@@ -283,55 +282,55 @@ document.addEventListener("DOMContentLoaded", function () {
     >16 -> 50m
 
     */
-		if (zoom_level < 2) {
+		if (map.getZoom() < 2) {
 			step = 20;
 		}
-		if (zoom_level > 2) {
+		if (map.getZoom() > 2) {
 			step = 8;
 		}
-		if (zoom_level > 3) {
+		if (map.getZoom() > 3) {
 			step = 4.5;
 		}
-		if (zoom_level > 4) {
+		if (map.getZoom() > 4) {
 			step = 2.75;
 		}
-		if (zoom_level > 5) {
+		if (map.getZoom() > 5) {
 			step = 1, 2;
 		}
-		if (zoom_level > 6) {
+		if (map.getZoom() > 6) {
 			step = 0.5;
 		}
-		if (zoom_level > 7) {
+		if (map.getZoom() > 7) {
 			step = 0.3;
 		}
-		if (zoom_level > 8) {
+		if (map.getZoom() > 8) {
 			step = 0.15;
 		}
-		if (zoom_level > 9) {
+		if (map.getZoom() > 9) {
 			step = 0.075;
 		}
-		if (zoom_level > 10) {
+		if (map.getZoom() > 10) {
 			step = 0.04;
 		}
-		if (zoom_level > 11) {
+		if (map.getZoom() > 11) {
 			step = 0.02;
 		}
-		if (zoom_level > 12) {
+		if (map.getZoom() > 12) {
 			step = 0.01;
 		}
-		if (zoom_level > 13) {
+		if (map.getZoom() > 13) {
 			step = 0.005;
 		}
-		if (zoom_level > 14) {
+		if (map.getZoom() > 14) {
 			step = 0.0025;
 		}
-		if (zoom_level > 15) {
+		if (map.getZoom() > 15) {
 			step = 0.001;
 		}
-		if (zoom_level > 16) {
+		if (map.getZoom() > 16) {
 			step = 0.0005;
 		}
-		if (zoom_level > 18) {
+		if (map.getZoom() > 18) {
 			step = 0.0001;
 		}
 		step = step * (localStorage.getItem("pan-speed") || 1);
@@ -2459,7 +2458,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					document.querySelector("div#finder").style.display = "none";
 					if (selected_marker) selected_marker.off('move', selected_marker_onmove);
+					selected_marker = "";
 					selecting_marker = false;
+					jump_index = 0;
+					jump_closest_index = map.getCenter()
 					document.querySelector("div#markers-option").style.display = "none";
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					ShowMap();
