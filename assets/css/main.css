@@ -840,11 +840,11 @@ div#coordinations div#weather div img {
   text-align:right;
  }
  .tracking_list {
-  overflow-y:auto;
   display:flex;
   flex-direction:column;
   font-weight:600;
   font-size:17px;
+  overflow: hidden !important;
  }
  .options_item {
   height:54px;

@@ -145,7 +145,7 @@ let map = L.map("map-container", {
 	keyboard: true,
 	rotate: true,
 	bearing: 0,
-}).setView([48.39246714732355, -4.432210922241211], 16); // DEMO View
+}).setView([0, 0], 0); // DEMO View: [48.39246714732355, -4.432210922241211], 16
 
 setting.zoomposition = localStorage.getItem("zoomposition")
 
@@ -1764,6 +1764,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						}
 						document.querySelector("div#tracking_qm").style.display = "none";
 						document.querySelector(".tracking_list").style.display = "none";
+						bottom_bar("", "", "")
 						ShowMap();
 						break;
 					case "qm-end-tracking":
