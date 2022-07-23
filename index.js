@@ -22,6 +22,7 @@ let device_alt;
 let device_sat;
 let device_speed;
 let device_heading;
+let device_accuracy;
 
 
 let zoom_level = 14;
@@ -1659,7 +1660,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function addMapLayers() {
 		if (document.activeElement.classList.contains("item") &&
-			(windowOpen == "finder" || windowOpen == "tracks")) {
+			(windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm")) {
 			//switch online maps
 
 			//custom maps and layers from json file
@@ -2109,7 +2110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			tabIndex = 0;
 			bottom_bar("", "", "");
 
-			let d = document.querySelectorAll("div.panel");
+			let d = document.querySelector("#panels").querySelectorAll("div.panel");
 			for (let b = 0; b < d.length; b++) {
 				d[b].style.display = "none";
 			}
@@ -2202,7 +2203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	function nav(move) {
-		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks")) { //&& !$("input").is(":focus")
+		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm")) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -2433,7 +2434,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param.key) {
 
 			case "EndCall":
-				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks") {
+				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm") {
 					if (confirm("Are you sure you want to exit?")) {
 						window.goodbye();
 						windowOpen = "";
@@ -2459,6 +2460,18 @@ document.addEventListener("DOMContentLoaded", function () {
 					HideMap();
 					finder_navigation("start");
 					windowOpen = "finder";
+					break;
+				}
+				if (windowOpen == "tracking_qm" && !$("input").is(":focus")) {
+					top_bar("", "", "");
+					bottom_bar("", "", "");
+
+					document.querySelector("div#finder").style.display = "none";
+					document.querySelector("div#tracking_qm").style.display = "none";
+					document.querySelector("div#markers-option").style.display = "none";
+					document.querySelector("div#gpxtrack-info").style.display = "none";
+					ShowMap();
+
 					break;
 				}
 				if ((windowOpen == "finder" || windowOpen == "markers_option") && !$("input").is(":focus")) {
@@ -2721,6 +2734,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			case "1":
 				if (windowOpen == "map") {
+					document.querySelector("div#tracking_qm").style.display = "block";
+					windowOpen = "tracking_qm"
+					document.querySelector(".options_item").focus()
+					bottom_bar("","SELECT","")
+					return;
 					if (tracking_path) {
 						kaiosToaster({
 							message: "Tracking paused",
@@ -2820,6 +2838,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "map") {
 					// If OSM Notes are open, create a note
 					if (map.hasLayer(markers_group_osmnotes)) return maps.create_osm_note(map.getCenter());
+					let mark = L.marker(map.getCenter()).addTo(markers_group);
+
 					// If isTracking, create a track waypoint
 					if (tracking_path) {
 						let name = prompt("Track Waypoint Name")
@@ -2829,11 +2849,17 @@ document.addEventListener("DOMContentLoaded", function () {
 							type: 'error',
 							timeout: 2000
 						});
-						name = name || tracking_waypoints.length + 1
+						name = name || "Tracking Waypoint #" + tracking_waypoints.length + 1
+						mark.feature = mark.feature || {}; // Initialize feature
+						mark.feature.type = mark.feature.type || "Feature"; // Initialize feature.type
+						mark.feature.properties = mark.feature.properties || {}; // Initialize feature.properties
+						mark.feature.properties.name = name; // Set feature.properties.name
+						mark.feature.properties.description = "Tracking Waypoint #" + tracking_waypoints.length + 1; // Set feature.properties.description
 						module.measure_distance("tracking_waypoint", name);
+
+
 					}
-					// Otherwise create a marker to the map
-					L.marker(map.getCenter()).addTo(markers_group);
+
 				}
 
 				break;

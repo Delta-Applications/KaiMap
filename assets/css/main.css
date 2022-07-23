@@ -791,3 +791,81 @@ div#coordinations div#weather div img {
   margin-top: 10px;
   text-align: center;
 }
+
+.map_overlay {
+  position: absolute;
+  z-index: 599;
+  top: 0px;
+  left: 0;
+  display: flex;
+  width: 100%;
+  bottom: 30px;
+  overflow: hidden;
+  background-color: rgba(0,0,0,.65);
+ }
+
+ .tracking_container {
+  display:flex;
+  flex-direction:column;
+  bottom:0;
+  overflow:hidden;
+  position:absolute;
+  max-height:80%;
+  width:100%;
+  padding:0 4px;
+  box-sizing:border-box;
+ }
+ .tracking_header {
+  color:#242424;
+  background-color:#cbcbcb;
+  justify-content:center;
+  border-radius:4px 4px 0 0;
+  height:34px;
+  line-height:34px;
+  display:block;
+  width:100%;
+  max-width:100%;
+  flex-shrink:0;
+  padding:0 10px;
+  box-sizing:border-box;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:left;
+  font-weight:700;
+  font-size:17px;
+ }
+ html[dir=rtl] .tracking_header {
+  text-align:right;
+ }
+ .tracking_list {
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  font-weight:600;
+  font-size:17px;
+ }
+ .options_item {
+  height:54px;
+  line-height:54px;
+  vertical-align:middle;
+  color:var(--item-text-color,#242424);
+  background-color:var(--item-background,#fff);
+  width:100%;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  display:flex;
+  flex-shrink:0;
+  align-items:center;
+  justify-content:space-between
+ }
+ .options_label {
+  padding:0 10px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+ }
+ div[class*=Options__list__] {
+  border-radius:4px 4px 0 0
+ }

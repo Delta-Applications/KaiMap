@@ -482,6 +482,7 @@ const informationHandler = (() => {
             device_alt = data.altitude
             device_heading = data.heading
             device_speed = data.speed
+            device_accuracy = data.accuracy
 
             if (!tracking_path) {
                 if (data.DistanceFromCenter >= 0.02) {

@@ -43,6 +43,7 @@
 
 .selected,
 .list-item:focus,
+.options_item:focus,
 .list-item-indicator:focus,
 .list-item-icon:focus,
 .progress-container:focus {
@@ -55,6 +56,7 @@
 .list-item-indicator:focus>.list-item-indicator__text,
 .list-item-icon:focus .list-item-icon__text,
 .list-item:focus>.list-item__text,
+.options_item:focus>.options_label,
 .checkbox-container:focus>.checkbox-container__text,
 .radio-container:focus>.radio-container__text,
 .selected>.radio-container__text {
