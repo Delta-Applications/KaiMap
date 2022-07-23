@@ -167,7 +167,7 @@ console.log(JSON.stringify(setting));
 
 function ShowMap() {
 	windowOpen = "map";
-	document.documentElement.requestFullscreen()
+	//document.documentElement.requestFullscreen()
 }
 
 function hexToRgb(hex) {
@@ -186,7 +186,7 @@ function HideMap() {
 
 
 	document.querySelector('[name="theme-color"]').content = 'rgb(' + theme_fhex.r + ', ' + theme_fhex.g + ', ' + theme_fhex.b + ')';
-	document.exitFullscreen()
+	//document.exitFullscreen()
 }
 
 document.addEventListener("visibilitychange", function () {
@@ -1807,16 +1807,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				if (tracking_path) {
 					if (tracking_ispaused) {
-						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Resume"
+						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Resume Tracking"
 					} else {
-						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Pause"
+						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Pause Tracking"
 					};
 
 					document.querySelector('[data-map="qm-end-tracking"]').style.display = "block";
 					document.querySelector('[data-map="qm-track-details"]').style.display = "block";
 
 				} else {
-					document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Start";
+					document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Start Tracking";
 					document.querySelector('[data-map="qm-end-tracking"]').style.display = "none";
 					document.querySelector('[data-map="qm-track-details"]').style.display = "none";
 				}
