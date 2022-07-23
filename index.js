@@ -2167,12 +2167,21 @@ document.addEventListener("DOMContentLoaded", function () {
 					//view selected tab
 					//_updateIndicator(count)
 
+					const rect = tabEl.getBoundingClientRect();
+					const elX =
+						rect.left - document.querySelector("#kai-tabs-finder").getBoundingClientRect().left + rect.width / 2;
 
-					tabEl.scrollIntoView({
+					document.querySelector("#kai-tabs-finder").scrollBy({
+						left: elX - document.querySelector("#kai-tabs-finder").clientWidth / 2,
+						top: 0,
+						behavior: "smooth",
+					});
+
+					/*tabEl.scrollIntoView({
 						behavior: 'smooth',
 						block: 'start',
 						//inline: 'center',
-					});
+					});*/
 
 
 				}
