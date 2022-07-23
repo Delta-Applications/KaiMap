@@ -1721,6 +1721,113 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			}
 
+			// quick menu
+			if (windowOpen == "tracking_qm") {
+				switch (item_value) {
+					case "qm-start-pause-tracking":
+						if (tracking_path) {
+							if (tracking_ispaused) {
+
+								tracking_ispaused = false;
+								kaiosToaster({
+									message: "Tracking resumed",
+									position: 'north',
+									type: 'success',
+									timeout: 3000
+								});
+							} else {
+								tracking_ispaused = true;
+								kaiosToaster({
+									message: "Tracking paused",
+									position: 'north',
+									type: 'info',
+									timeout: 5000
+								});
+								/*save_mode = "geojson-tracking";
+								//map fitbounds of tracking group
+								map.fitBounds(tracking_group.getBounds());
+								user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX" : "Export track as GeoJSON"));
+								bottom_bar("Resume", "Discard", "Save")*/
+							}
+
+						} else {
+
+							tracking_path = true;
+							kaiosToaster({
+								message: "Tracking started",
+								position: 'north',
+								type: 'info',
+								timeout: 5000
+							});
+							module.measure_distance("tracking");
+
+						}
+						document.querySelector("div#tracking_qm").style.display = "none";
+						document.querySelector(".tracking_list").style.display = "none";
+						ShowMap();
+						break;
+					case "qm-end-tracking":
+						if (tracking_path) {
+							save_mode = "geojson-tracking";
+							//map fitbounds of tracking group
+							map.fitBounds(tracking_group.getBounds());
+							user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX" : "Export track as GeoJSON"));
+							bottom_bar("Resume", "Discard", "Save")
+						}
+						break;
+					case "qm-track-details":
+						if (tracking_path) {
+							current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
+								async: true,
+							})
+							view_gpxinfo()
+
+						}
+						break;
+					case "qm-imagery":
+						document.querySelector("div#tracking_qm").style.display = "none";
+						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("div#finder").style.display = "block";
+						HideMap();
+						windowOpen = "finder";
+						finder_navigation("Imagery")
+						finder_tabindex();
+						break;
+					case "qm-settings":
+						document.querySelector("div#tracking_qm").style.display = "none";
+						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("div#finder").style.display = "block";
+						HideMap();
+						windowOpen = "finder";
+						finder_navigation("Imagery")
+						finder_tabindex();
+						finder_navigation("Settings")
+						break;
+				}
+
+				if (tracking_path) {
+					if (tracking_ispaused) {
+						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Resume"
+					} else {
+						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Pause"
+					};
+
+					document.querySelector('[data-map="qm-end-tracking"]').style.display = "block";
+					document.querySelector('[data-map="qm-track-details"]').style.display = "block";
+
+				} else {
+					document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Start";
+					document.querySelector('[data-map="qm-end-tracking"]').style.display = "none";
+					document.querySelector('[data-map="qm-track-details"]').style.display = "none";
+				}
+
+
+
+			}
+
+			//
+
+
 			if (item_value == "download-map") {
 				PrintControl._print(Number(prompt("Image Scale:", "1")) || 1);
 			}
@@ -1997,66 +2104,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	}
 
-	/////////////////////////
-	/// GPX TRACK INFO  /////
-	/////////////////////////
-
-	function showGraph(elementId, dataIn, title) {
-		let ctx = document.getElementById(elementId).getContext('2d');
-		let data = [];
-		let labels = [];
-		let factor = Math.floor(dataIn.length / 320);
-		if (factor == 0) {
-			factor = 1;
-		}
-		console.log(factor);
-		for (let i = 0; i < dataIn.length; i = i + factor) {
-			data.push({
-				x: (dataIn[i][0]).toFixed(3),
-				y: dataIn[i][1]
-			});
-			labels.push((dataIn[i][0]).toFixed(3));
-		}
-
-		let myChart = new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels: labels,
-				datasets: [{
-					label: title,
-					data: data,
-					borderColor: 'rgb(31, 96, 237)',
-					borderWidth: 1,
-					fill: true,
-				}]
-			},
-			options: {
-				responsive: true,
-				elements: {
-					point: {
-						radius: 0
-					}
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'km' //(allUnits[units].value == 'm') ? 'km' : 'miles'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'm' //(allUnits[units].value == 'm') ? 'm' : 'ft'
-						}
-					}]
-				}
-			}
-		});
-	}
-
 
 	function view_gpxinfo() {
 		document.querySelector("div#finder").style.display = "none";
@@ -2133,6 +2180,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.getElementById(finder_panels[count]).style.display = "block";
 				finder_tabindex();
 			}
+
+			// for each child in finder_panels array
+
+			for (let i = 0; i < finder_panels.length; i++) {
+				if (dir.indexOf(finder_panels[i]) > -1) {
+					count = i;
+					document.getElementById(finder_panels[count]).style.display = "block";
+					finder_tabindex();
+				}
+			}
+
 
 
 			[...document.querySelector("#kai-tabs-finder").children].forEach((a) => {
@@ -2468,6 +2526,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					document.querySelector("div#finder").style.display = "none";
 					document.querySelector("div#tracking_qm").style.display = "none";
+					document.querySelector(".tracking_list").style.display = "none";
 					document.querySelector("div#markers-option").style.display = "none";
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					ShowMap();
@@ -2684,7 +2743,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (windowOpen == "finder" || windowOpen == "tracks") {
+				if (windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm") {
 					addMapLayers();
 				}
 
@@ -2735,35 +2794,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "1":
 				if (windowOpen == "map") {
 					document.querySelector("div#tracking_qm").style.display = "block";
+					document.querySelector(".tracking_list").style.display = "block";
 					windowOpen = "tracking_qm"
 					document.querySelector(".options_item").focus()
-					bottom_bar("","SELECT","")
+					bottom_bar("", "SELECT", "")
 					return;
-					if (tracking_path) {
-						kaiosToaster({
-							message: "Tracking paused",
-							position: 'north',
-							type: 'info',
-							timeout: 5000
-						});
-						save_mode = "geojson-tracking";
-						//map fitbounds of tracking group
-						map.fitBounds(tracking_group.getBounds());
-						tracking_ispaused = true;
-						user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX" : "Export track as GeoJSON"));
-						bottom_bar("Resume", "Discard", "Save")
 
-						return true;
-					} else {
-						tracking_path = true;
-						kaiosToaster({
-							message: "Tracking started",
-							position: 'north',
-							type: 'info',
-							timeout: 5000
-						});
-						module.measure_distance("tracking");
-					}
 				}
 				break;
 

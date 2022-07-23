@@ -78,18 +78,20 @@
 
     <div class="tracking_container">
       <div class="tracking_header">Quick Menu</div>
-      <div style="display: block;" class="panel tracking_list">
-        <div class="item options_item" tabindex="0">
-          <div class="options_label">Imagery</div>
-        </div>
-        <div class="item options_item" tabindex="0">
-          <div class="options_label">Information</div>
-        </div>
-        <div class="item options_item" tabindex="0">
+      <div class="panel tracking_list">
+        <div class="item options_item" tabindex="0" data-map="qm-start-pause-tracking">
           <div class="options_label">Start Tracking</div>
         </div>
-
-        <div class="item options_item" tabindex="0">
+        <div class="item options_item" tabindex="0" data-map="qm-end-tracking" style="display: none;">
+          <div class="options_label">End Tracking</div>
+        </div>
+        <div class="item options_item" tabindex="0" data-map="qm-track-details" style="display: none;">
+          <div class="options_label">View Track Details</div>
+        </div>
+        <div class="item options_item" tabindex="0" data-map="qm-imagery">
+          <div class="options_label">Imagery</div>
+        </div>
+        <div class="item options_item" tabindex="0" data-map="qm-settings">
           <div class="options_label">Settings</div>
         </div>
       </div>

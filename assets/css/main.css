@@ -636,6 +636,7 @@ div#markers-option .item:focus {
   color: var(--item-focused-text-color);
 }
 
+.tracking_list [data-map="qm-end-tracking"]:focus,
 div#markers-option #remove_marker:focus {
   background: rgb(236, 73, 73);
   border-color: var(--item-focused-text-color);

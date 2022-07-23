@@ -263,7 +263,7 @@ const module = (() => {
     tracking_group
   );
 
-  function getGpxStringFromDatabase(name, date, tracking_points, way_points) {
+  window.getGpxStringFromDatabase = function(name, date, tracking_points, way_points) {
     let gpxString = '';
 
     gpxString += '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
