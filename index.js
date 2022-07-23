@@ -1768,12 +1768,16 @@ document.addEventListener("DOMContentLoaded", function () {
 						ShowMap();
 						break;
 					case "qm-end-tracking":
+						document.querySelector("div#tracking_qm").style.display = "none";
+						document.querySelector(".tracking_list").style.display = "none";
+						bottom_bar("", "", "")
+						ShowMap();
 						if (tracking_path) {
 							save_mode = "geojson-tracking";
 							//map fitbounds of tracking group
 							map.fitBounds(tracking_group.getBounds());
 							user_input("open", moment(new Date()).format("[KaiMaps_Track]_YYYY-MM-DD_HH.mm.ss"), ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true) ? "Export track as GPX" : "Export track as GeoJSON"));
-							bottom_bar("Resume", "Discard", "Save")
+							bottom_bar("Cancel", "Discard", "Save")
 						}
 						break;
 					case "qm-track-details":
@@ -2574,13 +2578,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
 					save_mode = "";
 					user_input("close")
-					tracking_ispaused = false;
-					kaiosToaster({
-						message: "Tracking resumed",
-						position: 'north',
-						type: 'info',
-						timeout: 5000
-					});
 					break;
 				}
 
@@ -2638,7 +2635,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 				if (windowOpen == "user-input" && save_mode == "geojson-tracking") {
-					if ((JSON.parse(localStorage.getItem("exportTracksAsGPX")) || true)) {
+					if ((JSON.parse(localStorage.getItem("exportTracksAsGPX")))) {
 						geojson.save_geojson(user_input("return") + ".gpx", "tracking_gpx");
 
 					} else {
@@ -2693,9 +2690,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					save_mode = "";
 					module.measure_distance("destroy_tracking");
 					kaiosToaster({
-						message: "Tracking stopped",
+						message: "Track discarded",
 						position: 'north',
-						type: 'info',
+						type: 'error',
 						timeout: 5000
 					});
 					break;
