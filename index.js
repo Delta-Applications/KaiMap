@@ -534,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.querySelector("div#layers")
 			.insertAdjacentHTML(
 				"afterend",
-				'<div class="item checkbox-container" data-map="strava-heatmap"><p class="checkbox-container__text">OSM GPS Tracks</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
+				'<div class="item checkbox-container" data-map="strava-heatmap"><p class="checkbox-container__text">OSM GPX Tracks</p><p class="checkbox-container__subtext">Layer</p><input type="checkbox" tabindex="0" class="checkbox-container__input"/><div class="checkbox-container__checkbox"></div></div>'
 			);
 
 		document
@@ -605,9 +605,26 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 		finder_kml.search(".kml");
+		let foundfiles = [];
+
 		finder_kml.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="kml-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
 			if (!onlycount) {
+				// for every found file, order them by last modified and create an element
+				foundfiles.sort(function (a, b) {
+					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+				});
+
+				for (let i = 0; i < foundfiles.length; i++) {
+					let fileinfo = foundfiles[i].fileinfo;
+					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+					document
+						.querySelector("div#tracksmarkers")
+						.insertAdjacentHTML(
+							"afterend",
+							'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
+				}
+
 				document.querySelector("#tracks-loading").style.display = "none"
 				tabIndex = 0;
 				finder_tabindex();
@@ -615,15 +632,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		if (onlycount) return;
 
-		finder_kml.on("fileFound", function (file, fileinfo, storageName) {
-			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 
-			document
-				.querySelector("div#tracksmarkers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
+		finder_kml.on("fileFound", function (file, fileinfo, storageName) {
+
+			foundfiles.push({
+				fileinfo: fileinfo
+			})
+
 		});
+
+
 	};
 
 	//////////////////////////////////
@@ -637,9 +655,27 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 		finder_gpx.search(".gpx");
+		let foundfiles = [];
+
 		finder_gpx.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="gpx-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
 			if (!onlycount) {
+				// for every found file, order them by last modified and create an element
+				foundfiles.sort(function (a, b) {
+					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+				});
+
+				for (let i = 0; i < foundfiles.length; i++) {
+					let fileinfo = foundfiles[i].fileinfo;
+					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+
+					document
+						.querySelector("div#tracksmarkers")
+						.insertAdjacentHTML(
+							"afterend",
+							'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
+				}
+
 				document.querySelector("#tracks-loading").style.display = "none"
 				tabIndex = 0;
 				finder_tabindex();
@@ -647,14 +683,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		if (onlycount) return;
 
-		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
-			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 
-			document
-				.querySelector("div#tracksmarkers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
+		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
+			foundfiles.push({
+				fileinfo: fileinfo
+			})
 		});
 	};
 
@@ -669,10 +702,28 @@ document.addEventListener("DOMContentLoaded", function () {
 			debugMode: false,
 		});
 		finder.search(".geojson");
+		let foundfiles = [];
+
 
 		finder.on("searchComplete", function (needle, filematchcount) {
 			document.querySelector('[data-map="gj-tracks"]').childNodes[3].innerText = (filematchcount == 1 ? filematchcount + ' file' : filematchcount + ' files')
 			if (!onlycount) {
+				// for every found file, order them by last modified and create an element
+				foundfiles.sort(function (a, b) {
+					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+				});
+
+				for (let i = 0; i < foundfiles.length; i++) {
+					let fileinfo = foundfiles[i].fileinfo;
+					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+					document
+						.querySelector("div#tracksmarkers")
+						.insertAdjacentHTML(
+							"afterend",
+							'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GeoJSON</p></div>'
+						);
+				}
+
 				document.querySelector("#tracks-loading").style.display = "none"
 				tabIndex = 0;
 				finder_tabindex();
@@ -680,13 +731,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		if (onlycount) return;
 		finder.on("fileFound", function (file, fileinfo, storageName) {
-			let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
-			document
-				.querySelector("div#tracksmarkers")
-				.insertAdjacentHTML(
-					"afterend",
-					'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GeoJSON</p></div>'
-				);
+			foundfiles.push({
+				fileinfo: fileinfo
+			})
 		});
 	};
 
@@ -1643,7 +1690,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//<div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
 			if (item_value == "gpx-tracks") {
 				windowOpen = "tracks"
-				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GPS Tracks</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
+				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GPX Tracks</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
 				find_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
