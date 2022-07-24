@@ -12,6 +12,7 @@ let north_rotation = true;
 let selected_marker = "";
 let selecting_marker;
 let current_gpx = "";
+let selected_file = "";
 let selecting_path;
 let tracking_path = false;
 
@@ -1660,7 +1661,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function addMapLayers() {
 		if (document.activeElement.classList.contains("item") &&
-			(windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm")) {
+			(windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm" || windowOpen == "file_options")) {
 			//switch online maps
 
 			//custom maps and layers from json file
@@ -1690,6 +1691,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//<div><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div>
 			if (item_value == "gpx-tracks") {
 				windowOpen = "tracks"
+				bottom_bar("", "SELECT", "Options")
 				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GPX Tracks</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
 				find_gpx()
 				document.querySelector("div#tracks").style.display = "block";
@@ -1698,6 +1700,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "kml-tracks") {
 				windowOpen = "tracks"
+				bottom_bar("", "SELECT", "Options")
 				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">KML Files</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
 				find_kml()
 				document.querySelector("div#tracks").style.display = "block";
@@ -1706,6 +1709,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "gj-tracks") {
 				windowOpen = "tracks"
+				bottom_bar("", "SELECT", "Options")
 				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">GeoJSON Files</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
 				find_geojson()
 				document.querySelector("div#tracks").style.display = "block";
@@ -1714,11 +1718,34 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 			if (item_value == "osm-tracks") {
 				windowOpen = "tracks"
+				bottom_bar("", "SELECT", "Options")
 				document.querySelector("div#tracks").innerHTML = '<div style="position: sticky; top: 0px; z-index: 1;" id="header">OSM Tracks</div><div id="tracks-loading" style="background: var(--app-background) ! important;" tabindex="0" class="list-item focusable"><div style="margin: auto;"><img class="Loading__image___1-YIY" src="/assets/images/loading.png"></div></div><div id="tracksmarkers"></div>';
 				osm_server_list_gpx()
 				document.querySelector("div#tracks").style.display = "block";
 				document.querySelector("div#finder").style.display = "none";
 
+			}
+
+			if (windowOpen == "file_options" && selected_file) {
+				switch (item_value) {
+					case "file-op-rename":
+
+						break;
+					case "file-op-upload":
+						break;
+					case "file-op-delete":
+						if (confirm("Are you sure you want to delete '"+selected_file+"'")) deleteFile(selected_file);
+						break;
+
+
+				}
+				document.querySelector("div#file_options").style.display = "none";
+				document.querySelector("#file-op-list").style.display = "none";
+				document.querySelector("div#tracks").style.display = "block";
+				finder_tabindex();
+				HideMap();
+				windowOpen = "tracks";
+				bottom_bar("", "SELECT", "Options")
 			}
 
 			// quick menu
@@ -1763,13 +1790,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 						}
 						document.querySelector("div#tracking_qm").style.display = "none";
-						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("#qm-list").style.display = "none";
 						bottom_bar("", "", "")
 						ShowMap();
 						break;
 					case "qm-end-tracking":
 						document.querySelector("div#tracking_qm").style.display = "none";
-						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("#qm-list").style.display = "none";
 						bottom_bar("", "", "")
 						ShowMap();
 						if (tracking_path) {
@@ -1783,7 +1810,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					case "qm-track-details":
 						if (tracking_path) {
 							document.querySelector("div#tracking_qm").style.display = "none";
-							document.querySelector(".tracking_list").style.display = "none";
+							document.querySelector("#qm-list").style.display = "none";
 							bottom_bar("", "", "")
 							/*current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
 								async: true,
@@ -1797,18 +1824,19 @@ document.addEventListener("DOMContentLoaded", function () {
 							"invertmaptiles",
 							!document.getElementById("invertmaptiles").checked);
 						document.getElementById("invertmaptiles").checked = JSON.parse(localStorage.getItem("invertmaptiles"));
+
 						function invertMapTiles(bool) {
-						  document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
+							document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
 						}
 						invertMapTiles(document.getElementById("invertmaptiles").checked);
 						document.querySelector("div#tracking_qm").style.display = "none";
-						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("#qm-list").style.display = "none";
 						bottom_bar("", "", "")
 						ShowMap();
 						break;
 					case "qm-imagery":
 						document.querySelector("div#tracking_qm").style.display = "none";
-						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("#qm-list").style.display = "none";
 						document.querySelector("div#finder").style.display = "block";
 						HideMap();
 						windowOpen = "finder";
@@ -1817,7 +1845,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						break;
 					case "qm-settings":
 						document.querySelector("div#tracking_qm").style.display = "none";
-						document.querySelector(".tracking_list").style.display = "none";
+						document.querySelector("#qm-list").style.display = "none";
 						document.querySelector("div#finder").style.display = "block";
 						HideMap();
 						windowOpen = "finder";
@@ -2283,7 +2311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	function nav(move) {
-		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm")) { //&& !$("input").is(":focus")
+		if ((windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm" || windowOpen == "file_options")) { //&& !$("input").is(":focus")
 			//get items from current pannel
 			let b = document.activeElement.parentNode;
 			let items = b.querySelectorAll(".item");
@@ -2514,7 +2542,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param.key) {
 
 			case "EndCall":
-				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm") {
+				if (windowOpen == "map" || windowOpen == "finder" || windowOpen == "markers_option" || windowOpen == "gpxtrack-info" || windowOpen == "tracks" || windowOpen == "tracking_qm" || windowOpen == "file_options") {
 					if (confirm("Are you sure you want to exit?")) {
 						window.goodbye();
 						windowOpen = "";
@@ -2533,6 +2561,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					windowOpen = "finder";
 					break;
 				}
+
 				if (windowOpen == "tracks" && !$("input").is(":focus")) {
 					document.querySelector("div#tracks").style.display = "none";
 					finder_tabindex();
@@ -2542,13 +2571,25 @@ document.addEventListener("DOMContentLoaded", function () {
 					windowOpen = "finder";
 					break;
 				}
+
+				if (windowOpen == "file_options" && !$("input").is(":focus")) {
+					document.querySelector("div#file_options").style.display = "none";
+					document.querySelector("#file-op-list").style.display = "none";
+					document.querySelector("div#tracks").style.display = "block";
+					finder_tabindex();
+					HideMap();
+					windowOpen = "tracks";
+					bottom_bar("", "SELECT", "Options")
+					break;
+				}
+
 				if (windowOpen == "tracking_qm" && !$("input").is(":focus")) {
 					top_bar("", "", "");
 					bottom_bar("", "", "");
 
 					document.querySelector("div#finder").style.display = "none";
 					document.querySelector("div#tracking_qm").style.display = "none";
-					document.querySelector(".tracking_list").style.display = "none";
+					document.querySelector("#qm-list").style.display = "none";
 					document.querySelector("div#markers-option").style.display = "none";
 					document.querySelector("div#gpxtrack-info").style.display = "none";
 					ShowMap();
@@ -2636,6 +2677,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "SoftRight":
 				if (windowOpen == "map") {
 					ZoomMap("in");
+					break;
+				}
+
+				if (windowOpen == "tracks") {
+					selected_file = document.activeElement.getAttribute("readfile");
+					document.querySelector("div#file_options").style.display = "block";
+					document.querySelector("#file-op-list").style.display = "block";
+					windowOpen = "file_options"
+					finder_tabindex()
+					bottom_bar("", "SELECT", "")
 					break;
 				}
 
@@ -2809,7 +2860,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			case "1":
 				if (windowOpen == "map") {
 					document.querySelector("div#tracking_qm").style.display = "block";
-					document.querySelector(".tracking_list").style.display = "block";
+					document.querySelector("#qm-list").style.display = "block";
 					windowOpen = "tracking_qm"
 					if (tracking_path) {
 						if (tracking_ispaused) {
@@ -2817,15 +2868,16 @@ document.addEventListener("DOMContentLoaded", function () {
 						} else {
 							document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Pause Tracking"
 						};
-	
+
 						document.querySelector('[data-map="qm-end-tracking"]').style.display = "block";
 						document.querySelector('[data-map="qm-track-details"]').style.display = "block";
-	
+
 					} else {
 						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Start Tracking";
 						document.querySelector('[data-map="qm-end-tracking"]').style.display = "none";
 						document.querySelector('[data-map="qm-track-details"]').style.display = "none";
 					}
+					tabIndex = 0;
 					finder_tabindex()
 					bottom_bar("", "SELECT", "")
 					return;

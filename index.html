@@ -74,11 +74,29 @@
     </div>
   </div>
 
+  <div id="file_options" class="map_overlay" style="display: none;">
+
+    <div class="tracking_container">
+      <div class="options_header">Options</div>
+      <div id="file-op-list" class="options_list">
+        <div class="item options_item" tabindex="0" data-map="file-op-rename">
+          <div class="options_label">Rename File</div>
+        </div>
+        <div class="item options_item" tabindex="0" data-map="file-op-upload">
+          <div class="options_label">Upload to OSM</div>
+        </div>
+        <div class="item options_item" tabindex="0" data-map="file-op-delete">
+          <div class="options_label">Delete File</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="tracking_qm" class="map_overlay" style="display: none;">
 
     <div class="tracking_container">
-      <div class="tracking_header">Quick Menu</div>
-      <div class="tracking_list">
+      <div class="options_header">Quick Menu</div>
+      <div id="qm-list" class="options_list">
         <div class="item options_item" tabindex="0" data-map="qm-start-pause-tracking">
           <div class="options_label">Start Tracking</div>
         </div>

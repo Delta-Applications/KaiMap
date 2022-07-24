@@ -636,7 +636,8 @@ div#markers-option .item:focus {
   color: var(--item-focused-text-color);
 }
 
-.tracking_list [data-map="qm-end-tracking"]:focus,
+.options_list [data-map="qm-end-tracking"]:focus,
+.options_list [data-map="file-op-delete"]:focus,
 div#markers-option #remove_marker:focus {
   background: rgb(236, 73, 73);
   border-color: var(--item-focused-text-color);
@@ -816,7 +817,7 @@ div#coordinations div#weather div img {
   padding:0 4px;
   box-sizing:border-box;
  }
- .tracking_header {
+ .options_header {
   color:#242424;
   background-color:#cbcbcb;
   justify-content:center;
@@ -836,10 +837,10 @@ div#coordinations div#weather div img {
   font-weight:700;
   font-size:17px;
  }
- html[dir=rtl] .tracking_header {
+ html[dir=rtl] .options_header {
   text-align:right;
  }
- .tracking_list {
+ .options_list {
   display:flex;
   flex-direction:column;
   font-weight:600;

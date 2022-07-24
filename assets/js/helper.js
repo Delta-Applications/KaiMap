@@ -27,36 +27,36 @@ function notify(param_title, param_text, param_silent) {
   }
 }
 
-  //get location by ip
-  let geoip = function (callback) {
-    const url =
-      "https://api.freegeoip.app/json/?apikey=2a0f8c30-844a-11ec-b0fe-af6fd1eb1209";
+//get location by ip
+let geoip = function (callback) {
+  const url =
+    "https://api.freegeoip.app/json/?apikey=2a0f8c30-844a-11ec-b0fe-af6fd1eb1209";
 
 
-    let xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
 
 
-    xhr.open("GET", url);
-    xhr.responseType = "json";
+  xhr.open("GET", url);
+  xhr.responseType = "json";
 
 
-    xhr.send();
+  xhr.send();
 
 
-    xhr.error = function (err) {
-      //toaster(err, 2000);
-    };
-
-    xhr.onload = function () {
-      let responseObj = xhr.response;
-      let latlng = [
-        responseObj.data.location.latitude,
-        responseObj.data.location.longitude,
-      ];
-      console.log(JSON.stringify(latlng));
-      callback(latlng);
-    };
+  xhr.error = function (err) {
+    //toaster(err, 2000);
   };
+
+  xhr.onload = function () {
+    let responseObj = xhr.response;
+    let latlng = [
+      responseObj.data.location.latitude,
+      responseObj.data.location.longitude,
+    ];
+    console.log(JSON.stringify(latlng));
+    callback(latlng);
+  };
+};
 
 
 let toaster = function (text, time) {
@@ -91,7 +91,7 @@ let toaster = function (text, time) {
 function user_input(param, file_name, desc) {
   document.getElementById("user-input-description").innerText = desc;
   if (param == "open") {
-    bottom_bar("Cancel","","Save")
+    bottom_bar("Cancel", "", "Save")
     document.querySelector("div#user-input").style.display = "block";
     document.querySelector("div#user-input input").focus();
     document.querySelector("div#user-input input").value = file_name;
@@ -100,7 +100,7 @@ function user_input(param, file_name, desc) {
   }
   if (param == "close") {
     selecting_marker = false;
-    bottom_bar("","","")
+    bottom_bar("", "", "")
     document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
     console.log("close")
@@ -113,7 +113,7 @@ function user_input(param, file_name, desc) {
     document.querySelector("div#user-input").style.display = "none";
     document.querySelector("div#user-input input").blur();
     console.log("return")
-    bottom_bar("","","")
+    bottom_bar("", "", "")
     return input_value;
   }
 }
@@ -131,31 +131,98 @@ function localStorageWriteRead(item, value) {
 }
 
 //delete file
-function deleteFile(storage, path, notification) {
-  let sdcard = navigator.getDeviceStorages("sdcard");
-
-  let requestDel = sdcard[storage].delete(path);
+let deleteFile = function (filename) {
+  let sdcard = navigator.getDeviceStorage("sdcard");
+  let requestDel = sdcard.delete(filename);
 
   requestDel.onsuccess = function () {
-    if (notification == "notification") {
-      kaiosToaster({
-        message: "Deleted file",
-        position: 'north',
-        type: 'success',
-        timeout: 1000
-      });
-    }
+
+    kaiosToaster({
+      message: "Deleted file",
+      position: 'north',
+      type: 'error',
+      timeout: 1000
+    });
+
+    document.querySelector("[data-filepath='" + filename + "']").remove();
   };
 
   requestDel.onerror = function () {
     kaiosToaster({
-      message: "Unable to delete file:"+ this.error+" .",
+      message: "Unable to delete file: " + this.error + " .",
       position: 'north',
       type: 'error',
       timeout: 3000
     });
+  };
+};
+
+
+let renameFile = function (filename) {
+  let sdcard = navigator.getDeviceStorage("sdcard");
+  let request = sdcard.get(filename);
+
+  request.onsuccess = function () {
+    let new_filename = prompt("new filename");
+    if (!new_filename) return;
+    let data = this.result;
+
+    let file_extension = data.name.split(".");
+    file_extension = file_extension[file_extension.length - 1];
+
+    let filepath = data.name.split("/").slice(0, -1).join("/") + "/";
+
+    let requestAdd = sdcard.addNamed(
+      data,
+      filepath + new_filename + "." + file_extension
+    );
+    requestAdd.onsuccess = function () {
+      var request_del = sdcard.delete(data.name);
+
+      request_del.onsuccess = function () {
+        // success copy and delete
+
+        document.querySelector('[readfile="' + filename + '"]').childNodes[0].innerText = new_filename;
+        document.querySelector('[readfile="' + filename + '"]').setAttribute("readfile", new_filename+ "." + file_extension);
+        kaiosToaster({
+          message: "Renamed file",
+          position: 'north',
+          type: 'success',
+          timeout: 1000
+        });
+
+      };
+
+      request_del.onerror = function () {
+        kaiosToaster({
+          message: "Unable to rename file: " + this.error + " .",
+          position: 'north',
+          type: 'error',
+          timeout: 3000
+        });
+      };
     };
-}
+    requestAdd.onerror = function () {
+      kaiosToaster({
+        message: "Unable to rename file: " + this.error + " .",
+        position: 'north',
+        type: 'error',
+        timeout: 3000
+      });
+    };
+  };
+
+  request.onerror = function () {
+    kaiosToaster({
+      message: "Unable to rename file: " + this.error + " .",
+      position: 'north',
+      type: 'error',
+      timeout: 3000
+    });
+  };
+};
+
+
 
 function sleep(milliseconds) {
   const date = Date.now();
@@ -200,17 +267,18 @@ function screenWakeLock(param) {
     try {
       lock = window.navigator.requestWakeLock("screen");
     } catch (error) {
-      
+
     }
   }
 
   if (param == "unlock") {
     try {
       if (lock.topic == "screen") {
-      
+
         lock.unlock();
       }
-    } catch (error) {}}
+    } catch (error) {}
+  }
 }
 
 let add_file = function () {
