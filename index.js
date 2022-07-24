@@ -1782,9 +1782,12 @@ document.addEventListener("DOMContentLoaded", function () {
 						break;
 					case "qm-track-details":
 						if (tracking_path) {
-							current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
+							document.querySelector("div#tracking_qm").style.display = "none";
+							document.querySelector(".tracking_list").style.display = "none";
+							bottom_bar("", "", "")
+							/*current_gpx = new L.GPX(getGpxStringFromDatabase("Current Tracking Session", new Date(), tracking_session), {
 								async: true,
-							})
+							  })*/
 							view_gpxinfo()
 
 						}
@@ -2794,7 +2797,22 @@ document.addEventListener("DOMContentLoaded", function () {
 					document.querySelector("div#tracking_qm").style.display = "block";
 					document.querySelector(".tracking_list").style.display = "block";
 					windowOpen = "tracking_qm"
-					document.querySelector(".options_item").focus()
+					if (tracking_path) {
+						if (tracking_ispaused) {
+							document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Resume Tracking"
+						} else {
+							document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Pause Tracking"
+						};
+	
+						document.querySelector('[data-map="qm-end-tracking"]').style.display = "block";
+						document.querySelector('[data-map="qm-track-details"]').style.display = "block";
+	
+					} else {
+						document.querySelector('[data-map="qm-start-pause-tracking"]').children[0].innerText = "Start Tracking";
+						document.querySelector('[data-map="qm-end-tracking"]').style.display = "none";
+						document.querySelector('[data-map="qm-track-details"]').style.display = "none";
+					}
+					finder_tabindex()
 					bottom_bar("", "SELECT", "")
 					return;
 
