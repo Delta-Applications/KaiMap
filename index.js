@@ -1792,6 +1792,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 						}
 						break;
+					case "qm-invert-map":
+						localStorageWriteRead(
+							"invertmaptiles",
+							!document.getElementById("invertmaptiles").checked);
+						document.getElementById("invertmaptiles").checked = JSON.parse(localStorage.getItem("invertmaptiles"));
+						function invertMapTiles(bool) {
+						  document.querySelector("#map-container").style.filter = bool ? 'invert(100%)' : 'invert(0%)';
+						}
+						invertMapTiles(document.getElementById("invertmaptiles").checked);
+						document.querySelector("div#tracking_qm").style.display = "none";
+						document.querySelector(".tracking_list").style.display = "none";
+						bottom_bar("", "", "")
+						ShowMap();
+						break;
 					case "qm-imagery":
 						document.querySelector("div#tracking_qm").style.display = "none";
 						document.querySelector(".tracking_list").style.display = "none";
