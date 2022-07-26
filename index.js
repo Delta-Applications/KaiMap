@@ -613,17 +613,22 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (!onlycount) {
 				// for every found file, order them by last modified and create an element
 				foundfiles.sort(function (a, b) {
-					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+					return a.file.lastModified - b.file.lastModified;
 				});
 
 				for (let i = 0; i < foundfiles.length; i++) {
 					let fileinfo = foundfiles[i].fileinfo;
 					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+					let storageName = foundfiles[i].storageName;
+					let file = foundfiles[i].file
+
+					let subtext = utility.formatBytes(file.size) + "  " + moment.unix(file.lastModified / 1000).format("DD/MM/YYYY HH:MM")
+
 					document
 						.querySelector("div#tracksmarkers")
 						.insertAdjacentHTML(
 							"afterend",
-							'<div class="item list-item focusable" data-map="kml" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">Keyhole Markup Language</p></div>');
+							'<div class="item list-item focusable" data-map="kml" readpath="' + storageName + '" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">' + subtext + '</p></div>');
 				}
 
 				document.querySelector("#tracks-loading").style.display = "none"
@@ -637,7 +642,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		finder_kml.on("fileFound", function (file, fileinfo, storageName) {
 
 			foundfiles.push({
-				fileinfo: fileinfo
+				fileinfo: fileinfo,
+				storageName: storageName,
+				file: file
 			})
 
 		});
@@ -663,18 +670,25 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (!onlycount) {
 				// for every found file, order them by last modified and create an element
 				foundfiles.sort(function (a, b) {
-					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+					return a.file.lastModified - b.file.lastModified;
 				});
 
 				for (let i = 0; i < foundfiles.length; i++) {
 					let fileinfo = foundfiles[i].fileinfo;
+					let file = foundfiles[i].file;
 					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+					let storageName = foundfiles[i].storageName;
+
+					console.log("file", file)
+
+					let subtext = utility.formatBytes(file.size) + "  " + moment.unix(file.lastModified / 1000).format("DD/MM/YYYY HH:MM")
+
 
 					document
 						.querySelector("div#tracksmarkers")
 						.insertAdjacentHTML(
 							"afterend",
-							'<div class="item list-item focusable" data-map="gpx" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GPS Exchange Format</p></div>');
+							'<div class="item list-item focusable" data-map="gpx" readpath="' + storageName + '" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">' + subtext + '</p></div>');
 				}
 
 				document.querySelector("#tracks-loading").style.display = "none"
@@ -687,7 +701,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		finder_gpx.on("fileFound", function (file, fileinfo, storageName) {
 			foundfiles.push({
-				fileinfo: fileinfo
+				fileinfo: fileinfo,
+				storageName: storageName,
+				file: file
 			})
 		});
 	};
@@ -711,17 +727,27 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (!onlycount) {
 				// for every found file, order them by last modified and create an element
 				foundfiles.sort(function (a, b) {
-					return b.fileinfo.lastModified - a.fileinfo.lastModified;
+					return a.file.lastModified - b.file.lastModified;
 				});
+
 
 				for (let i = 0; i < foundfiles.length; i++) {
 					let fileinfo = foundfiles[i].fileinfo;
+					let storageName = foundfiles[i].storageName;
+					let file = foundfiles[i].file
+					// get file name from path (fileinfo.name = "/sdcard/2021-9-1615-37-32.geojson")
+
 					let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
+
+					let subtext = utility.formatBytes(file.size) + "  " + moment.unix(file.lastModified / 1000).format("DD/MM/YYYY HH:MM")
+
+
+					//let filename_ = fileinfo.name.split('.').slice(0, -1).join('.');
 					document
 						.querySelector("div#tracksmarkers")
 						.insertAdjacentHTML(
 							"afterend",
-							'<div class="item list-item focusable" data-map="geojson" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">GeoJSON</p></div>'
+							'<div class="item list-item focusable" data-map="geojson" readpath="' + storageName + '" readfile="' + fileinfo.name + '"><p class="list-item__text">' + filename_ + '</p><p class="list-item__subtext">' + subtext + '</p></div>'
 						);
 				}
 
@@ -733,13 +759,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (onlycount) return;
 		finder.on("fileFound", function (file, fileinfo, storageName) {
 			foundfiles.push({
-				fileinfo: fileinfo
+				fileinfo: fileinfo,
+				storageName: storageName,
+				file: file
 			})
 		});
 	};
 
 	window.isLoggedIn = false
-	let osm_tags = {}
 	let osm_server_list_gpx = function (onlycount) {
 		console.log("load osm");
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
@@ -755,11 +782,20 @@ document.addEventListener("DOMContentLoaded", function () {
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(data, "application/xml");
 				let s = xml.getElementsByTagName("user");
+				window.isLoggedIn = true
 
 				window.osm_username = s[0].getAttribute("display_name");
-				document
-					.querySelector("#osm-oauth").innerText = osm_username
-				window.isLoggedIn = true
+				document.querySelector("#osm-oauth").innerText = osm_username
+
+				if (xml.getElementsByTagName("img").length){
+					window.osm_pfp = xml.getElementsByTagName("img")[0].getAttribute("href");
+				    document.querySelector("#osm-pfp").style.display = "block"
+					document.querySelector("#osm-pfp").src = window.osm_pfp
+
+				}
+				
+				
+
 			});
 
 		const myHeaders = new Headers({
@@ -778,6 +814,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				document.querySelector('[data-map="osm-tracks"]').childNodes[3].innerText = (s.length == 1 ? s.length + ' file' : s.length + ' files')
 				if (onlycount) return;
+				let osm_tags = {}
+				document.querySelector("div#tracksmarkers").insertAdjacentHTML("afterend", '<div class="separator" id="no-osm-tags">No tags</div>')
 
 				//filter by tag
 				for (let i = 0; i < s.length; i++) {
@@ -785,11 +823,15 @@ document.addEventListener("DOMContentLoaded", function () {
 					let m = {
 						name: s[i].getAttribute("name"),
 						id: s[i].getAttribute("id"),
+						visibility: s[i].getAttribute("visibility"),
+						timestamp: moment(s[i].getAttribute("timestamp")).format("DD/MM/YYYY HH:MM"),
+						description: s[i].getAttribute("description"),
 					};
 
 					// if track has a tag, create a separator with that osm tag's name, and append all tracks containing that osm tag to that separator
 
 					let hastag = false;
+
 
 					for (let n = 0; n < s[i].children.length; n++) {
 						if (s[i].children[n].tagName == "tag") {
@@ -801,7 +843,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							}
 							if (osm_tags[tagName]) osm_tags[tagName].insertAdjacentHTML(
 								"afterend",
-								'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+								'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">' + m.visibility + "  " + m.timestamp + '</p></div>'
 							);
 							hastag = true;
 
@@ -811,10 +853,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (hastag) continue;
 
 					document
-						.querySelector("div#tracksmarkers")
+						.querySelector("div#no-osm-tags")
 						.insertAdjacentHTML(
 							"afterend",
-							'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">OSM Server GPX</p></div>'
+							'<div class="item list-item focusable" data-id=' + m.id + ' data-map="gpx-osm"><p class="list-item__text">' + m.name + '</p><p class="list-item__subtext">' + m.visibility + "  " + m.timestamp + '</p></div>'
 						);
 
 
@@ -847,6 +889,30 @@ document.addEventListener("DOMContentLoaded", function () {
 				console.log(error);
 			});
 	};
+
+	let osm_server_delete_gpx = function (id) {
+		const myHeaders = new Headers({
+			Authorization: n,
+		});
+
+		return fetch("https://api.openstreetmap.org/api/0.6/gpx/" + id, {
+				method: "DELETE",
+				headers: myHeaders,
+			})
+			.then((response) => response.text())
+			.then((data) => {
+				kaiosToaster({
+					message: "Deleted OSM Track",
+					position: 'north',
+					type: 'error',
+					timeout: 1000
+				});
+			})
+
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	let osm_server_load_gpx = function (id) {
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
@@ -1273,6 +1339,32 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
+
+	function loadGPX_data(filename, callback) {
+		if (filename) {
+			let finder = new Applait.Finder({
+				type: "sdcard",
+				debugMode: false,
+			});
+			finder.search(filename);
+
+			finder.on("fileFound", function (file, fileinfo, storageName) {
+				//file reader
+
+				let reader = new FileReader();
+
+				reader.onerror = function (event) {
+					reader.abort();
+				};
+
+				reader.onloadend = function (event) {
+					callback(filename, event.target.result);
+				};
+
+				reader.readAsText(file);
+			});
+		}
+	}
 
 
 
@@ -1729,12 +1821,26 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (windowOpen == "file_options" && selected_file) {
 				switch (item_value) {
 					case "file-op-rename":
-
+						renameFile(selected_file[0], selected_file[1])
 						break;
 					case "file-op-upload":
+						kaiosToaster({
+							message: "Uploading GPX File..",
+							position: 'north',
+							type: 'info',
+							timeout: 5000
+						});
+						module.loadGPX_data(
+							selected_file[0],
+							osm_server_upload_gpx
+						);
 						break;
 					case "file-op-delete":
-						if (confirm("Are you sure you want to delete '"+selected_file+"'")) deleteFile(selected_file);
+						if (!document.querySelector("#header").innerText == "OSM Tracks") {
+							if (confirm("Are you sure you want to delete '" + selected_file[0] + "' from your "+document.querySelector("#header").innerText)) deleteFile(selected_file[0], selected_file[1]);
+						} else {
+							if (confirm("Are you sure you want to delete '" + selected_file[0] + "' from your "+document.querySelector("#header").innerText)) osm_server_delete_gpx(selected_file[0]);
+						}
 						break;
 
 
@@ -1742,6 +1848,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.querySelector("div#file_options").style.display = "none";
 				document.querySelector("#file-op-list").style.display = "none";
 				document.querySelector("div#tracks").style.display = "block";
+				selected_file = "";
 				finder_tabindex();
 				HideMap();
 				windowOpen = "tracks";
@@ -2681,7 +2788,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				if (windowOpen == "tracks") {
-					selected_file = document.activeElement.getAttribute("readfile");
+					selected_file = document.querySelector("#header").innerText == "OSM Tracks" ? [document.activeElement.getAttribute("data-id"), document.activeElement.children[0].innerText] : [document.activeElement.getAttribute("readfile"), document.activeElement.getAttribute("readpath")];
+					document.querySelector('[data-map="file-op-upload"]').style.display = document.querySelector("#header").innerText == "GPX Tracks" ? "block" : "none";
 					document.querySelector("div#file_options").style.display = "block";
 					document.querySelector("#file-op-list").style.display = "block";
 					windowOpen = "file_options"
@@ -2809,7 +2917,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					break;
 				}
 
-				if (windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm") {
+				if (windowOpen == "finder" || windowOpen == "tracks" || windowOpen == "tracking_qm" || windowOpen == "file_options") {
 					addMapLayers();
 				}
 

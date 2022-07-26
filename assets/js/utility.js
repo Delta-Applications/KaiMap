@@ -20,7 +20,6 @@ const utility = (() => {
 
 
 
-
   let getRelativeTime = function (d1, d2) {
     d2 = new Date().getTime() / 1000
     d1 = new Date(d1).getTime()

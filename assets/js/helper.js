@@ -131,8 +131,12 @@ function localStorageWriteRead(item, value) {
 }
 
 //delete file
-let deleteFile = function (filename) {
-  let sdcard = navigator.getDeviceStorage("sdcard");
+let deleteFile = function (filename,filepath) {
+  let storages = navigator.getDeviceStorages("sdcard");
+  // find the storage with storageName equal to filepath
+  let sdcard = storages.find(function (storage) {
+    return storage.storageName === filepath;
+  });
   let requestDel = sdcard.delete(filename);
 
   requestDel.onsuccess = function () {
@@ -144,10 +148,11 @@ let deleteFile = function (filename) {
       timeout: 1000
     });
 
-    document.querySelector("[data-filepath='" + filename + "']").remove();
+    document.querySelector("[readfile='" + filename + "']").remove();
   };
 
   requestDel.onerror = function () {
+    console.log(this.error)
     kaiosToaster({
       message: "Unable to delete file: " + this.error + " .",
       position: 'north',
@@ -158,12 +163,16 @@ let deleteFile = function (filename) {
 };
 
 
-let renameFile = function (filename) {
-  let sdcard = navigator.getDeviceStorage("sdcard");
+let renameFile = function (filename,filepath) {
+  let storages = navigator.getDeviceStorages("sdcard");
+  // find the storage with storageName equal to filepath
+  let sdcard = storages.find(function (storage) {
+    return storage.storageName === filepath;
+  });
   let request = sdcard.get(filename);
 
   request.onsuccess = function () {
-    let new_filename = prompt("new filename");
+    let new_filename = prompt("Rename "+filename);
     if (!new_filename) return;
     let data = this.result;
 
@@ -183,7 +192,7 @@ let renameFile = function (filename) {
         // success copy and delete
 
         document.querySelector('[readfile="' + filename + '"]').childNodes[0].innerText = new_filename;
-        document.querySelector('[readfile="' + filename + '"]').setAttribute("readfile", new_filename+ "." + file_extension);
+        document.querySelector('[readfile="' + filename + '"]').setAttribute("readfile", new_filename + "." + file_extension);
         kaiosToaster({
           message: "Renamed file",
           position: 'north',
@@ -194,6 +203,8 @@ let renameFile = function (filename) {
       };
 
       request_del.onerror = function () {
+        console.log(this.error)
+
         kaiosToaster({
           message: "Unable to rename file: " + this.error + " .",
           position: 'north',
@@ -203,6 +214,8 @@ let renameFile = function (filename) {
       };
     };
     requestAdd.onerror = function () {
+      console.log(this.error)
+
       kaiosToaster({
         message: "Unable to rename file: " + this.error + " .",
         position: 'north',
@@ -213,6 +226,8 @@ let renameFile = function (filename) {
   };
 
   request.onerror = function () {
+    console.log(this.error)
+
     kaiosToaster({
       message: "Unable to rename file: " + this.error + " .",
       position: 'north',
