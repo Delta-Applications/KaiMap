@@ -1,5 +1,5 @@
 {
-  "version": "1.2.7",
+  "version": "1.3.0",
   "name": "KaiMap",
   "description": "Modern Cached Map powered by OpenStreetMap and other APIs",
   "launch_path": "/index.html",
