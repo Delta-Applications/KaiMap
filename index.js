@@ -1572,7 +1572,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					map.setBearing(current_heading);
 				}
 
-				if (myMarker.getIcon().options.html != follow_icon.options.html) myMarker.setIcon(follow_icon);
 
 
 
@@ -1587,7 +1586,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					mym1 = true
 				}
 
-
+				if (myMarker.getIcon().options.html != follow_icon.options.html) myMarker.setIcon(follow_icon);
 
 				//store device location
 				device_lat = crd.latitude;
