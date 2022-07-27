@@ -1567,13 +1567,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				//implement heading thing here
 				// I had to put back the newer leaflet.js version that does not support rotation, because of some bugs and the markers not working
-
+				
 				if (north_rotation == false) {
 					map.setBearing(current_heading);
 				}
-
-
-
 
 				if (mym1 == false && retrying == true && !myMarker) {
 					myAccuracy = L.circle([crd.latitude, crd.longitude], crd.accuracy - 1).addTo(map);

@@ -58,10 +58,12 @@ Unlicense - Luxferre's TinyOLC
 Polyfill > Promises
 Ajax Autocomplete for jQuery
 Google's Open Source Plus Codes
+Cyan2048, for helping with the KaiUI Tab View
 
 Check out our cousin map apps for KaiOS: 
 - https://github.com/strukturart/o.map
 - https://github.com/canyouswim/Caching-on-Kai-with-API/
+- 
 
 ## Import & Export
 
