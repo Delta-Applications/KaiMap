@@ -980,7 +980,7 @@ const maps = (() => {
     map.on("moveend", fetchNotes);
 
   };
-  let osm_api_createnote = 'https://www.openstreetmap.org/api/0.6/notes.json'
+  let osm_api_createnote = 'https://api.openstreetmap.org/api/0.6/notes.json'
 
   let create_osm_note = function (pos) {
 
