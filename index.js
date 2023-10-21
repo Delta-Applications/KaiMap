@@ -772,7 +772,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		let n = "Bearer " + localStorage.getItem("openstreetmap_token");
 
 		// get osm account username
-		fetch("https://www.openstreetmap.org/api/0.6/user/details", {
+		fetch("https://api.openstreetmap.org/api/0.6/user/details", {
 				headers: {
 					Authorization: n,
 				},
